@@ -1,0 +1,391 @@
+import os
+import sys
+import tempfile
+import traceback
+from typing import Any, Dict, List, Optional
+
+# Add project root to sys.path so engine modules are importable in serverless environment
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+import numpy as np
+import pandas as pd
+from fastapi import FastAPI, File, Form, HTTPException, Query, UploadFile
+from fastapi.middleware.cors import CORSMiddleware
+
+from engine.audit import (
+    below_floor_pricing,
+    concentration_metrics,
+    customer_margin_detail,
+    daily_summary,
+    dominant_products,
+    loss_making_customers,
+    loss_making_invoices,
+    product_revenue_ranking,
+    reconciliation_check,
+    volume_tier_audit,
+    weekly_summary,
+)
+from engine.compare import compare_periods
+from engine.config import ClientProfile, kane_jones_profile
+from engine.parser import parse_workbook
+from engine.price_match import load_price_list, match_products
+from engine.snapshots import list_snapshots, load_snapshot, save_snapshot
+
+app = FastAPI(
+    title="Depot Sales Intelligence Engine API",
+    description="Stateless analysis service for beverage depot sales registers, audits, and period-over-period comparisons.",
+    version="0.2.0",
+)
+
+# Enable CORS for Next.js frontend integration
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+
+def load_profile(client_id: str) -> ClientProfile:
+    """Loads ClientProfile from clients/<client_id>/profile.json or defaults to built-in profiles."""
+    profile_path = os.path.join("clients", client_id, "profile.json")
+    if os.path.exists(profile_path):
+        try:
+            return ClientProfile.from_json(profile_path)
+        except Exception as e:
+            raise HTTPException(
+                status_code=422,
+                detail=f"Failed to load client profile from '{profile_path}': {str(e)}",
+            )
+
+    if client_id == "kane-jones":
+        return kane_jones_profile()
+
+    raise HTTPException(
+        status_code=422,
+        detail=(
+            f"Client profile '{client_id}' not found. Expected profile at '{profile_path}' "
+            "or a supported built-in client ID like 'kane-jones'."
+        ),
+    )
+
+
+def sanitize_val(val: Any) -> Any:
+    """Recursively converts numpy types, NaN/inf, and date objects into JSON-safe types."""
+    if val is None:
+        return None
+    if isinstance(val, list):
+        return [sanitize_val(x) for x in val]
+    if isinstance(val, dict):
+        return {k: sanitize_val(v) for k, v in val.items()}
+    if isinstance(val, (np.integer, int)):
+        return int(val)
+    if isinstance(val, (np.floating, float)):
+        return None if (np.isnan(val) or np.isinf(val)) else float(val)
+    if isinstance(val, (np.bool_, bool)):
+        return bool(val)
+    if hasattr(val, "isoformat"):
+        return val.isoformat()
+    if pd.isna(val):
+        return None
+    return str(val) if not isinstance(val, (str, int, float, bool)) else val
+
+
+def df_to_records(df: pd.DataFrame) -> List[Dict[str, Any]]:
+    """Converts a pandas DataFrame into a list of clean, JSON-serializable dictionaries."""
+    if df is None or df.empty:
+        return []
+    clean_df = df.copy()
+    for col in clean_df.columns:
+        if pd.api.types.is_datetime64_any_dtype(clean_df[col]):
+            clean_df[col] = clean_df[col].dt.strftime("%Y-%m-%d")
+        elif pd.api.types.is_object_dtype(clean_df[col]):
+            clean_df[col] = clean_df[col].apply(
+                lambda x: x.isoformat() if hasattr(x, "isoformat") else x
+            )
+    records = clean_df.to_dict(orient="records")
+    return [{k: sanitize_val(v) for k, v in row.items()} for row in records]
+
+
+@app.get("/")
+@app.get("/health")
+@app.get("/api/health")
+def health_check():
+    """Health check endpoint to verify API service status."""
+    return {"status": "ok", "service": "depot-sales-intelligence-engine"}
+
+
+@app.post("/analyze")
+@app.post("/api/analyze")
+async def analyze_sales_report(
+    file: UploadFile = File(..., description="Raw Excel workbook (.xlsx)"),
+    client_id: str = Form("kane-jones", description="Client identifier"),
+    period_label: Optional[str] = Form(None, description="Optional period label (e.g. '2026-07'). Derived automatically if omitted."),
+):
+    """Parses a depot's sales spreadsheet, fuzzy-matches line items against the price list,
+    runs all pricing, volume tier, trend, and concentration audits, and persists a period snapshot.
+    """
+    if not file.filename.lower().endswith((".xlsx", ".xlsm", ".xltx", ".xltm")):
+        raise HTTPException(
+            status_code=422,
+            detail=f"Invalid file format for '{file.filename}'. Please upload an Excel workbook (.xlsx).",
+        )
+
+    profile = load_profile(client_id)
+
+    with tempfile.NamedTemporaryFile(suffix=".xlsx", delete=False) as tmp:
+        tmp_path = tmp.name
+        try:
+            content = await file.read()
+            tmp.write(content)
+        except Exception as e:
+            raise HTTPException(
+                status_code=422,
+                detail=f"Failed to read uploaded file '{file.filename}': {str(e)}",
+            )
+
+    try:
+        try:
+            inv_df, li_df, anomalies_df = parse_workbook(tmp_path, profile)
+        except ValueError as e:
+            raise HTTPException(
+                status_code=422,
+                detail=(
+                    f"Workbook parsing failed: {str(e)}. "
+                    f"Profile '{client_id}' expected raw sheets {profile.raw_data_sheets}."
+                ),
+            )
+        except Exception as e:
+            raise HTTPException(
+                status_code=422,
+                detail=f"Unexpected parsing error in workbook '{file.filename}': {str(e)}",
+            )
+
+        try:
+            price_df = load_price_list(tmp_path, profile)
+        except ValueError as e:
+            raise HTTPException(
+                status_code=422,
+                detail=(
+                    f"Price list loading failed: {str(e)}. "
+                    f"Profile '{client_id}' expected price list sheet '{profile.price_list_sheet}'."
+                ),
+            )
+        except Exception as e:
+            raise HTTPException(
+                status_code=422,
+                detail=f"Error reading price list sheet '{profile.price_list_sheet}': {str(e)}",
+            )
+
+        try:
+            matched_df = match_products(li_df, price_df, profile)
+        except Exception as e:
+            raise HTTPException(
+                status_code=422,
+                detail=f"Error during product-to-price-list matching: {str(e)}",
+            )
+
+        try:
+            bfp_df = below_floor_pricing(matched_df, profile)
+            volume_df = volume_tier_audit(matched_df, profile)
+            daily_df = daily_summary(inv_df)
+            weekly_df = weekly_summary(daily_df)
+            prod_rank_df = product_revenue_ranking(matched_df, profile)
+            cust_margin_df = customer_margin_detail(inv_df)
+            conc_metrics = concentration_metrics(prod_rank_df)
+            rec_check_df = reconciliation_check(inv_df, li_df, profile)
+            loss_inv_df = loss_making_invoices(inv_df)
+            loss_cust_df = loss_making_customers(cust_margin_df)
+            dominant_prod_df = dominant_products(prod_rank_df, profile)
+        except Exception as e:
+            raise HTTPException(
+                status_code=422,
+                detail=f"Error computing audit metrics: {str(e)}",
+            )
+
+        total_revenue = float(inv_df["gross_revenue"].sum()) if not inv_df.empty else 0.0
+        total_gross_profit = float(inv_df["gross_profit"].sum()) if not inv_df.empty else 0.0
+        overall_margin_pct = (
+            float(total_gross_profit / total_revenue) if total_revenue > 0 else 0.0
+        )
+
+        min_date = inv_df["date"].min() if not inv_df.empty else None
+        max_date = inv_df["date"].max() if not inv_df.empty else None
+        date_range = {
+            "start": min_date.strftime("%Y-%m-%d") if pd.notna(min_date) else None,
+            "end": max_date.strftime("%Y-%m-%d") if pd.notna(max_date) else None,
+        }
+
+        effective_period = period_label
+        if not effective_period:
+            if date_range["start"]:
+                effective_period = date_range["start"][:7]
+            else:
+                effective_period = "2026-07"
+
+        unique_match_rows = matched_df[
+            ["product_raw", "matched_sku", "match_score", "match_method"]
+        ].drop_duplicates()
+        match_method_counts = unique_match_rows["match_method"].value_counts().to_dict()
+        unmatched_products = (
+            unique_match_rows[unique_match_rows["match_method"] == "unmatched"][
+                "product_raw"
+            ]
+            .dropna()
+            .tolist()
+        )
+
+        match_quality = {
+            "total_products": int(len(unique_match_rows)),
+            "counts": {
+                "exact": int(match_method_counts.get("exact", 0)),
+                "fuzzy": int(match_method_counts.get("fuzzy", 0)),
+                "manual_override": int(match_method_counts.get("manual_override", 0)),
+                "fuzzy_no_size_match": int(match_method_counts.get("fuzzy_no_size_match", 0)),
+                "unmatched": int(match_method_counts.get("unmatched", 0)),
+            },
+            "unmatched_products": unmatched_products,
+        }
+
+        response_payload = {
+            "meta": {
+                "client_id": profile.client_id,
+                "client_display_name": profile.display_name,
+                "period_label": effective_period,
+                "currency_symbol": profile.currency_symbol,
+                "total_revenue": total_revenue,
+                "total_gross_profit": total_gross_profit,
+                "overall_margin_pct": overall_margin_pct,
+                "date_range": date_range,
+                "total_invoices": int(len(inv_df)),
+                "total_anomalies": int(len(anomalies_df)),
+                "reconciliation_discrepancies_count": int(len(rec_check_df)),
+                "loss_making_invoices_count": int(len(loss_inv_df)),
+                "loss_making_customers_count": int(len(loss_cust_df)),
+                "dominant_products_count": int(len(dominant_prod_df)),
+            },
+            "match_quality": match_quality,
+            "anomalies": df_to_records(anomalies_df),
+            "reconciliation_discrepancies": df_to_records(rec_check_df),
+            "loss_making_invoices": df_to_records(loss_inv_df),
+            "loss_making_customers": df_to_records(loss_cust_df),
+            "dominant_products": df_to_records(dominant_prod_df),
+            "below_floor_pricing": df_to_records(bfp_df),
+            "volume_tier_audit": df_to_records(volume_df),
+            "daily_summary": df_to_records(daily_df),
+            "weekly_summary": df_to_records(weekly_df),
+            "product_revenue_ranking": df_to_records(prod_rank_df),
+            "customer_margin_detail": df_to_records(cust_margin_df),
+            "concentration_metrics": {
+                k: sanitize_val(v) for k, v in conc_metrics.items()
+            },
+        }
+
+        try:
+            save_snapshot(profile.client_id, effective_period, response_payload)
+        except Exception:
+            pass
+
+        return response_payload
+
+    finally:
+        if os.path.exists(tmp_path):
+            try:
+                os.remove(tmp_path)
+            except Exception:
+                pass
+
+
+@app.get("/compare")
+@app.get("/api/compare")
+def compare_snapshots_get(
+    client_id: str = Query("kane-jones", description="Client identifier"),
+    period_a: str = Query("2026-07", description="Baseline period label or snapshot"),
+    period_b: str = Query("2026-07", description="Comparison period label or snapshot"),
+    granularity: str = Query("day", description="'day', 'week', or 'month'"),
+    key_a: Optional[str] = Query(None, description="Date or week for period A"),
+    key_b: Optional[str] = Query(None, description="Date or week for period B"),
+):
+    """GET endpoint to compare periods (day-vs-day, week-vs-week, month-vs-month)."""
+    return run_comparison(client_id, period_a, period_b, granularity, key_a, key_b)
+
+
+@app.post("/compare")
+@app.post("/api/compare")
+def compare_snapshots_post(
+    client_id: str = Form("kane-jones"),
+    period_a: str = Form("2026-07"),
+    period_b: str = Form("2026-07"),
+    granularity: str = Form("day"),
+    key_a: Optional[str] = Form(None),
+    key_b: Optional[str] = Form(None),
+):
+    """POST endpoint to compare periods."""
+    return run_comparison(client_id, period_a, period_b, granularity, key_a, key_b)
+
+
+def run_comparison(
+    client_id: str,
+    period_a: str,
+    period_b: str,
+    granularity: str,
+    key_a: Optional[str] = None,
+    key_b: Optional[str] = None,
+):
+    try:
+        snap_a = load_snapshot(client_id, period_a)
+        snap_b = load_snapshot(client_id, period_b)
+    except FileNotFoundError as e:
+        # If snapshot not saved yet, try to analyze default sample data on the fly
+        if client_id == "kane-jones" and os.path.exists("sample_data/July_sales_report_v4.xlsx"):
+            try:
+                prof = kane_jones_profile()
+                inv_df, li_df, anom_df = parse_workbook("sample_data/July_sales_report_v4.xlsx", prof)
+                pr_df = load_price_list("sample_data/July_sales_report_v4.xlsx", prof)
+                m_df = match_products(li_df, pr_df, prof)
+                daily_df = daily_summary(inv_df)
+                weekly_df = weekly_summary(daily_df)
+                prod_rank = product_revenue_ranking(m_df, prof)
+                cust_det = customer_margin_detail(inv_df)
+                snap = {
+                    "meta": {
+                        "client_id": prof.client_id,
+                        "client_display_name": prof.display_name,
+                        "currency_symbol": prof.currency_symbol,
+                        "total_revenue": float(inv_df["gross_revenue"].sum()),
+                        "total_gross_profit": float(inv_df["gross_profit"].sum()),
+                        "overall_margin_pct": float(inv_df["gross_profit"].sum() / inv_df["gross_revenue"].sum()),
+                        "total_invoices": len(inv_df),
+                    },
+                    "daily_summary": df_to_records(daily_df),
+                    "weekly_summary": df_to_records(weekly_df),
+                    "product_ranking": df_to_records(prod_rank),
+                    "customer_margin_detail": df_to_records(cust_det),
+                }
+                save_snapshot(client_id, "2026-07", snap)
+                snap_a = snap
+                snap_b = snap
+            except Exception as inner_e:
+                raise HTTPException(status_code=404, detail=f"Snapshot not found and live generation failed: {str(inner_e)}")
+        else:
+            raise HTTPException(status_code=404, detail=str(e))
+    except Exception as e:
+        raise HTTPException(status_code=422, detail=f"Failed to load snapshots: {str(e)}")
+
+    profile = load_profile(client_id)
+    return compare_periods(
+        snap_a,
+        snap_b,
+        granularity=granularity,
+        key_a=key_a,
+        key_b=key_b,
+        currency_symbol=profile.currency_symbol,
+    )
+
+
+@app.get("/snapshots")
+@app.get("/api/snapshots")
+def get_client_snapshots(client_id: str = Query("kane-jones")):
+    """Returns list of available snapshot period labels for a client."""
+    return {"client_id": client_id, "snapshots": list_snapshots(client_id)}

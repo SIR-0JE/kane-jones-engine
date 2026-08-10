@@ -1,0 +1,7 @@
+pandas
+openpyxl
+rapidfuzz
+fastapi
+uvicorn
+python-multipart
+httpx
