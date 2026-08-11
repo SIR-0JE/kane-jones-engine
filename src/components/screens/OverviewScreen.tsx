@@ -12,12 +12,13 @@ import {
   Sparkles,
   Loader2,
 } from "lucide-react";
+import { TabType } from "@/components/Navigation";
 import { AnalyzeResponse, CompareResponse } from "@/types/api";
 import { formatCurrency, formatPercent, formatNumber, fetchComparison } from "@/lib/api";
 
 interface OverviewScreenProps {
   data: AnalyzeResponse;
-  onNavigate: (tab: "pricing" | "products" | "customers" | "quality") => void;
+  onNavigate: (tab: TabType) => void;
 }
 
 export function OverviewScreen({ data, onNavigate }: OverviewScreenProps) {

@@ -7,6 +7,8 @@ import { DesktopSidebar } from "@/components/DesktopSidebar";
 import { HomeScreen } from "@/components/HomeScreen";
 import { UploadModal } from "@/components/UploadModal";
 import { OverviewScreen } from "@/components/screens/OverviewScreen";
+import { DailyScreen } from "@/components/screens/DailyScreen";
+import { WeeklyScreen } from "@/components/screens/WeeklyScreen";
 import { PricingAuditScreen } from "@/components/screens/PricingAuditScreen";
 import { ProductsScreen } from "@/components/screens/ProductsScreen";
 import { CustomersScreen } from "@/components/screens/CustomersScreen";
@@ -209,6 +211,8 @@ export default function DashboardHome() {
                       onNavigate={(tab) => setActiveTab(tab)}
                     />
                   )}
+                  {activeTab === "daily" && <DailyScreen data={data} />}
+                  {activeTab === "weekly" && <WeeklyScreen data={data} />}
                   {activeTab === "pricing" && <PricingAuditScreen data={data} />}
                   {activeTab === "products" && <ProductsScreen data={data} />}
                   {activeTab === "customers" && <CustomersScreen data={data} />}

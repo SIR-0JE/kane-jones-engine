@@ -3,6 +3,8 @@
 import React from "react";
 import {
   LayoutDashboard,
+  CalendarDays,
+  CalendarRange,
   ShieldAlert,
   Package,
   Users,
@@ -52,6 +54,20 @@ export function DesktopSidebar({
       id: "overview" as TabType,
       label: "Overview",
       icon: LayoutDashboard,
+      badge: null,
+      badgeColor: "",
+    },
+    {
+      id: "daily" as TabType,
+      label: "Daily",
+      icon: CalendarDays,
+      badge: null,
+      badgeColor: "",
+    },
+    {
+      id: "weekly" as TabType,
+      label: "Weekly",
+      icon: CalendarRange,
       badge: null,
       badgeColor: "",
     },
