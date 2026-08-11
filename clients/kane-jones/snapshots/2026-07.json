@@ -7,13 +7,13 @@
     "client_display_name": "Kane-Jones Depot (Ogun State)",
     "period_label": "2026-07",
     "audit_title": "July 2026 Full Audit",
-    "currency_symbol": "\u20a6",
+    "currency_symbol": "NGN",
     "total_revenue": 187674790.0,
     "total_gross_profit": 3717623.0,
-    "overall_margin_pct": 0.0198088565864387,
+    "overall_margin_pct": 1.98088565864387,
     "date_range": {
-      "start": "2026-07-01",
-      "end": "2026-07-31"
+      "min_date": "2026-07-01",
+      "max_date": "2026-07-31"
     },
     "total_invoices": 300,
     "total_anomalies": 3,
@@ -19800,25 +19800,12 @@
     }
   ],
   "match_quality": {
-    "total_products": 45,
-    "counts": {
-      "exact": 9,
-      "fuzzy": 22,
-      "manual_override": 5,
-      "fuzzy_no_size_match": 0,
-      "unmatched": 9
-    },
-    "unmatched_products": [
-      "Trophy",
-      "NB Empties",
-      "IB Empties",
-      "GNS EMPTIES",
-      "4th Street wine",
-      "ACE BITTERS",
-      "STK 33cl",
-      "Empties Premium",
-      "NB Loose Crate"
-    ]
+    "total_line_items": 944,
+    "exact_matches": 158,
+    "override_matches": 0,
+    "fuzzy_matches": 533,
+    "unmatched": 209,
+    "match_rate_pct": 77.86016949152543
   },
   "concentration_metrics": {
     "top_n": 10,
