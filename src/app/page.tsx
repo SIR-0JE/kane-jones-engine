@@ -163,8 +163,8 @@ export default function DashboardHome() {
             anomalyCount={data?.meta?.total_anomalies || data?.anomalies?.length || 0}
           />
 
-          {/* Right Main Content Panel */}
-          <div className="flex-1 flex flex-col min-w-0 max-w-5xl">
+          {/* Right Main Content Panel (Full bleed responsive) */}
+          <div className="flex-1 flex flex-col min-w-0 w-full">
             {/* Top Navigation Header */}
             <Header
               displayName={displayName}

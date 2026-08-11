@@ -19,7 +19,7 @@ export function DataQualityScreen({ data }: DataQualityScreenProps) {
   const reconciledCount = data.meta?.reconciled_invoices_count ?? (totalInvoices - reconciliation.length);
 
   return (
-    <div className="p-4 space-y-6 pb-24">
+    <div className="p-4 sm:p-6 lg:p-8 space-y-6 pb-24 md:pb-12 w-full">
       {/* 1. Reconciliation Card */}
       <div className="space-y-3">
         <div className="flex items-center justify-between">

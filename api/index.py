@@ -305,7 +305,13 @@ async def analyze_sales_report(
         }
 
         try:
-            save_snapshot(profile.client_id, effective_period, response_payload)
+            save_snapshot(
+                profile.client_id,
+                effective_period,
+                response_payload,
+                file_bytes=content,
+                filename=file.filename,
+            )
         except Exception:
             pass
 

@@ -16,7 +16,7 @@ export function ProductsScreen({ data }: ProductsScreenProps) {
   const concentration = data.concentration_metrics;
 
   return (
-    <div className="p-4 space-y-5 pb-24">
+    <div className="p-4 sm:p-6 lg:p-8 space-y-6 pb-24 md:pb-12 w-full">
       {/* 1. Dominant Product Concentration Alert */}
       {dominantProducts.length > 0 && (
         <div className="p-3.5 bg-amber-50 border border-amber-200/80 rounded-xl space-y-2">

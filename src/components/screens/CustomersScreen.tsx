@@ -19,7 +19,7 @@ export function CustomersScreen({ data }: CustomersScreenProps) {
   const displayed = viewFilter === "loss" ? lossCustomers : customers;
 
   return (
-    <div className="p-4 space-y-5 pb-24">
+    <div className="p-4 sm:p-6 lg:p-8 space-y-6 pb-24 md:pb-12 w-full">
       {/* 1. Loss-Making Entity Highlight Banner */}
       {lossCustomers.length > 0 && (
         <div className="p-3.5 bg-rose-50 border border-rose-200/80 rounded-xl space-y-2">

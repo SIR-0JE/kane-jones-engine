@@ -77,40 +77,67 @@ export function OverviewScreen({ data, onNavigate }: OverviewScreenProps) {
   const lossCustomersCount = meta.loss_making_customers_count ?? lossCustomers.length;
 
   return (
-    <div className="p-4 space-y-5 pb-24">
-      {/* 1. Core KPIs Grid */}
-      <div className="grid grid-cols-2 gap-3">
+    <div className="p-4 sm:p-6 lg:p-8 space-y-6 pb-24 md:pb-12 w-full">
+      {/* 1. Core KPIs Grid (4 Columns on Desktop) */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
         {/* Total Revenue */}
-        <div className="bg-white p-3.5 rounded-xl border border-slate-200">
-          <span className="text-[11px] font-medium text-slate-500 block">Total Revenue</span>
-          <div className="text-lg font-bold text-slate-900 mt-1 tracking-tight truncate">
+        <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-xs">
+          <span className="text-xs font-semibold text-slate-500 block">Total Revenue</span>
+          <div className="text-lg sm:text-xl lg:text-2xl font-bold text-slate-900 mt-1 tracking-tight truncate">
             {formatCurrency(meta.total_revenue, currency)}
           </div>
-          <div className="text-[11px] text-slate-500 mt-1">
+          <div className="text-xs text-slate-500 mt-1">
             {formatNumber(meta.total_invoices)} invoices
           </div>
         </div>
 
         {/* Gross Profit */}
-        <div className="bg-white p-3.5 rounded-xl border border-slate-200">
-          <span className="text-[11px] font-medium text-slate-500 block">Gross Profit</span>
-          <div className={`text-lg font-bold mt-1 tracking-tight truncate ${meta.total_gross_profit >= 0 ? "text-emerald-700" : "text-rose-700"}`}>
+        <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-xs">
+          <span className="text-xs font-semibold text-slate-500 block">Gross Profit</span>
+          <div className={`text-lg sm:text-xl lg:text-2xl font-bold mt-1 tracking-tight truncate ${meta.total_gross_profit >= 0 ? "text-emerald-700" : "text-rose-700"}`}>
             {formatCurrency(meta.total_gross_profit, currency)}
           </div>
-          <div className="text-[11px] text-slate-500 mt-1">
+          <div className="text-xs text-slate-500 mt-1">
             Margin: <span className="font-semibold text-slate-700">{formatPercent(meta.overall_margin_pct)}</span>
+          </div>
+        </div>
+
+        {/* Recoverable Leakage */}
+        <div className="bg-white p-4 rounded-xl border border-rose-200 bg-rose-50/20 shadow-xs">
+          <span className="text-xs font-semibold text-rose-600 block">Pricing Leakage</span>
+          <div className="text-lg sm:text-xl lg:text-2xl font-bold text-rose-700 mt-1 tracking-tight truncate">
+            {formatCurrency(totalLeakOpportunity, currency)}
+          </div>
+          <div className="text-xs text-rose-600 font-medium mt-1">
+            {belowFloorCount} below-floor items
+          </div>
+        </div>
+
+        {/* Top Product Concentration */}
+        <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-xs">
+          <span className="text-xs font-semibold text-slate-500 block">Top SKU Share</span>
+          <div className="text-lg sm:text-xl lg:text-2xl font-bold text-slate-900 mt-1 tracking-tight truncate">
+            {dominant ? formatPercent(dominant.pct_of_total) : "N/A"}
+          </div>
+          <div className="text-xs text-slate-500 mt-1 truncate">
+            {dominant ? dominant.product_raw : "Single product risk"}
           </div>
         </div>
       </div>
 
       {/* 2. Period-Over-Period Comparison Section */}
-      <div className="bg-white rounded-xl border border-slate-200 p-4 space-y-3.5">
+      <div className="bg-white rounded-xl border border-slate-200 p-5 space-y-4 shadow-xs">
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-1.5">
-            <Sparkles className="w-4 h-4 text-emerald-600" />
-            <h2 className="text-xs font-bold text-slate-900 uppercase tracking-wider">
-              Period Comparison
-            </h2>
+          <div className="flex items-center gap-2">
+            <div className="p-1.5 bg-emerald-50 text-emerald-700 rounded-lg">
+              <Sparkles className="w-4 h-4" />
+            </div>
+            <div>
+              <h2 className="text-xs font-bold text-slate-900 uppercase tracking-wider">
+                Period Performance Deltas
+              </h2>
+              <p className="text-xs text-slate-500">Benchmark variance across key metrics</p>
+            </div>
           </div>
 
           {/* Granularity Toggle */}
@@ -119,9 +146,9 @@ export function OverviewScreen({ data, onNavigate }: OverviewScreenProps) {
               <button
                 key={g}
                 onClick={() => setGranularity(g)}
-                className={`px-2.5 py-1 rounded-md text-[11px] font-semibold transition-all ${
+                className={`px-3 py-1.5 rounded-md text-xs font-semibold transition-all ${
                   granularity === g
-                    ? "bg-white text-slate-900 shadow-none"
+                    ? "bg-white text-slate-900 shadow-xs"
                     : "text-slate-500 hover:text-slate-800"
                 }`}
               >
@@ -132,155 +159,155 @@ export function OverviewScreen({ data, onNavigate }: OverviewScreenProps) {
         </div>
 
         {compLoading ? (
-          <div className="py-8 flex flex-col items-center justify-center text-slate-400 gap-2">
+          <div className="py-10 flex flex-col items-center justify-center text-slate-400 gap-2">
             <Loader2 className="w-5 h-5 animate-spin" />
-            <span className="text-xs">Computing comparison deltas...</span>
+            <span className="text-xs font-medium">Computing comparison deltas...</span>
           </div>
         ) : comparison ? (
-          <div className="space-y-3">
-            <div className="text-xs font-medium text-slate-500 flex items-center justify-between border-b border-slate-100 pb-2">
-              <span>Comparing:</span>
-              <span className="font-semibold text-slate-800">
-                {comparison.period_a_label} <span className="text-slate-400 font-normal">vs</span> {comparison.period_b_label}
-              </span>
+          <div className="space-y-4">
+            <div className="flex items-center justify-between text-xs font-semibold text-slate-500 bg-slate-50 px-3 py-2 rounded-lg">
+              <span>Baseline: {comparison.period_a_label}</span>
+              <span>Comparison: {comparison.period_b_label}</span>
             </div>
 
-            {/* Delta Metrics Table */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
-              {/* Revenue Delta */}
-              <div className="p-2.5 bg-slate-50 rounded-lg border border-slate-100">
-                <span className="text-[10px] text-slate-500 font-medium block">Revenue Delta</span>
-                <span className={`text-xs font-bold block mt-0.5 ${comparison.summary.revenue.pct_change >= 0 ? "text-emerald-700" : "text-rose-700"}`}>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+              {/* Revenue Diff */}
+              <div className="p-3 bg-slate-50/70 rounded-xl border border-slate-200/80">
+                <span className="text-[11px] text-slate-500 block">Revenue Delta</span>
+                <div className={`text-base font-bold mt-1 ${comparison.summary.revenue.absolute_change >= 0 ? "text-emerald-700" : "text-rose-700"}`}>
                   {comparison.summary.revenue.formatted}
-                </span>
+                </div>
               </div>
 
-              {/* Profit Delta */}
-              <div className="p-2.5 bg-slate-50 rounded-lg border border-slate-100">
-                <span className="text-[10px] text-slate-500 font-medium block">Gross Profit</span>
-                <span className={`text-xs font-bold block mt-0.5 ${comparison.summary.gross_profit.absolute_change >= 0 ? "text-emerald-700" : "text-rose-700"}`}>
+              {/* Profit Diff */}
+              <div className="p-3 bg-slate-50/70 rounded-xl border border-slate-200/80">
+                <span className="text-[11px] text-slate-500 block">Gross Profit Delta</span>
+                <div className={`text-base font-bold mt-1 ${comparison.summary.gross_profit.absolute_change >= 0 ? "text-emerald-700" : "text-rose-700"}`}>
                   {comparison.summary.gross_profit.formatted}
-                </span>
+                </div>
               </div>
 
-              {/* Margin Points */}
-              <div className="p-2.5 bg-slate-50 rounded-lg border border-slate-100">
-                <span className="text-[10px] text-slate-500 font-medium block">Margin Shift</span>
-                <span className={`text-xs font-bold block mt-0.5 ${comparison.summary.margin_pct.diff_pct_points >= 0 ? "text-emerald-700" : "text-rose-700"}`}>
+              {/* Margin Diff */}
+              <div className="p-3 bg-slate-50/70 rounded-xl border border-slate-200/80">
+                <span className="text-[11px] text-slate-500 block">Margin Delta</span>
+                <div className={`text-base font-bold mt-1 ${comparison.summary.margin_pct.diff_pct_points >= 0 ? "text-emerald-700" : "text-rose-700"}`}>
                   {comparison.summary.margin_pct.formatted}
-                </span>
+                </div>
               </div>
 
-              {/* Invoices Delta */}
-              <div className="p-2.5 bg-slate-50 rounded-lg border border-slate-100">
-                <span className="text-[10px] text-slate-500 font-medium block">Invoices</span>
-                <span className={`text-xs font-bold block mt-0.5 ${comparison.summary.invoices.absolute_change >= 0 ? "text-slate-800" : "text-slate-600"}`}>
+              {/* Invoices Diff */}
+              <div className="p-3 bg-slate-50/70 rounded-xl border border-slate-200/80">
+                <span className="text-[11px] text-slate-500 block">Invoices Delta</span>
+                <div className="text-base font-bold text-slate-900 mt-1">
                   {comparison.summary.invoices.formatted}
-                </span>
+                </div>
               </div>
             </div>
-
-            {/* Executive Highlights */}
-            {comparison.highlights && comparison.highlights.length > 0 && (
-              <div className="bg-slate-50/80 rounded-lg p-3 border border-slate-200/60 space-y-1.5">
-                <span className="text-[11px] font-bold text-slate-800 block">Executive Highlights:</span>
-                <ul className="text-xs text-slate-600 space-y-1">
-                  {comparison.highlights.map((h, i) => (
-                    <li key={i} className="flex items-start gap-1.5">
-                      <span className="text-emerald-600 font-bold">•</span>
-                      <span>{h}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
           </div>
         ) : (
-          <div className="text-xs text-slate-400 py-4 text-center">No comparison available.</div>
+          <div className="py-6 text-center text-xs text-slate-400">
+            Select a granularity to calculate comparison metrics.
+          </div>
         )}
       </div>
 
-      {/* 3. Executive Action Cards Grid */}
-      <div className="space-y-2.5">
+      {/* 3. Executive Action Cards Grid (3 Columns on Desktop) */}
+      <div className="space-y-3">
         <h2 className="text-xs font-bold text-slate-500 uppercase tracking-wider px-1">
-          Key Audit Findings
+          Key Audit Findings & Actions
         </h2>
 
-        {/* Pricing Leaks Callout */}
-        <div
-          onClick={() => onNavigate("pricing")}
-          className="bg-white p-3.5 rounded-xl border border-slate-200 hover:border-slate-300 cursor-pointer transition-colors flex items-center justify-between"
-        >
-          <div className="flex items-start gap-3">
-            <div className="p-2 bg-rose-50 rounded-lg text-rose-700 shrink-0 mt-0.5">
-              <ShieldAlert className="w-5 h-5" />
-            </div>
-            <div>
-              <div className="flex items-center gap-2">
-                <h3 className="text-xs font-bold text-slate-900">Below-Floor Pricing Leaks</h3>
-                <span className="px-1.5 py-0.2 text-[10px] font-bold bg-rose-100 text-rose-800 rounded">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {/* Pricing Leaks Callout */}
+          <div
+            onClick={() => onNavigate("pricing")}
+            className="bg-white p-4 rounded-xl border border-slate-200 hover:border-slate-300 hover:shadow-xs cursor-pointer transition-all flex flex-col justify-between"
+          >
+            <div className="space-y-2">
+              <div className="flex items-center justify-between">
+                <div className="p-2 bg-rose-50 rounded-lg text-rose-700">
+                  <ShieldAlert className="w-5 h-5" />
+                </div>
+                <span className="px-2 py-0.5 text-[10px] font-bold bg-rose-100 text-rose-800 rounded-full">
                   {belowFloorCount} items
                 </span>
               </div>
-              <p className="text-[11px] text-slate-500 mt-0.5">
-                Total recoverable leakage: <span className="font-semibold text-rose-700">{formatCurrency(totalLeakOpportunity, currency)}</span>
-              </p>
+              <div>
+                <h3 className="text-sm font-bold text-slate-900">Below-Floor Pricing</h3>
+                <p className="text-xs text-slate-500 mt-1">
+                  Total recoverable leakage:{" "}
+                  <span className="font-semibold text-rose-700 block mt-0.5">
+                    {formatCurrency(totalLeakOpportunity, currency)}
+                  </span>
+                </p>
+              </div>
+            </div>
+            <div className="flex items-center justify-between pt-3 border-t border-slate-100 mt-3 text-xs font-semibold text-rose-700">
+              <span>View pricing audit</span>
+              <ArrowRight className="w-4 h-4" />
             </div>
           </div>
-          <ArrowRight className="w-4 h-4 text-slate-400" />
-        </div>
 
-        {/* Dominant Product Concentration */}
-        {dominant && (
+          {/* Dominant Product Concentration */}
           <div
             onClick={() => onNavigate("products")}
-            className="bg-white p-3.5 rounded-xl border border-slate-200 hover:border-slate-300 cursor-pointer transition-colors flex items-center justify-between"
+            className="bg-white p-4 rounded-xl border border-slate-200 hover:border-slate-300 hover:shadow-xs cursor-pointer transition-all flex flex-col justify-between"
           >
-            <div className="flex items-start gap-3">
-              <div className="p-2 bg-amber-50 rounded-lg text-amber-700 shrink-0 mt-0.5">
-                <Package className="w-5 h-5" />
+            <div className="space-y-2">
+              <div className="flex items-center justify-between">
+                <div className="p-2 bg-amber-50 rounded-lg text-amber-700">
+                  <Package className="w-5 h-5" />
+                </div>
+                <span className="px-2 py-0.5 text-[10px] font-bold bg-amber-100 text-amber-800 rounded-full">
+                  {dominant ? formatPercent(dominant.pct_of_total) : "0%"} share
+                </span>
               </div>
               <div>
-                <div className="flex items-center gap-2">
-                  <h3 className="text-xs font-bold text-slate-900">Product Concentration Risk</h3>
-                  <span className="px-1.5 py-0.2 text-[10px] font-bold bg-amber-100 text-amber-800 rounded">
-                    {formatPercent(dominant.pct_of_total)} share
+                <h3 className="text-sm font-bold text-slate-900">Product Concentration</h3>
+                <p className="text-xs text-slate-500 mt-1">
+                  <span className="font-semibold text-slate-800">{dominant?.product_raw || "Top SKU"}</span> accounts for{" "}
+                  <span className="font-semibold text-slate-900 block mt-0.5">
+                    {formatCurrency(dominant?.revenue || 0, currency)}
                   </span>
-                </div>
-                <p className="text-[11px] text-slate-500 mt-0.5">
-                  <span className="font-semibold text-slate-800">{dominant.product_raw}</span> accounts for {formatCurrency(dominant.revenue, currency)}
                 </p>
               </div>
             </div>
-            <ArrowRight className="w-4 h-4 text-slate-400" />
+            <div className="flex items-center justify-between pt-3 border-t border-slate-100 mt-3 text-xs font-semibold text-amber-700">
+              <span>View products</span>
+              <ArrowRight className="w-4 h-4" />
+            </div>
           </div>
-        )}
 
-        {/* Loss-Making Customers */}
-        {lossCustomersCount > 0 && (
+          {/* Loss-Making Customers */}
           <div
             onClick={() => onNavigate("customers")}
-            className="bg-white p-3.5 rounded-xl border border-slate-200 hover:border-slate-300 cursor-pointer transition-colors flex items-center justify-between"
+            className="bg-white p-4 rounded-xl border border-slate-200 hover:border-slate-300 hover:shadow-xs cursor-pointer transition-all flex flex-col justify-between"
           >
-            <div className="flex items-start gap-3">
-              <div className="p-2 bg-rose-50 rounded-lg text-rose-700 shrink-0 mt-0.5">
-                <Users className="w-5 h-5" />
+            <div className="space-y-2">
+              <div className="flex items-center justify-between">
+                <div className="p-2 bg-rose-50 rounded-lg text-rose-700">
+                  <Users className="w-5 h-5" />
+                </div>
+                <span className="px-2 py-0.5 text-[10px] font-bold bg-rose-100 text-rose-800 rounded-full">
+                  {lossCustomersCount} accounts
+                </span>
               </div>
               <div>
-                <div className="flex items-center gap-2">
-                  <h3 className="text-xs font-bold text-slate-900">Negative Margin Accounts</h3>
-                  <span className="px-1.5 py-0.2 text-[10px] font-bold bg-rose-100 text-rose-800 rounded">
-                    {lossCustomersCount} accounts
+                <h3 className="text-sm font-bold text-slate-900">Negative Margin Accounts</h3>
+                <p className="text-xs text-slate-500 mt-1">
+                  Top loss customer:{" "}
+                  <span className="font-semibold text-slate-800 block mt-0.5">
+                    {lossCustomers[0]?.customer || "None"} ({formatCurrency(lossCustomers[0]?.gross_profit || 0, currency)})
                   </span>
-                </div>
-                <p className="text-[11px] text-slate-500 mt-0.5">
-                  Top loss customer: <span className="font-semibold text-slate-800">{lossCustomers[0]?.customer || "Account in Red"}</span> ({formatCurrency(lossCustomers[0]?.gross_profit, currency)})
                 </p>
               </div>
             </div>
-            <ArrowRight className="w-4 h-4 text-slate-400" />
+            <div className="flex items-center justify-between pt-3 border-t border-slate-100 mt-3 text-xs font-semibold text-rose-700">
+              <span>View customers</span>
+              <ArrowRight className="w-4 h-4" />
+            </div>
           </div>
-        )}
+        </div>
       </div>
     </div>
   );
