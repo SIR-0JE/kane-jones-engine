@@ -176,7 +176,7 @@ export default function DashboardHome() {
             />
 
             {/* Main Screen Content */}
-            <div className="flex-1">
+            <div className="flex-1 w-full">
               {workspaceError ? (
                 <div className="p-8 max-w-md mx-auto text-center space-y-4 pt-20">
                   <div className="w-12 h-12 rounded-2xl bg-rose-50 text-rose-600 flex items-center justify-center mx-auto border border-rose-200">
