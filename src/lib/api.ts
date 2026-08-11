@@ -1,32 +1,42 @@
-import { AnalyzeResponse, CompareResponse } from "@/types/api";
+import { AnalyzeResponse, CompareResponse, SnapshotsListResponse } from "@/types/api";
 
 const API_BASE = process.env.NEXT_PUBLIC_API_URL || "";
 
-export async function fetchDefaultAnalysis(clientId = "kane-jones"): Promise<AnalyzeResponse> {
-  const res = await fetch(`${API_BASE}/api/health`);
+export async function fetchSnapshots(clientId = "kane-jones"): Promise<SnapshotsListResponse> {
+  const res = await fetch(`${API_BASE}/api/snapshots?client_id=${encodeURIComponent(clientId)}`);
   if (!res.ok) {
-    throw new Error("API server is not reachable");
+    throw new Error("Failed to fetch snapshots list");
   }
-  // Try to load comparison or trigger analysis
-  const compRes = await fetch(`${API_BASE}/api/compare?client_id=${encodeURIComponent(clientId)}&granularity=month&period_a=2026-07&period_b=2026-07`);
-  if (!compRes.ok) {
-    throw new Error("Failed to initialize dataset");
+  return res.json();
+}
+
+export async function fetchSnapshot(periodLabel: string, clientId = "kane-jones"): Promise<AnalyzeResponse> {
+  const res = await fetch(`${API_BASE}/api/snapshots/${encodeURIComponent(periodLabel)}?client_id=${encodeURIComponent(clientId)}`);
+  if (!res.ok) {
+    // Fallback to /api/snapshot?period_label=...
+    const fallbackRes = await fetch(`${API_BASE}/api/snapshot?period_label=${encodeURIComponent(periodLabel)}&client_id=${encodeURIComponent(clientId)}`);
+    if (!fallbackRes.ok) {
+      throw new Error(`Failed to load snapshot for period ${periodLabel}`);
+    }
+    return fallbackRes.json();
   }
-  
-  // We can fetch snapshots or compare to verify data
-  return {} as AnalyzeResponse;
+  return res.json();
 }
 
 export async function uploadAndAnalyze(
   file: File,
   clientId = "kane-jones",
-  periodLabel?: string
+  periodLabel?: string,
+  auditTitle?: string
 ): Promise<AnalyzeResponse> {
   const formData = new FormData();
   formData.append("file", file);
   formData.append("client_id", clientId);
   if (periodLabel) {
     formData.append("period_label", periodLabel);
+  }
+  if (auditTitle) {
+    formData.append("audit_title", auditTitle);
   }
 
   const res = await fetch(`${API_BASE}/api/analyze`, {

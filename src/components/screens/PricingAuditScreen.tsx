@@ -16,10 +16,10 @@ export function PricingAuditScreen({ data }: PricingAuditScreenProps) {
 
   const [tierFilter, setTierFilter] = useState<"all" | "underpriced" | "overpriced">("all");
 
-  const totalLeak = belowFloor.reduce((acc, item) => acc + (item.revenue_opportunity || 0), 0);
-
-  const underpricedCount = volumeTier.filter((v) => v.audit_result === "underpriced").length;
-  const overpricedCount = volumeTier.filter((v) => v.audit_result === "overpriced").length;
+  const totalLeak = data.meta?.total_recoverable_leakage ?? belowFloor.reduce((acc, item) => acc + (item.revenue_opportunity || 0), 0);
+  const totalVolumeOrders = data.meta?.volume_tier_counts?.total ?? volumeTier.length;
+  const underpricedCount = data.meta?.volume_tier_counts?.underpriced ?? volumeTier.filter((v) => v.audit_result === "underpriced").length;
+  const overpricedCount = data.meta?.volume_tier_counts?.overpriced ?? volumeTier.filter((v) => v.audit_result === "overpriced").length;
 
   const filteredVolumeTier = volumeTier.filter((item) => {
     if (tierFilter === "all") return true;
@@ -101,7 +101,7 @@ export function PricingAuditScreen({ data }: PricingAuditScreenProps) {
                 : "bg-slate-100 text-slate-600 hover:bg-slate-200"
             }`}
           >
-            All Orders ({volumeTier.length})
+            All Orders ({totalVolumeOrders})
           </button>
           <button
             onClick={() => setTierFilter("underpriced")}

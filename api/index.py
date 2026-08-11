@@ -29,7 +29,7 @@ from engine.compare import compare_periods
 from engine.config import ClientProfile, kane_jones_profile
 from engine.parser import parse_workbook
 from engine.price_match import load_price_list, match_products
-from engine.snapshots import list_snapshots, load_snapshot, save_snapshot
+from engine.snapshots import list_snapshots, list_snapshots_summary, load_snapshot, save_snapshot
 
 app = FastAPI(
     title="Depot Sales Intelligence Engine API",
@@ -122,6 +122,7 @@ async def analyze_sales_report(
     file: UploadFile = File(..., description="Raw Excel workbook (.xlsx)"),
     client_id: str = Form("kane-jones", description="Client identifier"),
     period_label: Optional[str] = Form(None, description="Optional period label (e.g. '2026-07'). Derived automatically if omitted."),
+    audit_title: Optional[str] = Form(None, description="Optional human-readable title (e.g. 'July 2026 Full Audit')"),
 ):
     """Parses a depot's sales spreadsheet, fuzzy-matches line items against the price list,
     runs all pricing, volume tier, trend, and concentration audits, and persists a period snapshot.
@@ -224,6 +225,8 @@ async def analyze_sales_report(
             else:
                 effective_period = "2026-07"
 
+        effective_title = audit_title or f"{effective_period} Full Audit"
+
         unique_match_rows = matched_df[
             ["product_raw", "matched_sku", "match_score", "match_method"]
         ].drop_duplicates()
@@ -248,11 +251,19 @@ async def analyze_sales_report(
             "unmatched_products": unmatched_products,
         }
 
+        total_leakage = float(bfp_df["revenue_opportunity"].sum()) if not bfp_df.empty else 0.0
+        reconciled_invoices_count = int(len(inv_df)) - int(len(rec_check_df))
+        underpriced_count = int((volume_df["audit_result"] == "underpriced").sum()) if not volume_df.empty else 0
+        overpriced_count = int((volume_df["audit_result"] == "overpriced").sum()) if not volume_df.empty else 0
+        correct_count = int((volume_df["audit_result"] == "correct").sum()) if not volume_df.empty else 0
+        vol_rev_impact = float(volume_df["revenue_impact"].sum()) if not volume_df.empty else 0.0
+
         response_payload = {
             "meta": {
                 "client_id": profile.client_id,
                 "client_display_name": profile.display_name,
                 "period_label": effective_period,
+                "audit_title": effective_title,
                 "currency_symbol": profile.currency_symbol,
                 "total_revenue": total_revenue,
                 "total_gross_profit": total_gross_profit,
@@ -260,11 +271,22 @@ async def analyze_sales_report(
                 "date_range": date_range,
                 "total_invoices": int(len(inv_df)),
                 "total_anomalies": int(len(anomalies_df)),
+                "total_recoverable_leakage": total_leakage,
+                "below_floor_items_count": int(len(bfp_df)),
+                "reconciled_invoices_count": reconciled_invoices_count,
                 "reconciliation_discrepancies_count": int(len(rec_check_df)),
                 "loss_making_invoices_count": int(len(loss_inv_df)),
                 "loss_making_customers_count": int(len(loss_cust_df)),
                 "dominant_products_count": int(len(dominant_prod_df)),
+                "volume_tier_counts": {
+                    "total": int(len(volume_df)),
+                    "underpriced": underpriced_count,
+                    "overpriced": overpriced_count,
+                    "correct": correct_count,
+                    "total_revenue_impact": vol_rev_impact,
+                },
             },
+            "audit_title": effective_title,
             "match_quality": match_quality,
             "anomalies": df_to_records(anomalies_df),
             "reconciliation_discrepancies": df_to_records(rec_check_df),
@@ -387,5 +409,126 @@ def run_comparison(
 @app.get("/snapshots")
 @app.get("/api/snapshots")
 def get_client_snapshots(client_id: str = Query("kane-jones")):
-    """Returns list of available snapshot period labels for a client."""
-    return {"client_id": client_id, "snapshots": list_snapshots(client_id)}
+    """Returns list of available snapshot summaries for month slots on home page."""
+    return {
+        "client_id": client_id,
+        "snapshots": list_snapshots_summary(client_id),
+        "period_labels": list_snapshots(client_id),
+    }
+
+
+@app.get("/snapshot")
+@app.get("/api/snapshot")
+@app.get("/snapshots/{period_label}")
+@app.get("/api/snapshots/{period_label}")
+def get_snapshot_by_label(
+    period_label: Optional[str] = None,
+    client_id: str = Query("kane-jones"),
+):
+    """Returns full analysis snapshot for a given period_label."""
+    target_label = period_label or "2026-07"
+    try:
+        data = load_snapshot(client_id, target_label)
+        return data
+    except FileNotFoundError:
+        # Fallback to analyzing sample data for July if not on disk
+        if client_id == "kane-jones" and os.path.exists("sample_data/July_sales_report_v4.xlsx"):
+            profile = kane_jones_profile()
+            inv_df, li_df, anomalies_df = parse_workbook("sample_data/July_sales_report_v4.xlsx", profile)
+            price_df = load_price_list("sample_data/July_sales_report_v4.xlsx", profile)
+            matched_df = match_products(li_df, price_df, profile)
+            bfp_df = below_floor_pricing(matched_df, profile)
+            volume_df = volume_tier_audit(matched_df, profile)
+            daily_df = daily_summary(inv_df)
+            weekly_df = weekly_summary(daily_df)
+            prod_rank_df = product_revenue_ranking(matched_df, profile)
+            cust_margin_df = customer_margin_detail(inv_df)
+            conc_metrics = concentration_metrics(prod_rank_df)
+            rec_check_df = reconciliation_check(inv_df, li_df, profile)
+            loss_inv_df = loss_making_invoices(inv_df)
+            loss_cust_df = loss_making_customers(cust_margin_df)
+            dominant_prod_df = dominant_products(prod_rank_df, profile)
+
+            unique_match_rows = matched_df[
+                ["product_raw", "matched_sku", "match_score", "match_method"]
+            ].drop_duplicates()
+            match_method_counts = unique_match_rows["match_method"].value_counts().to_dict()
+            unmatched_products = (
+                unique_match_rows[unique_match_rows["match_method"] == "unmatched"][
+                    "product_raw"
+                ]
+                .dropna()
+                .tolist()
+            )
+
+            total_revenue = float(inv_df["gross_revenue"].sum())
+            total_gross_profit = float(inv_df["gross_profit"].sum())
+            total_leakage = float(bfp_df["revenue_opportunity"].sum()) if not bfp_df.empty else 0.0
+            reconciled_invoices_count = int(len(inv_df)) - int(len(rec_check_df))
+            underpriced_count = int((volume_df["audit_result"] == "underpriced").sum()) if not volume_df.empty else 0
+            overpriced_count = int((volume_df["audit_result"] == "overpriced").sum()) if not volume_df.empty else 0
+            correct_count = int((volume_df["audit_result"] == "correct").sum()) if not volume_df.empty else 0
+            vol_rev_impact = float(volume_df["revenue_impact"].sum()) if not volume_df.empty else 0.0
+
+            payload = {
+                "meta": {
+                    "client_id": profile.client_id,
+                    "client_display_name": profile.display_name,
+                    "period_label": target_label,
+                    "audit_title": f"{target_label} Full Audit",
+                    "currency_symbol": profile.currency_symbol,
+                    "total_revenue": total_revenue,
+                    "total_gross_profit": total_gross_profit,
+                    "overall_margin_pct": float(total_gross_profit / total_revenue) if total_revenue > 0 else 0.0,
+                    "date_range": {
+                        "start": "2026-07-01",
+                        "end": "2026-07-31",
+                    },
+                    "total_invoices": int(len(inv_df)),
+                    "total_anomalies": int(len(anomalies_df)),
+                    "total_recoverable_leakage": total_leakage,
+                    "below_floor_items_count": int(len(bfp_df)),
+                    "reconciled_invoices_count": reconciled_invoices_count,
+                    "reconciliation_discrepancies_count": int(len(rec_check_df)),
+                    "loss_making_invoices_count": int(len(loss_inv_df)),
+                    "loss_making_customers_count": int(len(loss_cust_df)),
+                    "dominant_products_count": int(len(dominant_prod_df)),
+                    "volume_tier_counts": {
+                        "total": int(len(volume_df)),
+                        "underpriced": underpriced_count,
+                        "overpriced": overpriced_count,
+                        "correct": correct_count,
+                        "total_revenue_impact": vol_rev_impact,
+                    },
+                },
+                "audit_title": f"{target_label} Full Audit",
+                "match_quality": {
+                    "total_products": int(len(unique_match_rows)),
+                    "counts": {
+                        "exact": int(match_method_counts.get("exact", 0)),
+                        "fuzzy": int(match_method_counts.get("fuzzy", 0)),
+                        "manual_override": int(match_method_counts.get("manual_override", 0)),
+                        "fuzzy_no_size_match": int(match_method_counts.get("fuzzy_no_size_match", 0)),
+                        "unmatched": int(match_method_counts.get("unmatched", 0)),
+                    },
+                    "unmatched_products": unmatched_products,
+                },
+                "anomalies": df_to_records(anomalies_df),
+                "reconciliation_discrepancies": df_to_records(rec_check_df),
+                "loss_making_invoices": df_to_records(loss_inv_df),
+                "loss_making_customers": df_to_records(loss_cust_df),
+                "dominant_products": df_to_records(dominant_prod_df),
+                "below_floor_pricing": df_to_records(bfp_df),
+                "volume_tier_audit": df_to_records(volume_df),
+                "daily_summary": df_to_records(daily_df),
+                "weekly_summary": df_to_records(weekly_df),
+                "product_revenue_ranking": df_to_records(prod_rank_df),
+                "customer_margin_detail": df_to_records(cust_margin_df),
+                "concentration_metrics": {
+                    k: sanitize_val(v) for k, v in conc_metrics.items()
+                },
+            }
+            save_snapshot(client_id, target_label, payload)
+            return payload
+        raise HTTPException(status_code=404, detail=f"Snapshot '{target_label}' not found.")
+

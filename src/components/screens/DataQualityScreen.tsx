@@ -16,7 +16,7 @@ export function DataQualityScreen({ data }: DataQualityScreenProps) {
   const anomalies = data.anomalies || [];
 
   const totalInvoices = data.meta?.total_invoices || 0;
-  const reconciledCount = totalInvoices - reconciliation.length;
+  const reconciledCount = data.meta?.reconciled_invoices_count ?? (totalInvoices - reconciliation.length);
 
   return (
     <div className="p-4 space-y-6 pb-24">

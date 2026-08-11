@@ -70,9 +70,11 @@ export function OverviewScreen({ data, onNavigate }: OverviewScreenProps) {
   }, [granularity, meta.client_id]);
 
   const belowFloorLeaks = data.below_floor_pricing || [];
-  const totalLeakOpportunity = belowFloorLeaks.reduce((acc, item) => acc + (item.revenue_opportunity || 0), 0);
+  const totalLeakOpportunity = meta.total_recoverable_leakage ?? belowFloorLeaks.reduce((acc, item) => acc + (item.revenue_opportunity || 0), 0);
   const dominant = data.dominant_products?.[0];
   const lossCustomers = data.loss_making_customers || [];
+  const belowFloorCount = meta.below_floor_items_count ?? belowFloorLeaks.length;
+  const lossCustomersCount = meta.loss_making_customers_count ?? lossCustomers.length;
 
   return (
     <div className="p-4 space-y-5 pb-24">
@@ -217,7 +219,7 @@ export function OverviewScreen({ data, onNavigate }: OverviewScreenProps) {
               <div className="flex items-center gap-2">
                 <h3 className="text-xs font-bold text-slate-900">Below-Floor Pricing Leaks</h3>
                 <span className="px-1.5 py-0.2 text-[10px] font-bold bg-rose-100 text-rose-800 rounded">
-                  {belowFloorLeaks.length} items
+                  {belowFloorCount} items
                 </span>
               </div>
               <p className="text-[11px] text-slate-500 mt-0.5">
@@ -255,7 +257,7 @@ export function OverviewScreen({ data, onNavigate }: OverviewScreenProps) {
         )}
 
         {/* Loss-Making Customers */}
-        {lossCustomers.length > 0 && (
+        {lossCustomersCount > 0 && (
           <div
             onClick={() => onNavigate("customers")}
             className="bg-white p-3.5 rounded-xl border border-slate-200 hover:border-slate-300 cursor-pointer transition-colors flex items-center justify-between"
@@ -268,11 +270,11 @@ export function OverviewScreen({ data, onNavigate }: OverviewScreenProps) {
                 <div className="flex items-center gap-2">
                   <h3 className="text-xs font-bold text-slate-900">Negative Margin Accounts</h3>
                   <span className="px-1.5 py-0.2 text-[10px] font-bold bg-rose-100 text-rose-800 rounded">
-                    {lossCustomers.length} accounts
+                    {lossCustomersCount} accounts
                   </span>
                 </div>
                 <p className="text-[11px] text-slate-500 mt-0.5">
-                  Top loss customer: <span className="font-semibold text-slate-800">{lossCustomers[0].customer}</span> ({formatCurrency(lossCustomers[0].gross_profit, currency)})
+                  Top loss customer: <span className="font-semibold text-slate-800">{lossCustomers[0]?.customer || "Account in Red"}</span> ({formatCurrency(lossCustomers[0]?.gross_profit, currency)})
                 </p>
               </div>
             </div>

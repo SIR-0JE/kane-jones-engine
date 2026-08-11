@@ -2,6 +2,7 @@ export interface MetaData {
   client_id: string;
   client_display_name: string;
   period_label: string;
+  audit_title?: string;
   currency_symbol: string;
   total_revenue: number;
   total_gross_profit: number;
@@ -12,10 +13,20 @@ export interface MetaData {
   };
   total_invoices: number;
   total_anomalies: number;
+  total_recoverable_leakage?: number;
+  below_floor_items_count?: number;
+  reconciled_invoices_count?: number;
   reconciliation_discrepancies_count?: number;
   loss_making_invoices_count?: number;
   loss_making_customers_count?: number;
   dominant_products_count?: number;
+  volume_tier_counts?: {
+    total: number;
+    underpriced: number;
+    overpriced: number;
+    correct: number;
+    total_revenue_impact: number;
+  };
 }
 
 export interface MatchQuality {
@@ -130,6 +141,7 @@ export interface ConcentrationMetrics {
 
 export interface AnalyzeResponse {
   meta: MetaData;
+  audit_title?: string;
   match_quality: MatchQuality;
   anomalies: AnomalyItem[];
   reconciliation_discrepancies: ReconciliationItem[];
@@ -222,4 +234,28 @@ export interface CompareResponse {
     dropouts_top10: Top10Dropout[];
   };
   highlights: string[];
+}
+
+export interface SnapshotSummary {
+  period_label: string;
+  audit_title: string;
+  total_revenue: number;
+  total_gross_profit: number;
+  overall_margin_pct: number;
+  total_invoices: number;
+  total_recoverable_leakage?: number;
+  below_floor_items_count?: number;
+  loss_making_customers_count?: number;
+  currency_symbol: string;
+  date_range?: {
+    start: string | null;
+    end: string | null;
+  };
+  created_at?: string;
+}
+
+export interface SnapshotsListResponse {
+  client_id: string;
+  snapshots: SnapshotSummary[];
+  period_labels: string[];
 }

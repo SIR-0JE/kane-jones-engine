@@ -3,10 +3,10 @@
 import React from "react";
 import {
   LayoutDashboard,
-  Tag,
+  ShieldAlert,
   Package,
   Users,
-  ShieldCheck,
+  CheckCircle2,
 } from "lucide-react";
 
 export type TabType = "overview" | "pricing" | "products" | "customers" | "quality";
@@ -15,6 +15,8 @@ interface NavigationProps {
   activeTab: TabType;
   onTabChange: (tab: TabType) => void;
   pricingLeakCount?: number;
+  dominantProductCount?: number;
+  lossCustomerCount?: number;
   anomalyCount?: number;
 }
 
@@ -22,19 +24,51 @@ export function Navigation({
   activeTab,
   onTabChange,
   pricingLeakCount = 0,
+  dominantProductCount = 0,
+  lossCustomerCount = 0,
   anomalyCount = 0,
 }: NavigationProps) {
-  const tabs: { id: TabType; label: string; icon: React.ComponentType<{ className?: string }>; badge?: number }[] = [
+  const tabs: {
+    id: TabType;
+    label: string;
+    icon: React.ComponentType<{ className?: string }>;
+    badge?: number;
+    badgeColor?: string;
+  }[] = [
     { id: "overview", label: "Overview", icon: LayoutDashboard },
-    { id: "pricing", label: "Pricing", icon: Tag, badge: pricingLeakCount > 0 ? pricingLeakCount : undefined },
-    { id: "products", label: "Products", icon: Package },
-    { id: "customers", label: "Customers", icon: Users },
-    { id: "quality", label: "Quality", icon: ShieldCheck, badge: anomalyCount > 0 ? anomalyCount : undefined },
+    {
+      id: "pricing",
+      label: "Pricing",
+      icon: ShieldAlert,
+      badge: pricingLeakCount > 0 ? pricingLeakCount : undefined,
+      badgeColor: "bg-rose-600 text-white",
+    },
+    {
+      id: "products",
+      label: "Products",
+      icon: Package,
+      badge: dominantProductCount > 0 ? dominantProductCount : undefined,
+      badgeColor: "bg-amber-500 text-white",
+    },
+    {
+      id: "customers",
+      label: "Customers",
+      icon: Users,
+      badge: lossCustomerCount > 0 ? lossCustomerCount : undefined,
+      badgeColor: "bg-rose-600 text-white",
+    },
+    {
+      id: "quality",
+      label: "Quality",
+      icon: CheckCircle2,
+      badge: anomalyCount > 0 ? anomalyCount : undefined,
+      badgeColor: "bg-amber-500 text-white",
+    },
   ];
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-slate-200/90 py-1.5 px-2">
-      <div className="mx-auto max-w-md md:max-w-4xl flex items-center justify-around">
+    <nav className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-slate-200/90 py-1 px-2 shadow-lg">
+      <div className="mx-auto max-w-md flex items-center justify-around">
         {tabs.map((tab) => {
           const Icon = tab.icon;
           const isActive = activeTab === tab.id;
@@ -52,20 +86,24 @@ export function Navigation({
               <div className="relative">
                 <Icon
                   className={`w-5 h-5 transition-transform ${
-                    isActive ? "stroke-[2.5px] scale-105 text-emerald-700" : "stroke-[1.75px]"
+                    isActive ? "stroke-[2.5px] scale-105 text-slate-900" : "stroke-[1.75px] text-slate-400"
                   }`}
                 />
                 {tab.badge !== undefined && (
-                  <span className="absolute -top-1.5 -right-2 bg-rose-500 text-white text-[10px] font-bold px-1.5 py-0.2 rounded-full min-w-4 text-center">
+                  <span
+                    className={`absolute -top-1.5 -right-2 text-[9px] font-extrabold px-1 py-0.2 rounded-full min-w-3.5 text-center ${
+                      tab.badgeColor || "bg-rose-600 text-white"
+                    }`}
+                  >
                     {tab.badge}
                   </span>
                 )}
               </div>
-              <span className={`text-[11px] mt-1 tracking-tight ${isActive ? "text-emerald-900 font-semibold" : "text-slate-500"}`}>
+              <span className={`text-[10px] mt-1 tracking-tight ${isActive ? "text-slate-900 font-bold" : "text-slate-500"}`}>
                 {tab.label}
               </span>
               {isActive && (
-                <span className="absolute -bottom-1 w-6 h-0.5 bg-emerald-600 rounded-full" />
+                <span className="absolute -bottom-1 w-6 h-0.5 bg-slate-900 rounded-full" />
               )}
             </button>
           );
