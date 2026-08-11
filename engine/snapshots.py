@@ -208,14 +208,16 @@ def load_snapshot(
         if depot_id:
             headers = _get_headers()
             r = requests.get(
-                f"{SUPABASE_URL}/rest/v1/audits?depot_id=eq.{depot_id}&period_label=eq.{urllib.parse.quote(period_label)}&select=payload",
+                f"{SUPABASE_URL}/rest/v1/audits?depot_id=eq.{depot_id}&period_label=eq.{urllib.parse.quote(period_label)}&select=payload,storage_path",
                 headers=headers,
                 timeout=5,
             )
             if r.status_code == 200:
                 rows = r.json()
                 if rows and len(rows) > 0 and rows[0].get("payload"):
-                    return rows[0]["payload"]
+                    payload = rows[0]["payload"]
+                    payload["storage_path"] = rows[0].get("storage_path")
+                    return payload
     except Exception:
         pass
 
