@@ -42,7 +42,7 @@ export function HomeScreen({
   const currency = latestSnapshot?.currency_symbol || "₦";
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8 pb-24 md:pb-12">
+    <div className="w-full px-6 sm:px-8 lg:px-12 xl:px-16 py-8 space-y-8 pb-24 md:pb-12">
       {/* 1. Hub Header */}
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 border-b border-slate-200/80 pb-6">
         <div>
@@ -74,70 +74,69 @@ export function HomeScreen({
       </div>
 
       {/* 2. Top-Level Summary Metric Strip */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 xl:gap-6">
         {/* Total Audits Available */}
-        <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
-          <div className="flex items-center justify-between text-slate-500 text-[11px] font-medium">
+        <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs">
+          <div className="flex items-center justify-between text-slate-500 text-xs font-semibold">
             <span>Audits Recorded</span>
             <Calendar className="w-4 h-4 text-slate-400" />
           </div>
-          <div className="text-xl md:text-2xl font-bold text-slate-900 mt-1.5">
+          <div className="text-2xl xl:text-3xl font-extrabold text-slate-900 mt-2">
             {totalAudits} {totalAudits === 1 ? "Month" : "Months"}
           </div>
-          <span className="text-[10px] text-slate-400 block mt-1">
+          <span className="text-xs text-slate-400 block mt-1">
             {latestSnapshot ? `Latest: ${latestSnapshot.period_label}` : "No audits yet"}
           </span>
         </div>
 
         {/* Total Revenue Analyzed */}
-        <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
-          <div className="flex items-center justify-between text-slate-500 text-[11px] font-medium">
+        <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs">
+          <div className="flex items-center justify-between text-slate-500 text-xs font-semibold">
             <span>Tracked Revenue</span>
             <TrendingUp className="w-4 h-4 text-emerald-600" />
           </div>
-          <div className="text-xl md:text-2xl font-bold text-slate-900 mt-1.5 truncate">
+          <div className="text-2xl xl:text-3xl font-extrabold text-slate-900 mt-2 truncate">
             {formatCurrency(totalTrackedRevenue, currency)}
           </div>
-          <span className="text-[10px] text-emerald-700 font-semibold block mt-1">
+          <span className="text-xs text-emerald-700 font-semibold block mt-1">
             Across {snapshots.reduce((acc, s) => acc + (s.total_invoices || 0), 0)} invoices
           </span>
         </div>
 
         {/* Total Recoverable Leakage */}
-        <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
-          <div className="flex items-center justify-between text-slate-500 text-[11px] font-medium">
+        <div className="bg-white p-5 rounded-2xl border border-rose-200 bg-rose-50/20 shadow-xs">
+          <div className="flex items-center justify-between text-rose-600 text-xs font-semibold">
             <span>Detected Leakage</span>
             <ShieldAlert className="w-4 h-4 text-rose-600" />
           </div>
-          <div className="text-xl md:text-2xl font-bold text-rose-700 mt-1.5 truncate">
+          <div className="text-2xl xl:text-3xl font-extrabold text-rose-700 mt-2 truncate">
             {formatCurrency(totalTrackedLeakage, currency)}
           </div>
-          <span className="text-[10px] text-rose-600 font-semibold block mt-1">
+          <span className="text-xs text-rose-600 font-semibold block mt-1">
             Recoverable revenue
           </span>
         </div>
 
         {/* System Health / Status */}
-        <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
-          <div className="flex items-center justify-between text-slate-500 text-[11px] font-medium">
-            <span>Engine Status</span>
+        <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs">
+          <div className="flex items-center justify-between text-slate-500 text-xs font-semibold">
+            <span>Ingestion Health</span>
             <CheckCircle2 className="w-4 h-4 text-emerald-600" />
           </div>
-          <div className="text-base md:text-lg font-bold text-emerald-800 mt-2 flex items-center gap-1.5">
-            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-            Operational
+          <div className="text-2xl xl:text-3xl font-extrabold text-slate-900 mt-2">
+            100%
           </div>
-          <span className="text-[10px] text-slate-400 block mt-1">
-            Reconciliation 100% Active
+          <span className="text-xs text-slate-400 block mt-1">
+            Supabase DB & Storage Connected
           </span>
         </div>
       </div>
 
-      {/* 3. Monthly Audits Section */}
-      <div className="space-y-4">
+      {/* 3. Month Slots Grid */}
+      <div className="space-y-4 pt-2">
         <div className="flex items-center justify-between">
           <div>
-            <h2 className="text-base font-bold text-slate-900">Monthly Sales Audits</h2>
+            <h2 className="text-lg font-bold text-slate-900">Monthly Sales Audits</h2>
             <p className="text-xs text-slate-500">Select an audited month to open its dedicated analytics workspace</p>
           </div>
           <span className="text-xs text-slate-400 font-medium">
@@ -146,13 +145,13 @@ export function HomeScreen({
         </div>
 
         {loading ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
             {[1, 2].map((n) => (
-              <div key={n} className="h-56 bg-slate-100/80 rounded-2xl animate-pulse border border-slate-200/60" />
+              <div key={n} className="h-64 bg-slate-100/80 rounded-2xl animate-pulse border border-slate-200/60" />
             ))}
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
             {/* Processed Month Cards */}
             {snapshots.map((item) => {
               const itemLeak = item.total_recoverable_leakage || 0;

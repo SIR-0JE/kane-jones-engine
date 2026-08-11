@@ -131,10 +131,10 @@ export default function DashboardHome() {
   const auditTitle = data?.meta?.audit_title || data?.audit_title || `${selectedPeriod} Full Audit`;
 
   return (
-    <main className="min-h-screen bg-slate-50/50 flex flex-col justify-between">
+    <main className="w-full min-h-screen bg-slate-50/50 flex flex-col justify-between">
       {/* VIEW 1: HOME PAGE / AUDITS HUB */}
       {viewMode === "home" ? (
-        <div className="flex-1">
+        <div className="w-full flex-1">
           <HomeScreen
             displayName={displayName}
             snapshots={snapshots}
@@ -145,7 +145,7 @@ export default function DashboardHome() {
         </div>
       ) : (
         /* VIEW 2: DEDICATED AUDIT WORKSPACE */
-        <div className="flex flex-1 min-h-screen">
+        <div className="flex flex-1 min-h-screen w-full">
           {/* Desktop Left Sidebar (>= 768px) */}
           <DesktopSidebar
             displayName="Kane-Jones Depot"
