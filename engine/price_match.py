@@ -74,7 +74,29 @@ def normalize_text(text: str) -> str:
 def load_price_list(xlsx_path: str, profile: ClientProfile) -> pd.DataFrame:
     import openpyxl
     wb = openpyxl.load_workbook(xlsx_path, data_only=True)
-    ws = wb[profile.price_list_sheet]
+    
+    # 1. Flexible sheet resolution
+    target_sheet = None
+    if profile.price_list_sheet in wb.sheetnames:
+        target_sheet = profile.price_list_sheet
+    else:
+        norm_expected = re.sub(r'[\s_\-\.]', '', profile.price_list_sheet).upper()
+        for name in wb.sheetnames:
+            if re.sub(r'[\s_\-\.]', '', name).upper() == norm_expected:
+                target_sheet = name
+                break
+        if not target_sheet:
+            for name in wb.sheetnames:
+                if "price" in name.lower():
+                    target_sheet = name
+                    break
+
+    if not target_sheet or target_sheet not in wb.sheetnames:
+        raise ValueError(
+            f"Price list sheet '{profile.price_list_sheet}' not found in workbook. Available sheets: {wb.sheetnames}"
+        )
+
+    ws = wb[target_sheet]
 
     rows = [[c.value for c in row] for row in ws.iter_rows()]
     # Find the header row (contains "SKU" or "Description")
@@ -85,7 +107,7 @@ def load_price_list(xlsx_path: str, profile: ClientProfile) -> pd.DataFrame:
             header_idx = i
             break
     if header_idx is None:
-        raise ValueError(f"Could not find a header row in price list sheet '{profile.price_list_sheet}'")
+        raise ValueError(f"Could not find a header row in price list sheet '{target_sheet}'")
 
     cols = ["sku", "distributor_price", "sub_distributor_price", "retail_price"]
     data_rows = [r[:len(cols)] for r in rows[header_idx + 1:] if r[0] not in (None, "")]

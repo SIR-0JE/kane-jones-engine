@@ -260,30 +260,73 @@ def parse_raw_sheet(ws, profile: ClientProfile, source_tab: str):
 
 
 def parse_workbook(xlsx_path: str, profile: ClientProfile):
-    """Parse every raw data sheet named in profile.raw_data_sheets. Returns (invoices_df, line_items_df, anomalies_df)."""
+    """Parse raw sales data sheets from workbook. Returns (invoices_df, line_items_df, anomalies_df)."""
     wb = openpyxl.load_workbook(xlsx_path, data_only=True)
 
+    # 1. Determine sheets to parse
+    sheets_to_parse = []
+    
+    # Try finding profile.raw_data_sheets directly or by normalized name
+    for target in profile.raw_data_sheets:
+        if target in wb.sheetnames:
+            sheets_to_parse.append(target)
+        else:
+            clean_target = re.sub(r'(?i)\.xlsx?$', '', target).strip().upper()
+            for name in wb.sheetnames:
+                clean_name = re.sub(r'(?i)\.xlsx?$', '', name).strip().upper()
+                if clean_name == clean_target and name not in sheets_to_parse:
+                    sheets_to_parse.append(name)
+                    break
+
+    # If none matched, auto-discover sheets containing invoice structure (excluding price list)
+    if not sheets_to_parse:
+        invoice_alias_lookup = _build_alias_lookup(profile.column_aliases, only_fields=INVOICE_FIELDS)
+        for name in wb.sheetnames:
+            if "price" in name.lower() or name.lower() == profile.price_list_sheet.lower():
+                continue
+            ws = wb[name]
+            rows = [[c.value for c in row] for row in ws.iter_rows(max_row=25)]
+            try:
+                _find_header_row(rows, invoice_alias_lookup)
+                sheets_to_parse.append(name)
+            except Exception:
+                pass
+
+    if not sheets_to_parse:
+        raise ValueError(
+            f"No sales register sheets found in workbook. Expected sheets like {profile.raw_data_sheets} or containing invoice headers. Available sheets: {wb.sheetnames}"
+        )
+
     all_invoices, all_line_items, all_anomalies = [], [], []
-    for sheet_name in profile.raw_data_sheets:
-        if sheet_name not in wb.sheetnames:
-            all_anomalies.append({"row": None, "source_tab": sheet_name,
-                                   "reason": f"Sheet '{sheet_name}' listed in client profile but not found in workbook."})
-            continue
+    for sheet_name in sheets_to_parse:
         ws = wb[sheet_name]
-        invoices, line_items, anomalies = parse_raw_sheet(ws, profile, sheet_name)
-        all_invoices.extend(invoices)
-        all_line_items.extend(line_items)
-        all_anomalies.extend(anomalies)
+        try:
+            invoices, line_items, anomalies = parse_raw_sheet(ws, profile, sheet_name)
+            all_invoices.extend(invoices)
+            all_line_items.extend(line_items)
+            all_anomalies.extend(anomalies)
+        except Exception as e:
+            all_anomalies.append({
+                "row": None,
+                "source_tab": sheet_name,
+                "reason": f"Failed parsing sheet '{sheet_name}': {str(e)}",
+            })
 
     invoices_df = pd.DataFrame(all_invoices)
     line_items_df = pd.DataFrame(all_line_items)
     anomalies_df = pd.DataFrame(all_anomalies)
 
-    if not invoices_df.empty:
-        invoices_df["date"] = pd.to_datetime(invoices_df["date"])
-        invoices_df["gross_profit"] = pd.to_numeric(invoices_df["gross_profit"], errors="coerce").fillna(0.0)
-        invoices_df["gross_revenue"] = pd.to_numeric(invoices_df["gross_revenue"], errors="coerce").fillna(0.0)
-        invoices_df["is_loss_making"] = invoices_df["gross_profit"] < 0
+    if invoices_df.empty:
+        raise ValueError(
+            f"No invoices could be extracted from sheet(s) {sheets_to_parse}. "
+            "Please check that the column headers match the expected sales register format."
+        )
+
+    invoices_df["date"] = pd.to_datetime(invoices_df["date"])
+    invoices_df["gross_profit"] = pd.to_numeric(invoices_df["gross_profit"], errors="coerce").fillna(0.0)
+    invoices_df["gross_revenue"] = pd.to_numeric(invoices_df["gross_revenue"], errors="coerce").fillna(0.0)
+    invoices_df["is_loss_making"] = invoices_df["gross_profit"] < 0
+
     if not line_items_df.empty:
         line_items_df["date"] = pd.to_datetime(line_items_df["date"])
         line_items_df["quantity"] = pd.to_numeric(line_items_df["quantity"], errors="coerce").fillna(0.0)
