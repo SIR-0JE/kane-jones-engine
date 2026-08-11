@@ -79,7 +79,7 @@ export interface CustomerMarginItem {
   gross_profit: number;
   margin_pct: number;
   pct_of_total_revenue: number;
-  is_loss_making?: boolean;
+  is_loss_making?: boolean | number;
 }
 
 export interface ProductRankingItem {
@@ -87,7 +87,7 @@ export interface ProductRankingItem {
   cases_sold: number;
   revenue: number;
   pct_of_total: number;
-  is_dominant?: boolean;
+  is_dominant?: boolean | number;
 }
 
 export interface BelowFloorItem {
@@ -108,12 +108,14 @@ export interface VolumeTierItem {
   product_raw: string;
   quantity: number;
   rate: number;
+  cost?: number;
   expected_tier: string;
   expected_price: number;
   price_diff: number;
   price_diff_pct: number;
   audit_result: "underpriced" | "overpriced" | "correct";
   revenue_impact: number;
+  [key: string]: any;
 }
 
 export interface DailySummaryItem {
@@ -140,8 +142,10 @@ export interface ConcentrationMetrics {
 }
 
 export interface AnalyzeResponse {
-  meta: MetaData;
+  client_id?: string;
+  period_label?: string;
   audit_title?: string;
+  meta: MetaData;
   match_quality: MatchQuality;
   anomalies: AnomalyItem[];
   reconciliation_discrepancies: ReconciliationItem[];
@@ -153,8 +157,10 @@ export interface AnalyzeResponse {
   daily_summary: DailySummaryItem[];
   weekly_summary: WeeklySummaryItem[];
   product_revenue_ranking: ProductRankingItem[];
+  product_ranking?: ProductRankingItem[];
   customer_margin_detail: CustomerMarginItem[];
   concentration_metrics: ConcentrationMetrics;
+  [key: string]: any;
 }
 
 export interface MetricDiff {

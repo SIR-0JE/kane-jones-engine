@@ -13,7 +13,8 @@ import { CustomersScreen } from "@/components/screens/CustomersScreen";
 import { DataQualityScreen } from "@/components/screens/DataQualityScreen";
 import { AnalyzeResponse, SnapshotSummary } from "@/types/api";
 import { fetchSnapshots, fetchSnapshot } from "@/lib/api";
-import { Loader2 } from "lucide-react";
+import { CANONICAL_JULY_SNAPSHOT } from "@/data/canonicalSnapshot";
+import { Loader2, AlertCircle, ArrowLeft, RefreshCw } from "lucide-react";
 
 // Default initial snapshot fallback for cold loads
 const INITIAL_SNAPSHOTS: SnapshotSummary[] = [
@@ -39,11 +40,12 @@ export default function DashboardHome() {
   const [viewMode, setViewMode] = useState<"home" | "workspace">("home");
   const [snapshots, setSnapshots] = useState<SnapshotSummary[]>(INITIAL_SNAPSHOTS);
   const [selectedPeriod, setSelectedPeriod] = useState<string>("2026-07");
-  const [data, setData] = useState<AnalyzeResponse | null>(null);
+  const [data, setData] = useState<AnalyzeResponse>(CANONICAL_JULY_SNAPSHOT);
   const [activeTab, setActiveTab] = useState<TabType>("overview");
   const [isUploadOpen, setIsUploadOpen] = useState<boolean>(false);
-  const [loadingSnapshots, setLoadingSnapshots] = useState<boolean>(true);
+  const [loadingSnapshots, setLoadingSnapshots] = useState<boolean>(false);
   const [loadingWorkspace, setLoadingWorkspace] = useState<boolean>(false);
+  const [workspaceError, setWorkspaceError] = useState<string | null>(null);
 
   // 1. Fetch available snapshots on initial load
   useEffect(() => {
@@ -51,12 +53,12 @@ export default function DashboardHome() {
       try {
         setLoadingSnapshots(true);
         const res = await fetchSnapshots("kane-jones");
-        if (res.snapshots && res.snapshots.length > 0) {
+        if (res && res.snapshots && res.snapshots.length > 0) {
           setSnapshots(res.snapshots);
           setSelectedPeriod(res.snapshots[0].period_label);
         }
       } catch (err) {
-        console.warn("Using fallback snapshots list:", err);
+        console.warn("Using built-in snapshots list:", err);
       } finally {
         setLoadingSnapshots(false);
       }
@@ -67,15 +69,28 @@ export default function DashboardHome() {
   // 2. Load snapshot data when entering workspace or switching period
   const handleSelectPeriod = async (periodLabel: string) => {
     setSelectedPeriod(periodLabel);
-    setLoadingWorkspace(true);
     setViewMode("workspace");
     setActiveTab("overview");
+    setWorkspaceError(null);
+
+    // Instant fallback for canonical July snapshot
+    if (periodLabel === "2026-07") {
+      setData(CANONICAL_JULY_SNAPSHOT);
+    }
 
     try {
+      setLoadingWorkspace(true);
       const snapshotData = await fetchSnapshot(periodLabel, "kane-jones");
-      setData(snapshotData);
-    } catch (err) {
-      console.warn(`Failed to fetch live snapshot for ${periodLabel}, loading default:`, err);
+      if (snapshotData && snapshotData.meta) {
+        setData(snapshotData);
+      }
+    } catch (err: any) {
+      console.warn(`Snapshot fetch fallback for ${periodLabel}:`, err);
+      if (periodLabel === "2026-07") {
+        setData(CANONICAL_JULY_SNAPSHOT);
+      } else {
+        setWorkspaceError(err?.message || `Could not load audit data for ${periodLabel}`);
+      }
     } finally {
       setLoadingWorkspace(false);
     }
@@ -162,12 +177,29 @@ export default function DashboardHome() {
 
             {/* Main Screen Content */}
             <div className="flex-1">
-              {loadingWorkspace || !data ? (
-                <div className="py-24 flex flex-col items-center justify-center text-slate-400 gap-2">
-                  <Loader2 className="w-6 h-6 animate-spin text-slate-600" />
-                  <span className="text-xs font-semibold text-slate-600">
-                    Loading {selectedPeriod} Audit Workspace...
-                  </span>
+              {workspaceError ? (
+                <div className="p-8 max-w-md mx-auto text-center space-y-4 pt-20">
+                  <div className="w-12 h-12 rounded-2xl bg-rose-50 text-rose-600 flex items-center justify-center mx-auto border border-rose-200">
+                    <AlertCircle className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <h3 className="text-sm font-bold text-slate-900">Unable to load audit data</h3>
+                    <p className="text-xs text-slate-500 mt-1">{workspaceError}</p>
+                  </div>
+                  <div className="flex items-center justify-center gap-2 pt-2">
+                    <button
+                      onClick={() => setViewMode("home")}
+                      className="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-xs font-semibold"
+                    >
+                      Back to Hub
+                    </button>
+                    <button
+                      onClick={() => handleSelectPeriod(selectedPeriod)}
+                      className="px-3 py-1.5 bg-slate-900 hover:bg-slate-800 text-white rounded-lg text-xs font-semibold"
+                    >
+                      Retry
+                    </button>
+                  </div>
                 </div>
               ) : (
                 <>
@@ -187,16 +219,14 @@ export default function DashboardHome() {
           </div>
 
           {/* Mobile Bottom Fixed Navigation (< 768px) */}
-          {data && (
-            <Navigation
-              activeTab={activeTab}
-              onTabChange={(tab) => setActiveTab(tab)}
-              pricingLeakCount={data.meta?.below_floor_items_count || data.below_floor_pricing?.length || 0}
-              dominantProductCount={data.meta?.dominant_products_count || data.dominant_products?.length || 0}
-              lossCustomerCount={data.meta?.loss_making_customers_count || data.loss_making_customers?.length || 0}
-              anomalyCount={data.meta?.total_anomalies || data.anomalies?.length || 0}
-            />
-          )}
+          <Navigation
+            activeTab={activeTab}
+            onTabChange={(tab) => setActiveTab(tab)}
+            pricingLeakCount={data.meta?.below_floor_items_count || data.below_floor_pricing?.length || 0}
+            dominantProductCount={data.meta?.dominant_products_count || data.dominant_products?.length || 0}
+            lossCustomerCount={data.meta?.loss_making_customers_count || data.loss_making_customers?.length || 0}
+            anomalyCount={data.meta?.total_anomalies || data.anomalies?.length || 0}
+          />
         </div>
       )}
 
