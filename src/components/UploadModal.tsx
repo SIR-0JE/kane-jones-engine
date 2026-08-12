@@ -9,9 +9,10 @@ interface UploadModalProps {
   isOpen: boolean;
   onClose: () => void;
   onSuccess: (data: AnalyzeResponse) => void;
+  clientId?: string;
 }
 
-export function UploadModal({ isOpen, onClose, onSuccess }: UploadModalProps) {
+export function UploadModal({ isOpen, onClose, onSuccess, clientId = "kane-jones" }: UploadModalProps) {
   const [file, setFile] = useState<File | null>(null);
   const [auditTitle, setAuditTitle] = useState<string>("");
   const [periodLabel, setPeriodLabel] = useState<string>("");
@@ -46,7 +47,7 @@ export function UploadModal({ isOpen, onClose, onSuccess }: UploadModalProps) {
     try {
       const data = await uploadAndAnalyze(
         file,
-        "kane-jones",
+        clientId,
         periodLabel.trim() || undefined,
         auditTitle.trim() || undefined
       );

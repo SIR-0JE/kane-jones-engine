@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { UploadCloud, Calendar, Building2, ArrowLeft } from "lucide-react";
+import { UploadCloud, Calendar, Building2, ArrowLeft, LogOut } from "lucide-react";
 
 interface HeaderProps {
   displayName: string;
@@ -10,6 +10,7 @@ interface HeaderProps {
   dateRange?: { start: string | null; end: string | null };
   onBackToHome?: () => void;
   onUploadClick: () => void;
+  onLogout?: () => void;
 }
 
 export function Header({
@@ -19,6 +20,7 @@ export function Header({
   dateRange,
   onBackToHome,
   onUploadClick,
+  onLogout,
 }: HeaderProps) {
   return (
     <header className="sticky top-0 z-20 bg-white/95 backdrop-blur-md border-b border-slate-200/90 px-4 sm:px-6 lg:px-8 py-3 w-full">
@@ -51,13 +53,25 @@ export function Header({
           </div>
         </div>
 
-        <button
-          onClick={onUploadClick}
-          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold text-white bg-slate-900 hover:bg-slate-800 active:scale-95 transition-all shadow-none shrink-0"
-        >
-          <UploadCloud className="w-4 h-4" />
-          <span className="hidden sm:inline">Upload Audit</span>
-        </button>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={onUploadClick}
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold text-white bg-slate-900 hover:bg-slate-800 active:scale-95 transition-all shadow-none shrink-0"
+          >
+            <UploadCloud className="w-4 h-4" />
+            <span className="hidden sm:inline">Upload Audit</span>
+          </button>
+
+          {onLogout && (
+            <button
+              onClick={onLogout}
+              title="Sign Out"
+              className="p-1.5 text-slate-500 hover:text-rose-700 hover:bg-rose-50 rounded-lg transition-colors shrink-0"
+            >
+              <LogOut className="w-4 h-4" />
+            </button>
+          )}
+        </div>
       </div>
     </header>
   );

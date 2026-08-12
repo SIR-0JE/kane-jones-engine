@@ -51,7 +51,7 @@ app.add_middleware(
 
 
 def load_profile(client_id: str) -> ClientProfile:
-    """Loads ClientProfile from clients/<client_id>/profile.json or defaults to built-in profiles."""
+    """Loads ClientProfile from clients/<client_id>/profile.json or defaults to standard Kane-Jones profile."""
     profile_path = os.path.join("clients", client_id, "profile.json")
     if os.path.exists(profile_path):
         try:
@@ -62,16 +62,11 @@ def load_profile(client_id: str) -> ClientProfile:
                 detail=f"Failed to load client profile from '{profile_path}': {str(e)}",
             )
 
-    if client_id == "kane-jones":
-        return kane_jones_profile()
+    # Default to standard FMCG profile for newly registered depots
+    prof = kane_jones_profile()
+    prof.client_id = client_id
+    return prof
 
-    raise HTTPException(
-        status_code=422,
-        detail=(
-            f"Client profile '{client_id}' not found. Expected profile at '{profile_path}' "
-            "or a supported built-in client ID like 'kane-jones'."
-        ),
-    )
 
 
 def sanitize_val(val: Any) -> Any:
@@ -589,3 +584,22 @@ def download_audit_report(
             "Content-Length": str(len(pdf_bytes)),
         },
     )
+
+
+from engine.snapshots import get_or_create_depot
+
+@app.post("/depots/register")
+@app.post("/api/depots/register")
+def register_depot_endpoint(
+    client_id: str = Form(...),
+    display_name: str = Form(...),
+):
+    """Registers or retrieves a depot row in Supabase depots table."""
+    depot_id = get_or_create_depot(client_id=client_id, display_name=display_name)
+    return {
+        "status": "ok",
+        "client_id": client_id,
+        "display_name": display_name,
+        "depot_id": depot_id,
+    }
+

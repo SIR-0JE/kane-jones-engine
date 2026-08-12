@@ -13,7 +13,8 @@ import {
   Building2,
   Plus,
   FileSpreadsheet,
-  Layers
+  Layers,
+  LogOut,
 } from "lucide-react";
 import { TabType } from "@/components/Navigation";
 import { SnapshotSummary } from "@/types/api";
@@ -26,6 +27,7 @@ interface DesktopSidebarProps {
   onTabChange: (tab: TabType) => void;
   onBackToHome: () => void;
   onUploadClick: () => void;
+  onLogout?: () => void;
   allSnapshots?: SnapshotSummary[];
   onSelectPeriod?: (period: string) => void;
   pricingLeakCount: number;
@@ -42,6 +44,7 @@ export function DesktopSidebar({
   onTabChange,
   onBackToHome,
   onUploadClick,
+  onLogout,
   allSnapshots = [],
   onSelectPeriod,
   pricingLeakCount,
@@ -208,6 +211,16 @@ export function DesktopSidebar({
           <Plus className="w-4 h-4 text-emerald-700" />
           <span>Upload New Month</span>
         </button>
+
+        {onLogout && (
+          <button
+            onClick={onLogout}
+            className="w-full flex items-center justify-center gap-2 px-3 py-2 text-rose-700 hover:bg-rose-50 rounded-xl text-xs font-bold transition-all"
+          >
+            <LogOut className="w-3.5 h-3.5" />
+            <span>Sign Out</span>
+          </button>
+        )}
 
         <div className="text-[10px] text-slate-400 text-center font-medium">
           Kane-Jones Engine • v1.0.0
