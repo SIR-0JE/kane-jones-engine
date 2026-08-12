@@ -2,6 +2,7 @@ import os
 import sys
 import tempfile
 import traceback
+import urllib.parse
 from typing import Any, Dict, List, Optional
 
 # Add project root to sys.path so engine modules are importable in serverless environment
@@ -11,6 +12,7 @@ import numpy as np
 import pandas as pd
 from fastapi import FastAPI, File, Form, HTTPException, Query, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import Response
 
 from engine.audit import (
     below_floor_pricing,
@@ -29,6 +31,7 @@ from engine.compare import compare_periods
 from engine.config import ClientProfile, kane_jones_profile
 from engine.parser import parse_workbook
 from engine.price_match import load_price_list, match_products
+from engine.report import generate_report_pdf
 from engine.snapshots import list_snapshots, list_snapshots_summary, load_snapshot, save_snapshot
 
 app = FastAPI(
@@ -538,3 +541,51 @@ def get_snapshot_by_label(
             return payload
         raise HTTPException(status_code=404, detail=f"Snapshot '{target_label}' not found.")
 
+
+@app.get("/report")
+@app.get("/api/report")
+def download_audit_report(
+    client_id: str = Query("kane-jones", description="Client identifier"),
+    period_label: str = Query("2026-07", description="Audit period label (e.g. '2026-07')"),
+):
+    """
+    Generates and returns a PDF report for the specified audit period.
+
+    Loads the existing stored snapshot from Supabase (the same data the dashboard
+    reads) and renders it to PDF using ReportLab. NO business logic is re-run;
+    every number in the PDF comes directly from the stored payload.
+    """
+    try:
+        payload = load_snapshot(client_id, period_label)
+    except FileNotFoundError:
+        raise HTTPException(
+            status_code=404,
+            detail=f"Snapshot '{period_label}' for client '{client_id}' not found.",
+        )
+    except Exception as e:
+        raise HTTPException(
+            status_code=500,
+            detail=f"Failed to load snapshot: {str(e)}",
+        )
+
+    try:
+        pdf_bytes = generate_report_pdf(payload)
+    except Exception as e:
+        raise HTTPException(
+            status_code=500,
+            detail=f"PDF generation failed: {str(e)}",
+        )
+
+    # Build a clean filename: e.g. "kane-jones_2026-07_audit_report.pdf"
+    safe_client  = client_id.replace(" ", "-").lower()
+    safe_period  = period_label.replace(" ", "_")
+    filename     = f"{safe_client}_{safe_period}_audit_report.pdf"
+
+    return Response(
+        content=pdf_bytes,
+        media_type="application/pdf",
+        headers={
+            "Content-Disposition": f'attachment; filename="{filename}"',
+            "Content-Length": str(len(pdf_bytes)),
+        },
+    )

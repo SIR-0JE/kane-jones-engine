@@ -11,6 +11,7 @@ import {
   Layers,
   Sparkles,
   Loader2,
+  FileDown,
 } from "lucide-react";
 import { TabType } from "@/components/Navigation";
 import { AnalyzeResponse, CompareResponse } from "@/types/api";
@@ -29,6 +30,7 @@ export function OverviewScreen({ data, onNavigate }: OverviewScreenProps) {
   const [granularity, setGranularity] = useState<"day" | "week" | "month">("day");
   const [comparison, setComparison] = useState<CompareResponse | null>(null);
   const [compLoading, setCompLoading] = useState<boolean>(false);
+  const [pdfLoading, setPdfLoading] = useState<boolean>(false);
 
   useEffect(() => {
     let isMounted = true;
@@ -77,8 +79,57 @@ export function OverviewScreen({ data, onNavigate }: OverviewScreenProps) {
   const belowFloorCount = meta.below_floor_items_count ?? belowFloorLeaks.length;
   const lossCustomersCount = meta.loss_making_customers_count ?? lossCustomers.length;
 
+  const handleDownloadPdf = async () => {
+    const clientId = meta?.client_id || "kane-jones";
+    const periodLabel = meta?.period_label || "2026-07";
+    setPdfLoading(true);
+    try {
+      const res = await fetch(
+        `/api/report?client_id=${encodeURIComponent(clientId)}&period_label=${encodeURIComponent(periodLabel)}`
+      );
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({ detail: "PDF generation failed." }));
+        throw new Error(err.detail || "Failed to download report");
+      }
+      const blob = await res.blob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `${clientId}_${periodLabel}_audit_report.pdf`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    } catch (err: any) {
+      alert(`Report download failed: ${err?.message || "Unknown error"}`);
+    } finally {
+      setPdfLoading(false);
+    }
+  };
+
   return (
     <div className="p-4 sm:p-6 lg:p-8 space-y-6 pb-24 md:pb-12 w-full">
+      {/* Download Report button row */}
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-sm font-bold text-slate-900">Overview</h1>
+          <p className="text-xs text-slate-500">{meta?.audit_title || meta?.period_label || "Audit"}</p>
+        </div>
+        <button
+          id="btn-download-pdf"
+          onClick={handleDownloadPdf}
+          disabled={pdfLoading}
+          className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 active:scale-95 text-white text-xs font-semibold shadow-sm transition-all disabled:opacity-60 disabled:cursor-not-allowed"
+        >
+          {pdfLoading ? (
+            <Loader2 className="w-3.5 h-3.5 animate-spin" />
+          ) : (
+            <FileDown className="w-3.5 h-3.5" />
+          )}
+          {pdfLoading ? "Generating…" : "Download Report"}
+        </button>
+      </div>
+
       {/* 1. Core KPIs Grid (4 Columns on Desktop) */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
         {/* Total Revenue */}
