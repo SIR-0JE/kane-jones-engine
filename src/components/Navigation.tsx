@@ -11,7 +11,7 @@ import {
   CheckCircle2,
 } from "lucide-react";
 
-export type TabType = "overview" | "daily" | "weekly" | "pricing" | "products" | "customers" | "quality";
+export type TabType = "overview" | "daily" | "weekly" | "pricing" | "products" | "customers" | "quality" | "settings";
 
 interface NavigationProps {
   activeTab: TabType;

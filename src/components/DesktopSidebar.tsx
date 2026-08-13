@@ -15,9 +15,11 @@ import {
   FileSpreadsheet,
   Layers,
   LogOut,
+  Settings,
 } from "lucide-react";
 import { TabType } from "@/components/Navigation";
 import { SnapshotSummary } from "@/types/api";
+import { UserSession, getInitials } from "@/lib/auth";
 
 interface DesktopSidebarProps {
   displayName: string;
@@ -28,6 +30,8 @@ interface DesktopSidebarProps {
   onBackToHome: () => void;
   onUploadClick: () => void;
   onLogout?: () => void;
+  onOpenSettings?: () => void;
+  userSession?: UserSession | null;
   allSnapshots?: SnapshotSummary[];
   onSelectPeriod?: (period: string) => void;
   pricingLeakCount: number;
@@ -45,6 +49,8 @@ export function DesktopSidebar({
   onBackToHome,
   onUploadClick,
   onLogout,
+  onOpenSettings,
+  userSession,
   allSnapshots = [],
   onSelectPeriod,
   pricingLeakCount,
@@ -62,111 +68,102 @@ export function DesktopSidebar({
     },
     {
       id: "daily" as TabType,
-      label: "Daily",
+      label: "Daily Audit",
       icon: CalendarDays,
       badge: null,
       badgeColor: "",
     },
     {
       id: "weekly" as TabType,
-      label: "Weekly",
+      label: "Weekly Audit",
       icon: CalendarRange,
       badge: null,
       badgeColor: "",
     },
     {
       id: "pricing" as TabType,
-      label: "Pricing Audit",
+      label: "Pricing Leaks",
       icon: ShieldAlert,
       badge: pricingLeakCount > 0 ? pricingLeakCount : null,
-      badgeColor: "bg-rose-100 text-rose-800",
+      badgeColor: "bg-rose-500 text-white",
     },
     {
       id: "products" as TabType,
       label: "Products",
       icon: Package,
       badge: dominantProductCount > 0 ? dominantProductCount : null,
-      badgeColor: "bg-amber-100 text-amber-800",
+      badgeColor: "bg-amber-500 text-white",
     },
     {
       id: "customers" as TabType,
       label: "Customers",
       icon: Users,
       badge: lossCustomerCount > 0 ? lossCustomerCount : null,
-      badgeColor: "bg-rose-100 text-rose-800",
+      badgeColor: "bg-rose-500 text-white",
     },
     {
       id: "quality" as TabType,
-      label: "Data Quality",
+      label: "Reconciliation",
       icon: CheckCircle2,
       badge: anomalyCount > 0 ? anomalyCount : null,
-      badgeColor: "bg-amber-100 text-amber-800",
+      badgeColor: "bg-amber-500 text-white",
+    },
+    {
+      id: "settings" as TabType,
+      label: "Settings",
+      icon: Settings,
+      badge: null,
+      badgeColor: "",
     },
   ];
 
+  const initials = getInitials(userSession?.name, userSession?.email);
+
   return (
-    <aside className="hidden md:flex flex-col justify-between w-64 lg:w-72 bg-white border-r border-slate-200/90 h-screen sticky top-0 shrink-0 select-none z-30">
-      {/* Top Header & Context */}
-      <div className="p-5 space-y-5">
-        {/* Brand & Hub Link */}
-        <div className="space-y-3">
-          <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-xl bg-slate-900 text-white flex items-center justify-center font-black text-sm shadow-xs">
-              KJ
-            </div>
-            <div>
-              <h2 className="text-xs font-bold text-slate-900 leading-none">
-                {displayName}
-              </h2>
-              <span className="text-[10px] text-slate-400 font-medium">
-                Sales Intelligence Engine
-              </span>
-            </div>
-          </div>
-
-          {/* Back to Audits Hub button */}
-          <button
-            onClick={onBackToHome}
-            className="w-full flex items-center gap-2 px-3 py-2 bg-slate-50 hover:bg-slate-100 text-slate-700 hover:text-slate-900 rounded-xl text-xs font-semibold border border-slate-200/80 transition-all text-left"
-          >
-            <ArrowLeft className="w-3.5 h-3.5 text-slate-500" />
-            <span>All Audits Hub</span>
-          </button>
-        </div>
-
-        {/* Active Period Card */}
-        <div className="p-3 bg-slate-50/80 rounded-xl border border-slate-200/70 space-y-1.5">
-          <div className="flex items-center justify-between text-[10px] text-slate-400 font-bold uppercase tracking-wider">
-            <span>Active Audit</span>
-            <span className="px-1.5 py-0.2 bg-white text-slate-700 rounded border border-slate-200 font-bold">
-              {activePeriodLabel}
+    <aside className="hidden md:flex flex-col w-64 lg:w-72 bg-white border-r border-slate-200/90 h-screen sticky top-0 shrink-0 select-none">
+      {/* Brand Header */}
+      <div className="p-6 border-b border-slate-100 flex items-center justify-between">
+        <button
+          onClick={onBackToHome}
+          className="flex items-center gap-2.5 group text-left"
+        >
+          <div className="w-6 h-6 rounded-lg bg-gradient-to-br from-[#7c6fff] to-[#37e0c1] shadow-xs group-hover:scale-105 transition-transform shrink-0" />
+          <div className="min-w-0">
+            <span className="text-base font-extrabold tracking-tight text-slate-900 font-sora block leading-none truncate">
+              {displayName || "Kane-Jones Depot"}
+            </span>
+            <span className="text-[10px] font-bold text-[#7c6fff] tracking-wider uppercase block mt-0.5 font-sora">
+              Distil Intelligence
             </span>
           </div>
-          <p className="text-xs font-bold text-slate-900 line-clamp-1">
-            {activeAuditTitle || `${activePeriodLabel} Audit`}
-          </p>
+        </button>
+      </div>
 
-          {/* If there are multiple periods, show period switcher dropdown */}
-          {allSnapshots.length > 1 && onSelectPeriod && (
-            <div className="pt-1.5">
-              <select
-                value={activePeriodLabel}
-                onChange={(e) => onSelectPeriod(e.target.value)}
-                className="w-full bg-white border border-slate-200 text-slate-700 text-xs rounded-lg px-2 py-1 font-medium focus:outline-none focus:ring-1 focus:ring-slate-900"
-              >
-                {allSnapshots.map((s) => (
-                  <option key={s.period_label} value={s.period_label}>
-                    {s.period_label} — {s.audit_title}
-                  </option>
-                ))}
-              </select>
-            </div>
-          )}
-        </div>
+      {/* Snapshots Selector & Nav Section */}
+      <div className="flex-1 overflow-y-auto px-4 py-5 space-y-6">
+        {/* Period Selector Dropdown */}
+        {allSnapshots.length > 0 && onSelectPeriod && (
+          <div className="space-y-1.5">
+            <label className="text-[10px] font-bold uppercase tracking-wider text-slate-400 font-sora block px-1">
+              Select Audit Period
+            </label>
+            <select
+              value={activePeriodLabel}
+              onChange={(e) => onSelectPeriod(e.target.value)}
+              className="w-full px-3 py-2 text-xs font-semibold text-slate-800 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-[#7c6fff] focus:outline-none transition-all cursor-pointer"
+            >
+              {allSnapshots.map((s) => (
+                <option key={s.period_label} value={s.period_label}>
+                  {s.audit_title || `${s.period_label} Audit`}
+                </option>
+              ))}
+            </select>
+          </div>
+        )}
 
-        {/* Nav Links */}
-        <div className="space-y-1 pt-1">
-          <span className="px-2 text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1.5">
+        {/* Navigation Items */}
+        <div className="space-y-1">
+          <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 font-sora block px-1 mb-2">
             Audit Workspace
           </span>
           {navItems.map((item) => {
@@ -178,7 +175,7 @@ export function DesktopSidebar({
                 onClick={() => onTabChange(item.id)}
                 className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-bold transition-all ${
                   isActive
-                    ? "bg-slate-900 text-white shadow-xs"
+                    ? "bg-[#7c6fff] text-white shadow-[0_2px_12px_rgba(124,111,255,0.35)] font-sora"
                     : "text-slate-600 hover:bg-slate-100 hover:text-slate-900"
                 }`}
               >
@@ -202,29 +199,52 @@ export function DesktopSidebar({
         </div>
       </div>
 
-      {/* Bottom Actions */}
-      <div className="p-5 border-t border-slate-100 space-y-3">
+      {/* User Profile Card & Actions */}
+      <div className="p-4 border-t border-slate-100 space-y-3">
+        {/* User Card */}
+        <div
+          onClick={onOpenSettings}
+          className="flex items-center gap-3 p-2 rounded-xl bg-slate-50 border border-slate-200/80 hover:bg-slate-100 cursor-pointer transition-colors"
+        >
+          {userSession?.avatarUrl ? (
+            <img
+              src={userSession.avatarUrl}
+              alt="Avatar"
+              className="w-8 h-8 rounded-full object-cover border border-[#7c6fff]"
+            />
+          ) : (
+            <div className="w-8 h-8 rounded-full bg-[#7c6fff] text-white font-sora text-xs font-extrabold flex items-center justify-center border border-white/20 shadow-xs shrink-0">
+              {initials}
+            </div>
+          )}
+          <div className="min-w-0 flex-1">
+            <div className="text-xs font-bold text-slate-900 font-sora truncate">
+              {userSession?.name || userSession?.depotName || "Manager"}
+            </div>
+            <div className="text-[10px] text-slate-500 truncate">
+              {userSession?.email || "manager@depot.com"}
+            </div>
+          </div>
+        </div>
+
+        {/* Upload Button: Primary Accent */}
         <button
           onClick={onUploadClick}
-          className="w-full flex items-center justify-center gap-2 px-3 py-2.5 bg-white hover:bg-slate-50 text-slate-900 rounded-xl text-xs font-bold border border-slate-300 shadow-xs hover:shadow transition-all"
+          className="w-full flex items-center justify-center gap-2 px-3 py-2.5 bg-gradient-to-r from-[#7c6fff] to-[#5a4dde] text-white rounded-xl text-xs font-semibold shadow-[0_4px_16px_rgba(124,111,255,0.35)] hover:translate-y-[-1px] transition-all font-sora"
         >
-          <Plus className="w-4 h-4 text-emerald-700" />
+          <Plus className="w-4 h-4 text-white" />
           <span>Upload New Month</span>
         </button>
 
         {onLogout && (
           <button
             onClick={onLogout}
-            className="w-full flex items-center justify-center gap-2 px-3 py-2 text-rose-700 hover:bg-rose-50 rounded-xl text-xs font-bold transition-all"
+            className="w-full flex items-center justify-center gap-2 px-3 py-1.5 text-rose-700 hover:bg-rose-50 rounded-xl text-xs font-bold transition-all"
           >
             <LogOut className="w-3.5 h-3.5" />
             <span>Sign Out</span>
           </button>
         )}
-
-        <div className="text-[10px] text-slate-400 text-center font-medium">
-          Kane-Jones Engine • v1.0.0
-        </div>
       </div>
     </aside>
   );

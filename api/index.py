@@ -586,7 +586,7 @@ def download_audit_report(
     )
 
 
-from engine.snapshots import get_or_create_depot
+from engine.snapshots import get_or_create_depot, update_depot
 
 @app.post("/depots/register")
 @app.post("/api/depots/register")
@@ -601,5 +601,21 @@ def register_depot_endpoint(
         "client_id": client_id,
         "display_name": display_name,
         "depot_id": depot_id,
+    }
+
+
+@app.post("/depots/update")
+@app.post("/api/depots/update")
+def update_depot_endpoint(
+    client_id: str = Form(...),
+    display_name: str = Form(...),
+):
+    """Updates display_name of existing depot row in Supabase depots table."""
+    success = update_depot(client_id=client_id, display_name=display_name)
+    return {
+        "status": "ok" if success else "warning",
+        "client_id": client_id,
+        "display_name": display_name,
+        "updated": success,
     }
 

@@ -86,6 +86,20 @@ def get_or_create_depot(client_id: str, display_name: Optional[str] = None, conf
     return None
 
 
+def update_depot(client_id: str, display_name: str) -> bool:
+    """Updates display_name of existing depot row in Supabase 'depots' table."""
+    if not SUPABASE_URL or not SUPABASE_SERVICE_ROLE_KEY:
+        return False
+    try:
+        headers = _get_headers()
+        url = f"{SUPABASE_URL}/rest/v1/depots?client_id=eq.{urllib.parse.quote(client_id)}"
+        r = requests.patch(url, headers=headers, json={"display_name": display_name}, timeout=5)
+        return r.status_code in (200, 204)
+    except Exception:
+        return False
+
+
+
 def upload_to_storage(client_id: str, period_label: str, file_bytes: bytes, filename: str) -> Optional[str]:
     """Uploads a raw Excel workbook file to Supabase Storage bucket 'audit-uploads'."""
     if not file_bytes or not SUPABASE_URL or not SUPABASE_SERVICE_ROLE_KEY:

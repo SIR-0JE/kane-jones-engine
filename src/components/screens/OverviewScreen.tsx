@@ -112,14 +112,14 @@ export function OverviewScreen({ data, onNavigate }: OverviewScreenProps) {
       {/* Download Report button row */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-sm font-bold text-slate-900">Overview</h1>
+          <h1 className="text-sm font-bold text-slate-900 font-sora">Overview</h1>
           <p className="text-xs text-slate-500">{meta?.audit_title || meta?.period_label || "Audit"}</p>
         </div>
         <button
           id="btn-download-pdf"
           onClick={handleDownloadPdf}
           disabled={pdfLoading}
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 active:scale-95 text-white text-xs font-semibold shadow-sm transition-all disabled:opacity-60 disabled:cursor-not-allowed"
+          className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-[#7c6fff] to-[#5a4dde] hover:shadow-[0_4px_16px_rgba(124,111,255,0.35)] active:scale-95 text-white text-xs font-semibold font-sora transition-all disabled:opacity-60 disabled:cursor-not-allowed"
         >
           {pdfLoading ? (
             <Loader2 className="w-3.5 h-3.5 animate-spin" />
@@ -135,7 +135,7 @@ export function OverviewScreen({ data, onNavigate }: OverviewScreenProps) {
         {/* Total Revenue */}
         <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-xs">
           <span className="text-xs font-semibold text-slate-500 block">Total Revenue</span>
-          <div className="text-lg sm:text-xl lg:text-2xl font-bold text-slate-900 mt-1 tracking-tight truncate">
+          <div className="text-lg sm:text-xl lg:text-2xl font-bold text-slate-900 mt-1 tracking-tight truncate font-sora">
             {formatCurrency(meta.total_revenue, currency)}
           </div>
           <div className="text-xs text-slate-500 mt-1">
@@ -146,7 +146,7 @@ export function OverviewScreen({ data, onNavigate }: OverviewScreenProps) {
         {/* Gross Profit */}
         <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-xs">
           <span className="text-xs font-semibold text-slate-500 block">Gross Profit</span>
-          <div className={`text-lg sm:text-xl lg:text-2xl font-bold mt-1 tracking-tight truncate ${meta.total_gross_profit >= 0 ? "text-emerald-700" : "text-rose-700"}`}>
+          <div className={`text-lg sm:text-xl lg:text-2xl font-bold mt-1 tracking-tight truncate font-sora ${meta.total_gross_profit >= 0 ? "text-emerald-700" : "text-rose-700"}`}>
             {formatCurrency(meta.total_gross_profit, currency)}
           </div>
           <div className="text-xs text-slate-500 mt-1">
@@ -157,7 +157,7 @@ export function OverviewScreen({ data, onNavigate }: OverviewScreenProps) {
         {/* Recoverable Leakage */}
         <div className="bg-white p-4 rounded-xl border border-rose-200 bg-rose-50/20 shadow-xs">
           <span className="text-xs font-semibold text-rose-600 block">Pricing Leakage</span>
-          <div className="text-lg sm:text-xl lg:text-2xl font-bold text-rose-700 mt-1 tracking-tight truncate">
+          <div className="text-lg sm:text-xl lg:text-2xl font-bold text-rose-700 mt-1 tracking-tight truncate font-sora">
             {formatCurrency(totalLeakOpportunity, currency)}
           </div>
           <div className="text-xs text-rose-600 font-medium mt-1">
@@ -168,7 +168,7 @@ export function OverviewScreen({ data, onNavigate }: OverviewScreenProps) {
         {/* Top Product Concentration */}
         <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-xs">
           <span className="text-xs font-semibold text-slate-500 block">Top SKU Share</span>
-          <div className="text-lg sm:text-xl lg:text-2xl font-bold text-slate-900 mt-1 tracking-tight truncate">
+          <div className="text-lg sm:text-xl lg:text-2xl font-bold text-slate-900 mt-1 tracking-tight truncate font-sora">
             {dominant ? formatPercent(dominant.pct_of_total) : "N/A"}
           </div>
           <div className="text-xs text-slate-500 mt-1 truncate">
@@ -178,15 +178,15 @@ export function OverviewScreen({ data, onNavigate }: OverviewScreenProps) {
       </div>
 
       {/* 2. Period-Over-Period Comparison Section */}
-      <div className="bg-white rounded-xl border border-slate-200 p-5 space-y-4 shadow-xs">
-        <div className="flex items-center justify-between">
+      <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs space-y-4">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border-b border-slate-100 pb-4">
           <div className="flex items-center gap-2">
-            <div className="p-1.5 bg-emerald-50 text-emerald-700 rounded-lg">
-              <Sparkles className="w-4 h-4" />
+            <div className="p-1.5 bg-[#7c6fff]/10 rounded-lg text-[#7c6fff]">
+              <Layers className="w-4 h-4" />
             </div>
             <div>
-              <h2 className="text-xs font-bold text-slate-900 uppercase tracking-wider">
-                Period Performance Deltas
+              <h2 className="text-sm font-bold text-slate-900 font-sora">
+                Comparative Analytics ({granularity.toUpperCase()})
               </h2>
               <p className="text-xs text-slate-500">Benchmark variance across key metrics</p>
             </div>
@@ -200,7 +200,7 @@ export function OverviewScreen({ data, onNavigate }: OverviewScreenProps) {
                 onClick={() => setGranularity(g)}
                 className={`px-3 py-1.5 rounded-md text-xs font-semibold transition-all ${
                   granularity === g
-                    ? "bg-white text-slate-900 shadow-xs"
+                    ? "bg-[#7c6fff] text-white font-sora shadow-xs"
                     : "text-slate-500 hover:text-slate-800"
                 }`}
               >

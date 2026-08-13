@@ -54,10 +54,10 @@ export function HomeScreen({
               Depot Sales Intelligence Engine
             </span>
           </div>
-          <h1 className="text-2xl md:text-3xl font-extrabold text-slate-900 tracking-tight">
+          <h1 className="text-2xl md:text-3xl font-extrabold text-slate-900 tracking-tight font-sora">
             {displayName}
           </h1>
-          <p className="text-xs md:text-sm text-slate-500 mt-1">
+          <p className="text-xs md:text-sm text-slate-500 mt-1 font-inter">
             Historical sales audits, pricing compliance, margin intelligence & leak detection.
           </p>
         </div>
@@ -65,7 +65,7 @@ export function HomeScreen({
         <div className="flex items-center gap-3">
           <button
             onClick={onUploadClick}
-            className="inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-slate-900 hover:bg-slate-800 active:bg-black text-white text-xs md:text-sm font-semibold rounded-xl transition-all shadow-sm shadow-slate-900/10 hover:shadow"
+            className="inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-gradient-to-r from-[#7c6fff] to-[#5a4dde] hover:shadow-[0_4px_20px_rgba(124,111,255,0.4)] text-white text-xs md:text-sm font-semibold rounded-xl transition-all shadow-sm shrink-0 font-sora"
           >
             <Plus className="w-4 h-4" />
             <span>Upload New Audit</span>

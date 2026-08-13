@@ -14,6 +14,7 @@ import { PricingAuditScreen } from "@/components/screens/PricingAuditScreen";
 import { ProductsScreen } from "@/components/screens/ProductsScreen";
 import { CustomersScreen } from "@/components/screens/CustomersScreen";
 import { DataQualityScreen } from "@/components/screens/DataQualityScreen";
+import { SettingsScreen } from "@/components/screens/SettingsScreen";
 import { AnalyzeResponse, SnapshotSummary } from "@/types/api";
 import { fetchSnapshots, fetchSnapshot } from "@/lib/api";
 import { CANONICAL_JULY_SNAPSHOT } from "@/data/canonicalSnapshot";
@@ -44,6 +45,12 @@ export default function AppDashboard() {
     }
     setSession(current);
     setAuthChecked(true);
+
+    const handleAuthChange = () => {
+      setSession(getCurrentSession());
+    };
+    window.addEventListener("kj_auth_changed", handleAuthChange);
+    return () => window.removeEventListener("kj_auth_changed", handleAuthChange);
   }, [router]);
 
   // 2. Fetch snapshots for active depot account
@@ -196,6 +203,8 @@ export default function AppDashboard() {
             onBackToHome={() => setViewMode("home")}
             onUploadClick={() => setIsUploadOpen(true)}
             onLogout={handleLogout}
+            onOpenSettings={() => setActiveTab("settings")}
+            userSession={session}
             allSnapshots={snapshots}
             onSelectPeriod={handleSelectPeriod}
             pricingLeakCount={data?.meta?.below_floor_items_count || data?.below_floor_pricing?.length || 0}
@@ -208,17 +217,21 @@ export default function AppDashboard() {
           <div className="flex-1 flex flex-col min-w-0 w-full">
             <Header
               displayName={displayName}
-              periodLabel={selectedPeriod}
-              auditTitle={auditTitle}
+              periodLabel={activeTab === "settings" ? "Settings" : selectedPeriod}
+              auditTitle={activeTab === "settings" ? "Account Settings" : auditTitle}
               dateRange={data?.meta?.date_range}
+              userSession={session}
               onBackToHome={() => setViewMode("home")}
               onUploadClick={() => setIsUploadOpen(true)}
+              onOpenSettings={() => setActiveTab("settings")}
               onLogout={handleLogout}
             />
 
             {/* Screen Router */}
             <div className="flex-1 w-full bg-white overflow-x-hidden">
-              {loadingWorkspace ? (
+              {activeTab === "settings" ? (
+                <SettingsScreen onProfileUpdated={(updated) => setSession(updated)} />
+              ) : loadingWorkspace ? (
                 <div className="p-12 flex flex-col items-center justify-center space-y-3">
                   <Loader2 className="w-8 h-8 text-slate-400 animate-spin" />
                   <p className="text-xs font-semibold text-slate-500">
