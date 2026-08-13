@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Distil — Sales intelligence, without the mess</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #07080d;
+    --bg-2: #0d0f18;
+    --card: #12141f;
+    --border: rgba(255,255,255,0.08);
+    --text: #f3f4f8;
+    --muted: #9295a8;
+    --accent: #7c6fff;
+    --accent-2: #37e0c1;
+    --accent-3: #ff7a59;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    overflow-x: hidden;
+  }
+  h1, h2, h3, .display { font-family: 'Sora', sans-serif; }
+
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 20px 48px;
+    backdrop-filter: blur(12px);
+    background: rgba(7,8,13,0.6);
+    border-bottom: 1px solid var(--border);
+    transition: background 0.3s ease;
+  }
+  .logo { font-family: 'Sora', sans-serif; font-weight: 700; font-size: 20px; letter-spacing: -0.02em; display: flex; align-items: center; gap: 8px; }
+  .logo-mark { width: 22px; height: 22px; border-radius: 6px; background: linear-gradient(135deg, var(--accent), var(--accent-2)); }
+  .nav-links { display: flex; gap: 36px; align-items: center; }
+  .nav-links a { color: var(--muted); text-decoration: none; font-size: 14.5px; font-weight: 500; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--text); }
+  .nav-cta { display: flex; gap: 12px; align-items: center; }
+  .btn {
+    padding: 10px 20px; border-radius: 10px; font-size: 14.5px; font-weight: 600;
+    border: none; cursor: pointer; text-decoration: none; display: inline-block;
+    transition: transform 0.15s ease, box-shadow 0.2s ease;
+  }
+  .btn-ghost { color: var(--text); background: transparent; }
+  .btn-ghost:hover { color: var(--accent-2); }
+  .btn-primary {
+    background: linear-gradient(135deg, var(--accent), #5a4dde);
+    color: white; box-shadow: 0 4px 24px rgba(124,111,255,0.35);
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(124,111,255,0.5); }
+  .btn-lg { padding: 15px 30px; font-size: 16px; border-radius: 12px; }
+
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center;
+    padding: 120px 24px 80px;
+    overflow: hidden;
+  }
+  .orb { position: absolute; border-radius: 50%; filter: blur(90px); opacity: 0.45; pointer-events: none; will-change: transform; }
+  .orb-1 { width: 480px; height: 480px; background: var(--accent); top: -120px; left: -100px; }
+  .orb-2 { width: 400px; height: 400px; background: var(--accent-2); bottom: -140px; right: -80px; opacity: 0.3; }
+  .orb-3 { width: 300px; height: 300px; background: var(--accent-3); top: 30%; right: 8%; opacity: 0.2; }
+
+  .grid-overlay {
+    position: absolute; inset: 0;
+    background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+                       linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+    background-size: 64px 64px;
+    mask-image: radial-gradient(ellipse 70% 60% at 50% 30%, black 20%, transparent 80%);
+  }
+
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 7px 16px; border-radius: 999px; border: 1px solid var(--border);
+    background: rgba(255,255,255,0.03); font-size: 13px; color: var(--muted);
+    margin-bottom: 28px; position: relative; z-index: 2;
+  }
+  .eyebrow .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent-2); }
+
+  .hero h1 {
+    font-size: clamp(38px, 6vw, 72px);
+    font-weight: 700; line-height: 1.08; letter-spacing: -0.03em;
+    max-width: 880px; position: relative; z-index: 2;
+  }
+  .hero h1 .grad {
+    background: linear-gradient(120deg, var(--accent-2), var(--accent));
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .hero p {
+    margin-top: 24px; font-size: 18px; color: var(--muted); max-width: 560px;
+    line-height: 1.6; position: relative; z-index: 2;
+  }
+  .hero-ctas { margin-top: 40px; display: flex; gap: 14px; position: relative; z-index: 2; }
+
+  .hero-visual {
+    margin-top: 72px; width: 100%; max-width: 980px; position: relative; z-index: 2;
+    border-radius: 20px; border: 1px solid var(--border);
+    background: linear-gradient(180deg, var(--card), var(--bg-2));
+    padding: 4px; box-shadow: 0 40px 100px -20px rgba(0,0,0,0.6);
+  }
+  .hero-visual-inner {
+    border-radius: 16px; background: var(--bg-2); padding: 28px; text-align: left;
+  }
+  .fake-topbar { display: flex; gap: 6px; margin-bottom: 20px; }
+  .fake-dot { width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.12); }
+  .fake-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 20px; }
+  .fake-stat { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 16px; }
+  .fake-stat .l { font-size: 12px; color: var(--muted); margin-bottom: 6px; }
+  .fake-stat .v { font-size: 20px; font-weight: 600; font-family: 'Sora', sans-serif; }
+  .fake-stat .v.g { color: var(--accent-2); }
+  .fake-stat .v.r { color: var(--accent-3); }
+  .fake-rows { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 8px; }
+  .fake-row { display: flex; justify-content: space-between; padding: 12px 14px; font-size: 13.5px; border-bottom: 1px solid var(--border); }
+  .fake-row:last-child { border-bottom: none; }
+  .fake-row .muted { color: var(--muted); }
+
+  section { padding: 140px 24px; position: relative; }
+  .section-inner { max-width: 1100px; margin: 0 auto; }
+  .section-label { color: var(--accent-2); font-size: 13.5px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 16px; }
+  .section-title { font-size: clamp(28px, 4vw, 42px); font-weight: 700; letter-spacing: -0.02em; max-width: 640px; line-height: 1.2; }
+  .section-sub { margin-top: 16px; color: var(--muted); font-size: 17px; max-width: 560px; line-height: 1.6; }
+
+  .fade-up { opacity: 0; transform: translateY(28px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 64px; }
+  .step-card {
+    background: var(--card); border: 1px solid var(--border); border-radius: 18px; padding: 32px;
+    position: relative; overflow: hidden;
+  }
+  .step-num {
+    font-family: 'Sora', sans-serif; font-size: 42px; font-weight: 700;
+    color: transparent; -webkit-text-stroke: 1px rgba(255,255,255,0.15);
+    margin-bottom: 20px;
+  }
+  .step-card h3 { font-size: 18px; margin-bottom: 10px; }
+  .step-card p { color: var(--muted); font-size: 14.5px; line-height: 1.6; }
+
+  .features { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 64px; }
+  .feature-card {
+    background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 28px;
+    transition: transform 0.25s ease, border-color 0.25s ease;
+  }
+  .feature-card:hover { transform: translateY(-4px); border-color: rgba(124,111,255,0.4); }
+  .feature-icon {
+    width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center;
+    background: rgba(124,111,255,0.12); color: var(--accent); font-size: 18px; margin-bottom: 16px; font-weight: 700;
+  }
+  .feature-card h3 { font-size: 16px; margin-bottom: 8px; }
+  .feature-card p { color: var(--muted); font-size: 14px; line-height: 1.6; }
+
+  .cta-band {
+    background: linear-gradient(135deg, #1a1730, #0d1522);
+    border-radius: 28px; border: 1px solid var(--border);
+    padding: 72px 48px; text-align: center; position: relative; overflow: hidden;
+  }
+  .cta-band h2 { font-size: clamp(28px, 4vw, 40px); font-weight: 700; max-width: 600px; margin: 0 auto 16px; }
+  .cta-band p { color: var(--muted); max-width: 480px; margin: 0 auto 32px; }
+
+  footer {
+    border-top: 1px solid var(--border); padding: 48px 24px; text-align: center;
+    color: var(--muted); font-size: 13.5px;
+  }
+
+  @media (max-width: 860px) {
+    .nav-links { display: none; }
+    .steps, .features { grid-template-columns: 1fr; }
+    .fake-stats { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo"><div class="logo-mark"></div>Distil</div>
+  <div class="nav-links">
+    <a href="#how">How it works</a>
+    <a href="#features">Features</a>
+    <a href="#pricing">Pricing</a>
+  </div>
+  <div class="nav-cta">
+    <a href="#" class="btn btn-ghost">Log in</a>
+    <a href="#" class="btn btn-primary">Sign up</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="grid-overlay"></div>
+  <div class="orb orb-1" data-speed="0.15"></div>
+  <div class="orb orb-2" data-speed="0.25"></div>
+  <div class="orb orb-3" data-speed="0.35"></div>
+
+  <div class="eyebrow"><span class="dot"></span>Built for depot and distribution teams</div>
+  <h1>Messy sales data in.<br><span class="grad">Clear decisions out.</span></h1>
+  <p>Distil turns your raw monthly sales register into an audited, decision-ready report — pricing leaks, margin risk, and reconciliation, without you scanning a single spreadsheet.</p>
+  <div class="hero-ctas">
+    <a href="#" class="btn btn-primary btn-lg">Start free →</a>
+    <a href="#how" class="btn btn-ghost btn-lg" style="border:1px solid var(--border);">See how it works</a>
+  </div>
+
+  <div class="hero-visual fade-up" id="hero-visual">
+    <div class="hero-visual-inner">
+      <div class="fake-topbar"><div class="fake-dot"></div><div class="fake-dot"></div><div class="fake-dot"></div></div>
+      <div class="fake-stats">
+        <div class="fake-stat"><div class="l">Total revenue</div><div class="v">₦187.7M</div></div>
+        <div class="fake-stat"><div class="l">Gross profit</div><div class="v g">₦3.7M</div></div>
+        <div class="fake-stat"><div class="l">Pricing leakage</div><div class="v r">₦11.1M</div></div>
+        <div class="fake-stat"><div class="l">Invoices audited</div><div class="v">300</div></div>
+      </div>
+      <div class="fake-rows">
+        <div class="fake-row"><span>Maltina Pet 33cl</span><span class="muted">16.4% below floor</span></div>
+        <div class="fake-row"><span>Goldberg 60cl</span><span class="muted">2.3% below floor</span></div>
+        <div class="fake-row"><span>Fino Stores</span><span class="muted">loss-making account</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="how">
+  <div class="section-inner">
+    <div class="section-label fade-up">How it works</div>
+    <h2 class="section-title fade-up">From raw file to finished audit, in minutes.</h2>
+    <p class="section-sub fade-up">No templates to learn, no manual reconciliation. Upload what you already have.</p>
+    <div class="steps">
+      <div class="step-card fade-up"><div class="step-num">01</div><h3>Upload your sales register</h3><p>Drop in the same messy monthly Excel file you already export — no reformatting needed.</p></div>
+      <div class="step-card fade-up"><div class="step-num">02</div><h3>Distil audits it</h3><p>Pricing checked against your floor rates, invoices reconciled, anomalies flagged — automatically.</p></div>
+      <div class="step-card fade-up"><div class="step-num">03</div><h3>Get a clean report</h3><p>A live dashboard and a downloadable report, ready to act on or share upward.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="features">
+  <div class="section-inner">
+    <div class="section-label fade-up">What you get</div>
+    <h2 class="section-title fade-up">Built around real distribution problems.</h2>
+    <div class="features">
+      <div class="feature-card fade-up"><div class="feature-icon">₦</div><h3>Below-floor pricing</h3><p>Catch every product sold under its official price before it becomes a habit.</p></div>
+      <div class="feature-card fade-up"><div class="feature-icon">%</div><h3>Volume-tier audit</h3><p>Confirms every order got the pricing tier its order size actually earned.</p></div>
+      <div class="feature-card fade-up"><div class="feature-icon">↕</div><h3>Reconciliation checks</h3><p>Every invoice's total is checked against its own line items — the same check that catches real bugs.</p></div>
+      <div class="feature-card fade-up"><div class="feature-icon">⚠</div><h3>Loss-making accounts</h3><p>Customers being sold below cost, surfaced immediately, not buried in a sorted list.</p></div>
+      <div class="feature-card fade-up"><div class="feature-icon">↗</div><h3>Period comparisons</h3><p>Day vs day, week vs week, month vs month — see what's actually moving.</p></div>
+      <div class="feature-card fade-up"><div class="feature-icon">⬇</div><h3>Downloadable reports</h3><p>Every audit exports to a clean report you can forward, no dashboard login required.</p></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="section-inner">
+    <div class="cta-band fade-up">
+      <h2>Stop losing hours to spreadsheets.</h2>
+      <p>Upload your first sales register and see your audit in minutes.</p>
+      <a href="#" class="btn btn-primary btn-lg">Start free →</a>
+    </div>
+  </div>
+</section>
+
+<footer>© 2026 Distil. Built for depot and distribution managers.</footer>
+
+<script>
+document.addEventListener('scroll', function() {
+  var scrolled = window.scrollY;
+  document.querySelectorAll('.orb').forEach(function(orb) {
+    var speed = parseFloat(orb.getAttribute('data-speed'));
+    orb.style.transform = 'translateY(' + (scrolled * speed) + 'px)';
+  });
+}, { passive: true });
+
+var observer = new IntersectionObserver(function(entries) {
+  entries.forEach(function(entry) {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.15 });
+
+document.querySelectorAll('.fade-up').forEach(function(el) {
+  observer.observe(el);
+});
+</script>
+
+</body>
+</html>

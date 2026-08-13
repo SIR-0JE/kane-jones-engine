@@ -2,8 +2,8 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Depot Sales Intelligence Engine",
-  description: "Pricing audits, margin leaks, volume tier validation, and period comparisons for beverage depots.",
+  title: "Distil — Sales intelligence, without the mess",
+  description: "Distil turns your raw monthly sales register into an audited, decision-ready report — pricing leaks, margin risk, and reconciliation.",
 };
 
 export const viewport: Viewport = {

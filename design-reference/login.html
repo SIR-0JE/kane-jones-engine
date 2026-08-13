@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Log in — Distil</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0b0f2e;
+    --field: #eef0f7;
+    --text-dark: #14162a;
+    --muted-dark: #6b6f8a;
+    --muted-light: #a6acc9;
+    --accent: #7c6fff;
+    --accent-2: #37e0c1;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Inter', sans-serif; background: white; color: var(--text-dark);
+    display: flex; min-height: 100vh;
+  }
+  h1, h2 { font-family: 'Sora', sans-serif; }
+
+  .form-side {
+    flex: 0 0 47%; display: flex; flex-direction: column; align-items: center;
+    justify-content: center; padding: 48px 40px;
+  }
+  .form-inner { max-width: 340px; width: 100%; }
+
+  .logo {
+    font-family: 'Sora', sans-serif; font-weight: 700; font-size: 19px;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    margin-bottom: 40px;
+  }
+  .logo-mark { width: 20px; height: 20px; border-radius: 6px; background: linear-gradient(135deg, var(--accent), var(--accent-2)); }
+
+  h1 { font-size: 26px; font-weight: 700; letter-spacing: -0.01em; margin-bottom: 28px; }
+
+  label { display: block; font-size: 14px; font-weight: 500; color: var(--text-dark); margin-bottom: 8px; margin-top: 18px; }
+  label:first-of-type { margin-top: 0; }
+  input {
+    width: 100%; padding: 13px 14px; border-radius: 10px; border: none;
+    background: var(--field); color: var(--text-dark); font-size: 14.5px; font-family: 'Inter', sans-serif;
+  }
+  input::placeholder { color: #9599b3; }
+  input:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+
+  .row-between { display: flex; justify-content: space-between; align-items: baseline; margin-top: 18px; }
+  .row-between label { margin: 0; }
+  .forgot { font-size: 13px; color: var(--accent); text-decoration: none; font-weight: 500; }
+
+  .btn-primary {
+    width: 100%; margin-top: 26px; padding: 14px; border-radius: 10px; border: none;
+    background: linear-gradient(135deg, var(--accent), #5a4dde); color: white;
+    font-size: 15px; font-weight: 600; cursor: pointer; font-family: 'Inter', sans-serif;
+  }
+
+  .switch { text-align: center; margin-top: 18px; font-size: 14px; color: var(--muted-dark); }
+  .switch a { color: var(--accent); text-decoration: none; font-weight: 600; }
+
+  .visual-side {
+    flex: 1; position: relative; background: var(--navy);
+    display: flex; flex-direction: column; padding: 32px;
+  }
+  .visual-card {
+    flex: 1; border-radius: 16px; overflow: hidden; position: relative;
+    background: linear-gradient(150deg, #1a1f4d, #0e1238);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .abstract-graphic { width: 78%; display: flex; flex-direction: column; gap: 10px; }
+  .list-item {
+    background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px; padding: 14px 16px; display: flex; justify-content: space-between; align-items: center;
+  }
+  .list-item .name { color: white; font-size: 14px; font-weight: 500; }
+  .list-item .tag { font-size: 11px; color: var(--accent-2); background: rgba(55,224,193,0.14); padding: 4px 10px; border-radius: 999px; }
+
+  .visual-copy { padding: 28px 8px 8px; }
+  .visual-copy h2 { font-size: 22px; font-weight: 700; color: white; margin-bottom: 10px; letter-spacing: -0.01em; }
+  .visual-copy p { color: var(--muted-light); font-size: 14.5px; line-height: 1.6; max-width: 400px; }
+
+  .dots { display: flex; gap: 7px; padding: 0 8px 8px; }
+  .dots span { width: 7px; height: 7px; border-radius: 50%; background: rgba(255,255,255,0.25); }
+  .dots span.active { background: white; }
+
+  @media (max-width: 900px) {
+    .visual-side { display: none; }
+    .form-side { flex: 1; }
+  }
+</style>
+</head>
+<body>
+
+<div class="form-side">
+  <div class="form-inner">
+    <div class="logo"><div class="logo-mark"></div>Distil</div>
+    <h1>Login</h1>
+
+    <label for="email">Email</label>
+    <input id="email" type="email" placeholder="you@company.com" />
+
+    <div class="row-between">
+      <label for="password">Password</label>
+      <a href="#" class="forgot">Forgot password?</a>
+    </div>
+    <input id="password" type="password" placeholder="Enter your password" />
+
+    <button class="btn-primary">Login</button>
+    <p class="switch">Don't have an account? <a href="signup.html">Register</a></p>
+  </div>
+</div>
+
+<div class="visual-side">
+  <div class="visual-card">
+    <div class="abstract-graphic">
+      <div class="list-item"><span class="name">July 2026 Full Audit</span><span class="tag">Reconciled</span></div>
+      <div class="list-item"><span class="name">August 2026 Audit</span><span class="tag">Reconciled</span></div>
+      <div class="list-item"><span class="name">September 2026 Audit</span><span class="tag" style="color:var(--muted-light); background:rgba(255,255,255,0.06);">In progress</span></div>
+    </div>
+  </div>
+  <div class="visual-copy">
+    <h2>Log back in</h2>
+    <p>Pick up where you left off. Every month's audit, saved and ready to review.</p>
+  </div>
+  <div class="dots"><span></span><span class="active"></span><span></span></div>
+</div>
+
+</body>
+</html>

@@ -52,20 +52,35 @@ function notifyAuthChange() {
   }
 }
 
+export function validateEmail(email: string): boolean {
+  const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return re.test(email);
+}
+
 export async function signupUser(params: {
+  depotName: string;
+  name?: string;
   email: string;
   password: string;
-  depotName: string;
+  confirmPassword?: string;
 }): Promise<UserSession> {
-  const { email, password, depotName } = params;
+  const { depotName, email, password, confirmPassword } = params;
   const cleanEmail = email.trim().toLowerCase();
 
-  if (!cleanEmail || !password || !depotName.trim()) {
-    throw new Error("Please fill in all required fields.");
+  if (!depotName.trim()) {
+    throw new Error("Please enter your depot or company name.");
   }
 
-  if (password.length < 6) {
-    throw new Error("Password must be at least 6 characters long.");
+  if (!cleanEmail || !validateEmail(cleanEmail)) {
+    throw new Error("Please enter a valid email address.");
+  }
+
+  if (password.length < 8) {
+    throw new Error("Password must be at least 8 characters long.");
+  }
+
+  if (confirmPassword !== undefined && password !== confirmPassword) {
+    throw new Error("Passwords do not match.");
   }
 
   const clientId = slugifyDepotName(depotName);
@@ -81,7 +96,7 @@ export async function signupUser(params: {
     email: cleanEmail,
     depotName: depotName.trim(),
     clientId: clientId,
-    passwordHash: password, // client-side simulation demo
+    passwordHash: password,
   };
 
   users.push(newUser);
@@ -120,6 +135,14 @@ export async function loginUser(params: {
   const { email, password } = params;
   const cleanEmail = email.trim().toLowerCase();
 
+  if (!cleanEmail || !validateEmail(cleanEmail)) {
+    throw new Error("Please enter a valid email address.");
+  }
+
+  if (!password) {
+    throw new Error("Please enter your password.");
+  }
+
   // Check demo credentials
   if (cleanEmail === DEMO_USER.email && password === "KaneJones@2026") {
     localStorage.setItem(SESSION_KEY, JSON.stringify(DEMO_USER));
@@ -131,7 +154,7 @@ export async function loginUser(params: {
   const user = users.find((u) => u.email === cleanEmail);
 
   if (!user || user.passwordHash !== password) {
-    throw new Error("Invalid email or password.");
+    throw new Error("That email or password is incorrect.");
   }
 
   const session: UserSession = {

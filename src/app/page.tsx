@@ -1,457 +1,425 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import {
-  Building2,
-  ArrowRight,
-  TrendingUp,
-  ShieldAlert,
-  CheckCircle2,
-  FileSpreadsheet,
-  Layers,
-  Sparkles,
-  Users,
-  Package,
-  FileText,
-  HelpCircle,
-  BarChart3,
-  ChevronDown,
-  Lock,
-} from "lucide-react";
 import { getCurrentSession, UserSession } from "@/lib/auth";
 
 export default function LandingPage() {
   const [session, setSession] = useState<UserSession | null>(null);
-  const [openFaq, setOpenFaq] = useState<number | null>(0);
 
   useEffect(() => {
-    const current = getCurrentSession();
-    setSession(current);
+    setSession(getCurrentSession());
+
+    // 1. Parallax Scroll Listener
+    const handleScroll = () => {
+      const scrolled = window.scrollY;
+      const orbs = document.querySelectorAll<HTMLElement>(".orb");
+      orbs.forEach((orb) => {
+        const speedAttr = orb.getAttribute("data-speed");
+        if (speedAttr) {
+          const speed = parseFloat(speedAttr);
+          orb.style.transform = `translateY(${scrolled * speed}px)`;
+        }
+      });
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+
+    // 2. IntersectionObserver for fade-up elements
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+          }
+        });
+      },
+      { threshold: 0.15 }
+    );
+
+    const fadeEls = document.querySelectorAll(".fade-up");
+    fadeEls.forEach((el) => observer.observe(el));
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      observer.disconnect();
+    };
   }, []);
 
-  const faqs = [
-    {
-      q: "What file format do I need to upload?",
-      a: "The engine accepts standard Excel workbooks (.xlsx, .xlsm) containing daily sales report tabs and a master price list tab. It automatically recognizes standard FMCG distributor formats.",
-    },
-    {
-      q: "Is my depot data isolated and private?",
-      a: "Yes. Every registered depot manager operates in strict data isolation with dedicated audit storage and snapshots. Your sales data is never shared across depot accounts.",
-    },
-    {
-      q: "What if my sales sheet layout varies slightly?",
-      a: "The engine features intelligent fuzzy tab and column matching. It normalizes product names, sizes, and invoice line items automatically even if column headers vary slightly.",
-    },
-    {
-      q: "How is the revenue leakage figure calculated?",
-      a: "Leakage combines two components: (1) below-floor pricing (the exact naira gap between rate charged and distributor floor price), plus (2) volume-tier audit mis-pricing.",
-    },
-  ];
-
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900 font-sans selection:bg-emerald-100 selection:text-emerald-900">
-      {/* 1. Header */}
-      <header className="sticky top-0 z-40 w-full bg-white/95 backdrop-blur-md border-b border-slate-200/80 px-4 sm:px-8 lg:px-12 py-3.5">
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-2.5 group">
-            <div className="p-2 bg-emerald-700 text-white rounded-xl shadow-xs group-hover:scale-105 transition-transform">
-              <Building2 className="w-5 h-5" />
-            </div>
-            <div>
-              <span className="text-base font-extrabold tracking-tight text-slate-900 block leading-none">
-                Kane-Jones
-              </span>
-              <span className="text-[10px] font-bold text-emerald-700 tracking-wider uppercase block mt-0.5">
-                Sales Intelligence Engine
-              </span>
-            </div>
-          </Link>
+    <div className="landing-root min-h-screen bg-[#07080d] text-[#f3f4f8] font-sans overflow-x-hidden selection:bg-[#7c6fff]/30">
+      <style jsx global>{`
+        :root {
+          --bg: #07080d;
+          --bg-2: #0d0f18;
+          --card: #12141f;
+          --border: rgba(255, 255, 255, 0.08);
+          --text: #f3f4f8;
+          --muted: #9295a8;
+          --accent: #7c6fff;
+          --accent-2: #37e0c1;
+          --accent-3: #ff7a59;
+        }
 
-          {/* Desktop Nav Links */}
-          <nav className="hidden md:flex items-center gap-8 text-xs font-bold text-slate-600">
-            <a href="#how-it-works" className="hover:text-slate-900 transition-colors">
-              How It Works
-            </a>
-            <a href="#features" className="hover:text-slate-900 transition-colors">
-              Features
-            </a>
-            <a href="#pricing" className="hover:text-slate-900 transition-colors">
-              Pricing
-            </a>
-            <a href="#faq" className="hover:text-slate-900 transition-colors">
-              FAQ
-            </a>
-          </nav>
+        .landing-nav {
+          position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+          display: flex; align-items: center; justify-content: space-between;
+          padding: 20px 48px;
+          backdrop-filter: blur(12px);
+          -webkit-backdrop-filter: blur(12px);
+          background: rgba(7, 8, 13, 0.6);
+          border-bottom: 1px solid var(--border);
+          transition: background 0.3s ease;
+        }
+        .landing-logo {
+          font-family: 'Sora', sans-serif; font-weight: 700; font-size: 20px;
+          letter-spacing: -0.02em; display: flex; align-items: center; gap: 8px;
+          color: var(--text); text-decoration: none;
+        }
+        .logo-mark {
+          width: 22px; height: 22px; border-radius: 6px;
+          background: linear-gradient(135deg, var(--accent), var(--accent-2));
+        }
+        .nav-links { display: flex; gap: 36px; align-items: center; }
+        .nav-links a { color: var(--muted); text-decoration: none; font-size: 14.5px; font-weight: 500; transition: color 0.2s; }
+        .nav-links a:hover { color: var(--text); }
+        .nav-cta { display: flex; gap: 12px; align-items: center; }
+        .btn {
+          padding: 10px 20px; border-radius: 10px; font-size: 14.5px; font-weight: 600;
+          border: none; cursor: pointer; text-decoration: none; display: inline-block;
+          transition: transform 0.15s ease, box-shadow 0.2s ease;
+          font-family: 'Inter', sans-serif;
+        }
+        .btn-ghost { color: var(--text); background: transparent; }
+        .btn-ghost:hover { color: var(--accent-2); }
+        .btn-primary {
+          background: linear-gradient(135deg, var(--accent), #5a4dde);
+          color: white; box-shadow: 0 4px 24px rgba(124, 111, 255, 0.35);
+        }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(124, 111, 255, 0.5); }
+        .btn-lg { padding: 15px 30px; font-size: 16px; border-radius: 12px; }
 
-          {/* Auth CTA Buttons */}
-          <div className="flex items-center gap-3">
-            {session ? (
-              <Link
-                href="/app"
-                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold text-white bg-emerald-700 hover:bg-emerald-800 shadow-sm transition-all active:scale-95"
-              >
-                <span>Go to Dashboard</span>
-                <ArrowRight className="w-3.5 h-3.5" />
-              </Link>
-            ) : (
-              <>
-                <Link
-                  href="/login"
-                  className="px-3.5 py-2 text-xs font-bold text-slate-700 hover:text-slate-900 transition-colors"
-                >
-                  Log in
-                </Link>
-                <Link
-                  href="/signup"
-                  className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold text-white bg-slate-900 hover:bg-slate-800 shadow-sm transition-all active:scale-95"
-                >
-                  <span>Sign Up</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </Link>
-              </>
-            )}
-          </div>
+        .hero {
+          position: relative;
+          min-height: 100vh;
+          display: flex; flex-direction: column; align-items: center; justify-content: center;
+          text-align: center;
+          padding: 120px 24px 80px;
+          overflow: hidden;
+        }
+        .orb { position: absolute; border-radius: 50%; filter: blur(90px); opacity: 0.45; pointer-events: none; will-change: transform; }
+        .orb-1 { width: 480px; height: 480px; background: var(--accent); top: -120px; left: -100px; }
+        .orb-2 { width: 400px; height: 400px; background: var(--accent-2); bottom: -140px; right: -80px; opacity: 0.3; }
+        .orb-3 { width: 300px; height: 300px; background: var(--accent-3); top: 30%; right: 8%; opacity: 0.2; }
+
+        .grid-overlay {
+          position: absolute; inset: 0;
+          background-image: linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                             linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+          background-size: 64px 64px;
+          mask-image: radial-gradient(ellipse 70% 60% at 50% 30%, black 20%, transparent 80%);
+          -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 30%, black 20%, transparent 80%);
+        }
+
+        .eyebrow {
+          display: inline-flex; align-items: center; gap: 8px;
+          padding: 7px 16px; border-radius: 999px; border: 1px solid var(--border);
+          background: rgba(255, 255, 255, 0.03); font-size: 13px; color: var(--muted);
+          margin-bottom: 28px; position: relative; z-index: 2;
+        }
+        .eyebrow .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent-2); }
+
+        .hero h1 {
+          font-size: clamp(38px, 6vw, 72px);
+          font-weight: 700; line-height: 1.08; letter-spacing: -0.03em;
+          max-width: 880px; position: relative; z-index: 2;
+          font-family: 'Sora', sans-serif;
+        }
+        .hero h1 .grad {
+          background: linear-gradient(120deg, var(--accent-2), var(--accent));
+          -webkit-background-clip: text; background-clip: text; color: transparent;
+        }
+        .hero p {
+          margin-top: 24px; font-size: 18px; color: var(--muted); max-width: 560px;
+          line-height: 1.6; position: relative; z-index: 2;
+        }
+        .hero-ctas { margin-top: 40px; display: flex; gap: 14px; position: relative; z-index: 2; }
+
+        .hero-visual {
+          margin-top: 72px; width: 100%; max-width: 980px; position: relative; z-index: 2;
+          border-radius: 20px; border: 1px solid var(--border);
+          background: linear-gradient(180deg, var(--card), var(--bg-2));
+          padding: 4px; box-shadow: 0 40px 100px -20px rgba(0, 0, 0, 0.6);
+        }
+        .hero-visual-inner {
+          border-radius: 16px; background: var(--bg-2); padding: 28px; text-align: left;
+        }
+        .fake-topbar { display: flex; gap: 6px; margin-bottom: 20px; }
+        .fake-dot { width: 10px; height: 10px; border-radius: 50%; background: rgba(255, 255, 255, 0.12); }
+        .fake-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 20px; }
+        .fake-stat { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 16px; }
+        .fake-stat .l { font-size: 12px; color: var(--muted); margin-bottom: 6px; }
+        .fake-stat .v { font-size: 20px; font-weight: 600; font-family: 'Sora', sans-serif; }
+        .fake-stat .v.g { color: var(--accent-2); }
+        .fake-stat .v.r { color: var(--accent-3); }
+        .fake-rows { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 8px; }
+        .fake-row { display: flex; justify-content: space-between; padding: 12px 14px; font-size: 13.5px; border-bottom: 1px solid var(--border); }
+        .fake-row:last-child { border-bottom: none; }
+        .fake-row .muted { color: var(--muted); }
+
+        .landing-section { padding: 140px 24px; position: relative; }
+        .section-inner { max-width: 1100px; margin: 0 auto; }
+        .section-label { color: var(--accent-2); font-size: 13.5px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 16px; }
+        .section-title { font-size: clamp(28px, 4vw, 42px); font-weight: 700; letter-spacing: -0.02em; max-width: 640px; line-height: 1.2; font-family: 'Sora', sans-serif; }
+        .section-sub { margin-top: 16px; color: var(--muted); font-size: 17px; max-width: 560px; line-height: 1.6; }
+
+        .fade-up { opacity: 0; transform: translateY(28px); transition: opacity 0.7s ease, transform 0.7s ease; }
+        .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+        .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 64px; }
+        .step-card {
+          background: var(--card); border: 1px solid var(--border); border-radius: 18px; padding: 32px;
+          position: relative; overflow: hidden;
+        }
+        .step-num {
+          font-family: 'Sora', sans-serif; font-size: 42px; font-weight: 700;
+          color: transparent; -webkit-text-stroke: 1px rgba(255, 255, 255, 0.15);
+          margin-bottom: 20px;
+        }
+        .step-card h3 { font-size: 18px; margin-bottom: 10px; font-family: 'Sora', sans-serif; }
+        .step-card p { color: var(--muted); font-size: 14.5px; line-height: 1.6; }
+
+        .features { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 64px; }
+        .feature-card {
+          background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 28px;
+          transition: transform 0.25s ease, border-color 0.25s ease;
+        }
+        .feature-card:hover { transform: translateY(-4px); border-color: rgba(124, 111, 255, 0.4); }
+        .feature-icon {
+          width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center;
+          background: rgba(124, 111, 255, 0.12); color: var(--accent); font-size: 18px; margin-bottom: 16px; font-weight: 700;
+        }
+        .feature-card h3 { font-size: 16px; margin-bottom: 8px; font-family: 'Sora', sans-serif; }
+        .feature-card p { color: var(--muted); font-size: 14px; line-height: 1.6; }
+
+        .cta-band {
+          background: linear-gradient(135deg, #1a1730, #0d1522);
+          border-radius: 28px; border: 1px solid var(--border);
+          padding: 72px 48px; text-align: center; position: relative; overflow: hidden;
+        }
+        .cta-band h2 { font-size: clamp(28px, 4vw, 40px); font-weight: 700; max-width: 600px; margin: 0 auto 16px; font-family: 'Sora', sans-serif; }
+        .cta-band p { color: var(--muted); max-width: 480px; margin: 0 auto 32px; }
+
+        .landing-footer {
+          border-top: 1px solid var(--border); padding: 48px 24px; text-align: center;
+          color: var(--muted); font-size: 13.5px;
+        }
+
+        @media (max-width: 860px) {
+          .nav-links { display: none; }
+          .landing-nav { padding: 16px 24px; }
+          .steps, .features { grid-template-columns: 1fr; }
+          .fake-stats { grid-template-columns: repeat(2, 1fr); }
+        }
+      `}</style>
+
+      {/* Navigation */}
+      <nav className="landing-nav">
+        <Link href="/" className="landing-logo">
+          <div className="logo-mark" />
+          <span>Distil</span>
+        </Link>
+        <div className="nav-links">
+          <a href="#how">How it works</a>
+          <a href="#features">Features</a>
+          <a href="#pricing">Pricing</a>
         </div>
-      </header>
-
-      {/* 2. Hero Section */}
-      <section className="relative pt-12 pb-20 sm:pt-20 sm:pb-28 px-4 sm:px-8 lg:px-12 bg-linear-to-b from-white to-slate-50 border-b border-slate-200/60 overflow-hidden">
-        <div className="max-w-4xl mx-auto text-center space-y-6">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-bold bg-emerald-50 text-emerald-800 border border-emerald-200/80 shadow-xs">
-            <Sparkles className="w-4 h-4 text-emerald-600" />
-            <span>FMCG Depot Pricing & Revenue Leakage Audit</span>
-          </div>
-
-          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black text-slate-900 tracking-tight leading-[1.1]">
-            Stop Revenue Leakage From Bad Pricing & Unearned Discounts
-          </h1>
-
-          <p className="text-base sm:text-lg text-slate-600 font-normal leading-relaxed max-w-2xl mx-auto">
-            Automated monthly sales register auditing for FMCG depot managers. Instantly detect below-floor prices, quantity-tier errors, and loss-making customer accounts in seconds.
-          </p>
-
-          <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-3">
-            {session ? (
-              <Link
-                href="/app"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl text-sm font-extrabold text-white bg-emerald-700 hover:bg-emerald-800 shadow-md transition-all active:scale-98"
-              >
-                <span>Open {session.depotName} Workspace</span>
-                <ArrowRight className="w-4 h-4" />
-              </Link>
-            ) : (
-              <>
-                <Link
-                  href="/signup"
-                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl text-sm font-extrabold text-white bg-slate-900 hover:bg-slate-800 shadow-md transition-all active:scale-98"
-                >
-                  <span>Start Auditing Free</span>
-                  <ArrowRight className="w-4 h-4" />
-                </Link>
-                <Link
-                  href="/login"
-                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl text-sm font-bold text-slate-700 bg-white hover:bg-slate-100 border border-slate-300 shadow-xs transition-all active:scale-98"
-                >
-                  <span>Log In to Account</span>
-                </Link>
-              </>
-            )}
-          </div>
-        </div>
-      </section>
-
-      {/* 3. Honest Stat Banner (No fake company logos!) */}
-      <section className="py-12 bg-white border-b border-slate-200/80 px-4 sm:px-8">
-        <div className="max-w-6xl mx-auto grid grid-cols-2 lg:grid-cols-4 gap-6 text-center">
-          <div className="p-4 space-y-1">
-            <div className="text-2xl sm:text-3xl font-black text-slate-900">₦180M+</div>
-            <div className="text-xs font-semibold text-slate-500">Monthly Sales Audited</div>
-          </div>
-          <div className="p-4 space-y-1">
-            <div className="text-2xl sm:text-3xl font-black text-rose-700">735+</div>
-            <div className="text-xs font-semibold text-slate-500">Line Items Verified Per Sheet</div>
-          </div>
-          <div className="p-4 space-y-1">
-            <div className="text-2xl sm:text-3xl font-black text-emerald-700">100%</div>
-            <div className="text-xs font-semibold text-slate-500">Isolated Depot Data Privacy</div>
-          </div>
-          <div className="p-4 space-y-1">
-            <div className="text-2xl sm:text-3xl font-black text-slate-900">PDF Report</div>
-            <div className="text-xs font-semibold text-slate-500">Publication-Ready Exports</div>
-          </div>
-        </div>
-      </section>
-
-      {/* 4. How It Works Section */}
-      <section id="how-it-works" className="py-20 px-4 sm:px-8 lg:px-12 bg-slate-50 border-b border-slate-200/80">
-        <div className="max-w-5xl mx-auto space-y-12">
-          <div className="text-center space-y-3">
-            <span className="text-xs font-extrabold uppercase tracking-wider text-emerald-700">
-              Simple 3-Step Process
-            </span>
-            <h2 className="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
-              How the Depot Intelligence Engine Works
-            </h2>
-            <p className="text-xs sm:text-sm text-slate-500 max-w-xl mx-auto">
-              From raw Excel sales registers to verified pricing leakage numbers in under 10 seconds.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
-            {/* Step 1 */}
-            <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs space-y-4">
-              <div className="w-10 h-10 rounded-xl bg-slate-900 text-white font-extrabold flex items-center justify-center text-base">
-                1
-              </div>
-              <h3 className="text-base font-extrabold text-slate-900">Upload Sales Register</h3>
-              <p className="text-xs text-slate-500 leading-relaxed">
-                Upload your raw monthly sales register (.xlsx) containing daily sales receipts and distributor price lists.
-              </p>
-            </div>
-
-            {/* Step 2 */}
-            <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs space-y-4">
-              <div className="w-10 h-10 rounded-xl bg-emerald-700 text-white font-extrabold flex items-center justify-center text-base">
-                2
-              </div>
-              <h3 className="text-base font-extrabold text-slate-900">Automated Audit Engine</h3>
-              <p className="text-xs text-slate-500 leading-relaxed">
-                The engine matches SKUs, checks floor prices, validates volume discount tiers, and reconciles invoice totals.
-              </p>
-            </div>
-
-            {/* Step 3 */}
-            <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs space-y-4">
-              <div className="w-10 h-10 rounded-xl bg-slate-900 text-white font-extrabold flex items-center justify-center text-base">
-                3
-              </div>
-              <h3 className="text-base font-extrabold text-slate-900">Dashboard & PDF Report</h3>
-              <p className="text-xs text-slate-500 leading-relaxed">
-                Get immediate visual findings across pricing, customer accounts, and products, or download a clean executive PDF report.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 5. Features Grid */}
-      <section id="features" className="py-20 px-4 sm:px-8 lg:px-12 bg-white border-b border-slate-200/80">
-        <div className="max-w-6xl mx-auto space-y-12">
-          <div className="text-center space-y-3">
-            <span className="text-xs font-extrabold uppercase tracking-wider text-emerald-700">
-              Complete Feature Set
-            </span>
-            <h2 className="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
-              Engineered for Depot Sales Precision
-            </h2>
-            <p className="text-xs sm:text-sm text-slate-500 max-w-xl mx-auto">
-              Every audit capability built directly into the engine payload — zero guesswork.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {/* Feature 1 */}
-            <div className="p-6 bg-slate-50 rounded-2xl border border-slate-200 space-y-3 hover:border-slate-300 transition-colors">
-              <div className="p-2.5 bg-rose-100 text-rose-800 rounded-xl w-fit">
-                <ShieldAlert className="w-5 h-5" />
-              </div>
-              <h3 className="text-sm font-extrabold text-slate-900">Below-Floor Pricing Detection</h3>
-              <p className="text-xs text-slate-500 leading-relaxed">
-                Flags every invoice line item charged below distributor floor prices and computes the exact recoverable revenue opportunity.
-              </p>
-            </div>
-
-            {/* Feature 2 */}
-            <div className="p-6 bg-slate-50 rounded-2xl border border-slate-200 space-y-3 hover:border-slate-300 transition-colors">
-              <div className="p-2.5 bg-emerald-100 text-emerald-800 rounded-xl w-fit">
-                <BarChart3 className="w-5 h-5" />
-              </div>
-              <h3 className="text-sm font-extrabold text-slate-900">Volume-Tier Pricing Audit</h3>
-              <p className="text-xs text-slate-500 leading-relaxed">
-                Audits every line item against volume discount tiers (Tier 1 vs Tier 2) to detect unearned price breaks or underpricing.
-              </p>
-            </div>
-
-            {/* Feature 3 */}
-            <div className="p-6 bg-slate-50 rounded-2xl border border-slate-200 space-y-3 hover:border-slate-300 transition-colors">
-              <div className="p-2.5 bg-amber-100 text-amber-800 rounded-xl w-fit">
-                <Users className="w-5 h-5" />
-              </div>
-              <h3 className="text-sm font-extrabold text-slate-900">Customer Margin & Loss Accounts</h3>
-              <p className="text-xs text-slate-500 leading-relaxed">
-                Ranks all customer accounts by revenue and gross margin %, automatically isolating negative-margin accounts draining depot profits.
-              </p>
-            </div>
-
-            {/* Feature 4 */}
-            <div className="p-6 bg-slate-50 rounded-2xl border border-slate-200 space-y-3 hover:border-slate-300 transition-colors">
-              <div className="p-2.5 bg-blue-100 text-blue-800 rounded-xl w-fit">
-                <Package className="w-5 h-5" />
-              </div>
-              <h3 className="text-sm font-extrabold text-slate-900">Product Concentration Risk</h3>
-              <p className="text-xs text-slate-500 leading-relaxed">
-                Ranks all product SKUs and flags concentration risks where a single product generates ≥20% of total depot revenue.
-              </p>
-            </div>
-
-            {/* Feature 5 */}
-            <div className="p-6 bg-slate-50 rounded-2xl border border-slate-200 space-y-3 hover:border-slate-300 transition-colors">
-              <div className="p-2.5 bg-purple-100 text-purple-800 rounded-xl w-fit">
-                <FileSpreadsheet className="w-5 h-5" />
-              </div>
-              <h3 className="text-sm font-extrabold text-slate-900">Data Integrity & Reconciliation</h3>
-              <p className="text-xs text-slate-500 leading-relaxed">
-                Audits missing daily tabs, header anomalies, and variances between summary invoice totals and computed line items.
-              </p>
-            </div>
-
-            {/* Feature 6 */}
-            <div className="p-6 bg-slate-50 rounded-2xl border border-slate-200 space-y-3 hover:border-slate-300 transition-colors">
-              <div className="p-2.5 bg-slate-200 text-slate-800 rounded-xl w-fit">
-                <FileText className="w-5 h-5" />
-              </div>
-              <h3 className="text-sm font-extrabold text-slate-900">Publication PDF Reports</h3>
-              <p className="text-xs text-slate-500 leading-relaxed">
-                Generates un-capped, publication-ready PDF reports directly from stored audit payloads for management and board presentation.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 6. Pricing Section ("Coming Soon / Contact Us") */}
-      <section id="pricing" className="py-20 px-4 sm:px-8 lg:px-12 bg-slate-50 border-b border-slate-200/80">
-        <div className="max-w-4xl mx-auto space-y-8 text-center">
-          <div className="space-y-3">
-            <span className="text-xs font-extrabold uppercase tracking-wider text-emerald-700">
-              Depot Onboarding
-            </span>
-            <h2 className="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
-              Flexible Setup for Single & Multi-Depot Operations
-            </h2>
-            <p className="text-xs sm:text-sm text-slate-500 max-w-lg mx-auto">
-              We are onboarding FMCG beverage depot operations with tailored client price profiles and data isolation.
-            </p>
-          </div>
-
-          <div className="bg-white p-8 sm:p-10 rounded-2xl border border-slate-200 shadow-md max-w-xl mx-auto space-y-6 text-left">
-            <div className="flex items-center justify-between border-b border-slate-100 pb-4">
-              <div>
-                <h3 className="text-lg font-extrabold text-slate-900">Depot Intelligence Account</h3>
-                <p className="text-xs text-slate-500">Dedicated manager portal & audit storage</p>
-              </div>
-              <span className="px-3 py-1 bg-emerald-50 text-emerald-800 border border-emerald-200 rounded-full text-xs font-bold">
-                Early Access
-              </span>
-            </div>
-
-            <ul className="space-y-3 text-xs text-slate-700 font-medium">
-              <li className="flex items-center gap-2.5">
-                <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                <span>Unlimited monthly sales register uploads</span>
-              </li>
-              <li className="flex items-center gap-2.5">
-                <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                <span>Automated floor pricing & volume tier verification</span>
-              </li>
-              <li className="flex items-center gap-2.5">
-                <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                <span>Customer margin & loss account breakdown</span>
-              </li>
-              <li className="flex items-center gap-2.5">
-                <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                <span>Un-capped PDF report exports</span>
-              </li>
-              <li className="flex items-center gap-2.5">
-                <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                <span>Isolated depot data storage</span>
-              </li>
-            </ul>
-
-            <div className="pt-2">
-              <Link
-                href="/signup"
-                className="w-full py-3 bg-slate-900 hover:bg-slate-800 text-white rounded-xl text-xs font-bold flex items-center justify-center gap-2 shadow-sm transition-all active:scale-98"
-              >
-                <span>Create Depot Account</span>
-                <ArrowRight className="w-4 h-4" />
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 7. FAQ Section */}
-      <section id="faq" className="py-20 px-4 sm:px-8 lg:px-12 bg-white border-b border-slate-200/80">
-        <div className="max-w-3xl mx-auto space-y-10">
-          <div className="text-center space-y-3">
-            <span className="text-xs font-extrabold uppercase tracking-wider text-emerald-700">
-              Frequently Asked Questions
-            </span>
-            <h2 className="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
-              Got Questions? We Have Answers.
-            </h2>
-          </div>
-
-          <div className="space-y-4">
-            {faqs.map((faq, idx) => {
-              const isOpen = openFaq === idx;
-              return (
-                <div
-                  key={idx}
-                  className="bg-slate-50 border border-slate-200 rounded-2xl overflow-hidden transition-all"
-                >
-                  <button
-                    onClick={() => setOpenFaq(isOpen ? null : idx)}
-                    className="w-full p-5 text-left flex items-center justify-between gap-4 font-extrabold text-xs sm:text-sm text-slate-900"
-                  >
-                    <span>{faq.q}</span>
-                    <ChevronDown
-                      className={`w-4 h-4 text-slate-400 shrink-0 transition-transform ${
-                        isOpen ? "rotate-180 text-slate-900" : ""
-                      }`}
-                    />
-                  </button>
-                  {isOpen && (
-                    <div className="px-5 pb-5 pt-0 text-xs text-slate-600 leading-relaxed border-t border-slate-200/60 mt-1">
-                      {faq.a}
-                    </div>
-                  )}
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* 8. Footer + Closing CTA */}
-      <footer className="bg-slate-900 text-white pt-16 pb-12 px-4 sm:px-8 lg:px-12">
-        <div className="max-w-6xl mx-auto space-y-12">
-          <div className="p-8 sm:p-12 bg-slate-800/80 rounded-3xl border border-slate-700/60 flex flex-col md:flex-row items-center justify-between gap-6">
-            <div className="space-y-2 text-center md:text-left">
-              <h3 className="text-xl sm:text-2xl font-black">Ready to Audit Your Depot Sales?</h3>
-              <p className="text-xs text-slate-400">
-                Set up your account in seconds and stop pricing leakage today.
-              </p>
-            </div>
-            <Link
-              href="/signup"
-              className="px-6 py-3.5 bg-emerald-700 hover:bg-emerald-600 text-white text-xs font-extrabold rounded-xl shadow-md transition-all shrink-0 active:scale-95 flex items-center gap-2"
-            >
-              <span>Get Started Now</span>
-              <ArrowRight className="w-4 h-4" />
+        <div className="nav-cta">
+          {session ? (
+            <Link href="/app" className="btn btn-primary">
+              Go to Dashboard
             </Link>
-          </div>
+          ) : (
+            <>
+              <Link href="/login" className="btn btn-ghost">
+                Log in
+              </Link>
+              <Link href="/signup" className="btn btn-primary">
+                Sign up
+              </Link>
+            </>
+          )}
+        </div>
+      </nav>
 
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 border-t border-slate-800 text-xs text-slate-400">
-            <div className="flex items-center gap-2">
-              <Building2 className="w-4 h-4 text-emerald-500" />
-              <span className="font-bold text-slate-300">Kane-Jones Sales Intelligence Engine</span>
+      {/* Hero */}
+      <section className="hero">
+        <div className="grid-overlay" />
+        <div className="orb orb-1" data-speed="0.15" />
+        <div className="orb orb-2" data-speed="0.25" />
+        <div className="orb orb-3" data-speed="0.35" />
+
+        <div className="eyebrow">
+          <span className="dot" />
+          Built for depot and distribution teams
+        </div>
+        <h1>
+          Messy sales data in.
+          <br />
+          <span className="grad">Clear decisions out.</span>
+        </h1>
+        <p>
+          Distil turns your raw monthly sales register into an audited, decision-ready report — pricing leaks, margin risk, and reconciliation, without you scanning a single spreadsheet.
+        </p>
+        <div className="hero-ctas">
+          {session ? (
+            <Link href="/app" className="btn btn-primary btn-lg">
+              Go to Dashboard →
+            </Link>
+          ) : (
+            <Link href="/signup" className="btn btn-primary btn-lg">
+              Start free →
+            </Link>
+          )}
+          <a href="#how" className="btn btn-ghost btn-lg" style={{ border: "1px solid var(--border)" }}>
+            See how it works
+          </a>
+        </div>
+
+        {/* Hero Visual Preview */}
+        <div className="hero-visual fade-up" id="hero-visual">
+          <div className="hero-visual-inner">
+            <div className="fake-topbar">
+              <div className="fake-dot" />
+              <div className="fake-dot" />
+              <div className="fake-dot" />
             </div>
-            <div>© {new Date().getFullYear()} All rights reserved.</div>
+            <div className="fake-stats">
+              <div className="fake-stat">
+                <div className="l">Total revenue</div>
+                <div className="v">₦187.7M</div>
+              </div>
+              <div className="fake-stat">
+                <div className="l">Gross profit</div>
+                <div className="v g">₦3.7M</div>
+              </div>
+              <div className="fake-stat">
+                <div className="l">Pricing leakage</div>
+                <div className="v r">₦11.1M</div>
+              </div>
+              <div className="fake-stat">
+                <div className="l">Invoices audited</div>
+                <div className="v">300</div>
+              </div>
+            </div>
+            <div className="fake-rows">
+              <div className="fake-row">
+                <span>Maltina Pet 33cl</span>
+                <span className="muted">16.4% below floor</span>
+              </div>
+              <div className="fake-row">
+                <span>Goldberg 60cl</span>
+                <span className="muted">2.3% below floor</span>
+              </div>
+              <div className="fake-row">
+                <span>Fino Stores</span>
+                <span className="muted">loss-making account</span>
+              </div>
+            </div>
           </div>
         </div>
+      </section>
+
+      {/* How it works */}
+      <section id="how" className="landing-section">
+        <div className="section-inner">
+          <div className="section-label fade-up">How it works</div>
+          <h2 className="section-title fade-up">From raw file to finished audit, in minutes.</h2>
+          <p className="section-sub fade-up">
+            No templates to learn, no manual reconciliation. Upload what you already have.
+          </p>
+          <div className="steps">
+            <div className="step-card fade-up">
+              <div className="step-num">01</div>
+              <h3>Upload your sales register</h3>
+              <p>Drop in the same messy monthly Excel file you already export — no reformatting needed.</p>
+            </div>
+            <div className="step-card fade-up">
+              <div className="step-num">02</div>
+              <h3>Distil audits it</h3>
+              <p>Pricing checked against your floor rates, invoices reconciled, anomalies flagged — automatically.</p>
+            </div>
+            <div className="step-card fade-up">
+              <div className="step-num">03</div>
+              <h3>Get a clean report</h3>
+              <p>A live dashboard and a downloadable report, ready to act on or share upward.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Features */}
+      <section id="features" className="landing-section">
+        <div className="section-inner">
+          <div className="section-label fade-up">What you get</div>
+          <h2 className="section-title fade-up">Built around real distribution problems.</h2>
+          <div className="features">
+            <div className="feature-card fade-up">
+              <div className="feature-icon">₦</div>
+              <h3>Below-floor pricing</h3>
+              <p>Catch every product sold under its official price before it becomes a habit.</p>
+            </div>
+            <div className="feature-card fade-up">
+              <div className="feature-icon">%</div>
+              <h3>Volume-tier audit</h3>
+              <p>Confirms every order got the pricing tier its order size actually earned.</p>
+            </div>
+            <div className="feature-card fade-up">
+              <div className="feature-icon">↕</div>
+              <h3>Reconciliation checks</h3>
+              <p>Every invoice's total is checked against its own line items — the same check that catches real bugs.</p>
+            </div>
+            <div className="feature-card fade-up">
+              <div className="feature-icon">⚠</div>
+              <h3>Loss-making accounts</h3>
+              <p>Customers being sold below cost, surfaced immediately, not buried in a sorted list.</p>
+            </div>
+            <div className="feature-card fade-up">
+              <div className="feature-icon">↗</div>
+              <h3>Period comparisons</h3>
+              <p>Day vs day, week vs week, month vs month — see what's actually moving.</p>
+            </div>
+            <div className="feature-card fade-up">
+              <div className="feature-icon">⬇</div>
+              <h3>Downloadable reports</h3>
+              <p>Every audit exports to a clean report you can forward, no dashboard login required.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Pricing / CTA Band */}
+      <section id="pricing" className="landing-section">
+        <div className="section-inner">
+          <div className="cta-band fade-up">
+            <h2>Stop losing hours to spreadsheets.</h2>
+            <p>Upload your first sales register and see your audit in minutes.</p>
+            {session ? (
+              <Link href="/app" className="btn btn-primary btn-lg">
+                Go to Dashboard →
+              </Link>
+            ) : (
+              <Link href="/signup" className="btn btn-primary btn-lg">
+                Start free →
+              </Link>
+            )}
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="landing-footer">
+        © 2026 Distil. Built for depot and distribution managers.
       </footer>
     </div>
   );
