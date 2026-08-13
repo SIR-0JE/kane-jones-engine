@@ -53,9 +53,10 @@ export function Header({
             <button
               onClick={onBackToHome}
               aria-label="Back to Audits Hub"
-              className="p-1.5 -ml-1 text-slate-500 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors md:hidden shrink-0"
+              className="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-semibold text-slate-700 hover:text-[#7c6fff] hover:bg-slate-100/90 rounded-xl transition-all border border-slate-200/80 shrink-0 font-sora mr-1 shadow-2xs group"
             >
-              <ArrowLeft className="w-4 h-4" />
+              <ArrowLeft className="w-3.5 h-3.5 text-[#7c6fff] group-hover:-translate-x-0.5 transition-transform" />
+              <span>Back to Hub</span>
             </button>
           )}
 

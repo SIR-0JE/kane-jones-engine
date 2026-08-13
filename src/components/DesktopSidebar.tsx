@@ -140,12 +140,24 @@ export function DesktopSidebar({
       </div>
 
       {/* Snapshots Selector & Nav Section */}
-      <div className="flex-1 overflow-y-auto px-4 py-5 space-y-6">
+      <div className="flex-1 overflow-y-auto px-4 py-5 space-y-5">
+        {/* Back to Audits Hub Action */}
+        <button
+          onClick={onBackToHome}
+          className="w-full flex items-center justify-between px-3 py-2 bg-slate-50 hover:bg-slate-100/90 border border-slate-200 text-slate-700 hover:text-[#7c6fff] rounded-xl text-xs font-bold transition-all shadow-2xs group"
+        >
+          <div className="flex items-center gap-2">
+            <ArrowLeft className="w-3.5 h-3.5 text-[#7c6fff] group-hover:-translate-x-0.5 transition-transform" />
+            <span>Back to Audits Hub</span>
+          </div>
+          <span className="text-[10px] text-slate-400 font-normal">Hub</span>
+        </button>
+
         {/* Period Selector Dropdown */}
         {allSnapshots.length > 0 && onSelectPeriod && (
           <div className="space-y-1.5">
             <label className="text-[10px] font-bold uppercase tracking-wider text-slate-400 font-sora block px-1">
-              Select Audit Period
+              Switch Audit Month
             </label>
             <select
               value={activePeriodLabel}
