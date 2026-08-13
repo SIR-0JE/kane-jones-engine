@@ -42,35 +42,33 @@ export function HomeScreen({
   const currency = latestSnapshot?.currency_symbol || "₦";
 
   return (
-    <div className="w-full px-6 sm:px-8 lg:px-12 xl:px-16 py-8 space-y-8 pb-24 md:pb-12">
-      {/* 1. Hub Header */}
-      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 border-b border-slate-200/80 pb-6">
+    <div className="w-full px-4 sm:px-8 lg:px-12 xl:px-16 py-6 space-y-8 pb-24 md:pb-12 max-w-7xl mx-auto">
+      {/* 1. Hub Sub-Header Banner */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-6 rounded-2xl border border-slate-200 shadow-xs">
         <div>
-          <div className="flex items-center gap-2 mb-1.5">
-            <div className="p-1.5 bg-emerald-50 border border-emerald-100 rounded-lg text-emerald-700">
-              <Building2 className="w-4 h-4" />
+          <div className="flex items-center gap-2 mb-1">
+            <div className="p-1 bg-[#7c6fff]/10 rounded-md text-[#7c6fff]">
+              <Building2 className="w-3.5 h-3.5" />
             </div>
-            <span className="text-xs font-bold uppercase tracking-wider text-slate-500">
+            <span className="text-[11px] font-bold uppercase tracking-wider text-slate-500 font-sora">
               Depot Sales Intelligence Engine
             </span>
           </div>
-          <h1 className="text-2xl md:text-3xl font-extrabold text-slate-900 tracking-tight font-sora">
-            {displayName}
-          </h1>
-          <p className="text-xs md:text-sm text-slate-500 mt-1 font-inter">
+          <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight font-sora">
+            {displayName} — Monthly Audits
+          </h2>
+          <p className="text-xs text-slate-500 mt-1 font-inter">
             Historical sales audits, pricing compliance, margin intelligence & leak detection.
           </p>
         </div>
 
-        <div className="flex items-center gap-3">
-          <button
-            onClick={onUploadClick}
-            className="inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-gradient-to-r from-[#7c6fff] to-[#5a4dde] hover:shadow-[0_4px_20px_rgba(124,111,255,0.4)] text-white text-xs md:text-sm font-semibold rounded-xl transition-all shadow-sm shrink-0 font-sora"
-          >
-            <Plus className="w-4 h-4" />
-            <span>Upload New Audit</span>
-          </button>
-        </div>
+        <button
+          onClick={onUploadClick}
+          className="inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-gradient-to-r from-[#7c6fff] to-[#5a4dde] hover:shadow-[0_4px_16px_rgba(124,111,255,0.35)] text-white text-xs sm:text-sm font-semibold rounded-xl transition-all shadow-xs shrink-0 font-sora"
+        >
+          <Plus className="w-4 h-4" />
+          <span>Upload New Audit</span>
+        </button>
       </div>
 
       {/* 2. Top-Level Summary Metric Strip */}

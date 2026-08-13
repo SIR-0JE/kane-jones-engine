@@ -1,15 +1,16 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
-import { UploadCloud, Calendar, Building2, ArrowLeft, LogOut, Settings, ChevronDown } from "lucide-react";
+import { UploadCloud, Calendar, Building2, ArrowLeft, LogOut, Settings, ChevronDown, Sparkles } from "lucide-react";
 import { UserSession, getInitials } from "@/lib/auth";
 
 interface HeaderProps {
   displayName: string;
-  periodLabel: string;
+  periodLabel?: string;
   auditTitle?: string;
   dateRange?: { start: string | null; end: string | null };
   userSession?: UserSession | null;
+  isHomeHub?: boolean;
   onBackToHome?: () => void;
   onUploadClick: () => void;
   onOpenSettings?: () => void;
@@ -22,6 +23,7 @@ export function Header({
   auditTitle,
   dateRange,
   userSession,
+  isHomeHub = false,
   onBackToHome,
   onUploadClick,
   onOpenSettings,
@@ -45,8 +47,9 @@ export function Header({
   return (
     <header className="sticky top-0 z-30 bg-white/95 backdrop-blur-md border-b border-slate-200/90 px-4 sm:px-6 lg:px-8 py-3 w-full">
       <div className="flex items-center justify-between gap-2">
+        {/* Left Section: Brand / Depot Title & Navigation Context */}
         <div className="flex items-center gap-2.5 min-w-0">
-          {onBackToHome && (
+          {onBackToHome && !isHomeHub && (
             <button
               onClick={onBackToHome}
               aria-label="Back to Audits Hub"
@@ -56,23 +59,42 @@ export function Header({
             </button>
           )}
 
-          <div className="min-w-0">
-            <div className="flex items-center gap-1.5 text-xs text-slate-500 font-medium truncate">
-              <Building2 className="w-3.5 h-3.5 text-[#7c6fff] shrink-0" />
-              <span className="truncate font-semibold text-slate-700">{displayName || "Kane-Jones Depot"}</span>
+          {isHomeHub ? (
+            <div className="flex items-center gap-2.5 min-w-0">
+              <div className="w-7 h-7 rounded-xl bg-gradient-to-br from-[#7c6fff] to-[#37e0c1] flex items-center justify-center text-white shadow-xs shrink-0">
+                <Sparkles className="w-4 h-4 text-white" />
+              </div>
+              <div className="min-w-0">
+                <div className="flex items-center gap-1.5 text-[11px] font-bold text-[#7c6fff] tracking-wider uppercase font-sora truncate">
+                  Distil Intelligence Hub
+                </div>
+                <h1 className="text-sm md:text-base font-extrabold text-slate-900 tracking-tight font-sora truncate leading-none mt-0.5">
+                  {displayName || "Kane-Jones Depot"}
+                </h1>
+              </div>
             </div>
-            <div className="flex items-center gap-2 mt-0.5 min-w-0">
-              <h1 className="text-sm md:text-base font-bold text-slate-900 tracking-tight font-sora truncate">
-                {auditTitle || `${periodLabel} Audit`}
-              </h1>
-              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] md:text-[11px] font-bold bg-emerald-50 text-emerald-800 border border-emerald-200/60 shrink-0">
-                <Calendar className="w-3 h-3 text-emerald-600" />
-                {periodLabel || "2026-07"}
-              </span>
+          ) : (
+            <div className="min-w-0">
+              <div className="flex items-center gap-1.5 text-xs text-slate-500 font-medium truncate">
+                <Building2 className="w-3.5 h-3.5 text-[#7c6fff] shrink-0" />
+                <span className="truncate font-semibold text-slate-700">{displayName || "Kane-Jones Depot"}</span>
+              </div>
+              <div className="flex items-center gap-2 mt-0.5 min-w-0">
+                <h1 className="text-sm md:text-base font-bold text-slate-900 tracking-tight font-sora truncate">
+                  {auditTitle || `${periodLabel} Audit`}
+                </h1>
+                {periodLabel && (
+                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] md:text-[11px] font-bold bg-emerald-50 text-emerald-800 border border-emerald-200/60 shrink-0">
+                    <Calendar className="w-3 h-3 text-emerald-600" />
+                    {periodLabel}
+                  </span>
+                )}
+              </div>
             </div>
-          </div>
+          )}
         </div>
 
+        {/* Right Section: Primary Action CTA & Persistent User Avatar Dropdown */}
         <div className="flex items-center gap-3">
           {/* Primary Action Button: Brand Purple Gradient */}
           <button
@@ -87,7 +109,8 @@ export function Header({
           <div className="relative" ref={dropdownRef}>
             <button
               onClick={() => setDropdownOpen(!dropdownOpen)}
-              className="flex items-center gap-1.5 p-1 rounded-xl hover:bg-slate-100 transition-colors"
+              className="flex items-center gap-1.5 p-1 rounded-xl hover:bg-slate-100 transition-colors focus:outline-none"
+              title="Account Menu"
             >
               {userSession?.avatarUrl ? (
                 <img

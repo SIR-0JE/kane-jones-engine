@@ -181,7 +181,18 @@ export default function AppDashboard() {
     <main className="w-full min-h-screen bg-slate-50/50 flex flex-col justify-between">
       {/* VIEW 1: HOME PAGE / AUDITS HUB */}
       {viewMode === "home" ? (
-        <div className="w-full flex-1">
+        <div className="w-full flex-1 flex flex-col">
+          <Header
+            displayName={displayName}
+            isHomeHub={true}
+            userSession={session}
+            onUploadClick={() => setIsUploadOpen(true)}
+            onOpenSettings={() => {
+              setViewMode("workspace");
+              setActiveTab("settings");
+            }}
+            onLogout={handleLogout}
+          />
           <HomeScreen
             displayName={displayName}
             snapshots={snapshots}
