@@ -46,7 +46,7 @@ DEFAULT_VOLUME_TIERS = [
 
 # Rows/products to ignore when computing product-level revenue & audits
 # (these are container/deposit lines, not sellable product).
-DEFAULT_EMPTIES_KEYWORDS = ["EMPTIES", "EMPTY"]
+DEFAULT_EMPTIES_KEYWORDS = ["EMPTIES", "EMPTY", "CRATE", "CRATES"]
 
 
 @dataclass
@@ -56,6 +56,9 @@ class ClientProfile:
     currency_symbol: str = "\u20a6"  # Naira
     raw_data_sheets: list = field(default_factory=lambda: [])  # e.g. ["tmpA1A6", "tmp32C7"]
     price_list_sheet: str = "Price list"
+    inventory_sheet: str = "tmp3F5D"
+    sales_returns_sheet: str = "tmpCEF3"
+    expenses_sheet: str = "tmp6F17"
     daily_sheet_pattern: Optional[str] = None  # e.g. "*Sales Report*" (informational; not required by engine)
     column_aliases: dict = field(default_factory=lambda: DEFAULT_COLUMN_ALIASES.copy())
     volume_tiers: list = field(default_factory=lambda: [t for t in DEFAULT_VOLUME_TIERS])

@@ -334,3 +334,254 @@ def parse_workbook(xlsx_path: str, profile: ClientProfile):
         line_items_df["cost"] = pd.to_numeric(line_items_df["cost"], errors="coerce").fillna(0.0)
 
     return invoices_df, line_items_df, anomalies_df
+
+
+def parse_inventory_sheet(xlsx_or_wb, profile: ClientProfile = None):
+    """
+    Parses the hierarchical inventory/cost sheet (Kane-Jones calls it tmp3F5D)
+    into a clean DataFrame of leaf SKU items and extracts anomalies.
+
+    Distinguishes category rows from leaf SKU rows:
+    - Leaf SKUs have a non-null, non-empty UOM (Units of Measure: 'cans', 'crt', 'pets', 'W&S', 'Empty').
+    - Category header rows have UOM and Rate empty.
+    - Handles 'default' categories near the bottom (group-level and package-level parent rows)
+      by selecting only actual leaf SKU rows with UOM.
+    - Skips summary rows like 'TOTAL VALUE'.
+    """
+    if profile is None:
+        from engine.config import kane_jones_profile
+        profile = kane_jones_profile()
+
+    if isinstance(xlsx_or_wb, str):
+        wb = openpyxl.load_workbook(xlsx_or_wb, data_only=True)
+    else:
+        wb = xlsx_or_wb
+
+    sheet_name = None
+    target_name = getattr(profile, "inventory_sheet", "tmp3F5D")
+    if target_name in wb.sheetnames:
+        sheet_name = target_name
+    else:
+        for name in wb.sheetnames:
+            if "3f5d" in name.lower() or "inventory" in name.lower():
+                sheet_name = name
+                break
+
+    if not sheet_name:
+        return pd.DataFrame(), [{
+            "row": None,
+            "source_tab": "inventory",
+            "reason": f"Inventory sheet '{target_name}' not found in workbook. Available: {wb.sheetnames}"
+        }]
+
+    ws = wb[sheet_name]
+    rows = []
+    anomalies = []
+
+    # Locate header row containing 'ITEM' and ('UOM' or 'RATE PER UNIT' or 'NO. OF UNITS')
+    header_row_idx = None
+    for r in range(1, min(15, ws.max_row + 1)):
+        row_vals = [str(ws.cell(r, c).value or "").strip().upper() for c in range(1, ws.max_column + 1)]
+        if "ITEM" in row_vals and ("UOM" in row_vals or "RATE PER UNIT" in row_vals or "NO. OF UNITS" in row_vals):
+            header_row_idx = r
+            break
+
+    start_r = (header_row_idx + 1) if header_row_idx else 5
+
+    for r in range(start_r, ws.max_row + 1):
+        item_val = ws.cell(r, 1).value
+        units_val = ws.cell(r, 2).value
+        uom_val = ws.cell(r, 3).value
+        rate_val = ws.cell(r, 4).value
+        value_val = ws.cell(r, 5).value
+        dpp_val = ws.cell(r, 6).value
+
+        if item_val is None:
+            continue
+
+        item_str = str(item_val).strip()
+        if item_str.upper() in ["TOTAL VALUE", "TOTAL", "TOTALS"]:
+            continue
+
+        # Leaf SKU has non-null, non-empty UOM
+        if uom_val is not None and str(uom_val).strip() != "":
+            uom_str = str(uom_val).strip()
+            units = _parse_float(units_val)
+            rate = _parse_float(rate_val)
+            val = _parse_float(value_val)
+            dpp = _parse_float(dpp_val)
+
+            # Anomaly checks:
+            if rate <= 0:
+                anomalies.append({
+                    "row": r,
+                    "source_tab": sheet_name,
+                    "type": "negative_or_zero_cost",
+                    "item": item_str,
+                    "rate": rate,
+                    "reason": f"Negative or zero inventory cost in {sheet_name}: rate={rate}"
+                })
+
+            calc_val = units * rate
+            if abs(val - calc_val) > max(100.0, abs(val) * 0.02) and units > 0 and rate > 0:
+                anomalies.append({
+                    "row": r,
+                    "source_tab": sheet_name,
+                    "type": "value_mismatch",
+                    "item": item_str,
+                    "units": units,
+                    "rate": rate,
+                    "expected_value": calc_val,
+                    "actual_value": val,
+                    "diff": val - calc_val,
+                    "reason": f"Inventory value mismatch: reported={val}, calculated (units*rate)={calc_val}"
+                })
+
+            rows.append({
+                "item_name": item_str,
+                "units": units,
+                "uom": uom_str,
+                "rate_per_unit": rate,
+                "value": val,
+                "default_purchase_price": dpp,
+                "source_row": r,
+                "source_tab": sheet_name,
+            })
+
+    inv_df = pd.DataFrame(rows)
+    return inv_df, anomalies
+
+
+def parse_sales_returns_sheet(xlsx_or_wb, profile: ClientProfile = None):
+    """
+    Parses the sales returns / credit notes sheet (Kane-Jones calls it tmpCEF3)
+    into a clean DataFrame of return line items with empties classification.
+
+    Block structure state machine:
+    - Header: VOUCHER DATE, DEBIT ('Sales Return'), CREDIT (Customer), VCH TYPE ('Credit Note'), VCHNO, CREDIT AMOUNT
+    - Item sub-header: ITEM/SERVICE, QUANTITY, RATE, DESCRIPTION
+    - Items: Item name, quantity text ('15 cans', '3 Empty'), unit rate
+    """
+    if profile is None:
+        from engine.config import kane_jones_profile
+        profile = kane_jones_profile()
+
+    if isinstance(xlsx_or_wb, str):
+        wb = openpyxl.load_workbook(xlsx_or_wb, data_only=True)
+    else:
+        wb = xlsx_or_wb
+
+    sheet_name = None
+    target_name = getattr(profile, "sales_returns_sheet", "tmpCEF3")
+    if target_name in wb.sheetnames:
+        sheet_name = target_name
+    else:
+        for name in wb.sheetnames:
+            if "cef3" in name.lower() or "return" in name.lower() or "credit" in name.lower():
+                sheet_name = name
+                break
+
+    if not sheet_name:
+        return pd.DataFrame(), [{
+            "row": None,
+            "source_tab": "sales_returns",
+            "reason": f"Sales returns sheet '{target_name}' not found in workbook. Available: {wb.sheetnames}"
+        }]
+
+    ws = wb[sheet_name]
+    returns = []
+    anomalies = []
+
+    current_voucher = None
+    state = "SEEKING_HEADER"
+
+    for r in range(1, ws.max_row + 1):
+        c1 = ws.cell(r, 1).value
+        c2 = ws.cell(r, 2).value
+        c3 = ws.cell(r, 3).value
+        c4 = ws.cell(r, 4).value
+        c5 = ws.cell(r, 5).value
+        c6 = ws.cell(r, 6).value
+        c7 = ws.cell(r, 7).value
+
+        # Check for footer row
+        if c5 and "TOTAL" in str(c5).upper():
+            break
+
+        # Check for Credit Note header row
+        # Col 2: 'Sales Return', Col 3: Customer, Col 4: 'Credit Note', Col 5: Voucher No, Col 7: Amount
+        if c2 and str(c2).strip().lower() == "sales return" and c4 and "credit note" in str(c4).strip().lower():
+            vch_date = c1
+            if isinstance(vch_date, datetime.datetime):
+                date_str = vch_date.strftime("%Y-%m-%d")
+            elif isinstance(vch_date, str):
+                date_str = vch_date[:10]
+            else:
+                date_str = str(vch_date)
+
+            customer = str(c3).strip() if c3 else "Unknown"
+            vch_no = str(c5).strip() if c5 else ""
+            total_amount = _parse_float(c7)
+
+            current_voucher = {
+                "date": date_str,
+                "customer": customer,
+                "voucher_no": vch_no,
+                "total_amount": total_amount,
+                "items": []
+            }
+            state = "SEEKING_ITEMS"
+            continue
+
+        if state in ["SEEKING_ITEMS", "READING_ITEMS"]:
+            if c2 and str(c2).strip().upper() == "ITEM/SERVICE":
+                state = "READING_ITEMS"
+                continue
+
+            if state == "READING_ITEMS":
+                if c2 is not None and str(c2).strip() != "":
+                    item_name = str(c2).strip()
+                    if item_name.lower().startswith("narration:"):
+                        continue
+
+                    raw_qty = c3
+                    qty, qty_err = _parse_quantity(raw_qty)
+                    rate = _parse_float(c4)
+                    desc = str(c5).strip() if c5 else ""
+
+                    if qty_err:
+                        anomalies.append({
+                            "row": r,
+                            "source_tab": sheet_name,
+                            "type": "unparseable_return_quantity",
+                            "item": item_name,
+                            "reason": qty_err
+                        })
+
+                    line_val = (qty or 0.0) * rate
+
+                    empties_kws = [k.lower() for k in profile.empties_keywords]
+                    is_empties = any(kw in item_name.lower() for kw in empties_kws)
+                    item_type = "Empties" if is_empties else "Product"
+
+                    item_record = {
+                        "date": current_voucher["date"],
+                        "customer": current_voucher["customer"],
+                        "voucher_no": current_voucher["voucher_no"],
+                        "item_name": item_name,
+                        "raw_quantity": str(raw_qty) if raw_qty is not None else "",
+                        "quantity": qty or 0.0,
+                        "rate": rate,
+                        "return_value": line_val,
+                        "item_type": item_type,
+                        "description": desc,
+                        "source_row": r,
+                        "source_tab": sheet_name,
+                    }
+                    current_voucher["items"].append(item_record)
+                    returns.append(item_record)
+                elif c2 is None or str(c2).strip() == "":
+                    state = "SEEKING_HEADER"
+
+    returns_df = pd.DataFrame(returns)
+    return returns_df, anomalies

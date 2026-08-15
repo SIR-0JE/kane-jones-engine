@@ -29,10 +29,16 @@ from engine.audit import (
 )
 from engine.compare import compare_periods
 from engine.config import ClientProfile, kane_jones_profile
-from engine.parser import parse_workbook
+from engine.parser import parse_inventory_sheet, parse_sales_returns_sheet, parse_workbook
 from engine.price_match import load_price_list, match_products
 from engine.report import generate_report_pdf
 from engine.snapshots import list_snapshots, list_snapshots_summary, load_snapshot, save_snapshot
+from engine.true_cost import (
+    compute_marketer_profitability,
+    compute_product_profitability,
+    compute_returns_analysis,
+)
+from engine.net_profit import compute_net_profit_bridge, parse_expenses_sheet
 
 app = FastAPI(
     title="Depot Sales Intelligence Engine API",
@@ -256,6 +262,34 @@ async def analyze_sales_report(
         correct_count = int((volume_df["audit_result"] == "correct").sum()) if not volume_df.empty else 0
         vol_rev_impact = float(volume_df["revenue_impact"].sum()) if not volume_df.empty else 0.0
 
+        # True-cost and Net Profit Analysis (if tmp3F5D and/or tmpCEF3 exist)
+        df_inv, inv_anomalies = parse_inventory_sheet(tmp_path, profile)
+        df_returns, ret_anomalies = parse_sales_returns_sheet(tmp_path, profile)
+
+        true_cost_products = []
+        true_cost_marketers = []
+        returns_analysis = {}
+        net_profit_bridge = {}
+
+        if not df_inv.empty:
+            prod_true_cost_df, prod_tc_summary, prod_tc_anom = compute_product_profitability(li_df, df_inv, profile)
+            true_cost_products = df_to_records(prod_true_cost_df)
+            cust_tc_df, cust_tc_prod_map, cust_tc_summary = compute_marketer_profitability(li_df, df_inv, profile)
+            true_cost_marketers = df_to_records(cust_tc_df)
+
+        if not df_returns.empty:
+            returns_analysis = compute_returns_analysis(df_returns, total_revenue, li_df, profile)
+            net_profit_bridge = compute_net_profit_bridge(inv_df, li_df, df_returns, expenses_total=0.0, profile=profile)
+
+        # Merge all anomalies
+        all_anomalies_list = df_to_records(anomalies_df)
+        if inv_anomalies:
+            all_anomalies_list.extend(inv_anomalies)
+        if ret_anomalies:
+            all_anomalies_list.extend(ret_anomalies)
+        if returns_analysis.get("anomalies"):
+            all_anomalies_list.extend(returns_analysis["anomalies"])
+
         response_payload = {
             "meta": {
                 "client_id": profile.client_id,
@@ -268,7 +302,7 @@ async def analyze_sales_report(
                 "overall_margin_pct": overall_margin_pct,
                 "date_range": date_range,
                 "total_invoices": int(len(inv_df)),
-                "total_anomalies": int(len(anomalies_df)),
+                "total_anomalies": int(len(all_anomalies_list)),
                 "total_recoverable_leakage": total_leakage,
                 "below_floor_items_count": int(len(bfp_df)),
                 "reconciled_invoices_count": reconciled_invoices_count,
@@ -286,7 +320,7 @@ async def analyze_sales_report(
             },
             "audit_title": effective_title,
             "match_quality": match_quality,
-            "anomalies": df_to_records(anomalies_df),
+            "anomalies": all_anomalies_list,
             "reconciliation_discrepancies": df_to_records(rec_check_df),
             "loss_making_invoices": df_to_records(loss_inv_df),
             "loss_making_customers": df_to_records(loss_cust_df),
@@ -300,6 +334,10 @@ async def analyze_sales_report(
             "concentration_metrics": {
                 k: sanitize_val(v) for k, v in conc_metrics.items()
             },
+            "true_cost_products": true_cost_products,
+            "true_cost_marketers": true_cost_marketers,
+            "returns_analysis": returns_analysis,
+            "net_profit_bridge": net_profit_bridge,
         }
 
         try:
