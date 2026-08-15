@@ -607,6 +607,30 @@ def get_snapshot_by_label(
         raise HTTPException(status_code=404, detail=f"Snapshot '{target_label}' not found.")
 
 
+@app.delete("/snapshots")
+@app.delete("/api/snapshots")
+@app.delete("/snapshots/{period_label}")
+@app.delete("/api/snapshots/{period_label}")
+def delete_audit_snapshot_endpoint(
+    period_label: Optional[str] = None,
+    period: Optional[str] = Query(None, alias="period_label", description="Period label of audit to delete (e.g. '2026-07')"),
+    client_id: str = Query("kane-jones", description="Client identifier / depot slug"),
+):
+    """Deletes an audit snapshot from Supabase DB, storage, and local cache."""
+    target_label = period_label or period
+    if not target_label:
+        raise HTTPException(status_code=400, detail="Missing required parameter 'period_label'.")
+
+    from engine.snapshots import delete_snapshot
+    success = delete_snapshot(client_id=client_id, period_label=target_label)
+    return {
+        "status": "ok" if success else "error",
+        "client_id": client_id,
+        "period_label": target_label,
+        "deleted": success,
+    }
+
+
 @app.get("/report")
 @app.get("/api/report")
 def download_audit_report(

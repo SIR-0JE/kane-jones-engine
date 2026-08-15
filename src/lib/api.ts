@@ -23,6 +23,20 @@ export async function fetchSnapshot(periodLabel: string, clientId = "kane-jones"
   return res.json();
 }
 
+export async function deleteSnapshot(periodLabel: string, clientId = "kane-jones"): Promise<boolean> {
+  const res = await fetch(
+    `${API_BASE}/api/snapshots?client_id=${encodeURIComponent(clientId)}&period_label=${encodeURIComponent(periodLabel)}`,
+    {
+      method: "DELETE",
+    }
+  );
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({ detail: "Failed to delete snapshot." }));
+    throw new Error(err.detail || "Delete snapshot request failed");
+  }
+  return true;
+}
+
 export async function uploadAndAnalyze(
   file: File,
   clientId = "kane-jones",

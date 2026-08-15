@@ -13,6 +13,7 @@ import {
   Loader2,
   FileDown,
   Presentation,
+  Trash2,
 } from "lucide-react";
 import { TabType } from "@/components/Navigation";
 import { AnalyzeResponse, CompareResponse } from "@/types/api";
@@ -21,9 +22,10 @@ import { formatCurrency, formatPercent, formatNumber, fetchComparison } from "@/
 interface OverviewScreenProps {
   data: AnalyzeResponse;
   onNavigate: (tab: TabType) => void;
+  onDeleteAudit?: (periodLabel: string) => void;
 }
 
-export function OverviewScreen({ data, onNavigate }: OverviewScreenProps) {
+export function OverviewScreen({ data, onNavigate, onDeleteAudit }: OverviewScreenProps) {
   const meta = data.meta;
   const currency = meta?.currency_symbol || "₦";
 
@@ -33,6 +35,7 @@ export function OverviewScreen({ data, onNavigate }: OverviewScreenProps) {
   const [compLoading, setCompLoading] = useState<boolean>(false);
   const [pdfLoading, setPdfLoading] = useState<boolean>(false);
   const [pptxLoading, setPptxLoading] = useState<boolean>(false);
+  const [deleteConfirmOpen, setDeleteConfirmOpen] = useState<boolean>(false);
 
   useEffect(() => {
     let isMounted = true;
@@ -172,6 +175,17 @@ export function OverviewScreen({ data, onNavigate }: OverviewScreenProps) {
             )}
             {pdfLoading ? "Generating PDF…" : "Download PDF Report"}
           </button>
+          {onDeleteAudit && (
+            <button
+              id="btn-delete-audit"
+              onClick={() => setDeleteConfirmOpen(true)}
+              className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-white border border-rose-200 hover:bg-rose-50 hover:border-rose-300 text-rose-700 text-xs font-semibold font-sora transition-all active:scale-95 shadow-xs"
+              title="Delete this audit"
+            >
+              <Trash2 className="w-3.5 h-3.5 text-rose-600" />
+              <span className="hidden sm:inline">Delete Audit</span>
+            </button>
+          )}
         </div>
       </div>
 
@@ -504,6 +518,48 @@ export function OverviewScreen({ data, onNavigate }: OverviewScreenProps) {
           </div>
         </div>
       </div>
+
+      {/* Delete Confirmation Modal */}
+      {deleteConfirmOpen && onDeleteAudit && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xs animate-in fade-in duration-150">
+          <div className="bg-white rounded-2xl border border-slate-200 shadow-2xl max-w-md w-full p-6 space-y-4">
+            <div className="flex items-center gap-3 text-rose-600">
+              <div className="p-2.5 bg-rose-50 rounded-xl">
+                <Trash2 className="w-6 h-6" />
+              </div>
+              <div>
+                <h3 className="text-base font-bold text-slate-900 font-sora">Delete Monthly Audit?</h3>
+                <p className="text-xs text-slate-500 font-inter">{meta?.audit_title || meta?.period_label}</p>
+              </div>
+            </div>
+
+            <p className="text-xs text-slate-600 leading-relaxed font-inter">
+              Are you sure you want to delete the <span className="font-bold text-slate-900">{meta?.period_label}</span> audit? This will permanently remove its recorded analysis data, reports, and leak diagnostics from your depot history.
+            </p>
+
+            <div className="flex items-center justify-end gap-2 pt-2 border-t border-slate-100">
+              <button
+                type="button"
+                onClick={() => setDeleteConfirmOpen(false)}
+                className="px-4 py-2 rounded-xl border border-slate-200 hover:bg-slate-50 text-slate-700 text-xs font-semibold font-sora transition-all"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setDeleteConfirmOpen(false);
+                  onDeleteAudit(meta?.period_label || "2026-07");
+                }}
+                className="px-4 py-2 rounded-xl bg-rose-600 hover:bg-rose-700 active:scale-95 text-white text-xs font-semibold font-sora transition-all shadow-xs flex items-center gap-1.5"
+              >
+                <Trash2 className="w-3.5 h-3.5" />
+                <span>Delete Audit</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

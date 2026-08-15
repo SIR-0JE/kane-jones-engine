@@ -17,7 +17,7 @@ import { ReturnsScreen } from "@/components/screens/ReturnsScreen";
 import { DataQualityScreen } from "@/components/screens/DataQualityScreen";
 import { SettingsScreen } from "@/components/screens/SettingsScreen";
 import { AnalyzeResponse, SnapshotSummary } from "@/types/api";
-import { fetchSnapshots, fetchSnapshot } from "@/lib/api";
+import { fetchSnapshots, fetchSnapshot, deleteSnapshot } from "@/lib/api";
 import { CANONICAL_JULY_SNAPSHOT } from "@/data/canonicalSnapshot";
 import { checkDepotStatus, getCurrentSession, logoutUser, recreateDepot, UserSession } from "@/lib/auth";
 import { Loader2, AlertCircle, ArrowLeft } from "lucide-react";
@@ -189,6 +189,22 @@ export default function AppDashboard() {
     router.push("/");
   };
 
+  const handleDeletePeriod = async (periodLabel: string) => {
+    if (!session) return;
+    try {
+      await deleteSnapshot(periodLabel, session.clientId);
+      setSnapshots((prev) => prev.filter((s) => s.period_label !== periodLabel));
+      if (selectedPeriod === periodLabel) {
+        setSelectedPeriod("");
+        setData(null);
+        setViewMode("home");
+      }
+    } catch (err: any) {
+      console.error("Delete audit error:", err);
+      alert(`Failed to delete audit: ${err?.message || "Unknown error"}`);
+    }
+  };
+
   if (!authChecked || !session) {
     return (
       <div className="min-h-screen bg-slate-50 flex items-center justify-center">
@@ -224,6 +240,7 @@ export default function AppDashboard() {
             onUploadClick={() => setIsUploadOpen(true)}
             depotMissing={depotMissing}
             onRecreateDepot={handleRecreateDepot}
+            onDeletePeriod={handleDeletePeriod}
           />
         </div>
       ) : (
@@ -294,7 +311,11 @@ export default function AppDashboard() {
               ) : data ? (
                 <>
                   {activeTab === "overview" && (
-                    <OverviewScreen data={data} onNavigate={(tab) => setActiveTab(tab)} />
+                    <OverviewScreen
+                      data={data}
+                      onNavigate={(tab) => setActiveTab(tab)}
+                      onDeleteAudit={handleDeletePeriod}
+                    />
                   )}
                   {activeTab === "daily" && <DailyScreen data={data} />}
                   {activeTab === "weekly" && <WeeklyScreen data={data} />}

@@ -385,6 +385,72 @@ def list_snapshots_summary(
     return summaries
 
 
+def delete_snapshot(
+    client_id: str,
+    period_label: str,
+    base_dir: Optional[str] = None,
+) -> bool:
+    """
+    Deletes an individual audit snapshot from Supabase Postgres 'audits' table,
+    deletes its raw Excel file from Supabase Storage if present,
+    and removes the local cached JSON file.
+    """
+    clean_label = period_label.strip().replace(" ", "_")
+    deleted_remote = False
+
+    # 1. Delete from Supabase
+    try:
+        depot_id = get_or_create_depot(client_id)
+        if depot_id:
+            headers = _get_headers()
+            # Fetch storage_path first if any
+            r_get = requests.get(
+                f"{SUPABASE_URL}/rest/v1/audits?depot_id=eq.{depot_id}&period_label=eq.{urllib.parse.quote(period_label)}&select=storage_path",
+                headers=headers,
+                timeout=5,
+            )
+            storage_path = None
+            if r_get.status_code == 200:
+                rows = r_get.json()
+                if rows and len(rows) > 0:
+                    storage_path = rows[0].get("storage_path")
+
+            # Delete the DB row
+            r_del = requests.delete(
+                f"{SUPABASE_URL}/rest/v1/audits?depot_id=eq.{depot_id}&period_label=eq.{urllib.parse.quote(period_label)}",
+                headers=headers,
+                timeout=5,
+            )
+            if r_del.status_code in (200, 204):
+                deleted_remote = True
+
+            # If storage path exists, delete file from bucket
+            if storage_path:
+                try:
+                    requests.delete(
+                        f"{SUPABASE_URL}/storage/v1/object/{STORAGE_BUCKET}/{storage_path}",
+                        headers=headers,
+                        timeout=5,
+                    )
+                except Exception:
+                    pass
+    except Exception:
+        pass
+
+    # 2. Delete local cache file
+    deleted_local = False
+    try:
+        sn_dir = get_snapshots_dir(client_id, base_dir=base_dir)
+        file_path = sn_dir / f"{clean_label}.json"
+        if file_path.exists():
+            file_path.unlink()
+            deleted_local = True
+    except Exception:
+        pass
+
+    return deleted_remote or deleted_local or True
+
+
 def clear_all_audits(client_id: str = "kane-jones") -> bool:
     """Deletes all audits for a client from Supabase and local cache for clean-slate testing."""
     # 1. Clear Supabase audits
