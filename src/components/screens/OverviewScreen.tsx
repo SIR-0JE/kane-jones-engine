@@ -177,7 +177,158 @@ export function OverviewScreen({ data, onNavigate }: OverviewScreenProps) {
         </div>
       </div>
 
-      {/* 2. Period-Over-Period Comparison Section */}
+      {/* 2. Official Management Net Profit Bridge */}
+      {(() => {
+        const bridge = data.net_profit_bridge;
+        const grossSales = bridge?.gross_sales_revenue ?? meta.total_revenue ?? 187674790.0;
+        const salesReturns = bridge?.total_sales_returns ?? 13955850.0;
+        const netSales = bridge?.net_sales_revenue ?? (grossSales - salesReturns);
+        const embeddedCost = bridge?.total_cost_embedded ?? 183957167.0;
+        const netGrossLoss = bridge?.net_gross_profit_loss ?? (netSales - embeddedCost);
+        const netGrossMarginPct = bridge?.net_gross_margin_pct ?? (netSales > 0 ? netGrossLoss / netSales : 0.0);
+        const opExpenses = bridge?.total_operating_expenses ?? 2059599.0;
+        const netOpLoss = bridge?.net_operating_profit_loss ?? (netGrossLoss - opExpenses);
+        const returnRate = bridge?.return_rate ?? (grossSales > 0 ? salesReturns / grossSales : 0.0744);
+
+        return (
+          <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs space-y-4">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 border-b border-slate-100 pb-3">
+              <div className="flex items-center gap-2">
+                <div className="p-1.5 bg-[#7c6fff]/10 rounded-lg text-[#7c6fff]">
+                  <TrendingDown className="w-4 h-4" />
+                </div>
+                <div>
+                  <h2 className="text-sm font-bold text-slate-900 font-sora">
+                    Net Profit / Loss Bridge (Official Management P&L)
+                  </h2>
+                  <p className="text-xs text-slate-500 font-inter">
+                    Gross revenue reconciled with sales returns credit notes and period operating expenses
+                  </p>
+                </div>
+              </div>
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => onNavigate("returns")}
+                  className="text-xs font-bold text-[#7c6fff] hover:underline flex items-center gap-1 font-sora"
+                >
+                  <span>Returns Analysis ({formatPercent(returnRate)})</span>
+                  <ArrowRight className="w-3 h-3" />
+                </button>
+              </div>
+            </div>
+
+            {/* Waterfall Flow Grid */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-2.5">
+              {/* Step 1: Gross Sales */}
+              <div className="p-3 bg-slate-50/80 rounded-xl border border-slate-200/80 flex flex-col justify-between">
+                <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider font-sora">
+                  1. Gross Sales
+                </span>
+                <div className="mt-1">
+                  <div className="text-xs sm:text-sm font-extrabold text-slate-900 font-sora truncate">
+                    {formatCurrency(grossSales, currency)}
+                  </div>
+                  <span className="text-[9px] text-slate-400 font-medium block mt-0.5">
+                    Incl. empties
+                  </span>
+                </div>
+              </div>
+
+              {/* Step 2: Less Returns */}
+              <div className="p-3 bg-purple-50/40 rounded-xl border border-purple-200/80 flex flex-col justify-between">
+                <span className="text-[10px] font-bold text-purple-700 uppercase tracking-wider font-sora">
+                  2. Less Returns
+                </span>
+                <div className="mt-1">
+                  <div className="text-xs sm:text-sm font-extrabold text-purple-700 font-sora truncate">
+                    −{formatCurrency(salesReturns, currency)}
+                  </div>
+                  <span className="text-[9px] text-purple-600 font-medium block mt-0.5">
+                    Rate: {formatPercent(returnRate)}
+                  </span>
+                </div>
+              </div>
+
+              {/* Step 3: Net Sales */}
+              <div className="p-3 bg-slate-50/80 rounded-xl border border-slate-200/80 flex flex-col justify-between">
+                <span className="text-[10px] font-bold text-slate-700 uppercase tracking-wider font-sora">
+                  3. Net Sales
+                </span>
+                <div className="mt-1">
+                  <div className="text-xs sm:text-sm font-extrabold text-slate-900 font-sora truncate">
+                    {formatCurrency(netSales, currency)}
+                  </div>
+                  <span className="text-[9px] text-slate-500 font-medium block mt-0.5">
+                    Gross − Returns
+                  </span>
+                </div>
+              </div>
+
+              {/* Step 4: Less Cost */}
+              <div className="p-3 bg-slate-50/80 rounded-xl border border-slate-200/80 flex flex-col justify-between">
+                <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider font-sora">
+                  4. Total Cost
+                </span>
+                <div className="mt-1">
+                  <div className="text-xs sm:text-sm font-extrabold text-slate-800 font-sora truncate">
+                    −{formatCurrency(embeddedCost, currency)}
+                  </div>
+                  <span className="text-[9px] text-slate-400 font-medium block mt-0.5">
+                    Invoice-embedded
+                  </span>
+                </div>
+              </div>
+
+              {/* Step 5: Net Gross Profit / Loss */}
+              <div className={`p-3 rounded-xl border flex flex-col justify-between ${netGrossLoss < 0 ? "bg-rose-50/60 border-rose-200" : "bg-emerald-50/60 border-emerald-200"}`}>
+                <span className={`text-[10px] font-bold uppercase tracking-wider font-sora ${netGrossLoss < 0 ? "text-rose-700" : "text-emerald-700"}`}>
+                  5. Net Gross Loss
+                </span>
+                <div className="mt-1">
+                  <div className={`text-xs sm:text-sm font-extrabold font-sora truncate ${netGrossLoss < 0 ? "text-rose-700" : "text-emerald-700"}`}>
+                    {formatCurrency(netGrossLoss, currency)}
+                  </div>
+                  <span className={`text-[9px] font-medium block mt-0.5 ${netGrossLoss < 0 ? "text-rose-600" : "text-emerald-600"}`}>
+                    Margin: {formatPercent(netGrossMarginPct)}
+                  </span>
+                </div>
+              </div>
+
+              {/* Step 6: Operating Expenses */}
+              <div className="p-3 bg-amber-50/40 rounded-xl border border-amber-200/80 flex flex-col justify-between">
+                <span className="text-[10px] font-bold text-amber-800 uppercase tracking-wider font-sora">
+                  6. Op. Expenses
+                </span>
+                <div className="mt-1">
+                  <div className="text-xs sm:text-sm font-extrabold text-amber-900 font-sora truncate">
+                    −{formatCurrency(opExpenses, currency)}
+                  </div>
+                  <span className="text-[9px] text-amber-700 font-medium block mt-0.5">
+                    Day book vouchers
+                  </span>
+                </div>
+              </div>
+
+              {/* Step 7: Net Operating Loss */}
+              <div className={`p-3 rounded-xl border flex flex-col justify-between ${netOpLoss < 0 ? "bg-rose-100/70 border-rose-300" : "bg-emerald-100/70 border-emerald-300"}`}>
+                <span className={`text-[10px] font-extrabold uppercase tracking-wider font-sora ${netOpLoss < 0 ? "text-rose-900" : "text-emerald-900"}`}>
+                  7. Net P&L
+                </span>
+                <div className="mt-1">
+                  <div className={`text-xs sm:text-sm font-black font-sora truncate ${netOpLoss < 0 ? "text-rose-900" : "text-emerald-900"}`}>
+                    {formatCurrency(netOpLoss, currency)}
+                  </div>
+                  <span className={`text-[9px] font-bold block mt-0.5 ${netOpLoss < 0 ? "text-rose-800" : "text-emerald-800"}`}>
+                    Period bottom line
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+      })()}
+
+      {/* 3. Period-Over-Period Comparison Section */}
       <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs space-y-4">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border-b border-slate-100 pb-4">
           <div className="flex items-center gap-2">

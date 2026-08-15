@@ -13,6 +13,7 @@ import { WeeklyScreen } from "@/components/screens/WeeklyScreen";
 import { PricingAuditScreen } from "@/components/screens/PricingAuditScreen";
 import { ProductsScreen } from "@/components/screens/ProductsScreen";
 import { CustomersScreen } from "@/components/screens/CustomersScreen";
+import { ReturnsScreen } from "@/components/screens/ReturnsScreen";
 import { DataQualityScreen } from "@/components/screens/DataQualityScreen";
 import { SettingsScreen } from "@/components/screens/SettingsScreen";
 import { AnalyzeResponse, SnapshotSummary } from "@/types/api";
@@ -222,6 +223,7 @@ export default function AppDashboard() {
             dominantProductCount={data?.meta?.dominant_products_count || data?.dominant_products?.length || 0}
             lossCustomerCount={data?.meta?.loss_making_customers_count || data?.loss_making_customers?.length || 0}
             anomalyCount={data?.meta?.total_anomalies || data?.anomalies?.length || 0}
+            returnsCount={data?.returns_analysis?.items_breakdown?.length || 0}
           />
 
           {/* Right Main Content Panel */}
@@ -272,13 +274,22 @@ export default function AppDashboard() {
                   {activeTab === "pricing" && <PricingAuditScreen data={data} />}
                   {activeTab === "products" && <ProductsScreen data={data} />}
                   {activeTab === "customers" && <CustomersScreen data={data} />}
+                  {activeTab === "returns" && <ReturnsScreen data={data} />}
                   {activeTab === "quality" && <DataQualityScreen data={data} />}
                 </>
               ) : null}
             </div>
 
             {/* Mobile Bottom Bar Navigation */}
-            <Navigation activeTab={activeTab} onTabChange={(tab) => setActiveTab(tab)} />
+            <Navigation
+              activeTab={activeTab}
+              onTabChange={(tab) => setActiveTab(tab)}
+              pricingLeakCount={data?.meta?.below_floor_items_count || data?.below_floor_pricing?.length || 0}
+              dominantProductCount={data?.meta?.dominant_products_count || data?.dominant_products?.length || 0}
+              lossCustomerCount={data?.meta?.loss_making_customers_count || data?.loss_making_customers?.length || 0}
+              anomalyCount={data?.meta?.total_anomalies || data?.anomalies?.length || 0}
+              returnsCount={data?.returns_analysis?.items_breakdown?.length || 0}
+            />
           </div>
         </div>
       )}

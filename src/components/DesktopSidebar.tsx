@@ -9,6 +9,7 @@ import {
   Package,
   Users,
   CheckCircle2,
+  RotateCcw,
   ArrowLeft,
   Building2,
   Plus,
@@ -38,6 +39,7 @@ interface DesktopSidebarProps {
   dominantProductCount: number;
   lossCustomerCount: number;
   anomalyCount: number;
+  returnsCount?: number;
 }
 
 export function DesktopSidebar({
@@ -57,6 +59,7 @@ export function DesktopSidebar({
   dominantProductCount,
   lossCustomerCount,
   anomalyCount,
+  returnsCount = 0,
 }: DesktopSidebarProps) {
   const navItems = [
     {
@@ -100,6 +103,13 @@ export function DesktopSidebar({
       icon: Users,
       badge: lossCustomerCount > 0 ? lossCustomerCount : null,
       badgeColor: "bg-rose-500 text-white",
+    },
+    {
+      id: "returns" as TabType,
+      label: "Sales Returns",
+      icon: RotateCcw,
+      badge: returnsCount > 0 ? returnsCount : null,
+      badgeColor: "bg-[#7c6fff] text-white",
     },
     {
       id: "quality" as TabType,

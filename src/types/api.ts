@@ -141,6 +141,89 @@ export interface ConcentrationMetrics {
   top_n_pct: number;
 }
 
+export interface TrueCostProductItem {
+  product_raw: string;
+  cases_sold: number;
+  revenue: number;
+  tmp3f5d_cost: number;
+  avg_selling_price: number;
+  total_cost: number;
+  price_diff: number;
+  price_diff_pct: number;
+  gross_profit: number;
+  gross_profit_pct: number;
+}
+
+export interface TrueCostMarketerItem {
+  customer: string;
+  total_revenue: number;
+  total_cost: number;
+  total_gross_profit: number;
+  total_cases_sold: number;
+  invoices: number;
+  gross_profit_pct: number;
+}
+
+export interface SalesReturnsItemBreakdown {
+  item_name: string;
+  item_type: "Product" | "Empties" | string;
+  qty_returned: number;
+  value_returned: number;
+  pct_of_total_returns: number;
+}
+
+export interface SalesReturnsCustomerBreakdown {
+  customer: string;
+  return_transactions: number;
+  product_qty: number;
+  product_val: number;
+  empties_qty: number;
+  empties_val: number;
+  total_val: number;
+  pct_of_total_returns: number;
+  sales_revenue: number;
+  return_rate_pct: number;
+  risk_flag: string;
+}
+
+export interface SalesReturnsWeeklyTrend {
+  week: string;
+  date_range: string;
+  return_transactions: number;
+  product_val: number;
+  empties_val: number;
+  total_val: number;
+}
+
+export interface SalesReturnsAnalysis {
+  total_returns_value: number;
+  product_returns_value: number;
+  product_returns_qty: number;
+  empties_returns_value: number;
+  empties_returns_qty: number;
+  return_rate: number;
+  items_breakdown: SalesReturnsItemBreakdown[];
+  customers_breakdown: SalesReturnsCustomerBreakdown[];
+  weekly_trend: SalesReturnsWeeklyTrend[];
+  anomalies: any[];
+}
+
+export interface NetProfitBridgeData {
+  gross_sales_revenue: number;
+  total_sales_returns: number;
+  net_sales_revenue: number;
+  total_cost_embedded: number;
+  net_gross_profit_loss: number;
+  net_gross_margin_pct: number;
+  total_operating_expenses: number;
+  net_operating_profit_loss: number;
+  product_returns_value: number;
+  product_returns_qty: number;
+  empties_returns_value: number;
+  empties_returns_qty: number;
+  return_rate: number;
+}
+
 export interface AnalyzeResponse {
   client_id?: string;
   period_label?: string;
@@ -160,6 +243,10 @@ export interface AnalyzeResponse {
   product_ranking?: ProductRankingItem[];
   customer_margin_detail: CustomerMarginItem[];
   concentration_metrics: ConcentrationMetrics;
+  true_cost_products?: TrueCostProductItem[];
+  true_cost_marketers?: TrueCostMarketerItem[];
+  returns_analysis?: SalesReturnsAnalysis;
+  net_profit_bridge?: NetProfitBridgeData;
   [key: string]: any;
 }
 

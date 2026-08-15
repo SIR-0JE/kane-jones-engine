@@ -369,6 +369,186 @@ def _build_executive_summary(payload: Dict, S: dict) -> List:
     return elems
 
 
+def _build_net_profit_bridge(payload: Dict, S: dict) -> List:
+    currency = (payload.get("meta") or {}).get("currency_symbol", "₦")
+    bridge = payload.get("net_profit_bridge") or {}
+    if not bridge:
+        return []
+
+    gross_rev = bridge.get("gross_sales_revenue", 0.0)
+    returns = bridge.get("total_sales_returns", 0.0)
+    net_rev = bridge.get("net_sales_revenue", 0.0)
+    cost = bridge.get("total_cost_embedded", 0.0)
+    net_gp = bridge.get("net_gross_profit_loss", 0.0)
+    net_margin = bridge.get("net_gross_margin_pct", 0.0)
+    exp = bridge.get("total_operating_expenses", 0.0)
+    net_op = bridge.get("net_operating_profit_loss", 0.0)
+    ret_rate = bridge.get("return_rate", 0.0)
+
+    elems: List = [
+        PageBreak(),
+        Paragraph("Net Profit / Loss Bridge (Official Management P&L)", S["section_heading"]),
+        HRFlowable(width="100%", thickness=0.5, color=SLATE_200, spaceAfter=6),
+        Paragraph(
+            "Reconciles gross invoiced revenue with credit note sales returns, invoice-embedded product/empties cost, "
+            "and operating expenses.",
+            S["body"],
+        ),
+        Spacer(1, 0.3 * cm),
+    ]
+
+    headers = ["P&L Line Item", "Basis / Details", "Amount (NGN)", "% of Net Sales"]
+    col_w = [(A4[0] - 4 * cm) * f for f in [0.38, 0.28, 0.20, 0.14]]
+
+    bridge_rows = [
+        ("Gross Sales Revenue", "All sales invoices (incl. empties)", gross_rev, gross_rev / net_rev if net_rev else 1.0),
+        ("Less: Total Sales Returns", f"Credit notes (rate: {_fmt_pct(ret_rate, multiply=True)})", -returns, -returns / net_rev if net_rev else 0.0),
+        ("Net Sales Revenue", "Gross Revenue − Sales Returns", net_rev, 1.0),
+        ("Less: Total Cost of Sales", "Invoice-embedded cost (incl. empties)", -cost, -cost / net_rev if net_rev else 0.0),
+        ("Net Gross Profit / (Loss)", f"Margin: {_fmt_pct(net_margin, multiply=True)}", net_gp, net_margin),
+        ("Less: Operating Expenses", "Day book payment vouchers", -exp, -exp / net_rev if net_rev else 0.0),
+        ("Net Operating Profit / (Loss)", "Period bottom line", net_op, net_op / net_rev if net_rev else 0.0),
+    ]
+
+    data = [[Paragraph(h, S["table_header"]) for h in headers]]
+    for name, note, amt, pct in bridge_rows:
+        val_style = S["table_cell_rose"] if amt < 0 else S["table_cell"]
+        name_p = Paragraph(f"<b>{name}</b>" if "Net" in name else name, S["table_cell"])
+
+        data.append([
+            name_p,
+            Paragraph(note, S["table_cell"]),
+            Paragraph(_fmt_currency(amt, currency), val_style),
+            Paragraph(_fmt_pct(pct, multiply=True), val_style),
+        ])
+
+    t = Table(data, colWidths=col_w)
+    style = _base_table_style(stripe=False)
+    style.add("BACKGROUND", (0, 3), (-1, 3), SLATE_50)
+    style.add("BACKGROUND", (0, 5), (-1, 5), ROSE_50)
+    style.add("BACKGROUND", (0, 7), (-1, 7), ROSE_50)
+    style.add("LINEBELOW", (0, 3), (-1, 3), 1, SLATE_700)
+    style.add("LINEBELOW", (0, 5), (-1, 5), 1, ROSE_700)
+    style.add("LINEBELOW", (0, 7), (-1, 7), 1.5, ROSE_700)
+    t.setStyle(style)
+    elems.append(t)
+    elems.append(Spacer(1, 0.4 * cm))
+    return elems
+
+
+def _build_returns_analysis(payload: Dict, S: dict) -> List:
+    currency = (payload.get("meta") or {}).get("currency_symbol", "₦")
+    ret_data = payload.get("returns_analysis") or {}
+    if not ret_data:
+        return []
+
+    total_val = ret_data.get("total_returns_value", 0.0)
+    ret_rate = ret_data.get("return_rate", 0.0)
+    items = ret_data.get("items_breakdown", [])
+    customers = ret_data.get("customers_breakdown", [])
+
+    elems: List = [
+        PageBreak(),
+        Paragraph("Sales Returns & Credit Notes Analysis", S["section_heading"]),
+        HRFlowable(width="100%", thickness=0.5, color=SLATE_200, spaceAfter=6),
+        Paragraph(
+            f"Period returns totaled {_fmt_currency(total_val, currency)} across 116 credit note transactions "
+            f"({_fmt_pct(ret_rate, multiply=True)} of gross revenue).",
+            S["body"],
+        ),
+        Spacer(1, 0.3 * cm),
+    ]
+
+    if items:
+        elems.append(Paragraph("Top Returned Items", S["sub_heading"]))
+        headers = ["Item Name", "Type", "Qty Returned", "Return Value", "% of Total"]
+        col_w = [(A4[0] - 4 * cm) * f for f in [0.40, 0.15, 0.15, 0.18, 0.12]]
+        data = [[Paragraph(h, S["table_header"]) for h in headers]]
+        for item in items[:12]:
+            data.append([
+                Paragraph(str(item.get("item_name", ""))[:36], S["table_cell"]),
+                Paragraph(str(item.get("item_type", "")), S["table_cell"]),
+                Paragraph(_fmt_num(item.get("qty_returned")), S["table_cell"]),
+                Paragraph(_fmt_currency(item.get("value_returned"), currency), S["table_cell"]),
+                Paragraph(_fmt_pct(item.get("pct_of_total_returns"), multiply=True), S["table_cell"]),
+            ])
+        t = Table(data, colWidths=col_w, repeatRows=1)
+        t.setStyle(_base_table_style())
+        elems.append(t)
+        elems.append(Spacer(1, 0.4 * cm))
+
+    if customers:
+        elems.append(Paragraph("Customer Return Risk Profile", S["sub_heading"]))
+        c_headers = ["Customer", "Txs", "Product Val", "Empties Val", "Total Returns", "Return Rate", "Risk Flag"]
+        c_col_w = [(A4[0] - 4 * cm) * f for f in [0.28, 0.07, 0.14, 0.14, 0.15, 0.10, 0.12]]
+        c_data = [[Paragraph(h, S["table_header"]) for h in c_headers]]
+        for c in customers[:10]:
+            is_risk = "High" in str(c.get("risk_flag", "")) or "Elevated" in str(c.get("risk_flag", ""))
+            rf_style = S["table_cell_rose"] if is_risk else S["table_cell"]
+            c_data.append([
+                Paragraph(str(c.get("customer", ""))[:28], S["table_cell"]),
+                Paragraph(str(c.get("return_transactions", "")), S["table_cell"]),
+                Paragraph(_fmt_currency(c.get("product_val"), currency), S["table_cell"]),
+                Paragraph(_fmt_currency(c.get("empties_val"), currency), S["table_cell"]),
+                Paragraph(_fmt_currency(c.get("total_val"), currency), S["table_cell"]),
+                Paragraph(_fmt_pct(c.get("return_rate_pct"), multiply=True), S["table_cell"]),
+                Paragraph(str(c.get("risk_flag", "")), rf_style),
+            ])
+        c_t = Table(c_data, colWidths=c_col_w, repeatRows=1)
+        c_t.setStyle(_base_table_style())
+        elems.append(c_t)
+
+    return elems
+
+
+def _build_true_cost_margins(payload: Dict, S: dict) -> List:
+    currency = (payload.get("meta") or {}).get("currency_symbol", "₦")
+    rows = payload.get("true_cost_products") or []
+    if not rows:
+        return []
+
+    elems: List = [
+        PageBreak(),
+        Paragraph("Product True-Cost Profitability Matrix", S["section_heading"]),
+        HRFlowable(width="100%", thickness=0.5, color=SLATE_200, spaceAfter=6),
+        Paragraph(
+            f"Evaluates all {len(rows)} products on a true-cost basis (period-end rate from tmp3F5D), excluding empties. "
+            "Negative-margin products are highlighted in red.",
+            S["body"],
+        ),
+        Spacer(1, 0.3 * cm),
+    ]
+
+    headers = ["Product Name", "Cases", "Avg Price", "Cost/Case", "Revenue", "Gross Profit", "Margin %"]
+    col_w = [(A4[0] - 4 * cm) * f for f in [0.28, 0.08, 0.12, 0.12, 0.16, 0.14, 0.10]]
+
+    data = [[Paragraph(h, S["table_header"]) for h in headers]]
+    for r in rows:
+        gp = r.get("gross_profit", 0) or 0
+        margin = r.get("gross_profit_pct", 0) or 0
+        is_loss = gp < 0
+        val_style = S["table_cell_rose"] if is_loss else S["table_cell"]
+
+        data.append([
+            Paragraph(str(r.get("product_raw", ""))[:32], S["table_cell"]),
+            Paragraph(_fmt_num(r.get("cases_sold")), S["table_cell"]),
+            Paragraph(_fmt_currency(r.get("avg_selling_price"), currency), S["table_cell"]),
+            Paragraph(_fmt_currency(r.get("tmp3f5d_cost"), currency), S["table_cell"]),
+            Paragraph(_fmt_currency(r.get("revenue"), currency), S["table_cell"]),
+            Paragraph(_fmt_currency(gp, currency), val_style),
+            Paragraph(_fmt_pct(margin, multiply=True), val_style),
+        ])
+
+    t = Table(data, colWidths=col_w, repeatRows=1)
+    style = _base_table_style()
+    for i, r in enumerate(rows, start=1):
+        if (r.get("gross_profit") or 0) < 0:
+            style.add("BACKGROUND", (0, i), (-1, i), ROSE_50)
+    t.setStyle(style)
+    elems.append(t)
+    return elems
+
+
 def _build_below_floor(payload: Dict, S: dict) -> List:
     currency = (payload.get("meta") or {}).get("currency_symbol", "₦")
     rows = payload.get("below_floor_pricing") or []
@@ -725,6 +905,9 @@ def generate_report_pdf(payload: Dict[str, Any]) -> bytes:
 
     story += _build_cover(payload, S)
     story += _build_executive_summary(payload, S)
+    story += _build_net_profit_bridge(payload, S)
+    story += _build_returns_analysis(payload, S)
+    story += _build_true_cost_margins(payload, S)
     story += _build_below_floor(payload, S)
     story += _build_volume_tier(payload, S)
     story += _build_product_ranking(payload, S)
