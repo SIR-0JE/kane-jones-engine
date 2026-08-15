@@ -125,12 +125,14 @@ def health_check():
 @app.post("/api/analyze")
 async def analyze_sales_report(
     file: UploadFile = File(..., description="Raw Excel workbook (.xlsx)"),
+    expenses_file: Optional[UploadFile] = File(None, description="Optional separate operating expenses workbook (.xlsx)"),
     client_id: str = Form("kane-jones", description="Client identifier"),
     period_label: Optional[str] = Form(None, description="Optional period label (e.g. '2026-07'). Derived automatically if omitted."),
     audit_title: Optional[str] = Form(None, description="Optional human-readable title (e.g. 'July 2026 Full Audit')"),
 ):
     """Parses a depot's sales spreadsheet, fuzzy-matches line items against the price list,
-    runs all pricing, volume tier, trend, and concentration audits, and persists a period snapshot.
+    runs all pricing, volume tier, trend, true-cost, and net profit bridge audits, and persists a period snapshot.
+    Supports either in-workbook expenses sheets or a separately uploaded expenses workbook.
     """
     if not file.filename.lower().endswith((".xlsx", ".xlsm", ".xltx", ".xltm")):
         raise HTTPException(
@@ -150,6 +152,19 @@ async def analyze_sales_report(
                 status_code=422,
                 detail=f"Failed to read uploaded file '{file.filename}': {str(e)}",
             )
+
+    exp_tmp_path = None
+    if expenses_file is not None and expenses_file.filename:
+        with tempfile.NamedTemporaryFile(suffix=".xlsx", delete=False) as exp_tmp:
+            exp_tmp_path = exp_tmp.name
+            try:
+                exp_content = await expenses_file.read()
+                exp_tmp.write(exp_content)
+            except Exception as e:
+                raise HTTPException(
+                    status_code=422,
+                    detail=f"Failed to read uploaded expenses file '{expenses_file.filename}': {str(e)}",
+                )
 
     try:
         try:
@@ -263,9 +278,18 @@ async def analyze_sales_report(
         correct_count = int((volume_df["audit_result"] == "correct").sum()) if not volume_df.empty else 0
         vol_rev_impact = float(volume_df["revenue_impact"].sum()) if not volume_df.empty else 0.0
 
-        # True-cost and Net Profit Analysis (if tmp3F5D and/or tmpCEF3 exist)
+        # True-cost, Operating Expenses, and Net Profit Analysis
         df_inv, inv_anomalies = parse_inventory_sheet(tmp_path, profile)
         df_returns, ret_anomalies = parse_sales_returns_sheet(tmp_path, profile)
+
+        # Parse operating expenses from either separate uploaded file or in-workbook sheets
+        expenses_total = 0.0
+        df_expenses = pd.DataFrame()
+        exp_anomalies = []
+        if exp_tmp_path and os.path.exists(exp_tmp_path):
+            expenses_total, df_expenses, exp_anomalies = parse_expenses_sheet(exp_tmp_path, profile)
+        else:
+            expenses_total, df_expenses, exp_anomalies = parse_expenses_sheet(tmp_path, profile)
 
         true_cost_products = []
         true_cost_marketers = []
@@ -280,7 +304,7 @@ async def analyze_sales_report(
 
         if not df_returns.empty:
             returns_analysis = compute_returns_analysis(df_returns, total_revenue, li_df, profile)
-            net_profit_bridge = compute_net_profit_bridge(inv_df, li_df, df_returns, expenses_total=0.0, profile=profile)
+            net_profit_bridge = compute_net_profit_bridge(inv_df, li_df, df_returns, expenses_total=expenses_total, profile=profile)
 
         # Merge all anomalies
         all_anomalies_list = df_to_records(anomalies_df)
@@ -288,6 +312,8 @@ async def analyze_sales_report(
             all_anomalies_list.extend(inv_anomalies)
         if ret_anomalies:
             all_anomalies_list.extend(ret_anomalies)
+        if exp_anomalies:
+            all_anomalies_list.extend(exp_anomalies)
         if returns_analysis.get("anomalies"):
             all_anomalies_list.extend(returns_analysis["anomalies"])
 
@@ -358,6 +384,11 @@ async def analyze_sales_report(
         if os.path.exists(tmp_path):
             try:
                 os.remove(tmp_path)
+            except Exception:
+                pass
+        if exp_tmp_path and os.path.exists(exp_tmp_path):
+            try:
+                os.remove(exp_tmp_path)
             except Exception:
                 pass
 
@@ -673,7 +704,17 @@ def download_presentation_pptx_endpoint(
 
 
 
-from engine.snapshots import get_or_create_depot, update_depot
+from engine.snapshots import check_depot_exists, get_or_create_depot, update_depot
+
+@app.get("/depots/check")
+@app.get("/api/depots/check")
+def check_depot_endpoint(
+    client_id: str = Query(..., description="Client ID / depot slug to check"),
+):
+    """Checks whether a depot row exists in Supabase database without auto-creating."""
+    result = check_depot_exists(client_id=client_id)
+    return result
+
 
 @app.post("/depots/register")
 @app.post("/api/depots/register")
@@ -705,4 +746,5 @@ def update_depot_endpoint(
         "display_name": display_name,
         "updated": success,
     }
+
 

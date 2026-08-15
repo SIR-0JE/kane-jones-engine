@@ -86,15 +86,51 @@ def get_or_create_depot(client_id: str, display_name: Optional[str] = None, conf
     return None
 
 
+def check_depot_exists(client_id: str) -> dict:
+    """Queries whether a depot row exists in Supabase 'depots' table without auto-creating."""
+    if not SUPABASE_URL or not SUPABASE_SERVICE_ROLE_KEY:
+        return {"exists": True, "id": None, "client_id": client_id, "display_name": client_id}
+
+    try:
+        headers = _get_headers()
+        r = requests.get(
+            f"{SUPABASE_URL}/rest/v1/depots?client_id=eq.{urllib.parse.quote(client_id)}&select=id,client_id,display_name,created_at",
+            headers=headers,
+            timeout=5,
+        )
+        if r.status_code == 200:
+            rows = r.json()
+            if rows and len(rows) > 0:
+                return {
+                    "exists": True,
+                    "id": rows[0]["id"],
+                    "client_id": rows[0]["client_id"],
+                    "display_name": rows[0].get("display_name"),
+                }
+    except Exception:
+        pass
+    return {"exists": False, "id": None, "client_id": client_id, "display_name": None}
+
+
 def update_depot(client_id: str, display_name: str) -> bool:
-    """Updates display_name of existing depot row in Supabase 'depots' table."""
+    """Updates display_name of depot row in Supabase 'depots' table, upserting if missing."""
     if not SUPABASE_URL or not SUPABASE_SERVICE_ROLE_KEY:
         return False
     try:
         headers = _get_headers()
+        # 1. Try patch
         url = f"{SUPABASE_URL}/rest/v1/depots?client_id=eq.{urllib.parse.quote(client_id)}"
         r = requests.patch(url, headers=headers, json={"display_name": display_name}, timeout=5)
-        return r.status_code in (200, 204)
+        if r.status_code in (200, 204):
+            # Check if row was actually updated
+            check = requests.get(f"{SUPABASE_URL}/rest/v1/depots?client_id=eq.{urllib.parse.quote(client_id)}&select=id", headers=headers, timeout=5)
+            if check.status_code == 200 and len(check.json()) > 0:
+                return True
+        
+        # 2. If row was missing, upsert it
+        payload = {"client_id": client_id, "display_name": display_name, "config": {}}
+        r_post = requests.post(f"{SUPABASE_URL}/rest/v1/depots?on_conflict=client_id", headers=headers, json=payload, timeout=5)
+        return r_post.status_code in (200, 201)
     except Exception:
         return False
 
@@ -168,6 +204,10 @@ def save_snapshot(
         "anomalies_count": meta.get(
             "total_anomalies", len(data.get("anomalies", []))
         ),
+        "true_cost_products": data.get("true_cost_products", []),
+        "true_cost_marketers": data.get("true_cost_marketers", []),
+        "returns_analysis": data.get("returns_analysis", {}),
+        "net_profit_bridge": data.get("net_profit_bridge", {}),
     }
 
     storage_path = None
@@ -186,6 +226,7 @@ def save_snapshot(
                 "payload": snapshot_payload,
             }
             headers = _get_headers()
+            headers["Prefer"] = "resolution=merge-duplicates"
             requests.post(
                 f"{SUPABASE_URL}/rest/v1/audits?on_conflict=depot_id,period_label",
                 headers=headers,

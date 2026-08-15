@@ -19,7 +19,7 @@ import { SettingsScreen } from "@/components/screens/SettingsScreen";
 import { AnalyzeResponse, SnapshotSummary } from "@/types/api";
 import { fetchSnapshots, fetchSnapshot } from "@/lib/api";
 import { CANONICAL_JULY_SNAPSHOT } from "@/data/canonicalSnapshot";
-import { getCurrentSession, logoutUser, UserSession } from "@/lib/auth";
+import { checkDepotStatus, getCurrentSession, logoutUser, recreateDepot, UserSession } from "@/lib/auth";
 import { Loader2, AlertCircle, ArrowLeft } from "lucide-react";
 
 export default function AppDashboard() {
@@ -36,6 +36,7 @@ export default function AppDashboard() {
   const [loadingSnapshots, setLoadingSnapshots] = useState<boolean>(true);
   const [loadingWorkspace, setLoadingWorkspace] = useState<boolean>(false);
   const [workspaceError, setWorkspaceError] = useState<string | null>(null);
+  const [depotMissing, setDepotMissing] = useState<boolean>(false);
 
   // 1. Auth Guard
   useEffect(() => {
@@ -54,13 +55,23 @@ export default function AppDashboard() {
     return () => window.removeEventListener("kj_auth_changed", handleAuthChange);
   }, [router]);
 
-  // 2. Fetch snapshots for active depot account
+  // 2. Fetch snapshots for active depot account & verify depot record
   useEffect(() => {
     if (!session) return;
 
     async function loadDepotSnapshots() {
       setLoadingSnapshots(true);
       try {
+        // Check if depot row exists in Supabase
+        const status = await checkDepotStatus(session!.clientId);
+        if (status && status.exists === false) {
+          setDepotMissing(true);
+          setSnapshots([]);
+          return;
+        } else {
+          setDepotMissing(false);
+        }
+
         const res = await fetchSnapshots(session!.clientId);
         if (res && res.snapshots && res.snapshots.length > 0) {
           setSnapshots(res.snapshots);
@@ -100,6 +111,16 @@ export default function AppDashboard() {
 
     loadDepotSnapshots();
   }, [session]);
+
+  const handleRecreateDepot = async (depotName: string) => {
+    const updated = await recreateDepot(depotName);
+    setSession(updated);
+    setDepotMissing(false);
+    const res = await fetchSnapshots(updated.clientId);
+    if (res && res.snapshots) {
+      setSnapshots(res.snapshots);
+    }
+  };
 
   // 3. Select audit period
   const handleSelectPeriod = async (periodLabel: string) => {
@@ -200,6 +221,8 @@ export default function AppDashboard() {
             loading={loadingSnapshots}
             onSelectPeriod={handleSelectPeriod}
             onUploadClick={() => setIsUploadOpen(true)}
+            depotMissing={depotMissing}
+            onRecreateDepot={handleRecreateDepot}
           />
         </div>
       ) : (

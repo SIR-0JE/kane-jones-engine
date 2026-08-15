@@ -280,9 +280,71 @@ export async function changeUserPassword(params: {
   }
 }
 
+export async function checkDepotStatus(clientId: string): Promise<{ exists: boolean; id?: string; displayName?: string }> {
+  try {
+    const res = await fetch(`/api/depots/check?client_id=${encodeURIComponent(clientId)}`);
+    if (res.ok) {
+      const data = await res.json();
+      return {
+        exists: Boolean(data.exists),
+        id: data.id,
+        displayName: data.display_name,
+      };
+    }
+  } catch (err) {
+    console.warn("Depot check failed:", err);
+  }
+  return { exists: true };
+}
+
+export async function recreateDepot(depotName: string): Promise<UserSession> {
+  const current = getCurrentSession();
+  if (!current) {
+    throw new Error("No active session found.");
+  }
+  const cleanName = depotName.trim();
+  if (!cleanName) {
+    throw new Error("Please provide a valid depot name.");
+  }
+  const clientId = slugifyDepotName(cleanName);
+
+  // Register in Supabase backend
+  const formData = new FormData();
+  formData.append("client_id", clientId);
+  formData.append("display_name", cleanName);
+  await fetch("/api/depots/register", {
+    method: "POST",
+    body: formData,
+  });
+
+  const updatedSession: UserSession = {
+    ...current,
+    depotName: cleanName,
+    clientId: clientId,
+  };
+
+  localStorage.setItem(SESSION_KEY, JSON.stringify(updatedSession));
+
+  // Update in registered users array
+  const users = getRegisteredUsers();
+  const idx = users.findIndex((u) => u.id === current.id || u.email === current.email);
+  if (idx !== -1) {
+    users[idx] = {
+      ...users[idx],
+      depotName: cleanName,
+      clientId: clientId,
+    };
+    localStorage.setItem(USERS_KEY, JSON.stringify(users));
+  }
+
+  notifyAuthChange();
+  return updatedSession;
+}
+
 export function logoutUser() {
   if (typeof window !== "undefined") {
     localStorage.removeItem(SESSION_KEY);
     notifyAuthChange();
   }
 }
+

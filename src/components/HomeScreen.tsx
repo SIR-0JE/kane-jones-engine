@@ -14,7 +14,9 @@ import {
   AlertTriangle,
   ChevronRight,
   Sparkles,
-  DollarSign
+  DollarSign,
+  Loader2,
+  RefreshCw
 } from "lucide-react";
 import { SnapshotSummary } from "@/types/api";
 import { formatCurrency, formatPercent, formatNumber } from "@/lib/api";
@@ -25,6 +27,8 @@ interface HomeScreenProps {
   loading: boolean;
   onSelectPeriod: (periodLabel: string) => void;
   onUploadClick: () => void;
+  depotMissing?: boolean;
+  onRecreateDepot?: (depotName: string) => Promise<void>;
 }
 
 export function HomeScreen({
@@ -33,7 +37,13 @@ export function HomeScreen({
   loading,
   onSelectPeriod,
   onUploadClick,
+  depotMissing,
+  onRecreateDepot,
 }: HomeScreenProps) {
+  const [recreateName, setRecreateName] = React.useState(displayName || "My Beverage Depot");
+  const [recreating, setRecreating] = React.useState(false);
+  const [recreateError, setRecreateError] = React.useState<string | null>(null);
+
   // Aggregate stats across all loaded snapshots
   const totalAudits = snapshots.length;
   const latestSnapshot = snapshots[0];
@@ -41,8 +51,81 @@ export function HomeScreen({
   const totalTrackedLeakage = snapshots.reduce((acc, s) => acc + (s.total_recoverable_leakage || 0), 0);
   const currency = latestSnapshot?.currency_symbol || "₦";
 
+  const handleRecreateSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!recreateName.trim() || !onRecreateDepot) return;
+    try {
+      setRecreating(true);
+      setRecreateError(null);
+      await onRecreateDepot(recreateName.trim());
+    } catch (err: any) {
+      setRecreateError(err?.message || "Failed to initialize depot workspace.");
+    } finally {
+      setRecreating(false);
+    }
+  };
+
   return (
     <div className="w-full px-4 sm:px-8 lg:px-12 xl:px-16 py-6 space-y-8 pb-24 md:pb-12 max-w-7xl mx-auto">
+      {/* Missing Depot Warning / Re-initialization Card */}
+      {depotMissing && (
+        <div className="bg-gradient-to-r from-amber-500/10 via-purple-500/10 to-indigo-500/10 border border-amber-300/80 rounded-2xl p-6 shadow-sm space-y-4">
+          <div className="flex items-start gap-4">
+            <div className="p-3 bg-amber-500 text-white rounded-xl shadow-xs shrink-0 mt-0.5">
+              <Building2 className="w-6 h-6" />
+            </div>
+            <div className="space-y-1 flex-1">
+              <div className="flex items-center gap-2">
+                <span className="px-2 py-0.5 bg-amber-200 text-amber-900 text-[10px] font-extrabold uppercase tracking-wider rounded-md">
+                  Action Required
+                </span>
+                <span className="text-xs text-slate-500 font-semibold">Account Active</span>
+              </div>
+              <h3 className="text-base sm:text-lg font-bold text-slate-900 font-sora">
+                Depot Workspace Setup / Reconnection Required
+              </h3>
+              <p className="text-xs sm:text-sm text-slate-600 font-inter max-w-3xl leading-relaxed">
+                Your user session is active, but no matching depot record was found in the database (it may have been reset or removed). Enter your depot name below to initialize a fresh database record and resume uploading audits.
+              </p>
+            </div>
+          </div>
+
+          <form onSubmit={handleRecreateSubmit} className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 pt-2">
+            <div className="flex-1 max-w-md">
+              <input
+                type="text"
+                value={recreateName}
+                onChange={(e) => setRecreateName(e.target.value)}
+                placeholder="e.g. Kane-Jones Depot (Ogun State)"
+                className="w-full px-4 py-2.5 bg-white border border-slate-300 rounded-xl text-sm font-medium text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#7c6fff] shadow-xs"
+                disabled={recreating}
+                required
+              />
+            </div>
+            <button
+              type="submit"
+              disabled={recreating || !recreateName.trim()}
+              className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-slate-900 hover:bg-slate-800 text-white text-xs sm:text-sm font-bold rounded-xl shadow-xs transition-all disabled:opacity-50 shrink-0 font-sora cursor-pointer"
+            >
+              {recreating ? (
+                <>
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                  <span>Initializing...</span>
+                </>
+              ) : (
+                <>
+                  <Sparkles className="w-4 h-4 text-amber-400" />
+                  <span>Initialize Depot Workspace</span>
+                </>
+              )}
+            </button>
+          </form>
+          {recreateError && (
+            <p className="text-xs font-semibold text-rose-600">{recreateError}</p>
+          )}
+        </div>
+      )}
+
       {/* 1. Hub Sub-Header Banner */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-6 rounded-2xl border border-slate-200 shadow-xs">
         <div>

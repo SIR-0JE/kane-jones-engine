@@ -12,7 +12,7 @@ class TestNetProfitBridge:
     def test_net_profit_bridge_benchmarks(self, parsed_data):
         li_df = parsed_data["li_df"]
         returns_df = parsed_data["returns_df"]
-        expenses_total = 2059599.0  # From payment vouchers
+        expenses_total = 2095229.0  # From threshold sheet Grand Total (incl. Journal)
 
         bridge = compute_net_profit_bridge(
             invoices_df=parsed_data["inv_df"],
@@ -38,13 +38,20 @@ class TestNetProfitBridge:
         assert round(bridge["net_gross_margin_pct"], 4) == -0.0589
 
         # 6. Operating Expenses
-        assert bridge["total_operating_expenses"] == 2059599.0
+        assert bridge["total_operating_expenses"] == 2095229.0
 
         # 7. Net Operating Profit / (Loss)
-        assert bridge["net_operating_profit_loss"] == -12297826.0
+        assert bridge["net_operating_profit_loss"] == -12333456.0
 
         # 8. Return Rate
         assert round(bridge["return_rate"], 4) == 0.0744
+
+    def test_expenses_parsing_sheet(self):
+        """Validates expenses parsing from threshold sheet matching 2,095,229 Grand Total."""
+        total, df, anoms = parse_expenses_sheet("sample_data/july_expn.xlsx")
+        assert total == 2095229.0
+        assert len(df) == 13
+        assert "Journal" in df["category"].values
 
     def test_expenses_parsing_fallback(self):
         """Validates expenses parsing behavior when file does not exist or empty."""

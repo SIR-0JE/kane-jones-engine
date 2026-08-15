@@ -19,16 +19,71 @@ import openpyxl
 from engine.config import ClientProfile
 
 
-def parse_expenses_sheet(xlsx_path: str, profile: ClientProfile = None) -> Tuple[float, pd.DataFrame, list]:
+def parse_expenses_sheet(xlsx_path_or_wb: Any, profile: ClientProfile = None) -> Tuple[float, pd.DataFrame, list]:
     """
     Parses operating expenses from an expense workbook (e.g. july_expn.xlsx)
-    or an expenses sheet (e.g. tmp6F17).
+    or an in-workbook expenses sheet (e.g. 'July Expenses threshold ' or tmp6F17).
+    
+    Returns:
+    - total_expenses (float): Grand Total of all expenses (e.g. 2,095,229.00)
+    - df_expenses (pd.DataFrame): Category breakdown
+    - anomalies (list): Any parsing warnings
     """
-    try:
-        wb = openpyxl.load_workbook(xlsx_path, data_only=True)
-    except Exception:
+    if isinstance(xlsx_path_or_wb, str):
+        try:
+            wb = openpyxl.load_workbook(xlsx_path_or_wb, data_only=True)
+        except Exception:
+            return 0.0, pd.DataFrame(), []
+    elif hasattr(xlsx_path_or_wb, "sheetnames"):
+        wb = xlsx_path_or_wb
+    else:
         return 0.0, pd.DataFrame(), []
 
+    anomalies = []
+    
+    # 1. Priority 1: Check for clean expense summary/threshold sheet (e.g. 'July Expenses threshold ')
+    threshold_sheet = None
+    for s in wb.sheetnames:
+        clean = s.strip().lower()
+        if "expense" in clean and ("threshold" in clean or "summary" in clean):
+            threshold_sheet = s
+            break
+            
+    if threshold_sheet:
+        ws = wb[threshold_sheet]
+        categories = []
+        grand_total = 0.0
+        for r in range(1, ws.max_row + 1):
+            c1 = ws.cell(r, 1).value
+            c2 = ws.cell(r, 2).value
+            if not c1:
+                continue
+            str_c1 = str(c1).strip()
+            if "category" in str_c1.lower():
+                continue
+            if "grand total" in str_c1.lower() or "total" in str_c1.lower():
+                if c2 is not None:
+                    try:
+                        grand_total = float(str(c2).replace(",", ""))
+                    except Exception:
+                        pass
+                continue
+            if c2 is not None:
+                try:
+                    amt = float(str(c2).replace(",", ""))
+                    categories.append({
+                        "category": str_c1,
+                        "amount": amt,
+                        "source_row": r,
+                    })
+                except Exception:
+                    pass
+        df_exp = pd.DataFrame(categories)
+        if grand_total == 0.0 and not df_exp.empty:
+            grand_total = float(df_exp["amount"].sum())
+        return grand_total, df_exp, anomalies
+
+    # 2. Priority 2: Check for day-book expense sheet (e.g. 'tmp6F17' or sheets with 'exp')
     sheet_name = None
     target_name = getattr(profile, "expenses_sheet", "tmp6F17") if profile else "tmp6F17"
     if target_name in wb.sheetnames:
@@ -40,8 +95,7 @@ def parse_expenses_sheet(xlsx_path: str, profile: ClientProfile = None) -> Tuple
                 break
 
     if not sheet_name:
-        # If no specific sheet, take the active sheet
-        sheet_name = wb.sheetnames[0]
+        return 0.0, pd.DataFrame(), anomalies
 
     ws = wb[sheet_name]
     expenses = []
@@ -63,24 +117,27 @@ def parse_expenses_sheet(xlsx_path: str, profile: ClientProfile = None) -> Tuple
                     pass
             continue
 
-        if c4 and str(c4).strip().lower() == "payment" and c6 is not None:
-            try:
-                amt = float(str(c6).replace(",", ""))
-                expenses.append({
-                    "date": str(c1)[:10] if c1 else "",
-                    "category": str(c2).strip() if c2 else "General",
-                    "voucher_no": str(c5).strip() if c5 else "",
-                    "amount": amt,
-                    "row": r
-                })
-            except Exception:
-                pass
+        if c6 is not None:
+            c4_str = str(c4).strip().lower() if c4 else ""
+            c2_str = str(c2).strip() if c2 else "General"
+            if c4_str in ("payment", "journal") or "journal" in c2_str.lower() or (c1 and c2):
+                try:
+                    amt = float(str(c6).replace(",", ""))
+                    expenses.append({
+                        "date": str(c1)[:10] if c1 else "",
+                        "category": c2_str,
+                        "voucher_no": str(c5).strip() if c5 else "",
+                        "amount": amt,
+                        "row": r
+                    })
+                except Exception:
+                    pass
 
     df_exp = pd.DataFrame(expenses)
     if total_val == 0.0 and not df_exp.empty:
         total_val = float(df_exp["amount"].sum())
 
-    return total_val, df_exp, []
+    return total_val, df_exp, anomalies
 
 
 def compute_net_profit_bridge(
