@@ -37,6 +37,7 @@ export default function AppDashboard() {
   const [loadingWorkspace, setLoadingWorkspace] = useState<boolean>(false);
   const [workspaceError, setWorkspaceError] = useState<string | null>(null);
   const [depotMissing, setDepotMissing] = useState<boolean>(false);
+  const [mobileSidebarOpen, setMobileSidebarOpen] = useState<boolean>(false);
 
   // 1. Auth Guard
   useEffect(() => {
@@ -228,7 +229,7 @@ export default function AppDashboard() {
       ) : (
         /* VIEW 2: DEDICATED AUDIT WORKSPACE */
         <div className="flex flex-1 min-h-screen w-full">
-          {/* Desktop Left Sidebar */}
+          {/* Desktop & Mobile Slide-Out Left Sidebar */}
           <DesktopSidebar
             displayName={displayName}
             activePeriodLabel={selectedPeriod}
@@ -247,6 +248,8 @@ export default function AppDashboard() {
             lossCustomerCount={data?.meta?.loss_making_customers_count || data?.loss_making_customers?.length || 0}
             anomalyCount={data?.meta?.total_anomalies || data?.anomalies?.length || 0}
             returnsCount={data?.returns_analysis?.items_breakdown?.length || 0}
+            isMobileOpen={mobileSidebarOpen}
+            onCloseMobile={() => setMobileSidebarOpen(false)}
           />
 
           {/* Right Main Content Panel */}
@@ -261,6 +264,7 @@ export default function AppDashboard() {
               onUploadClick={() => setIsUploadOpen(true)}
               onOpenSettings={() => setActiveTab("settings")}
               onLogout={handleLogout}
+              onToggleMobileSidebar={() => setMobileSidebarOpen(true)}
             />
 
             {/* Screen Router */}
@@ -302,17 +306,6 @@ export default function AppDashboard() {
                 </>
               ) : null}
             </div>
-
-            {/* Mobile Bottom Bar Navigation */}
-            <Navigation
-              activeTab={activeTab}
-              onTabChange={(tab) => setActiveTab(tab)}
-              pricingLeakCount={data?.meta?.below_floor_items_count || data?.below_floor_pricing?.length || 0}
-              dominantProductCount={data?.meta?.dominant_products_count || data?.dominant_products?.length || 0}
-              lossCustomerCount={data?.meta?.loss_making_customers_count || data?.loss_making_customers?.length || 0}
-              anomalyCount={data?.meta?.total_anomalies || data?.anomalies?.length || 0}
-              returnsCount={data?.returns_analysis?.items_breakdown?.length || 0}
-            />
           </div>
         </div>
       )}

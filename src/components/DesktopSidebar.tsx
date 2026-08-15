@@ -11,12 +11,10 @@ import {
   CheckCircle2,
   RotateCcw,
   ArrowLeft,
-  Building2,
   Plus,
-  FileSpreadsheet,
-  Layers,
-  LogOut,
   Settings,
+  X,
+  Sparkles,
 } from "lucide-react";
 import { TabType } from "@/components/Navigation";
 import { SnapshotSummary } from "@/types/api";
@@ -40,6 +38,8 @@ interface DesktopSidebarProps {
   lossCustomerCount: number;
   anomalyCount: number;
   returnsCount?: number;
+  isMobileOpen?: boolean;
+  onCloseMobile?: () => void;
 }
 
 export function DesktopSidebar({
@@ -60,6 +60,8 @@ export function DesktopSidebar({
   lossCustomerCount,
   anomalyCount,
   returnsCount = 0,
+  isMobileOpen = false,
+  onCloseMobile,
 }: DesktopSidebarProps) {
   const navItems = [
     {
@@ -127,34 +129,59 @@ export function DesktopSidebar({
     },
   ];
 
-  const initials = getInitials(userSession?.name, userSession?.email);
+  const handleItemClick = (id: TabType) => {
+    onTabChange(id);
+    if (onCloseMobile) onCloseMobile();
+  };
 
-  return (
-    <aside className="hidden md:flex flex-col w-64 lg:w-72 bg-white border-r border-slate-200/90 h-screen sticky top-0 shrink-0 select-none">
+  const handleHomeClick = () => {
+    onBackToHome();
+    if (onCloseMobile) onCloseMobile();
+  };
+
+  const handleUpload = () => {
+    onUploadClick();
+    if (onCloseMobile) onCloseMobile();
+  };
+
+  const renderSidebarContent = (isDrawer = false) => (
+    <div className="flex flex-col h-full bg-white select-none">
       {/* Brand Header */}
-      <div className="p-6 border-b border-slate-100 flex items-center justify-between">
+      <div className="p-5 border-b border-slate-100 flex items-center justify-between">
         <button
-          onClick={onBackToHome}
-          className="flex items-center gap-2.5 group text-left"
+          onClick={handleHomeClick}
+          className="flex items-center gap-2.5 group text-left min-w-0"
         >
-          <div className="w-6 h-6 rounded-lg bg-gradient-to-br from-[#7c6fff] to-[#37e0c1] shadow-xs group-hover:scale-105 transition-transform shrink-0" />
+          <div className="w-7 h-7 rounded-xl bg-gradient-to-br from-[#7c6fff] to-[#37e0c1] flex items-center justify-center text-white shadow-xs group-hover:scale-105 transition-transform shrink-0">
+            <Sparkles className="w-4 h-4 text-white" />
+          </div>
           <div className="min-w-0">
-            <span className="text-base font-extrabold tracking-tight text-slate-900 font-sora block leading-none truncate">
+            <span className="text-sm font-extrabold tracking-tight text-slate-900 font-sora block leading-none truncate">
               {displayName || "Kane-Jones Depot"}
             </span>
-            <span className="text-[10px] font-bold text-[#7c6fff] tracking-wider uppercase block mt-0.5 font-sora">
+            <span className="text-[10px] font-bold text-[#7c6fff] tracking-wider uppercase block mt-1 font-sora">
               Distil Intelligence
             </span>
           </div>
         </button>
+
+        {isDrawer && onCloseMobile && (
+          <button
+            onClick={onCloseMobile}
+            className="p-1.5 rounded-xl text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors"
+            aria-label="Close Sidebar"
+          >
+            <X className="w-5 h-5" />
+          </button>
+        )}
       </div>
 
       {/* Snapshots Selector & Nav Section */}
-      <div className="flex-1 overflow-y-auto px-4 py-5 space-y-5">
+      <div className="flex-1 overflow-y-auto px-4 py-4 space-y-4">
         {/* Back to Audits Hub Action */}
         <button
-          onClick={onBackToHome}
-          className="w-full flex items-center justify-between px-3 py-2 bg-slate-50 hover:bg-slate-100/90 border border-slate-200 text-slate-700 hover:text-[#7c6fff] rounded-xl text-xs font-bold transition-all shadow-2xs group"
+          onClick={handleHomeClick}
+          className="w-full flex items-center justify-between px-3 py-2 bg-slate-50 hover:bg-slate-100/90 border border-slate-200 text-slate-700 hover:text-[#7c6fff] rounded-xl text-xs font-bold transition-all shadow-2xs group font-sora"
         >
           <div className="flex items-center gap-2">
             <ArrowLeft className="w-3.5 h-3.5 text-[#7c6fff] group-hover:-translate-x-0.5 transition-transform" />
@@ -171,7 +198,10 @@ export function DesktopSidebar({
             </label>
             <select
               value={activePeriodLabel}
-              onChange={(e) => onSelectPeriod(e.target.value)}
+              onChange={(e) => {
+                onSelectPeriod(e.target.value);
+                if (onCloseMobile) onCloseMobile();
+              }}
               className="w-full px-3 py-2 text-xs font-semibold text-slate-800 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-[#7c6fff] focus:outline-none transition-all cursor-pointer"
             >
               {allSnapshots.map((s) => (
@@ -194,7 +224,7 @@ export function DesktopSidebar({
             return (
               <button
                 key={item.id}
-                onClick={() => onTabChange(item.id)}
+                onClick={() => handleItemClick(item.id)}
                 className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-bold transition-all ${
                   isActive
                     ? "bg-[#7c6fff] text-white shadow-[0_2px_12px_rgba(124,111,255,0.35)] font-sora"
@@ -225,7 +255,7 @@ export function DesktopSidebar({
       <div className="p-4 border-t border-slate-100 space-y-3">
         {/* Upload Button: Primary Accent */}
         <button
-          onClick={onUploadClick}
+          onClick={handleUpload}
           className="w-full flex items-center justify-center gap-2 px-3 py-2.5 bg-gradient-to-r from-[#7c6fff] to-[#5a4dde] text-white rounded-xl text-xs font-semibold shadow-[0_4px_16px_rgba(124,111,255,0.35)] hover:translate-y-[-1px] transition-all font-sora"
         >
           <Plus className="w-4 h-4 text-white" />
@@ -236,6 +266,31 @@ export function DesktopSidebar({
           Distil Intelligence • v1.0.0
         </div>
       </div>
-    </aside>
+    </div>
+  );
+
+  return (
+    <>
+      {/* Desktop Permanently Docked Sidebar */}
+      <aside className="hidden md:flex flex-col w-64 lg:w-72 bg-white border-r border-slate-200/90 h-screen sticky top-0 shrink-0 select-none z-20">
+        {renderSidebarContent(false)}
+      </aside>
+
+      {/* Mobile Slide-Out Side Navigation Drawer */}
+      {isMobileOpen && (
+        <div className="fixed inset-0 z-50 md:hidden flex">
+          {/* Backdrop */}
+          <div
+            onClick={onCloseMobile}
+            className="fixed inset-0 bg-slate-900/60 backdrop-blur-xs transition-opacity duration-200"
+          />
+
+          {/* Drawer Panel */}
+          <div className="relative w-72 max-w-[85vw] bg-white h-full shadow-2xl z-10 flex flex-col transform transition-transform duration-200 ease-out">
+            {renderSidebarContent(true)}
+          </div>
+        </div>
+      )}
+    </>
   );
 }

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
-import { UploadCloud, Calendar, Building2, ArrowLeft, LogOut, Settings, ChevronDown, Sparkles } from "lucide-react";
+import { UploadCloud, Calendar, Building2, ArrowLeft, LogOut, Settings, ChevronDown, Sparkles, Menu } from "lucide-react";
 import { UserSession, getInitials } from "@/lib/auth";
 
 interface HeaderProps {
@@ -15,6 +15,7 @@ interface HeaderProps {
   onUploadClick: () => void;
   onOpenSettings?: () => void;
   onLogout?: () => void;
+  onToggleMobileSidebar?: () => void;
 }
 
 export function Header({
@@ -28,6 +29,7 @@ export function Header({
   onUploadClick,
   onOpenSettings,
   onLogout,
+  onToggleMobileSidebar,
 }: HeaderProps) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -48,12 +50,23 @@ export function Header({
     <header className="sticky top-0 z-30 bg-white/95 backdrop-blur-md border-b border-slate-200/90 px-4 sm:px-6 lg:px-8 py-3 w-full">
       <div className="flex items-center justify-between gap-2">
         {/* Left Section: Brand / Depot Title & Navigation Context */}
-        <div className="flex items-center gap-2.5 min-w-0">
+        <div className="flex items-center gap-2 min-w-0">
+          {/* Mobile Navigation Drawer Toggle */}
+          {!isHomeHub && onToggleMobileSidebar && (
+            <button
+              onClick={onToggleMobileSidebar}
+              aria-label="Open Navigation Menu"
+              className="p-1.5 -ml-1 text-slate-700 hover:text-[#7c6fff] hover:bg-slate-100/90 rounded-xl md:hidden shrink-0 transition-colors border border-slate-200/80 shadow-2xs"
+            >
+              <Menu className="w-5 h-5 text-slate-700" />
+            </button>
+          )}
+
           {onBackToHome && !isHomeHub && (
             <button
               onClick={onBackToHome}
               aria-label="Back to Audits Hub"
-              className="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-semibold text-slate-700 hover:text-[#7c6fff] hover:bg-slate-100/90 rounded-xl transition-all border border-slate-200/80 shrink-0 font-sora mr-1 shadow-2xs group"
+              className="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-semibold text-slate-700 hover:text-[#7c6fff] hover:bg-slate-100/90 rounded-xl transition-all border border-slate-200/80 shrink-0 font-sora mr-1 shadow-2xs group"
             >
               <ArrowLeft className="w-3.5 h-3.5 text-[#7c6fff] group-hover:-translate-x-0.5 transition-transform" />
               <span>Back to Hub</span>

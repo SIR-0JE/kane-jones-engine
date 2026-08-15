@@ -13,6 +13,7 @@ export default function SettingsPage() {
   const router = useRouter();
   const [session, setSession] = useState<UserSession | null>(null);
   const [authChecked, setAuthChecked] = useState<boolean>(false);
+  const [mobileSidebarOpen, setMobileSidebarOpen] = useState<boolean>(false);
 
   useEffect(() => {
     const current = getCurrentSession();
@@ -46,7 +47,7 @@ export default function SettingsPage() {
   return (
     <main className="w-full min-h-screen bg-slate-50/50 flex flex-col justify-between">
       <div className="flex flex-1 min-h-screen w-full">
-        {/* Desktop Left Sidebar */}
+        {/* Desktop & Mobile Left Sidebar */}
         <DesktopSidebar
           displayName={displayName}
           activePeriodLabel="Settings"
@@ -65,6 +66,8 @@ export default function SettingsPage() {
           dominantProductCount={0}
           lossCustomerCount={0}
           anomalyCount={0}
+          isMobileOpen={mobileSidebarOpen}
+          onCloseMobile={() => setMobileSidebarOpen(false)}
         />
 
         {/* Right Main Content Panel */}
@@ -78,13 +81,12 @@ export default function SettingsPage() {
             onUploadClick={() => router.push("/app")}
             onOpenSettings={() => {}}
             onLogout={handleLogout}
+            onToggleMobileSidebar={() => setMobileSidebarOpen(true)}
           />
 
           <div className="flex-1 w-full bg-white overflow-x-hidden">
             <SettingsScreen onProfileUpdated={handleProfileUpdated} />
           </div>
-
-          <Navigation activeTab="settings" onTabChange={() => router.push("/app")} />
         </div>
       </div>
     </main>
