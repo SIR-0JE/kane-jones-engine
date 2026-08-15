@@ -10,6 +10,7 @@ import {
   Users,
   CheckCircle2,
   RotateCcw,
+  Receipt,
 } from "lucide-react";
 
 export type TabType =
@@ -20,6 +21,7 @@ export type TabType =
   | "products"
   | "customers"
   | "returns"
+  | "expenses"
   | "quality"
   | "settings";
 
@@ -31,6 +33,7 @@ interface NavigationProps {
   lossCustomerCount?: number;
   anomalyCount?: number;
   returnsCount?: number;
+  expensesCount?: number;
 }
 
 export function Navigation({
@@ -41,6 +44,7 @@ export function Navigation({
   lossCustomerCount = 0,
   anomalyCount = 0,
   returnsCount = 0,
+  expensesCount = 0,
 }: NavigationProps) {
   const tabs: {
     id: TabType;
@@ -79,6 +83,13 @@ export function Navigation({
       icon: RotateCcw,
       badge: returnsCount > 0 ? returnsCount : undefined,
       badgeColor: "bg-[#7c6fff] text-white",
+    },
+    {
+      id: "expenses",
+      label: "Expenses",
+      icon: Receipt,
+      badge: expensesCount > 0 ? expensesCount : undefined,
+      badgeColor: "bg-rose-600 text-white",
     },
     {
       id: "quality",

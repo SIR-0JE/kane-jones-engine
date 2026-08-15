@@ -308,32 +308,42 @@ export function HomeScreen({
                     </div>
 
                     {/* Metric Tiles */}
-                    <div className="grid grid-cols-2 gap-2 mt-4 pt-3 border-t border-slate-100">
-                      <div>
-                        <span className="text-[10px] text-slate-400 font-medium block">Gross Revenue</span>
-                        <span className="text-xs md:text-sm font-extrabold text-slate-900">
-                          {formatCurrency(item.total_revenue, item.currency_symbol || currency, true)}
-                        </span>
-                      </div>
-                      <div>
-                        <span className="text-[10px] text-slate-400 font-medium block">Gross Profit</span>
-                        <span className={`text-xs md:text-sm font-extrabold ${item.total_gross_profit >= 0 ? "text-emerald-700" : "text-rose-700"}`}>
-                          {formatCurrency(item.total_gross_profit, item.currency_symbol || currency, true)}
-                        </span>
-                      </div>
-                      <div>
-                        <span className="text-[10px] text-slate-400 font-medium block">Overall Margin</span>
-                        <span className="text-xs font-bold text-slate-700">
-                          {formatPercent(item.overall_margin_pct)}
-                        </span>
-                      </div>
-                      <div>
-                        <span className="text-[10px] text-slate-400 font-medium block">Invoices Audited</span>
-                        <span className="text-xs font-bold text-slate-700">
-                          {formatNumber(item.total_invoices)} invoices
-                        </span>
-                      </div>
-                    </div>
+                    {(() => {
+                      const bridge = item.net_profit_bridge;
+                      const grossRevenue = bridge?.gross_sales_revenue ?? item.total_revenue ?? 0;
+                      const netProfitLoss = bridge?.net_operating_profit_loss ?? bridge?.net_gross_profit_loss ?? item.total_gross_profit ?? 0;
+                      const netSales = bridge?.net_sales_revenue ?? grossRevenue;
+                      const marginPct = bridge?.net_operating_margin_pct ?? (netSales > 0 ? netProfitLoss / netSales : item.overall_margin_pct ?? 0);
+
+                      return (
+                        <div className="grid grid-cols-2 gap-2 mt-4 pt-3 border-t border-slate-100">
+                          <div>
+                            <span className="text-[10px] text-slate-400 font-medium block font-inter">Gross Sales</span>
+                            <span className="text-xs md:text-sm font-extrabold text-slate-900 font-sora">
+                              {formatCurrency(grossRevenue, item.currency_symbol || currency, true)}
+                            </span>
+                          </div>
+                          <div>
+                            <span className="text-[10px] text-slate-400 font-medium block font-inter">Net Profit / (Loss)</span>
+                            <span className={`text-xs md:text-sm font-extrabold font-sora ${netProfitLoss >= 0 ? "text-emerald-700" : "text-rose-700"}`}>
+                              {formatCurrency(netProfitLoss, item.currency_symbol || currency, true)}
+                            </span>
+                          </div>
+                          <div>
+                            <span className="text-[10px] text-slate-400 font-medium block font-inter">Net Margin</span>
+                            <span className={`text-xs font-bold font-sora ${marginPct >= 0 ? "text-slate-700" : "text-rose-600"}`}>
+                              {formatPercent(marginPct)}
+                            </span>
+                          </div>
+                          <div>
+                            <span className="text-[10px] text-slate-400 font-medium block font-inter">Invoices Audited</span>
+                            <span className="text-xs font-bold text-slate-700 font-sora">
+                              {formatNumber(item.total_invoices)} invoices
+                            </span>
+                          </div>
+                        </div>
+                      );
+                    })()}
                   </div>
 
                   {/* Bottom Risk Badges & CTA */}

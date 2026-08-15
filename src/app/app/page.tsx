@@ -14,6 +14,7 @@ import { PricingAuditScreen } from "@/components/screens/PricingAuditScreen";
 import { ProductsScreen } from "@/components/screens/ProductsScreen";
 import { CustomersScreen } from "@/components/screens/CustomersScreen";
 import { ReturnsScreen } from "@/components/screens/ReturnsScreen";
+import { ExpensesScreen } from "@/components/screens/ExpensesScreen";
 import { DataQualityScreen } from "@/components/screens/DataQualityScreen";
 import { SettingsScreen } from "@/components/screens/SettingsScreen";
 import { AnalyzeResponse, SnapshotSummary } from "@/types/api";
@@ -371,6 +372,7 @@ export default function AppDashboard() {
                   {activeTab === "products" && <ProductsScreen data={data} />}
                   {activeTab === "customers" && <CustomersScreen data={data} />}
                   {activeTab === "returns" && <ReturnsScreen data={data} />}
+                  {activeTab === "expenses" && <ExpensesScreen data={data} />}
                   {activeTab === "quality" && <DataQualityScreen data={data} />}
                 </>
               ) : null}

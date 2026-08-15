@@ -15,6 +15,10 @@ import {
   Presentation,
   Trash2,
   Pencil,
+  X,
+  Calculator,
+  FileSpreadsheet,
+  ExternalLink,
 } from "lucide-react";
 import { TabType } from "@/components/Navigation";
 import { AnalyzeResponse, CompareResponse } from "@/types/api";
@@ -39,6 +43,38 @@ export function OverviewScreen({ data, onNavigate, onDeleteAudit, onRenameAudit 
   const [pptxLoading, setPptxLoading] = useState<boolean>(false);
   const [deleteConfirmOpen, setDeleteConfirmOpen] = useState<boolean>(false);
 
+  // Number formatting display mode: 'compact' (₦174.24M) or 'exact' (₦174,237,808.00)
+  const [numberFormat, setNumberFormat] = useState<"compact" | "exact">("compact");
+
+  // Metric Detail Modal State
+  const [selectedMetric, setSelectedMetric] = useState<{
+    step: string;
+    title: string;
+    value: number;
+    formattedExact: string;
+    formattedCompact: string;
+    isDeduction?: boolean;
+    description: string;
+    formula: string;
+    sourceSheet: string;
+    targetTab?: TabType;
+    details?: { label: string; value: string }[];
+  } | null>(null);
+
+  // Available dates / weeks for interactive comparison
+  const availableDays = (data.daily_summary && data.daily_summary.length > 0)
+    ? data.daily_summary.map((d: any) => d.date_only || d.date || "")
+    : ["2026-07-01", "2026-07-02", "2026-07-03"];
+
+  const availableWeeks = (data.weekly_summary && data.weekly_summary.length > 0)
+    ? data.weekly_summary.map((w: any) => String(w.week_number || w.week || ""))
+    : ["1", "2", "3", "4"];
+
+  const [selectedDayA, setSelectedDayA] = useState<string>(availableDays[0] || "2026-07-01");
+  const [selectedDayB, setSelectedDayB] = useState<string>(availableDays[1] || availableDays[0] || "2026-07-02");
+  const [selectedWeekA, setSelectedWeekA] = useState<string>(availableWeeks[0] || "1");
+  const [selectedWeekB, setSelectedWeekB] = useState<string>(availableWeeks[1] || availableWeeks[0] || "2");
+
   useEffect(() => {
     let isMounted = true;
     async function loadDiff() {
@@ -48,18 +84,18 @@ export function OverviewScreen({ data, onNavigate, onDeleteAudit, onRenameAudit 
         let keyB: string | undefined;
 
         if (granularity === "day") {
-          keyA = "2026-07-02";
-          keyB = "2026-07-03";
+          keyA = selectedDayA;
+          keyB = selectedDayB;
         } else if (granularity === "week") {
-          keyA = "1";
-          keyB = "3";
+          keyA = selectedWeekA;
+          keyB = selectedWeekB;
         }
 
         const res = await fetchComparison(
           meta.client_id || "kane-jones",
           granularity,
-          "2026-07",
-          granularity === "month" ? "2026-08" : "2026-07",
+          meta.period_label || "2026-07",
+          granularity === "month" ? "2026-08" : (meta.period_label || "2026-07"),
           keyA,
           keyB
         );
@@ -77,7 +113,7 @@ export function OverviewScreen({ data, onNavigate, onDeleteAudit, onRenameAudit 
     return () => {
       isMounted = false;
     };
-  }, [granularity, meta.client_id]);
+  }, [granularity, selectedDayA, selectedDayB, selectedWeekA, selectedWeekB, meta.client_id, meta.period_label]);
 
   const belowFloorLeaks = data.below_floor_pricing || [];
   const totalLeakOpportunity = meta.total_recoverable_leakage ?? belowFloorLeaks.reduce((acc, item) => acc + (item.revenue_opportunity || 0), 0);
@@ -99,16 +135,16 @@ export function OverviewScreen({ data, onNavigate, onDeleteAudit, onRenameAudit 
         throw new Error(err.detail || "Failed to download report");
       }
       const blob = await res.blob();
-      const url = URL.createObjectURL(blob);
+      const url = window.URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
       a.download = `${clientId}_${periodLabel}_audit_report.pdf`;
       document.body.appendChild(a);
       a.click();
+      window.URL.revokeObjectURL(url);
       document.body.removeChild(a);
-      URL.revokeObjectURL(url);
     } catch (err: any) {
-      alert(`Report download failed: ${err?.message || "Unknown error"}`);
+      alert(`Error downloading PDF: ${err.message || "Failed to generate report"}`);
     } finally {
       setPdfLoading(false);
     }
@@ -120,81 +156,114 @@ export function OverviewScreen({ data, onNavigate, onDeleteAudit, onRenameAudit 
     setPptxLoading(true);
     try {
       const res = await fetch(
-        `/api/report/pptx?client_id=${encodeURIComponent(clientId)}&period_label=${encodeURIComponent(periodLabel)}`
+        `/api/presentation?client_id=${encodeURIComponent(clientId)}&period_label=${encodeURIComponent(periodLabel)}`
       );
       if (!res.ok) {
-        const err = await res.json().catch(() => ({ detail: "PowerPoint generation failed." }));
+        const err = await res.json().catch(() => ({ detail: "Presentation generation failed." }));
         throw new Error(err.detail || "Failed to download presentation");
       }
       const blob = await res.blob();
-      const url = URL.createObjectURL(blob);
+      const url = window.URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      a.download = `${clientId}_${periodLabel}_management_intelligence.pptx`;
+      a.download = `${clientId}_${periodLabel}_executive_deck.pptx`;
       document.body.appendChild(a);
       a.click();
+      window.URL.revokeObjectURL(url);
       document.body.removeChild(a);
-      URL.revokeObjectURL(url);
     } catch (err: any) {
-      alert(`PowerPoint download failed: ${err?.message || "Unknown error"}`);
+      alert(`Error downloading presentation: ${err.message || "Failed to generate slides"}`);
     } finally {
       setPptxLoading(false);
     }
   };
 
+  const isCompact = numberFormat === "compact";
+  const displayMoney = (val: number, isDeduction: boolean = false) => {
+    const sign = isDeduction ? "−" : "";
+    const formatted = formatCurrency(Math.abs(val), currency, isCompact);
+    return `${sign}${formatted}`;
+  };
+
   return (
     <div className="p-4 sm:p-6 lg:p-8 space-y-6 pb-24 md:pb-12 w-full">
-      {/* Download Report button row */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+      {/* 1. Header & Actions */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-4">
         <div>
-          <h1 className="text-sm font-bold text-slate-900 font-sora">Overview</h1>
-          <div className="flex items-center gap-1.5 mt-0.5">
-            <p className="text-xs text-slate-500">{meta?.audit_title || meta?.period_label || "Audit"}</p>
+          <div className="flex items-center gap-2">
+            <h1 className="text-base font-extrabold text-slate-900 font-sora">
+              Overview
+            </h1>
             {onRenameAudit && (
               <button
                 type="button"
-                onClick={() => onRenameAudit(meta?.period_label || "2026-07", meta?.audit_title || `${meta?.period_label} Audit`)}
-                title="Edit audit name"
-                className="p-1 rounded-lg text-slate-400 hover:text-[#7c6fff] hover:bg-purple-50 transition-colors"
+                title="Rename this audit"
+                onClick={() => onRenameAudit(meta?.period_label || "2026-07", meta?.audit_title || `${meta?.period_label} Full Audit`)}
+                className="p-1 rounded-md text-slate-400 hover:text-[#7c6fff] hover:bg-purple-50 transition-colors"
               >
-                <Pencil className="w-3 h-3" />
+                <Pencil className="w-3.5 h-3.5" />
               </button>
             )}
           </div>
+          <p className="text-xs text-slate-500 font-inter">
+            {meta?.audit_title || `${meta?.period_label} Full Audit`}
+          </p>
         </div>
-        <div className="flex items-center gap-2">
+
+        {/* Global Action Buttons */}
+        <div className="flex flex-wrap items-center gap-2">
+          {/* Exact / Compact Number Format Switcher */}
+          <div className="inline-flex p-0.5 bg-slate-100 rounded-xl border border-slate-200 text-xs mr-1">
+            <button
+              type="button"
+              onClick={() => setNumberFormat("compact")}
+              className={`px-2.5 py-1 rounded-lg font-bold text-[11px] font-sora transition-all ${
+                numberFormat === "compact"
+                  ? "bg-white text-slate-900 shadow-xs"
+                  : "text-slate-500 hover:text-slate-800"
+              }`}
+            >
+              Compact (₦174M)
+            </button>
+            <button
+              type="button"
+              onClick={() => setNumberFormat("exact")}
+              className={`px-2.5 py-1 rounded-lg font-bold text-[11px] font-sora transition-all ${
+                numberFormat === "exact"
+                  ? "bg-white text-slate-900 shadow-xs"
+                  : "text-slate-500 hover:text-slate-800"
+              }`}
+            >
+              Exact (₦174,237,808)
+            </button>
+          </div>
+
           <button
-            id="btn-download-pptx"
+            type="button"
             onClick={handleDownloadPptx}
             disabled={pptxLoading}
-            className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-white border border-slate-200 hover:bg-slate-50 hover:border-slate-300 active:scale-95 text-slate-700 text-xs font-semibold font-sora transition-all shadow-xs disabled:opacity-60 disabled:cursor-not-allowed"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-slate-200 hover:bg-slate-50 text-slate-700 text-xs font-semibold font-sora transition-all shadow-xs disabled:opacity-60"
           >
-            {pptxLoading ? (
-              <Loader2 className="w-3.5 h-3.5 animate-spin text-[#7c6fff]" />
-            ) : (
-              <Presentation className="w-3.5 h-3.5 text-[#7c6fff]" />
-            )}
-            {pptxLoading ? "Generating Slides…" : "Executive Slides (.pptx)"}
+            {pptxLoading ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Presentation className="w-3.5 h-3.5 text-[#7c6fff]" />}
+            <span>Executive Slides (.pptx)</span>
           </button>
+
           <button
-            id="btn-download-pdf"
+            type="button"
             onClick={handleDownloadPdf}
             disabled={pdfLoading}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-[#7c6fff] to-[#5a4dde] hover:shadow-[0_4px_16px_rgba(124,111,255,0.35)] active:scale-95 text-white text-xs font-semibold font-sora transition-all disabled:opacity-60 disabled:cursor-not-allowed"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#7c6fff] hover:bg-[#6b5dfc] text-white text-xs font-semibold font-sora transition-all shadow-xs disabled:opacity-60"
           >
-            {pdfLoading ? (
-              <Loader2 className="w-3.5 h-3.5 animate-spin" />
-            ) : (
-              <FileDown className="w-3.5 h-3.5" />
-            )}
-            {pdfLoading ? "Generating PDF…" : "Download PDF Report"}
+            {pdfLoading ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <FileDown className="w-3.5 h-3.5" />}
+            <span>Download PDF Report</span>
           </button>
+
           {onDeleteAudit && (
             <button
-              id="btn-delete-audit"
+              type="button"
+              title="Delete this audit from depot"
               onClick={() => setDeleteConfirmOpen(true)}
-              className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-white border border-rose-200 hover:bg-rose-50 hover:border-rose-300 text-rose-700 text-xs font-semibold font-sora transition-all active:scale-95 shadow-xs"
-              title="Delete this audit"
+              className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl border border-rose-200 bg-rose-50/50 hover:bg-rose-100/60 text-rose-700 text-xs font-semibold font-sora transition-all shadow-xs"
             >
               <Trash2 className="w-3.5 h-3.5 text-rose-600" />
               <span className="hidden sm:inline">Delete Audit</span>
@@ -203,7 +272,7 @@ export function OverviewScreen({ data, onNavigate, onDeleteAudit, onRenameAudit 
         </div>
       </div>
 
-      {/* 1. Official 7 Financial Bridge Metrics (Primary Overview Cards) */}
+      {/* 1. Official 7 Financial Bridge Metrics (Primary Overview Cards with Red Negatives & Click-to-Drill) */}
       {(() => {
         const bridge = data.net_profit_bridge;
         const grossSales = bridge?.gross_sales_revenue ?? meta.total_revenue ?? 0;
@@ -221,11 +290,16 @@ export function OverviewScreen({ data, onNavigate, onDeleteAudit, onRenameAudit 
           <div className="space-y-3">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
               <div>
-                <h2 className="text-xs font-bold text-slate-500 uppercase tracking-wider font-sora">
-                  Official Financial Bridge & Management P&L
-                </h2>
+                <div className="flex items-center gap-2">
+                  <h2 className="text-xs font-bold text-slate-500 uppercase tracking-wider font-sora">
+                    Official Financial Bridge & Management P&L
+                  </h2>
+                  <span className="text-[10px] font-semibold px-2 py-0.5 bg-slate-100 text-slate-600 rounded-md">
+                    Click any card for full details
+                  </span>
+                </div>
                 <p className="text-xs text-slate-400 font-inter">
-                  Full 7-step P&L reconciliation with sales returns and product-only COGS
+                  Full 7-step P&L reconciliation with sales returns, true product COGS, and operating expenses
                 </p>
               </div>
               <button
@@ -240,13 +314,33 @@ export function OverviewScreen({ data, onNavigate, onDeleteAudit, onRenameAudit 
             {/* 7-Step Financial Bridge Grid */}
             <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-3">
               {/* Step 1: Gross Sales */}
-              <div className="bg-white p-3.5 sm:p-4 rounded-xl border border-slate-200 shadow-xs flex flex-col justify-between">
+              <div
+                onClick={() =>
+                  setSelectedMetric({
+                    step: "Step 1",
+                    title: "Gross Sales Revenue",
+                    value: grossSales,
+                    formattedExact: formatCurrency(grossSales, currency, false),
+                    formattedCompact: formatCurrency(grossSales, currency, true),
+                    description: "Total invoice value across all sales invoices issued during the audit period, including container empties deposits.",
+                    formula: "Sum of (Invoice Line Quantity × Unit Selling Price) for all day reports",
+                    sourceSheet: "Day Reports (July 1st – 31st) / tmpC31F",
+                    targetTab: "daily",
+                    details: [
+                      { label: "Total Invoices", value: formatNumber(meta.total_invoices) },
+                      { label: "Date Range", value: `${meta.date_range?.start || "N/A"} to ${meta.date_range?.end || "N/A"}` },
+                      { label: "Currency", value: currency },
+                    ],
+                  })
+                }
+                className="bg-white hover:border-slate-300 hover:shadow-sm cursor-pointer p-3.5 sm:p-4 rounded-xl border border-slate-200 shadow-xs flex flex-col justify-between transition-all"
+              >
                 <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider font-sora">
                   1. Gross Sales
                 </span>
                 <div className="mt-2">
                   <div className="text-base sm:text-lg lg:text-xl font-bold text-slate-900 tracking-tight font-sora truncate">
-                    {formatCurrency(grossSales, currency, true)}
+                    {displayMoney(grossSales, false)}
                   </div>
                   <span className="text-[11px] text-slate-500 font-medium block mt-1">
                     {formatNumber(meta.total_invoices)} invoices
@@ -254,29 +348,69 @@ export function OverviewScreen({ data, onNavigate, onDeleteAudit, onRenameAudit 
                 </div>
               </div>
 
-              {/* Step 2: Less Returns */}
-              <div className="bg-purple-50/40 p-3.5 sm:p-4 rounded-xl border border-purple-200/80 shadow-xs flex flex-col justify-between">
-                <span className="text-[10px] font-bold text-purple-700 uppercase tracking-wider font-sora">
+              {/* Step 2: Less Returns (RED DEDUCTION) */}
+              <div
+                onClick={() =>
+                  setSelectedMetric({
+                    step: "Step 2",
+                    title: "Total Sales Returns & Credit Notes",
+                    value: salesReturns,
+                    formattedExact: `−${formatCurrency(salesReturns, currency, false)}`,
+                    formattedCompact: `−${formatCurrency(salesReturns, currency, true)}`,
+                    isDeduction: true,
+                    description: "Total value of credit notes issued to customers for returned products and returned empties/crates during the period.",
+                    formula: "Sum of all Credit Note voucher credit amounts",
+                    sourceSheet: "Sales Returns Sheet (tmpCEF3 / Credit Notes)",
+                    targetTab: "returns",
+                    details: [
+                      { label: "Return Rate", value: `${formatPercent(returnRate)} of Gross Sales` },
+                      { label: "Product Returns", value: formatCurrency(data.returns_analysis?.product_returns_value || 0, currency, false) },
+                      { label: "Empties Returns", value: formatCurrency(data.returns_analysis?.empties_returns_value || 0, currency, false) },
+                    ],
+                  })
+                }
+                className="bg-rose-50/60 hover:bg-rose-100/50 hover:border-rose-300 hover:shadow-sm cursor-pointer p-3.5 sm:p-4 rounded-xl border border-rose-200 shadow-xs flex flex-col justify-between transition-all"
+              >
+                <span className="text-[10px] font-bold text-rose-700 uppercase tracking-wider font-sora">
                   2. Less Returns
                 </span>
                 <div className="mt-2">
-                  <div className="text-base sm:text-lg lg:text-xl font-bold text-purple-700 tracking-tight font-sora truncate">
-                    −{formatCurrency(salesReturns, currency, true)}
+                  <div className="text-base sm:text-lg lg:text-xl font-bold text-rose-700 tracking-tight font-sora truncate">
+                    {displayMoney(salesReturns, true)}
                   </div>
-                  <span className="text-[11px] text-purple-600 font-medium block mt-1">
+                  <span className="text-[11px] text-rose-600 font-medium block mt-1">
                     {formatPercent(returnRate)} of sales
                   </span>
                 </div>
               </div>
 
               {/* Step 3: Net Sales */}
-              <div className="bg-white p-3.5 sm:p-4 rounded-xl border border-slate-200 shadow-xs flex flex-col justify-between">
+              <div
+                onClick={() =>
+                  setSelectedMetric({
+                    step: "Step 3",
+                    title: "Net Sales Revenue",
+                    value: netSales,
+                    formattedExact: formatCurrency(netSales, currency, false),
+                    formattedCompact: formatCurrency(netSales, currency, true),
+                    description: "Actual retained revenue base available to cover product purchase costs and depot operating expenses.",
+                    formula: "Gross Sales Revenue − Total Sales Returns",
+                    sourceSheet: "Gross Sales less Credit Notes Reconciliation",
+                    details: [
+                      { label: "Gross Sales Base", value: formatCurrency(grossSales, currency, false) },
+                      { label: "Less Returns", value: `−${formatCurrency(salesReturns, currency, false)}` },
+                      { label: "Net Available", value: formatCurrency(netSales, currency, false) },
+                    ],
+                  })
+                }
+                className="bg-white hover:border-slate-300 hover:shadow-sm cursor-pointer p-3.5 sm:p-4 rounded-xl border border-slate-200 shadow-xs flex flex-col justify-between transition-all"
+              >
                 <span className="text-[10px] font-bold text-slate-700 uppercase tracking-wider font-sora">
                   3. Net Sales
                 </span>
                 <div className="mt-2">
                   <div className="text-base sm:text-lg lg:text-xl font-bold text-slate-900 tracking-tight font-sora truncate">
-                    {formatCurrency(netSales, currency, true)}
+                    {displayMoney(netSales, false)}
                   </div>
                   <span className="text-[11px] text-slate-500 font-medium block mt-1">
                     Available base
@@ -284,61 +418,148 @@ export function OverviewScreen({ data, onNavigate, onDeleteAudit, onRenameAudit 
                 </div>
               </div>
 
-              {/* Step 4: Total Cost (Product COGS) */}
-              <div className="bg-white p-3.5 sm:p-4 rounded-xl border border-slate-200 shadow-xs flex flex-col justify-between">
-                <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider font-sora">
+              {/* Step 4: Total Cost (Product COGS - RED DEDUCTION) */}
+              <div
+                onClick={() =>
+                  setSelectedMetric({
+                    step: "Step 4",
+                    title: "Product Cost of Goods Sold (COGS)",
+                    value: productCost,
+                    formattedExact: `−${formatCurrency(productCost, currency, false)}`,
+                    formattedCompact: `−${formatCurrency(productCost, currency, true)}`,
+                    isDeduction: true,
+                    description: "Direct manufacturer/distributor cost of goods sold across all sales invoices, strictly excluding container bottle/crate deposits.",
+                    formula: "Sum of (Line Item Quantity × Unit Product Purchase Cost)",
+                    sourceSheet: "Invoice Product Line Items & Inventory Cost Master (tmp3F5D)",
+                    targetTab: "products",
+                    details: [
+                      { label: "Product COGS Total", value: formatCurrency(productCost, currency, false) },
+                      { label: "Container Empties", value: "Excluded (Pass-through deposit)" },
+                    ],
+                  })
+                }
+                className="bg-rose-50/60 hover:bg-rose-100/50 hover:border-rose-300 hover:shadow-sm cursor-pointer p-3.5 sm:p-4 rounded-xl border border-rose-200 shadow-xs flex flex-col justify-between transition-all"
+              >
+                <span className="text-[10px] font-bold text-rose-700 uppercase tracking-wider font-sora">
                   4. Product Cost
                 </span>
                 <div className="mt-2">
-                  <div className="text-base sm:text-lg lg:text-xl font-bold text-slate-800 tracking-tight font-sora truncate">
-                    −{formatCurrency(productCost, currency, true)}
+                  <div className="text-base sm:text-lg lg:text-xl font-bold text-rose-700 tracking-tight font-sora truncate">
+                    {displayMoney(productCost, true)}
                   </div>
-                  <span className="text-[11px] text-slate-500 font-medium block mt-1">
+                  <span className="text-[11px] text-rose-600 font-medium block mt-1">
                     Excl. empties
                   </span>
                 </div>
               </div>
 
-              {/* Step 5: Gross Profit */}
-              <div className={`p-3.5 sm:p-4 rounded-xl border shadow-xs flex flex-col justify-between ${grossProfit >= 0 ? "bg-emerald-50/60 border-emerald-200" : "bg-rose-50/60 border-rose-200"}`}>
-                <span className={`text-[10px] font-bold uppercase tracking-wider font-sora ${grossProfit >= 0 ? "text-emerald-700" : "text-rose-700"}`}>
+              {/* Step 5: Gross Profit (Green if positive, Red if negative) */}
+              <div
+                onClick={() =>
+                  setSelectedMetric({
+                    step: "Step 5",
+                    title: "Gross Profit / (Loss)",
+                    value: grossProfit,
+                    formattedExact: `${grossProfit >= 0 ? "+" : ""}${formatCurrency(grossProfit, currency, false)}`,
+                    formattedCompact: `${grossProfit >= 0 ? "+" : ""}${formatCurrency(grossProfit, currency, true)}`,
+                    description: "Trading gross profit after deducting true product purchase cost and sales returns from gross revenue.",
+                    formula: "Net Sales Revenue − Product COGS",
+                    sourceSheet: "Trading P&L Calculation",
+                    details: [
+                      { label: "Net Sales", value: formatCurrency(netSales, currency, false) },
+                      { label: "Product Cost", value: `−${formatCurrency(productCost, currency, false)}` },
+                      { label: "Gross Margin %", value: formatPercent(grossMarginPct) },
+                    ],
+                  })
+                }
+                className={`cursor-pointer p-3.5 sm:p-4 rounded-xl border shadow-xs flex flex-col justify-between transition-all ${
+                  grossProfit >= 0
+                    ? "bg-emerald-50/60 hover:bg-emerald-100/50 border-emerald-200 text-emerald-700"
+                    : "bg-rose-50/60 hover:bg-rose-100/50 border-rose-200 text-rose-700"
+                }`}
+              >
+                <span className="text-[10px] font-bold uppercase tracking-wider font-sora">
                   5. Gross Profit
                 </span>
                 <div className="mt-2">
-                  <div className={`text-base sm:text-lg lg:text-xl font-bold tracking-tight font-sora truncate ${grossProfit >= 0 ? "text-emerald-700" : "text-rose-700"}`}>
-                    {grossProfit >= 0 ? "+" : ""}{formatCurrency(grossProfit, currency, true)}
+                  <div className="text-base sm:text-lg lg:text-xl font-bold tracking-tight font-sora truncate">
+                    {grossProfit >= 0 ? "+" : ""}{displayMoney(grossProfit, false)}
                   </div>
-                  <span className={`text-[11px] font-medium block mt-1 ${grossProfit >= 0 ? "text-emerald-600" : "text-rose-600"}`}>
+                  <span className="text-[11px] font-medium block mt-1">
                     {formatPercent(grossMarginPct)} margin
                   </span>
                 </div>
               </div>
 
-              {/* Step 6: Operating Expenses */}
-              <div className="bg-amber-50/40 p-3.5 sm:p-4 rounded-xl border border-amber-200/80 shadow-xs flex flex-col justify-between">
-                <span className="text-[10px] font-bold text-amber-800 uppercase tracking-wider font-sora">
+              {/* Step 6: Operating Expenses (RED DEDUCTION) */}
+              <div
+                onClick={() =>
+                  setSelectedMetric({
+                    step: "Step 6",
+                    title: "Total Operating Expenses (OpEx)",
+                    value: opExpenses,
+                    formattedExact: `−${formatCurrency(opExpenses, currency, false)}`,
+                    formattedCompact: `−${formatCurrency(opExpenses, currency, true)}`,
+                    isDeduction: true,
+                    description: "Total overhead, vehicle maintenance, logistics, salaries, generator fuel, and payment voucher expenses for the month.",
+                    formula: "Sum of all categorized depot expense items and payment vouchers",
+                    sourceSheet: "Operating Expenses (July total Expenses / tmp6F17 / july_expn.xlsx)",
+                    targetTab: "expenses",
+                    details: [
+                      { label: "Total Recorded", value: formatCurrency(opExpenses, currency, false) },
+                      { label: "Categories", value: `${data.expenses_analysis?.categories?.length || 0} categories` },
+                      { label: "% of Net Sales", value: netSales > 0 ? formatPercent(opExpenses / netSales) : "0%" },
+                    ],
+                  })
+                }
+                className="bg-rose-50/60 hover:bg-rose-100/50 hover:border-rose-300 hover:shadow-sm cursor-pointer p-3.5 sm:p-4 rounded-xl border border-rose-200 shadow-xs flex flex-col justify-between transition-all"
+              >
+                <span className="text-[10px] font-bold text-rose-700 uppercase tracking-wider font-sora">
                   6. Op. Expenses
                 </span>
                 <div className="mt-2">
-                  <div className="text-base sm:text-lg lg:text-xl font-bold text-amber-900 tracking-tight font-sora truncate">
-                    −{formatCurrency(opExpenses, currency, true)}
+                  <div className="text-base sm:text-lg lg:text-xl font-bold text-rose-700 tracking-tight font-sora truncate">
+                    {displayMoney(opExpenses, true)}
                   </div>
-                  <span className="text-[11px] text-amber-700 font-medium block mt-1">
+                  <span className="text-[11px] text-rose-600 font-medium block mt-1">
                     Operating vouchers
                   </span>
                 </div>
               </div>
 
               {/* Step 7: Net Operating Profit / Loss */}
-              <div className={`p-3.5 sm:p-4 rounded-xl border shadow-xs flex flex-col justify-between ${netOpLoss < 0 ? "bg-rose-100/70 border-rose-300" : "bg-emerald-100/70 border-emerald-300"}`}>
-                <span className={`text-[10px] font-extrabold uppercase tracking-wider font-sora ${netOpLoss < 0 ? "text-rose-900" : "text-emerald-900"}`}>
+              <div
+                onClick={() =>
+                  setSelectedMetric({
+                    step: "Step 7",
+                    title: "Net Operating Profit / (Loss)",
+                    value: netOpLoss,
+                    formattedExact: formatCurrency(netOpLoss, currency, false),
+                    formattedCompact: formatCurrency(netOpLoss, currency, true),
+                    description: "Final bottom-line depot financial performance after accounting for all revenues, returns, product COGS, and operating expenses.",
+                    formula: "Gross Profit − Total Operating Expenses",
+                    sourceSheet: "Executive Management P&L Bridge",
+                    details: [
+                      { label: "Gross Profit Base", value: formatCurrency(grossProfit, currency, false) },
+                      { label: "Operating Expenses", value: `−${formatCurrency(opExpenses, currency, false)}` },
+                      { label: "Net Margin %", value: formatPercent(netMarginPct) },
+                    ],
+                  })
+                }
+                className={`cursor-pointer p-3.5 sm:p-4 rounded-xl border shadow-xs flex flex-col justify-between transition-all ${
+                  netOpLoss < 0
+                    ? "bg-rose-100/80 hover:bg-rose-200/80 border-rose-300 text-rose-900"
+                    : "bg-emerald-100/80 hover:bg-emerald-200/80 border-emerald-300 text-emerald-900"
+                }`}
+              >
+                <span className="text-[10px] font-extrabold uppercase tracking-wider font-sora">
                   7. Net Profit / (Loss)
                 </span>
                 <div className="mt-2">
-                  <div className={`text-base sm:text-lg lg:text-xl font-black tracking-tight font-sora truncate ${netOpLoss < 0 ? "text-rose-900" : "text-emerald-900"}`}>
-                    {formatCurrency(netOpLoss, currency, true)}
+                  <div className="text-base sm:text-lg lg:text-xl font-black tracking-tight font-sora truncate">
+                    {displayMoney(netOpLoss, false)}
                   </div>
-                  <span className={`text-[11px] font-bold block mt-1 ${netOpLoss < 0 ? "text-rose-800" : "text-emerald-800"}`}>
+                  <span className="text-[11px] font-bold block mt-1">
                     {formatPercent(netMarginPct)} of net sales
                   </span>
                 </div>
@@ -348,7 +569,7 @@ export function OverviewScreen({ data, onNavigate, onDeleteAudit, onRenameAudit 
         );
       })()}
 
-      {/* 3. Period-Over-Period Comparison Section */}
+      {/* 2. Interactive Period-Over-Period Comparison Section */}
       <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs space-y-4">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border-b border-slate-100 pb-4">
           <div className="flex items-center gap-2">
@@ -379,6 +600,82 @@ export function OverviewScreen({ data, onNavigate, onDeleteAudit, onRenameAudit 
               </button>
             ))}
           </div>
+        </div>
+
+        {/* Interactive Baseline & Comparison Selectors */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 bg-slate-50 p-3 rounded-xl border border-slate-100">
+          {granularity === "day" && (
+            <>
+              <div className="flex items-center gap-2">
+                <label className="text-xs font-bold text-slate-600 shrink-0 font-sora">Baseline Day:</label>
+                <select
+                  value={selectedDayA}
+                  onChange={(e) => setSelectedDayA(e.target.value)}
+                  className="w-full bg-white border border-slate-200 rounded-lg px-2.5 py-1.5 text-xs font-medium text-slate-800 focus:outline-none focus:ring-1 focus:ring-[#7c6fff]"
+                >
+                  {availableDays.map((d) => (
+                    <option key={`base-${d}`} value={d}>
+                      {d}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="flex items-center gap-2">
+                <label className="text-xs font-bold text-slate-600 shrink-0 font-sora">Comparison Day:</label>
+                <select
+                  value={selectedDayB}
+                  onChange={(e) => setSelectedDayB(e.target.value)}
+                  className="w-full bg-white border border-slate-200 rounded-lg px-2.5 py-1.5 text-xs font-medium text-slate-800 focus:outline-none focus:ring-1 focus:ring-[#7c6fff]"
+                >
+                  {availableDays.map((d) => (
+                    <option key={`comp-${d}`} value={d}>
+                      {d}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </>
+          )}
+
+          {granularity === "week" && (
+            <>
+              <div className="flex items-center gap-2">
+                <label className="text-xs font-bold text-slate-600 shrink-0 font-sora">Baseline Week:</label>
+                <select
+                  value={selectedWeekA}
+                  onChange={(e) => setSelectedWeekA(e.target.value)}
+                  className="w-full bg-white border border-slate-200 rounded-lg px-2.5 py-1.5 text-xs font-medium text-slate-800 focus:outline-none focus:ring-1 focus:ring-[#7c6fff]"
+                >
+                  {availableWeeks.map((w) => (
+                    <option key={`base-w-${w}`} value={w}>
+                      Week {w}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="flex items-center gap-2">
+                <label className="text-xs font-bold text-slate-600 shrink-0 font-sora">Comparison Week:</label>
+                <select
+                  value={selectedWeekB}
+                  onChange={(e) => setSelectedWeekB(e.target.value)}
+                  className="w-full bg-white border border-slate-200 rounded-lg px-2.5 py-1.5 text-xs font-medium text-slate-800 focus:outline-none focus:ring-1 focus:ring-[#7c6fff]"
+                >
+                  {availableWeeks.map((w) => (
+                    <option key={`comp-w-${w}`} value={w}>
+                      Week {w}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </>
+          )}
+
+          {granularity === "month" && (
+            <div className="sm:col-span-2 text-xs text-slate-500 font-medium flex items-center justify-between">
+              <span>Baseline: Current Month ({meta.period_label || "2026-07"})</span>
+              <span>Comparison: Adjacent Audited Period</span>
+            </div>
+          )}
         </div>
 
         {compLoading ? (
@@ -532,6 +829,114 @@ export function OverviewScreen({ data, onNavigate, onDeleteAudit, onRenameAudit 
           </div>
         </div>
       </div>
+
+      {/* Metric Detail Drilldown Modal */}
+      {selectedMetric && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xs animate-in fade-in duration-150">
+          <div className="bg-white rounded-2xl border border-slate-200 shadow-2xl max-w-lg w-full p-6 space-y-5 relative">
+            <div className="flex items-start justify-between gap-3">
+              <div className="space-y-1">
+                <span className="inline-block px-2 py-0.5 bg-purple-100 text-[#7c6fff] text-[10px] font-bold rounded uppercase tracking-wider font-sora">
+                  {selectedMetric.step} • Management Metric
+                </span>
+                <h3 className="text-lg font-extrabold text-slate-900 font-sora">
+                  {selectedMetric.title}
+                </h3>
+              </div>
+              <button
+                type="button"
+                onClick={() => setSelectedMetric(null)}
+                className="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            {/* Exact Figure Callout */}
+            <div className={`p-4 rounded-xl border ${selectedMetric.isDeduction ? "bg-rose-50/70 border-rose-200 text-rose-800" : "bg-slate-50 border-slate-200 text-slate-900"}`}>
+              <span className="text-[11px] font-medium text-slate-500 block">Exact Financial Value</span>
+              <div className="text-2xl font-black tracking-tight font-sora mt-0.5">
+                {selectedMetric.formattedExact}
+              </div>
+              <div className="text-xs font-semibold text-slate-500 mt-1 flex items-center gap-2">
+                <span>Compact representation:</span>
+                <span className="px-2 py-0.5 bg-white/80 border border-slate-200 rounded font-bold text-slate-800">
+                  {selectedMetric.formattedCompact}
+                </span>
+              </div>
+            </div>
+
+            {/* Description & Formula */}
+            <div className="space-y-3 text-xs">
+              <div>
+                <span className="font-bold text-slate-700 block font-sora mb-1">Executive Definition</span>
+                <p className="text-slate-600 leading-relaxed font-inter bg-slate-50 p-2.5 rounded-lg border border-slate-100">
+                  {selectedMetric.description}
+                </p>
+              </div>
+
+              <div>
+                <span className="font-bold text-slate-700 block font-sora mb-1 flex items-center gap-1.5">
+                  <Calculator className="w-3.5 h-3.5 text-[#7c6fff]" />
+                  <span>Calculation Formula</span>
+                </span>
+                <p className="text-slate-700 font-mono text-[11px] bg-slate-100/80 p-2.5 rounded-lg border border-slate-200">
+                  {selectedMetric.formula}
+                </p>
+              </div>
+
+              <div>
+                <span className="font-bold text-slate-700 block font-sora mb-1 flex items-center gap-1.5">
+                  <FileSpreadsheet className="w-3.5 h-3.5 text-emerald-600" />
+                  <span>Audit Source Data</span>
+                </span>
+                <p className="text-slate-600 font-inter text-[11px] bg-slate-50 p-2.5 rounded-lg border border-slate-100">
+                  {selectedMetric.sourceSheet}
+                </p>
+              </div>
+
+              {selectedMetric.details && selectedMetric.details.length > 0 && (
+                <div className="pt-2 border-t border-slate-100">
+                  <span className="font-bold text-slate-700 block font-sora mb-1.5">Underlying Factors</span>
+                  <div className="grid grid-cols-2 gap-2">
+                    {selectedMetric.details.map((d, i) => (
+                      <div key={i} className="p-2 bg-slate-50 rounded-lg border border-slate-100">
+                        <span className="text-[10px] text-slate-400 font-medium block">{d.label}</span>
+                        <span className="text-xs font-bold text-slate-800 font-sora">{d.value}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Modal Actions */}
+            <div className="flex items-center justify-end gap-2 pt-3 border-t border-slate-100">
+              <button
+                type="button"
+                onClick={() => setSelectedMetric(null)}
+                className="px-4 py-2 rounded-xl border border-slate-200 hover:bg-slate-50 text-slate-700 text-xs font-semibold font-sora transition-all"
+              >
+                Close
+              </button>
+              {selectedMetric.targetTab && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    const tab = selectedMetric.targetTab!;
+                    setSelectedMetric(null);
+                    onNavigate(tab);
+                  }}
+                  className="px-4 py-2 rounded-xl bg-[#7c6fff] hover:bg-[#6b5dfc] text-white text-xs font-semibold font-sora transition-all shadow-xs flex items-center gap-1.5"
+                >
+                  <span>Go to {selectedMetric.targetTab.charAt(0).toUpperCase() + selectedMetric.targetTab.slice(1)} Screen</span>
+                  <ExternalLink className="w-3.5 h-3.5" />
+                </button>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Delete Confirmation Modal */}
       {deleteConfirmOpen && onDeleteAudit && (

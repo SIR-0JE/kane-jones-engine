@@ -338,6 +338,7 @@ def list_snapshots_summary(
                     for row in rows:
                         payload = row.get("payload", {})
                         meta = payload.get("meta", {})
+                        bridge = payload.get("net_profit_bridge", {})
                         summaries.append({
                             "period_label": row.get("period_label"),
                             "audit_title": row.get("audit_title") or meta.get("audit_title", f"{row.get('period_label')} Audit"),
@@ -349,6 +350,7 @@ def list_snapshots_summary(
                             "below_floor_items_count": meta.get("below_floor_items_count", len(payload.get("below_floor_pricing", []))),
                             "loss_making_customers_count": meta.get("loss_making_customers_count", len(payload.get("loss_making_customers", []))),
                             "currency_symbol": meta.get("currency_symbol", "₦"),
+                            "net_profit_bridge": bridge,
                             "date_range": meta.get("date_range", {}),
                             "created_at": row.get("uploaded_at"),
                             "storage_path": row.get("storage_path"),
@@ -366,6 +368,7 @@ def list_snapshots_summary(
             with open(f, "r", encoding="utf-8") as fp:
                 data = json.load(fp)
             meta = data.get("meta", {})
+            bridge = data.get("net_profit_bridge", {})
             summaries.append({
                 "period_label": data.get("period_label", f.stem),
                 "audit_title": data.get("audit_title", meta.get("audit_title", f"{f.stem} Audit")),
@@ -377,6 +380,7 @@ def list_snapshots_summary(
                 "below_floor_items_count": meta.get("below_floor_items_count", len(data.get("below_floor_pricing", []))),
                 "loss_making_customers_count": meta.get("loss_making_customers_count", len(data.get("loss_making_customers", []))),
                 "currency_symbol": meta.get("currency_symbol", "₦"),
+                "net_profit_bridge": bridge,
                 "date_range": meta.get("date_range", {}),
                 "created_at": data.get("created_at"),
             })

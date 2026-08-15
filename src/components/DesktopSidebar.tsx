@@ -10,6 +10,7 @@ import {
   Users,
   CheckCircle2,
   RotateCcw,
+  Receipt,
   ArrowLeft,
   Plus,
   Settings,
@@ -112,6 +113,13 @@ export function DesktopSidebar({
       icon: RotateCcw,
       badge: returnsCount > 0 ? returnsCount : null,
       badgeColor: "bg-[#7c6fff] text-white",
+    },
+    {
+      id: "expenses" as TabType,
+      label: "Expenses",
+      icon: Receipt,
+      badge: null,
+      badgeColor: "",
     },
     {
       id: "quality" as TabType,

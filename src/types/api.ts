@@ -226,6 +226,18 @@ export interface NetProfitBridgeData {
   return_rate: number;
 }
 
+export interface ExpenseItem {
+  category: string;
+  amount: number;
+  source_row?: number;
+  pct_of_total?: number;
+}
+
+export interface ExpensesAnalysis {
+  total_expenses: number;
+  categories: ExpenseItem[];
+}
+
 export interface AnalyzeResponse {
   client_id?: string;
   period_label?: string;
@@ -248,6 +260,7 @@ export interface AnalyzeResponse {
   true_cost_products?: TrueCostProductItem[];
   true_cost_marketers?: TrueCostMarketerItem[];
   returns_analysis?: SalesReturnsAnalysis;
+  expenses_analysis?: ExpensesAnalysis;
   net_profit_bridge?: NetProfitBridgeData;
   [key: string]: any;
 }
@@ -342,6 +355,7 @@ export interface SnapshotSummary {
   below_floor_items_count?: number;
   loss_making_customers_count?: number;
   currency_symbol: string;
+  net_profit_bridge?: NetProfitBridgeData;
   date_range?: {
     start: string | null;
     end: string | null;
