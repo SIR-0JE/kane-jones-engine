@@ -32,6 +32,7 @@ from engine.config import ClientProfile, kane_jones_profile
 from engine.parser import parse_inventory_sheet, parse_sales_returns_sheet, parse_workbook
 from engine.price_match import load_price_list, match_products
 from engine.report import generate_report_pdf
+from engine.presentation import generate_presentation_pptx
 from engine.snapshots import list_snapshots, list_snapshots_summary, load_snapshot, save_snapshot
 from engine.true_cost import (
     compute_marketer_profitability,
@@ -622,6 +623,54 @@ def download_audit_report(
             "Content-Length": str(len(pdf_bytes)),
         },
     )
+
+
+@app.get("/report/pptx")
+@app.get("/api/report/pptx")
+@app.get("/presentation")
+@app.get("/api/presentation")
+def download_presentation_pptx_endpoint(
+    client_id: str = Query("kane-jones", description="Client identifier"),
+    period_label: str = Query("2026-07", description="Audit period label (e.g. '2026-07')"),
+):
+    """
+    Generates and returns a 16-slide PowerPoint presentation (.pptx) report
+    for the specified audit period based directly on the stored audit snapshot.
+    """
+    try:
+        payload = load_snapshot(client_id, period_label)
+    except FileNotFoundError:
+        raise HTTPException(
+            status_code=404,
+            detail=f"Snapshot '{period_label}' for client '{client_id}' not found.",
+        )
+    except Exception as e:
+        raise HTTPException(
+            status_code=500,
+            detail=f"Failed to load snapshot: {str(e)}",
+        )
+
+    try:
+        pptx_bytes = generate_presentation_pptx(payload)
+    except Exception as e:
+        raise HTTPException(
+            status_code=500,
+            detail=f"PowerPoint generation failed: {str(e)}",
+        )
+
+    safe_client = client_id.replace(" ", "-").lower()
+    safe_period = period_label.replace(" ", "_")
+    filename = f"{safe_client}_{safe_period}_management_intelligence.pptx"
+
+    return Response(
+        content=pptx_bytes,
+        media_type="application/vnd.openxmlformats-officedocument.presentationml.presentation",
+        headers={
+            "Content-Disposition": f'attachment; filename="{filename}"',
+            "Content-Length": str(len(pptx_bytes)),
+        },
+    )
+
 
 
 from engine.snapshots import get_or_create_depot, update_depot

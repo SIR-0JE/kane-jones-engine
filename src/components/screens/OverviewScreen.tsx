@@ -12,6 +12,7 @@ import {
   Sparkles,
   Loader2,
   FileDown,
+  Presentation,
 } from "lucide-react";
 import { TabType } from "@/components/Navigation";
 import { AnalyzeResponse, CompareResponse } from "@/types/api";
@@ -31,6 +32,7 @@ export function OverviewScreen({ data, onNavigate }: OverviewScreenProps) {
   const [comparison, setComparison] = useState<CompareResponse | null>(null);
   const [compLoading, setCompLoading] = useState<boolean>(false);
   const [pdfLoading, setPdfLoading] = useState<boolean>(false);
+  const [pptxLoading, setPptxLoading] = useState<boolean>(false);
 
   useEffect(() => {
     let isMounted = true;
@@ -107,27 +109,70 @@ export function OverviewScreen({ data, onNavigate }: OverviewScreenProps) {
     }
   };
 
+  const handleDownloadPptx = async () => {
+    const clientId = meta?.client_id || "kane-jones";
+    const periodLabel = meta?.period_label || "2026-07";
+    setPptxLoading(true);
+    try {
+      const res = await fetch(
+        `/api/report/pptx?client_id=${encodeURIComponent(clientId)}&period_label=${encodeURIComponent(periodLabel)}`
+      );
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({ detail: "PowerPoint generation failed." }));
+        throw new Error(err.detail || "Failed to download presentation");
+      }
+      const blob = await res.blob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `${clientId}_${periodLabel}_management_intelligence.pptx`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    } catch (err: any) {
+      alert(`PowerPoint download failed: ${err?.message || "Unknown error"}`);
+    } finally {
+      setPptxLoading(false);
+    }
+  };
+
   return (
     <div className="p-4 sm:p-6 lg:p-8 space-y-6 pb-24 md:pb-12 w-full">
       {/* Download Report button row */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
           <h1 className="text-sm font-bold text-slate-900 font-sora">Overview</h1>
           <p className="text-xs text-slate-500">{meta?.audit_title || meta?.period_label || "Audit"}</p>
         </div>
-        <button
-          id="btn-download-pdf"
-          onClick={handleDownloadPdf}
-          disabled={pdfLoading}
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-[#7c6fff] to-[#5a4dde] hover:shadow-[0_4px_16px_rgba(124,111,255,0.35)] active:scale-95 text-white text-xs font-semibold font-sora transition-all disabled:opacity-60 disabled:cursor-not-allowed"
-        >
-          {pdfLoading ? (
-            <Loader2 className="w-3.5 h-3.5 animate-spin" />
-          ) : (
-            <FileDown className="w-3.5 h-3.5" />
-          )}
-          {pdfLoading ? "Generating…" : "Download Report"}
-        </button>
+        <div className="flex items-center gap-2">
+          <button
+            id="btn-download-pptx"
+            onClick={handleDownloadPptx}
+            disabled={pptxLoading}
+            className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-white border border-slate-200 hover:bg-slate-50 hover:border-slate-300 active:scale-95 text-slate-700 text-xs font-semibold font-sora transition-all shadow-xs disabled:opacity-60 disabled:cursor-not-allowed"
+          >
+            {pptxLoading ? (
+              <Loader2 className="w-3.5 h-3.5 animate-spin text-[#7c6fff]" />
+            ) : (
+              <Presentation className="w-3.5 h-3.5 text-[#7c6fff]" />
+            )}
+            {pptxLoading ? "Generating Slides…" : "Executive Slides (.pptx)"}
+          </button>
+          <button
+            id="btn-download-pdf"
+            onClick={handleDownloadPdf}
+            disabled={pdfLoading}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-[#7c6fff] to-[#5a4dde] hover:shadow-[0_4px_16px_rgba(124,111,255,0.35)] active:scale-95 text-white text-xs font-semibold font-sora transition-all disabled:opacity-60 disabled:cursor-not-allowed"
+          >
+            {pdfLoading ? (
+              <Loader2 className="w-3.5 h-3.5 animate-spin" />
+            ) : (
+              <FileDown className="w-3.5 h-3.5" />
+            )}
+            {pdfLoading ? "Generating PDF…" : "Download PDF Report"}
+          </button>
+        </div>
       </div>
 
       {/* 1. Core KPIs Grid (4 Columns on Desktop) */}
