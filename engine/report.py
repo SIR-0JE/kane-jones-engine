@@ -404,16 +404,16 @@ def _build_net_profit_bridge(payload: Dict, S: dict) -> List:
         ("Gross Sales Revenue", "All sales invoices (incl. empties)", gross_rev, gross_rev / net_rev if net_rev else 1.0),
         ("Less: Total Sales Returns", f"Credit notes (rate: {_fmt_pct(ret_rate, multiply=True)})", -returns, -returns / net_rev if net_rev else 0.0),
         ("Net Sales Revenue", "Gross Revenue − Sales Returns", net_rev, 1.0),
-        ("Less: Total Cost of Sales", "Invoice-embedded cost (incl. empties)", -cost, -cost / net_rev if net_rev else 0.0),
-        ("Net Gross Profit / (Loss)", f"Margin: {_fmt_pct(net_margin, multiply=True)}", net_gp, net_margin),
+        ("Less: Total Cost of Sales (COGS)", "Product cost only (excl. empties)", -cost, -cost / net_rev if net_rev else 0.0),
+        ("Gross Profit / (Loss)", f"Margin: {_fmt_pct(net_margin, multiply=True)}", net_gp, net_margin),
         ("Less: Operating Expenses", "Day book payment vouchers", -exp, -exp / net_rev if net_rev else 0.0),
         ("Net Operating Profit / (Loss)", "Period bottom line", net_op, net_op / net_rev if net_rev else 0.0),
     ]
 
     data = [[Paragraph(h, S["table_header"]) for h in headers]]
     for name, note, amt, pct in bridge_rows:
-        val_style = S["table_cell_rose"] if amt < 0 else S["table_cell"]
-        name_p = Paragraph(f"<b>{name}</b>" if "Net" in name else name, S["table_cell"])
+        val_style = S["table_cell_rose"] if amt < 0 else S["table_cell_green"] if "Profit" in name and amt > 0 else S["table_cell"]
+        name_p = Paragraph(f"<b>{name}</b>" if ("Net" in name or "Gross Profit" in name) else name, S["table_cell"])
 
         data.append([
             name_p,
@@ -425,11 +425,11 @@ def _build_net_profit_bridge(payload: Dict, S: dict) -> List:
     t = Table(data, colWidths=col_w)
     style = _base_table_style(stripe=False)
     style.add("BACKGROUND", (0, 3), (-1, 3), SLATE_50)
-    style.add("BACKGROUND", (0, 5), (-1, 5), ROSE_50)
-    style.add("BACKGROUND", (0, 7), (-1, 7), ROSE_50)
+    style.add("BACKGROUND", (0, 5), (-1, 5), EMERALD_50 if net_gp >= 0 else ROSE_50)
+    style.add("BACKGROUND", (0, 7), (-1, 7), ROSE_50 if net_op < 0 else EMERALD_50)
     style.add("LINEBELOW", (0, 3), (-1, 3), 1, SLATE_700)
-    style.add("LINEBELOW", (0, 5), (-1, 5), 1, ROSE_700)
-    style.add("LINEBELOW", (0, 7), (-1, 7), 1.5, ROSE_700)
+    style.add("LINEBELOW", (0, 5), (-1, 5), 1, EMERALD_700 if net_gp >= 0 else ROSE_700)
+    style.add("LINEBELOW", (0, 7), (-1, 7), 1.5, ROSE_700 if net_op < 0 else EMERALD_700)
     t.setStyle(style)
     elems.append(t)
     elems.append(Spacer(1, 0.4 * cm))

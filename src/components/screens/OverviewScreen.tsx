@@ -309,7 +309,7 @@ export function OverviewScreen({ data, onNavigate }: OverviewScreenProps) {
                 </div>
               </div>
 
-              {/* Step 4: Less Cost */}
+              {/* Step 4: Total Cost */}
               <div className="p-3 bg-slate-50/80 rounded-xl border border-slate-200/80 flex flex-col justify-between">
                 <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider font-sora">
                   4. Total Cost
@@ -319,22 +319,22 @@ export function OverviewScreen({ data, onNavigate }: OverviewScreenProps) {
                     −{formatCurrency(embeddedCost, currency, true)}
                   </div>
                   <span className="text-[9px] text-slate-400 font-medium block mt-0.5">
-                    Invoice-embedded
+                    Product COGS (excl. empties)
                   </span>
                 </div>
               </div>
 
-              {/* Step 5: Net Gross Profit / Loss */}
+              {/* Step 5: Gross Profit / Loss */}
               <div className={`p-3 rounded-xl border flex flex-col justify-between ${netGrossLoss < 0 ? "bg-rose-50/60 border-rose-200" : "bg-emerald-50/60 border-emerald-200"}`}>
                 <span className={`text-[10px] font-bold uppercase tracking-wider font-sora ${netGrossLoss < 0 ? "text-rose-700" : "text-emerald-700"}`}>
-                  5. Net Gross Loss
+                  {netGrossLoss >= 0 ? "5. Gross Profit" : "5. Net Gross Loss"}
                 </span>
                 <div className="mt-1">
                   <div className={`text-xs sm:text-sm font-extrabold font-sora truncate ${netGrossLoss < 0 ? "text-rose-700" : "text-emerald-700"}`}>
-                    {formatCurrency(netGrossLoss, currency, true)}
+                    {netGrossLoss >= 0 ? "+" : ""}{formatCurrency(netGrossLoss, currency, true)}
                   </div>
                   <span className={`text-[9px] font-medium block mt-0.5 ${netGrossLoss < 0 ? "text-rose-600" : "text-emerald-600"}`}>
-                    Margin: {formatPercent(netGrossMarginPct)}
+                    Post-returns basis ({formatPercent(netGrossMarginPct)})
                   </span>
                 </div>
               </div>
@@ -349,22 +349,22 @@ export function OverviewScreen({ data, onNavigate }: OverviewScreenProps) {
                     −{formatCurrency(opExpenses, currency, true)}
                   </div>
                   <span className="text-[9px] text-amber-700 font-medium block mt-0.5">
-                    Day book vouchers
+                    Operating expenses
                   </span>
                 </div>
               </div>
 
-              {/* Step 7: Net Operating Loss */}
+              {/* Step 7: Net Operating Profit / Loss */}
               <div className={`p-3 rounded-xl border flex flex-col justify-between ${netOpLoss < 0 ? "bg-rose-100/70 border-rose-300" : "bg-emerald-100/70 border-emerald-300"}`}>
                 <span className={`text-[10px] font-extrabold uppercase tracking-wider font-sora ${netOpLoss < 0 ? "text-rose-900" : "text-emerald-900"}`}>
-                  7. Net P&L
+                  7. Net Profit / (Loss)
                 </span>
                 <div className="mt-1">
                   <div className={`text-xs sm:text-sm font-black font-sora truncate ${netOpLoss < 0 ? "text-rose-900" : "text-emerald-900"}`}>
                     {formatCurrency(netOpLoss, currency, true)}
                   </div>
                   <span className={`text-[9px] font-bold block mt-0.5 ${netOpLoss < 0 ? "text-rose-800" : "text-emerald-800"}`}>
-                    Period bottom line
+                    {formatPercent(netSales > 0 ? netOpLoss / netSales : 0)} of net sales
                   </span>
                 </div>
               </div>

@@ -84,17 +84,22 @@ export function formatCompactCurrency(
   decimals = 2
 ): string {
   if (amount === null || amount === undefined || isNaN(amount)) return "—";
-  const sign = amount < 0 ? "-" : "";
+  const sign = amount < 0 ? "−" : "";
   const abs = Math.abs(amount);
 
   if (abs >= 1_000_000_000) {
     return `${sign}${symbol}${(abs / 1_000_000_000).toFixed(decimals)}B`;
   }
   if (abs >= 1_000_000) {
-    return `${sign}${symbol}${(abs / 1_000_000).toFixed(decimals)}M`;
+    // If it's a 3-decimal amount like 1.635M, keep clean
+    const inM = abs / 1_000_000;
+    const str = inM.toFixed(decimals);
+    return `${sign}${symbol}${str}M`;
   }
   if (abs >= 100_000) {
-    return `${sign}${symbol}${(abs / 1_000).toFixed(1)}k`;
+    // E.g. ₦460,000 -> ₦0.46M
+    const inM = abs / 1_000_000;
+    return `${sign}${symbol}${inM.toFixed(decimals)}M`;
   }
   if (abs >= 1_000) {
     return `${sign}${symbol}${(abs / 1_000).toFixed(1)}k`;

@@ -11,8 +11,8 @@ export const CANONICAL_JULY_SNAPSHOT: AnalyzeResponse = {
     "audit_title": "July 2026 Full Audit",
     "currency_symbol": "\u20a6",
     "total_revenue": 187674790.0,
-    "total_gross_profit": 3717623.0,
-    "overall_margin_pct": 0.0198088565864387,
+    "total_gross_profit": 460000.0,
+    "overall_margin_pct": 0.00264795537554902,
     "date_range": {
       "start": "2026-07-01",
       "end": "2026-07-31"
@@ -21260,18 +21260,19 @@ export const CANONICAL_JULY_SNAPSHOT: AnalyzeResponse = {
   "anomalies": []
 },
   "net_profit_bridge": {
-  "gross_sales_revenue": 187674790.0,
-  "total_sales_returns": 13955850.0,
-  "net_sales_revenue": 173718940.0,
-  "total_cost_embedded": 183957167.0,
-  "net_gross_profit_loss": -10238227.0,
-  "net_gross_margin_pct": -0.05893558295946314,
-  "total_operating_expenses": 2059599.0,
-  "net_operating_profit_loss": -12297826.0,
-  "product_returns_value": 1460600.0,
-  "product_returns_qty": 191.0,
-  "empties_returns_value": 12495250.0,
-  "empties_returns_qty": 7039.0,
-  "return_rate": 0.0743618788650303
-}
+    "gross_sales_revenue": 187674790.0,
+    "total_sales_returns": 13955850.0,
+    "net_sales_revenue": 173718940.0,
+    "total_cost": 173258940.0,
+    "total_cost_embedded": 173258940.0,
+    "net_gross_profit_loss": 460000.0,
+    "net_gross_margin_pct": 0.00264795537554902,
+    "total_operating_expenses": 2095229.0,
+    "net_operating_profit_loss": -1635229.0,
+    "product_returns_value": 1460600.0,
+    "product_returns_qty": 191.0,
+    "empties_returns_value": 12495250.0,
+    "empties_returns_qty": 7039.0,
+    "return_rate": 0.0743618788650303
+  }
 };

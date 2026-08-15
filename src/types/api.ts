@@ -212,11 +212,13 @@ export interface NetProfitBridgeData {
   gross_sales_revenue: number;
   total_sales_returns: number;
   net_sales_revenue: number;
+  total_cost?: number;
   total_cost_embedded: number;
   net_gross_profit_loss: number;
   net_gross_margin_pct: number;
   total_operating_expenses: number;
   net_operating_profit_loss: number;
+  net_operating_margin_pct?: number;
   product_returns_value: number;
   product_returns_qty: number;
   empties_returns_value: number;

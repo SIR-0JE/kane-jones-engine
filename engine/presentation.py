@@ -337,10 +337,11 @@ class PresentationBuilder:
         # Core 4 KPIs Grid
         bridge = self.payload.get("net_profit_bridge", {})
         net_sales = bridge.get("net_sales_revenue", self.meta.get("total_revenue", 173718940.0))
-        gross_profit = self.meta.get("total_gross_profit", 3717623.0)
-        net_profit_loss = bridge.get("net_operating_profit_loss", -12297826.0)
-        net_gross_loss = bridge.get("net_gross_profit_loss", -10238227.0)
-        gross_margin = bridge.get("net_gross_margin_pct", -0.0589)
+        returns = bridge.get("total_sales_returns", 13955850.0)
+        gross_profit = bridge.get("net_gross_profit_loss", 460000.0)
+        expenses = bridge.get("total_operating_expenses", 2095229.0)
+        net_profit_loss = bridge.get("net_operating_profit_loss", -1635229.0)
+        gross_margin = bridge.get("net_operating_margin_pct", -0.0092)
 
         w = 2.75
         h = 2.4
@@ -351,37 +352,37 @@ class PresentationBuilder:
             slide, 0.8, y, w, h,
             title="Net Sales",
             value=fmt_curr_m(net_sales, self.currency),
-            subtitle="Gross sales less credit returns",
+            subtitle=f"after {fmt_curr_m(returns, self.currency)} returns",
             val_color=COLOR_SLATE_900,
         )
         self._add_kpi_box(
             slide, 0.8 + (w + gap), y, w, h,
-            title="Gross Profit (Invoice)",
-            value=fmt_curr_m(gross_profit, self.currency),
-            subtitle=f"{fmt_num(self.meta.get('total_invoices', 300))} invoiced deliveries",
+            title="Gross Profit",
+            value=f"+{fmt_curr_m(gross_profit, self.currency)}" if gross_profit > 0 else fmt_curr_m(gross_profit, self.currency),
+            subtitle="post-returns basis",
             val_color=COLOR_EMERALD_700 if gross_profit >= 0 else COLOR_ROSE_700,
         )
         self._add_kpi_box(
             slide, 0.8 + (w + gap) * 2, y, w, h,
             title="Net Profit / (Loss)",
             value=fmt_curr_m(net_profit_loss, self.currency),
-            subtitle="Bottom line after returns & expn",
+            subtitle=f"after {fmt_curr_m(expenses, self.currency)} expenses",
             val_color=COLOR_ROSE_700 if net_profit_loss < 0 else COLOR_EMERALD_700,
             bg_color=COLOR_ROSE_BG if net_profit_loss < 0 else COLOR_EMERALD_BG,
             border_color=COLOR_ROSE_700 if net_profit_loss < 0 else COLOR_EMERALD_700,
         )
         self._add_kpi_box(
             slide, 0.8 + (w + gap) * 3, y, w, h,
-            title="Net Gross Margin %",
+            title="Gross Margin",
             value=fmt_pct(gross_margin, multiply=True),
-            subtitle="After returns & embedded cost",
+            subtitle="of net sales",
             val_color=COLOR_ROSE_700 if gross_margin < 0 else COLOR_EMERALD_700,
         )
 
         # Footer
         footer_tb = slide.shapes.add_textbox(Inches(0.8), Inches(6.9), Inches(11.733), Inches(0.35))
         fp = footer_tb.text_frame.paragraphs[0]
-        fp.text = f"KANE-JONES  •  {self.month_year}  •  MANAGEMENT INTELLIGENCE"
+        fp.text = f"July 1-31, 2026 | 27 active trading days | {fmt_num(self.meta.get('total_invoices', 300))} invoices | 21,438 cases"
         fp.font.name = FONT_BODY
         fp.font.size = Pt(8.5)
         fp.font.bold = True
@@ -395,30 +396,30 @@ class PresentationBuilder:
         gross_sales = bridge.get("gross_sales_revenue", self.meta.get("total_revenue", 187674790.0))
         returns = bridge.get("total_sales_returns", 13955850.0)
         net_sales = bridge.get("net_sales_revenue", 173718940.0)
-        cost = bridge.get("total_cost_embedded", 183957167.0)
-        gross_profit = bridge.get("net_gross_profit_loss", -10238227.0)
-        expenses = bridge.get("total_operating_expenses", 2059599.0)
-        net_loss = bridge.get("net_operating_profit_loss", -12297826.0)
+        cost = bridge.get("total_cost", bridge.get("total_cost_embedded", 173258940.0))
+        gross_profit = bridge.get("net_gross_profit_loss", 460000.0)
+        expenses = bridge.get("total_operating_expenses", 2095229.0)
+        net_loss = bridge.get("net_operating_profit_loss", -1635229.0)
 
         # Left Column Table
-        headers = ["Financial Metric", "Amount (NGN)", "% of Gross"]
+        headers = ["Financial Metric", "Amount (NGN)", "% of Net Sales"]
         data = [
-            ["Total Sales (Gross)", fmt_curr(gross_sales, self.currency), "100.0%"],
-            ["Sales Returns (Credit Notes)", fmt_curr(-returns, self.currency), fmt_pct(returns / gross_sales if gross_sales else 0)],
-            ["Net Sales Revenue", fmt_curr(net_sales, self.currency), fmt_pct(net_sales / gross_sales if gross_sales else 0)],
-            ["Total Cost (Invoice-Embedded)", fmt_curr(-cost, self.currency), fmt_pct(cost / gross_sales if gross_sales else 0)],
-            ["Net Gross Profit / (Loss)", fmt_curr(gross_profit, self.currency), fmt_pct(gross_profit / gross_sales if gross_sales else 0)],
-            ["Operating Expenses (Vouchers)", fmt_curr(-expenses, self.currency), fmt_pct(expenses / gross_sales if gross_sales else 0)],
-            ["Net Operating Profit / (Loss)", fmt_curr(net_loss, self.currency), fmt_pct(net_loss / gross_sales if gross_sales else 0)],
+            ["Total Sales (Gross)", fmt_curr(gross_sales, self.currency), fmt_pct(gross_sales / net_sales if net_sales else 0)],
+            ["Sales Returns (Credit Notes)", fmt_curr(-returns, self.currency), fmt_pct(-returns / net_sales if net_sales else 0)],
+            ["Net Sales Revenue", fmt_curr(net_sales, self.currency), "100.0%"],
+            ["Total Cost of Sales (COGS)", fmt_curr(-cost, self.currency), fmt_pct(-cost / net_sales if net_sales else 0)],
+            ["Gross Profit", fmt_curr(gross_profit, self.currency), fmt_pct(gross_profit / net_sales if net_sales else 0)],
+            ["Operating Expenses (Vouchers)", fmt_curr(-expenses, self.currency), fmt_pct(-expenses / net_sales if net_sales else 0)],
+            ["Net Operating Profit / (Loss)", fmt_curr(net_loss, self.currency), fmt_pct(net_loss / net_sales if net_sales else 0)],
         ]
         row_colors = [
             (None, None),
             (COLOR_ROSE_BG, COLOR_ROSE_700),
             (COLOR_SLATE_100, COLOR_SLATE_900),
             (None, None),
-            (COLOR_ROSE_BG, COLOR_ROSE_700),
+            (COLOR_EMERALD_BG if gross_profit >= 0 else COLOR_ROSE_BG, COLOR_EMERALD_700 if gross_profit >= 0 else COLOR_ROSE_700),
             (COLOR_AMBER_BG, COLOR_AMBER_700),
-            (COLOR_ROSE_BG, COLOR_ROSE_700),
+            (COLOR_ROSE_BG if net_loss < 0 else COLOR_EMERALD_BG, COLOR_ROSE_700 if net_loss < 0 else COLOR_EMERALD_700),
         ]
         self._add_table(
             slide, 0.8, 1.8, 5.7, 4.8, headers, data,
@@ -442,11 +443,11 @@ class PresentationBuilder:
         p_head.font.color.rgb = COLOR_SLATE_900
 
         bullets = [
-            f"<b>Returns Burden:</b> Total sales returns of {fmt_curr(returns, self.currency)} represent {fmt_pct(returns/gross_sales if gross_sales else 0)} of gross revenue, turning gross operating margin negative.",
-            f"<b>Top Product Drag:</b> Maltina Pet 33cl alone accounts for ₦2.14M in gross loss (−4.20% margin) despite generating ₦51.08M across 10,236 cases sold.",
-            f"<b>Customer Concentration:</b> Top 10 customer accounts represent 85.3% of total revenue volume. 10 customer accounts yielded negative gross margins.",
-            f"<b>Operating Overhead:</b> Payment vouchers total {fmt_curr(expenses, self.currency)}, resulting in a total monthly net operating loss of {fmt_curr(net_loss, self.currency)}.",
-            f"<b>Immediate Focus:</b> Enforce distributor floor prices, halt unverified credit notes, and renegotiate loss-making marketer volume agreements."
+            f"<b>Corrected P&L:</b> Net sales of {fmt_curr_m(net_sales, self.currency)} generated gross profit of {fmt_curr_m(gross_profit, self.currency)} before {fmt_curr_m(expenses, self.currency)} expenses.",
+            f"<b>Returns Materiality:</b> Sales returns of {fmt_curr_m(returns, self.currency)} with {fmt_curr_m(12495250.0, self.currency)} (89.5%) from empties/crates.",
+            f"<b>Top Product Loss:</b> Maltina Pet 33cl is the largest revenue driver and product-level drag: ₦51.08M revenue and −₦2.14M product GP.",
+            f"<b>Customer Concentration:</b> Top 10 customer accounts contribute 72.6% of gross customer revenue.",
+            f"<b>Management Focus:</b> Commercial priority is not simply more sales; it is profitable sales after returns."
         ]
 
         for b in bullets:
@@ -465,20 +466,20 @@ class PresentationBuilder:
         gross_sales = bridge.get("gross_sales_revenue", 187674790.0)
         returns = bridge.get("total_sales_returns", 13955850.0)
         net_sales = bridge.get("net_sales_revenue", 173718940.0)
-        cost = bridge.get("total_cost_embedded", 183957167.0)
-        net_gp = bridge.get("net_gross_profit_loss", -10238227.0)
-        expenses = bridge.get("total_operating_expenses", 2059599.0)
-        net_loss = bridge.get("net_operating_profit_loss", -12297826.0)
+        cost = bridge.get("total_cost", bridge.get("total_cost_embedded", 173258940.0))
+        net_gp = bridge.get("net_gross_profit_loss", 460000.0)
+        expenses = bridge.get("total_operating_expenses", 2095229.0)
+        net_loss = bridge.get("net_operating_profit_loss", -1635229.0)
 
         # 7 Waterfall Step Cards
         steps = [
-            ("1. Gross Sales", fmt_curr_m(gross_sales, self.currency), "Invoiced sales incl. empties", COLOR_SLATE_900, COLOR_SLATE_50, COLOR_SLATE_200),
-            ("2. Less: Returns", f"-{fmt_curr_m(returns, self.currency)}", "Credit notes (7.44%)", COLOR_PURPLE_DARK, COLOR_PURPLE_BG, COLOR_PURPLE),
-            ("3. Net Sales", fmt_curr_m(net_sales, self.currency), "Gross less returns", COLOR_SLATE_900, COLOR_SLATE_100, COLOR_SLATE_300),
-            ("4. Total Cost", f"-{fmt_curr_m(cost, self.currency)}", "Invoice embedded cost", COLOR_SLATE_800, COLOR_SLATE_50, COLOR_SLATE_200),
-            ("5. Net Gross Loss", fmt_curr_m(net_gp, self.currency), "Margin: -5.89%", COLOR_ROSE_700, COLOR_ROSE_BG, COLOR_ROSE_700),
-            ("6. Op. Expenses", f"-{fmt_curr_m(expenses, self.currency)}", "Operating day book vouchers", COLOR_AMBER_700, COLOR_AMBER_BG, COLOR_AMBER_700),
-            ("7. Net Loss", fmt_curr_m(net_loss, self.currency), "Period bottom line", COLOR_ROSE_700, COLOR_ROSE_BG, COLOR_ROSE_700),
+            ("1. Gross Sales", fmt_curr_m(gross_sales, self.currency), "all invoices, incl. empties", COLOR_SLATE_900, COLOR_SLATE_50, COLOR_SLATE_200),
+            ("2. Less Returns", f"-{fmt_curr_m(returns, self.currency)}", "7.44% of gross sales", COLOR_PURPLE_DARK, COLOR_PURPLE_BG, COLOR_PURPLE),
+            ("3. Net Sales", fmt_curr_m(net_sales, self.currency), "available sales base", COLOR_SLATE_900, COLOR_SLATE_100, COLOR_SLATE_300),
+            ("4. Total Cost", f"-{fmt_curr_m(cost, self.currency)}", "105.89% of net sales", COLOR_SLATE_800, COLOR_SLATE_50, COLOR_SLATE_200),
+            ("5. Gross Profit", f"+{fmt_curr_m(net_gp, self.currency)}" if net_gp >= 0 else fmt_curr_m(net_gp, self.currency), "-5.89% margin", COLOR_EMERALD_700 if net_gp >= 0 else COLOR_ROSE_700, COLOR_EMERALD_BG if net_gp >= 0 else COLOR_ROSE_BG, COLOR_EMERALD_700 if net_gp >= 0 else COLOR_ROSE_700),
+            ("6. Expenses", f"-{fmt_curr_m(expenses, self.currency)}", "2.05M operating cost", COLOR_AMBER_700, COLOR_AMBER_BG, COLOR_AMBER_700),
+            ("7. Net Profit / (Loss)", fmt_curr_m(net_loss, self.currency), "-0.92% of net sales", COLOR_ROSE_700 if net_loss < 0 else COLOR_EMERALD_700, COLOR_ROSE_BG if net_loss < 0 else COLOR_EMERALD_BG, COLOR_ROSE_700 if net_loss < 0 else COLOR_EMERALD_700),
         ]
 
         w = 1.55
@@ -1086,13 +1087,13 @@ class PresentationBuilder:
 
         bridge = self.payload.get("net_profit_bridge", {})
         net_sales = bridge.get("net_sales_revenue", 173718940.0)
-        net_gp = bridge.get("net_gross_profit_loss", -10238227.0)
-        net_loss = bridge.get("net_operating_profit_loss", -12297826.0)
+        net_gp = bridge.get("net_gross_profit_loss", 460000.0)
+        net_loss = bridge.get("net_operating_profit_loss", -1635229.0)
 
         # 3 Key Metric Blocks
         self._add_kpi_box(slide, 0.8, 1.8, 3.7, 1.6, "Net Sales Revenue", fmt_curr_m(net_sales, self.currency), "Healthy volume turnover", COLOR_SLATE_900)
-        self._add_kpi_box(slide, 4.8, 1.8, 3.7, 1.6, "Current Net Gross Loss", fmt_curr_m(net_gp, self.currency), "Eroded by returns & unit deficits", COLOR_ROSE_700, bg_color=COLOR_ROSE_BG)
-        self._add_kpi_box(slide, 8.8, 1.8, 3.733, 1.6, "Total Operating Loss", fmt_curr_m(net_loss, self.currency), "Includes ₦2.06M payment vouchers", COLOR_ROSE_700, bg_color=COLOR_ROSE_BG)
+        self._add_kpi_box(slide, 4.8, 1.8, 3.7, 1.6, "Current Gross Profit", f"+{fmt_curr_m(net_gp, self.currency)}" if net_gp >= 0 else fmt_curr_m(net_gp, self.currency), "Post-returns product profit", COLOR_EMERALD_700 if net_gp >= 0 else COLOR_ROSE_700, bg_color=COLOR_EMERALD_BG if net_gp >= 0 else COLOR_ROSE_BG)
+        self._add_kpi_box(slide, 8.8, 1.8, 3.733, 1.6, "Total Operating Loss", fmt_curr_m(net_loss, self.currency), "Includes ₦2.10M payment vouchers", COLOR_ROSE_700, bg_color=COLOR_ROSE_BG)
 
         # Bottom Conclusion Box
         self._add_card(slide, 0.8, 3.7, 11.733, 2.9, bg_color=COLOR_WHITE, border_color=COLOR_SLATE_200)

@@ -154,8 +154,8 @@ def compute_net_profit_bridge(
     - gross_sales_revenue (incl. empties)
     - total_sales_returns (incl. empties)
     - net_sales_revenue
-    - total_cost (invoice-embedded, incl. empties)
-    - net_gross_profit_loss
+    - total_cost (product cost only, excl. empties deposits)
+    - net_gross_profit_loss (net sales - product COGS)
     - net_gross_margin_pct
     - total_operating_expenses
     - net_operating_profit_loss
@@ -165,14 +165,27 @@ def compute_net_profit_bridge(
     - empties_returns_qty
     - return_rate (returns / gross_sales_revenue)
     """
+    if profile is None:
+        from engine.config import kane_jones_profile
+        profile = kane_jones_profile()
+
     gross_sales_revenue = float(line_items_df["quantity"].mul(line_items_df["rate"]).sum()) if not line_items_df.empty else 0.0
     if gross_sales_revenue == 0.0 and invoices_df is not None and not invoices_df.empty:
         gross_sales_revenue = float(invoices_df["gross_revenue"].sum())
 
-    # Total cost (invoice-embedded, incl. empties)
-    total_cost_embedded = float(line_items_df["cost"].sum()) if not line_items_df.empty else 0.0
-    if total_cost_embedded == 0.0 and invoices_df is not None and not invoices_df.empty and "invoice_cost" in invoices_df.columns:
-        total_cost_embedded = float(invoices_df["invoice_cost"].sum())
+    # Total Product Cost (COGS, strictly excluding empties container deposits)
+    empties_kws = [k.lower() for k in (getattr(profile, "empties_keywords", []) or [])]
+    if not line_items_df.empty and "product_raw" in line_items_df.columns:
+        is_empties = line_items_df["product_raw"].astype(str).str.lower().apply(
+            lambda p: any(kw in p for kw in empties_kws)
+        )
+        product_lines = line_items_df[~is_empties]
+        total_cost_product = float(product_lines["cost"].sum()) if not product_lines.empty else 0.0
+    else:
+        total_cost_product = float(line_items_df["cost"].sum()) if not line_items_df.empty else 0.0
+
+    if total_cost_product == 0.0 and invoices_df is not None and not invoices_df.empty and "invoice_cost" in invoices_df.columns:
+        total_cost_product = float(invoices_df["invoice_cost"].sum())
 
     # Sales returns breakdown
     total_sales_returns = 0.0
@@ -191,21 +204,24 @@ def compute_net_profit_bridge(
         empties_returns_qty = float(emp_ret["quantity"].sum())
 
     net_sales_revenue = gross_sales_revenue - total_sales_returns
-    net_gross_profit_loss = net_sales_revenue - total_cost_embedded
+    net_gross_profit_loss = net_sales_revenue - total_cost_product
     net_gross_margin_pct = (net_gross_profit_loss / net_sales_revenue) if net_sales_revenue > 0 else 0.0
     return_rate = (total_sales_returns / gross_sales_revenue) if gross_sales_revenue > 0 else 0.0
 
     net_operating_profit_loss = net_gross_profit_loss - (expenses_total or 0.0)
+    net_operating_margin_pct = (net_operating_profit_loss / net_sales_revenue) if net_sales_revenue > 0 else 0.0
 
     return {
         "gross_sales_revenue": gross_sales_revenue,
         "total_sales_returns": total_sales_returns,
         "net_sales_revenue": net_sales_revenue,
-        "total_cost_embedded": total_cost_embedded,
+        "total_cost": total_cost_product,
+        "total_cost_embedded": total_cost_product,  # alias for backwards compatibility
         "net_gross_profit_loss": net_gross_profit_loss,
         "net_gross_margin_pct": net_gross_margin_pct,
         "total_operating_expenses": float(expenses_total or 0.0),
         "net_operating_profit_loss": net_operating_profit_loss,
+        "net_operating_margin_pct": net_operating_margin_pct,
         "product_returns_value": product_returns_val,
         "product_returns_qty": product_returns_qty,
         "empties_returns_value": empties_returns_val,
