@@ -18,6 +18,7 @@ import {
   Loader2,
   RefreshCw,
   Trash2,
+  Pencil,
 } from "lucide-react";
 import { SnapshotSummary } from "@/types/api";
 import { formatCurrency, formatPercent, formatNumber } from "@/lib/api";
@@ -31,6 +32,7 @@ interface HomeScreenProps {
   depotMissing?: boolean;
   onRecreateDepot?: (depotName: string) => Promise<void>;
   onDeletePeriod?: (periodLabel: string) => Promise<void>;
+  onRenamePeriod?: (periodLabel: string, currentTitle: string) => void;
 }
 
 export function HomeScreen({
@@ -42,6 +44,7 @@ export function HomeScreen({
   depotMissing,
   onRecreateDepot,
   onDeletePeriod,
+  onRenamePeriod,
 }: HomeScreenProps) {
   const [recreateName, setRecreateName] = React.useState(displayName || "My Beverage Depot");
   const [recreating, setRecreating] = React.useState(false);
@@ -272,6 +275,19 @@ export function HomeScreen({
                         )}
                       </div>
                       <div className="flex items-center gap-1">
+                        {onRenamePeriod && (
+                          <button
+                            type="button"
+                            title={`Rename ${item.period_label} audit`}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              onRenamePeriod(item.period_label, item.audit_title);
+                            }}
+                            className="p-1.5 rounded-lg text-slate-300 hover:text-[#7c6fff] hover:bg-purple-50 transition-colors"
+                          >
+                            <Pencil className="w-4 h-4" />
+                          </button>
+                        )}
                         {onDeletePeriod && (
                           <button
                             type="button"

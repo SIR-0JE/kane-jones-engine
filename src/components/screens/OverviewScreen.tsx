@@ -14,6 +14,7 @@ import {
   FileDown,
   Presentation,
   Trash2,
+  Pencil,
 } from "lucide-react";
 import { TabType } from "@/components/Navigation";
 import { AnalyzeResponse, CompareResponse } from "@/types/api";
@@ -23,9 +24,10 @@ interface OverviewScreenProps {
   data: AnalyzeResponse;
   onNavigate: (tab: TabType) => void;
   onDeleteAudit?: (periodLabel: string) => void;
+  onRenameAudit?: (periodLabel: string, currentTitle: string) => void;
 }
 
-export function OverviewScreen({ data, onNavigate, onDeleteAudit }: OverviewScreenProps) {
+export function OverviewScreen({ data, onNavigate, onDeleteAudit, onRenameAudit }: OverviewScreenProps) {
   const meta = data.meta;
   const currency = meta?.currency_symbol || "₦";
 
@@ -146,7 +148,19 @@ export function OverviewScreen({ data, onNavigate, onDeleteAudit }: OverviewScre
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
           <h1 className="text-sm font-bold text-slate-900 font-sora">Overview</h1>
-          <p className="text-xs text-slate-500">{meta?.audit_title || meta?.period_label || "Audit"}</p>
+          <div className="flex items-center gap-1.5 mt-0.5">
+            <p className="text-xs text-slate-500">{meta?.audit_title || meta?.period_label || "Audit"}</p>
+            {onRenameAudit && (
+              <button
+                type="button"
+                onClick={() => onRenameAudit(meta?.period_label || "2026-07", meta?.audit_title || `${meta?.period_label} Audit`)}
+                title="Edit audit name"
+                className="p-1 rounded-lg text-slate-400 hover:text-[#7c6fff] hover:bg-purple-50 transition-colors"
+              >
+                <Pencil className="w-3 h-3" />
+              </button>
+            )}
+          </div>
         </div>
         <div className="flex items-center gap-2">
           <button

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
-import { UploadCloud, Calendar, Building2, ArrowLeft, LogOut, Settings, ChevronDown, Sparkles, Menu } from "lucide-react";
+import { UploadCloud, Calendar, Building2, ArrowLeft, LogOut, Settings, ChevronDown, Sparkles, Menu, Pencil } from "lucide-react";
 import { UserSession, getInitials } from "@/lib/auth";
 
 interface HeaderProps {
@@ -16,6 +16,7 @@ interface HeaderProps {
   onOpenSettings?: () => void;
   onLogout?: () => void;
   onToggleMobileSidebar?: () => void;
+  onRenameAudit?: (periodLabel: string, currentTitle: string) => void;
 }
 
 export function Header({
@@ -30,6 +31,7 @@ export function Header({
   onOpenSettings,
   onLogout,
   onToggleMobileSidebar,
+  onRenameAudit,
 }: HeaderProps) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -102,6 +104,16 @@ export function Header({
                     <Calendar className="w-3 h-3 text-emerald-600" />
                     {periodLabel}
                   </span>
+                )}
+                {onRenameAudit && periodLabel && (
+                  <button
+                    type="button"
+                    onClick={() => onRenameAudit(periodLabel, auditTitle || `${periodLabel} Audit`)}
+                    title="Edit audit name"
+                    className="p-1 rounded-lg text-slate-400 hover:text-[#7c6fff] hover:bg-purple-50 transition-colors shrink-0"
+                  >
+                    <Pencil className="w-3.5 h-3.5" />
+                  </button>
                 )}
               </div>
             </div>

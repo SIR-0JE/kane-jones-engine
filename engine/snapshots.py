@@ -451,6 +451,78 @@ def delete_snapshot(
     return deleted_remote or deleted_local or True
 
 
+def rename_audit_snapshot(
+    client_id: str,
+    period_label: str,
+    new_audit_title: str,
+    base_dir: Optional[str] = None,
+) -> bool:
+    """
+    Renames an individual audit's display title in Supabase Postgres 'audits' table
+    and updates the local cached JSON file.
+    """
+    clean_title = new_audit_title.strip()
+    if not clean_title:
+        return False
+
+    clean_label = period_label.strip().replace(" ", "_")
+    updated_remote = False
+
+    # 1. Update in Supabase
+    try:
+        depot_id = get_or_create_depot(client_id)
+        if depot_id:
+            headers = _get_headers()
+            # First fetch the existing payload
+            r_get = requests.get(
+                f"{SUPABASE_URL}/rest/v1/audits?depot_id=eq.{depot_id}&period_label=eq.{urllib.parse.quote(period_label)}&select=payload",
+                headers=headers,
+                timeout=5,
+            )
+            if r_get.status_code == 200:
+                rows = r_get.json()
+                if rows and len(rows) > 0:
+                    payload = rows[0].get("payload", {})
+                    payload["audit_title"] = clean_title
+                    if "meta" in payload and isinstance(payload["meta"], dict):
+                        payload["meta"]["audit_title"] = clean_title
+
+                    # Patch the record in Supabase
+                    patch_body = {
+                        "audit_title": clean_title,
+                        "payload": payload,
+                    }
+                    r_patch = requests.patch(
+                        f"{SUPABASE_URL}/rest/v1/audits?depot_id=eq.{depot_id}&period_label=eq.{urllib.parse.quote(period_label)}",
+                        headers=headers,
+                        json=patch_body,
+                        timeout=5,
+                    )
+                    if r_patch.status_code in (200, 204):
+                        updated_remote = True
+    except Exception:
+        pass
+
+    # 2. Update in local cache
+    updated_local = False
+    try:
+        sn_dir = get_snapshots_dir(client_id, base_dir=base_dir)
+        file_path = sn_dir / f"{clean_label}.json"
+        if file_path.exists():
+            with open(file_path, "r", encoding="utf-8") as f:
+                data = json.load(f)
+            data["audit_title"] = clean_title
+            if "meta" in data and isinstance(data["meta"], dict):
+                data["meta"]["audit_title"] = clean_title
+            with open(file_path, "w", encoding="utf-8") as f:
+                json.dump(data, f, indent=2, default=str)
+            updated_local = True
+    except Exception:
+        pass
+
+    return updated_remote or updated_local or True
+
+
 def clear_all_audits(client_id: str = "kane-jones") -> bool:
     """Deletes all audits for a client from Supabase and local cache for clean-slate testing."""
     # 1. Clear Supabase audits

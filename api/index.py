@@ -631,6 +631,31 @@ def delete_audit_snapshot_endpoint(
     }
 
 
+@app.post("/snapshots/rename")
+@app.post("/api/snapshots/rename")
+@app.post("/audits/rename")
+@app.post("/api/audits/rename")
+def rename_audit_endpoint(
+    client_id: str = Form("kane-jones"),
+    period_label: str = Form(...),
+    new_audit_title: str = Form(...),
+):
+    """Renames an audit snapshot title in Supabase DB and local cache."""
+    from engine.snapshots import rename_audit_snapshot
+    success = rename_audit_snapshot(
+        client_id=client_id,
+        period_label=period_label,
+        new_audit_title=new_audit_title,
+    )
+    return {
+        "status": "ok" if success else "error",
+        "client_id": client_id,
+        "period_label": period_label,
+        "new_audit_title": new_audit_title,
+        "updated": success,
+    }
+
+
 @app.get("/report")
 @app.get("/api/report")
 def download_audit_report(

@@ -17,10 +17,10 @@ import { ReturnsScreen } from "@/components/screens/ReturnsScreen";
 import { DataQualityScreen } from "@/components/screens/DataQualityScreen";
 import { SettingsScreen } from "@/components/screens/SettingsScreen";
 import { AnalyzeResponse, SnapshotSummary } from "@/types/api";
-import { fetchSnapshots, fetchSnapshot, deleteSnapshot } from "@/lib/api";
+import { fetchSnapshots, fetchSnapshot, deleteSnapshot, renameSnapshot } from "@/lib/api";
 import { CANONICAL_JULY_SNAPSHOT } from "@/data/canonicalSnapshot";
 import { checkDepotStatus, getCurrentSession, logoutUser, recreateDepot, UserSession } from "@/lib/auth";
-import { Loader2, AlertCircle, ArrowLeft } from "lucide-react";
+import { Loader2, AlertCircle, ArrowLeft, Pencil, X } from "lucide-react";
 
 export default function AppDashboard() {
   const router = useRouter();
@@ -205,6 +205,55 @@ export default function AppDashboard() {
     }
   };
 
+  const [renameModalOpen, setRenameModalOpen] = useState<boolean>(false);
+  const [renamingPeriod, setRenamingPeriod] = useState<string>("");
+  const [renamingTitle, setRenamingTitle] = useState<string>("");
+  const [renamingLoading, setRenamingLoading] = useState<boolean>(false);
+  const [renamingError, setRenamingError] = useState<string | null>(null);
+
+  const handleOpenRenameModal = (periodLabel: string, currentTitle: string) => {
+    setRenamingPeriod(periodLabel);
+    setRenamingTitle(currentTitle);
+    setRenamingError(null);
+    setRenameModalOpen(true);
+  };
+
+  const handleSaveRenameAudit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!session || !renamingPeriod || !renamingTitle.trim()) return;
+    const newTitle = renamingTitle.trim();
+    try {
+      setRenamingLoading(true);
+      setRenamingError(null);
+      await renameSnapshot(renamingPeriod, newTitle, session.clientId);
+
+      // Update snapshots list
+      setSnapshots((prev) =>
+        prev.map((s) => (s.period_label === renamingPeriod ? { ...s, audit_title: newTitle } : s))
+      );
+
+      // Update active data payload if matching
+      setData((prev) => {
+        if (!prev) return prev;
+        return {
+          ...prev,
+          audit_title: newTitle,
+          meta: {
+            ...prev.meta,
+            audit_title: newTitle,
+          },
+        };
+      });
+
+      setRenameModalOpen(false);
+    } catch (err: any) {
+      console.error("Rename audit error:", err);
+      setRenamingError(err?.message || "Failed to rename audit.");
+    } finally {
+      setRenamingLoading(false);
+    }
+  };
+
   if (!authChecked || !session) {
     return (
       <div className="min-h-screen bg-slate-50 flex items-center justify-center">
@@ -241,6 +290,7 @@ export default function AppDashboard() {
             depotMissing={depotMissing}
             onRecreateDepot={handleRecreateDepot}
             onDeletePeriod={handleDeletePeriod}
+            onRenamePeriod={handleOpenRenameModal}
           />
         </div>
       ) : (
@@ -282,6 +332,7 @@ export default function AppDashboard() {
               onOpenSettings={() => setActiveTab("settings")}
               onLogout={handleLogout}
               onToggleMobileSidebar={() => setMobileSidebarOpen(true)}
+              onRenameAudit={handleOpenRenameModal}
             />
 
             {/* Screen Router */}
@@ -315,6 +366,7 @@ export default function AppDashboard() {
                       data={data}
                       onNavigate={(tab) => setActiveTab(tab)}
                       onDeleteAudit={handleDeletePeriod}
+                      onRenameAudit={handleOpenRenameModal}
                     />
                   )}
                   {activeTab === "daily" && <DailyScreen data={data} />}
@@ -338,6 +390,78 @@ export default function AppDashboard() {
         onSuccess={handleUploadSuccess}
         clientId={session.clientId}
       />
+
+      {/* Rename Audit Modal */}
+      {renameModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xs animate-in fade-in duration-150">
+          <div className="bg-white rounded-2xl border border-slate-200 shadow-2xl max-w-md w-full p-6 space-y-4 relative">
+            <button
+              type="button"
+              onClick={() => {
+                setRenameModalOpen(false);
+                setRenamingError(null);
+              }}
+              className="absolute top-4 right-4 p-1.5 rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors"
+            >
+              <X className="w-4 h-4" />
+            </button>
+
+            <div className="flex items-center gap-3">
+              <div className="p-2.5 bg-[#7c6fff]/10 rounded-xl text-[#7c6fff]">
+                <Pencil className="w-5 h-5" />
+              </div>
+              <div>
+                <h3 className="text-base font-bold text-slate-900 font-sora">Rename Monthly Audit</h3>
+                <p className="text-xs text-slate-500 font-inter">Period: {renamingPeriod}</p>
+              </div>
+            </div>
+
+            <form onSubmit={handleSaveRenameAudit} className="space-y-4">
+              <div>
+                <label className="block text-xs font-semibold text-slate-700 mb-1.5 font-sora">
+                  Audit Display Name
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={renamingTitle}
+                  onChange={(e) => setRenamingTitle(e.target.value)}
+                  placeholder="e.g. July 2026 Consolidated Audit"
+                  className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 focus:border-[#7c6fff] focus:bg-white focus:outline-hidden rounded-xl text-xs font-medium text-slate-900 transition-all"
+                />
+              </div>
+
+              {renamingError && (
+                <div className="p-3 bg-rose-50 border border-rose-200 rounded-xl text-xs text-rose-700 font-medium">
+                  {renamingError}
+                </div>
+              )}
+
+              <div className="flex items-center justify-end gap-2 pt-2 border-t border-slate-100">
+                <button
+                  type="button"
+                  disabled={renamingLoading}
+                  onClick={() => {
+                    setRenameModalOpen(false);
+                    setRenamingError(null);
+                  }}
+                  className="px-4 py-2 rounded-xl border border-slate-200 hover:bg-slate-50 text-slate-700 text-xs font-semibold font-sora transition-all disabled:opacity-50"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={renamingLoading || !renamingTitle.trim()}
+                  className="px-4 py-2 rounded-xl bg-gradient-to-r from-[#7c6fff] to-[#5a4dde] hover:shadow-[0_4px_16px_rgba(124,111,255,0.35)] active:scale-95 text-white text-xs font-semibold font-sora transition-all shadow-xs disabled:opacity-60 flex items-center gap-1.5"
+                >
+                  {renamingLoading ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Pencil className="w-3.5 h-3.5" />}
+                  <span>{renamingLoading ? "Saving…" : "Save Title"}</span>
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </main>
   );
 }

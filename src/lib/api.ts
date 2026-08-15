@@ -37,6 +37,27 @@ export async function deleteSnapshot(periodLabel: string, clientId = "kane-jones
   return true;
 }
 
+export async function renameSnapshot(
+  periodLabel: string,
+  newTitle: string,
+  clientId = "kane-jones"
+): Promise<boolean> {
+  const formData = new FormData();
+  formData.append("client_id", clientId);
+  formData.append("period_label", periodLabel);
+  formData.append("new_audit_title", newTitle);
+
+  const res = await fetch(`${API_BASE}/api/snapshots/rename`, {
+    method: "POST",
+    body: formData,
+  });
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({ detail: "Failed to rename snapshot." }));
+    throw new Error(err.detail || "Rename snapshot request failed");
+  }
+  return true;
+}
+
 export async function uploadAndAnalyze(
   file: File,
   clientId = "kane-jones",
