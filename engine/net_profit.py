@@ -66,7 +66,7 @@ def parse_expenses_sheet(xlsx_path_or_wb: Any, profile: ClientProfile = None) ->
     for s in wb.sheetnames:
         clean = s.strip().lower()
         if any(kw in clean for kw in ["expense", "expn", "exp", "opex", "overhead", "spending"]):
-            if any(skw in clean for kw in ["threshold", "summary", "total", "all", "cat"]):
+            if any(kw in clean for kw in ["threshold", "summary", "total", "all", "cat"]):
                 summary_candidates.append(s)
             else:
                 other_candidates.append(s)
