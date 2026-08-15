@@ -8,4 +8,5 @@ httpx
 requests
 reportlab
 python-pptx
+pytest
 

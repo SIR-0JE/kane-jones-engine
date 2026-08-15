@@ -75,45 +75,72 @@ def load_price_list(xlsx_path: str, profile: ClientProfile) -> pd.DataFrame:
     import openpyxl
     wb = openpyxl.load_workbook(xlsx_path, data_only=True)
     
-    # 1. Flexible sheet resolution
     target_sheet = None
-    if profile.price_list_sheet in wb.sheetnames:
-        target_sheet = profile.price_list_sheet
-    else:
-        norm_expected = re.sub(r'[\s_\-\.]', '', profile.price_list_sheet).upper()
-        for name in wb.sheetnames:
-            if re.sub(r'[\s_\-\.]', '', name).upper() == norm_expected:
-                target_sheet = name
-                break
-        if not target_sheet:
-            for name in wb.sheetnames:
-                if "price" in name.lower():
-                    target_sheet = name
-                    break
-
-    if not target_sheet or target_sheet not in wb.sheetnames:
-        raise ValueError(
-            f"Price list sheet '{profile.price_list_sheet}' not found in workbook. Available sheets: {wb.sheetnames}"
-        )
-
-    ws = wb[target_sheet]
-
-    rows = [[c.value for c in row] for row in ws.iter_rows()]
-    # Find the header row (contains "SKU" or "Description")
     header_idx = None
-    for i, row in enumerate(rows):
-        joined = " ".join(str(c) for c in row if c).upper()
-        if "SKU" in joined or "DESCRIPTION" in joined:
-            header_idx = i
-            break
-    if header_idx is None:
-        raise ValueError(f"Could not find a header row in price list sheet '{target_sheet}'")
+    
+    # 1. First, check if exact profile.price_list_sheet exists
+    candidate_sheets = []
+    if profile.price_list_sheet in wb.sheetnames:
+        candidate_sheets.append(profile.price_list_sheet)
+    
+    # 2. Check normalized sheet names
+    norm_expected = re.sub(r'[\s_\-\.]', '', profile.price_list_sheet).upper()
+    for name in wb.sheetnames:
+        if re.sub(r'[\s_\-\.]', '', name).upper() == norm_expected and name not in candidate_sheets:
+            candidate_sheets.append(name)
+            
+    # 3. Add other sheets containing "price" or "pricing"
+    for name in wb.sheetnames:
+        if ("price" in name.lower() or "pricing" in name.lower()) and name not in candidate_sheets:
+            candidate_sheets.append(name)
 
-    cols = ["sku", "distributor_price", "sub_distributor_price", "retail_price"]
-    data_rows = [r[:len(cols)] for r in rows[header_idx + 1:] if r[0] not in (None, "")]
-    price_list = pd.DataFrame(data_rows, columns=cols)
-    price_list = price_list.dropna(subset=["sku"]).reset_index(drop=True)
-    return price_list
+    # 4. Search candidate sheets for a valid header row containing "SKU" or "DESCRIPTION"
+    for s_name in candidate_sheets:
+        ws = wb[s_name]
+        rows = [[c.value for c in row] for row in ws.iter_rows()]
+        for i, row in enumerate(rows):
+            joined = " ".join(str(c) for c in row if c).upper()
+            if ("SKU" in joined or "DESCRIPTION" in joined) and ("DISTRIBUTOR" in joined or "PRICE" in joined or "RATE" in joined or "TIER" in joined):
+                target_sheet = s_name
+                header_idx = i
+                break
+        if target_sheet is not None:
+            break
+
+    # 5. If a valid price list sheet was found with standard header:
+    if target_sheet is not None and header_idx is not None:
+        ws = wb[target_sheet]
+        rows = [[c.value for c in row] for row in ws.iter_rows()]
+        cols = ["sku", "distributor_price", "sub_distributor_price", "retail_price"]
+        data_rows = [r[:len(cols)] for r in rows[header_idx + 1:] if r[0] not in (None, "")]
+        price_list = pd.DataFrame(data_rows, columns=cols)
+        price_list = price_list.dropna(subset=["sku"]).reset_index(drop=True)
+        for col in ["distributor_price", "sub_distributor_price", "retail_price"]:
+            if col in price_list.columns:
+                price_list[col] = pd.to_numeric(price_list[col], errors="coerce")
+        return price_list
+
+    # 6. Fallback: If no dedicated 3-tier price list sheet exists, check if inventory sheet (tmp3F5D) exists
+    from engine.parser import parse_inventory_sheet
+    inv_sheet_name = getattr(profile, "inventory_sheet", "tmp3F5D")
+    has_inv = any(inv_sheet_name.lower() in name.lower() for name in wb.sheetnames)
+    if has_inv:
+        try:
+            inv_df, _ = parse_inventory_sheet(wb, profile)
+            if not inv_df.empty and "item_name" in inv_df.columns and "rate_per_unit" in inv_df.columns:
+                price_list = pd.DataFrame({
+                    "sku": inv_df["item_name"],
+                    "distributor_price": pd.to_numeric(inv_df["rate_per_unit"], errors="coerce"),
+                    "sub_distributor_price": pd.to_numeric(inv_df["rate_per_unit"], errors="coerce"),
+                    "retail_price": pd.to_numeric(inv_df["rate_per_unit"], errors="coerce"),
+                }).dropna(subset=["sku"]).reset_index(drop=True)
+                return price_list
+        except Exception:
+            pass
+
+    # 7. Final fallback: Return empty price list DataFrame
+    return pd.DataFrame(columns=["sku", "distributor_price", "sub_distributor_price", "retail_price"])
+
 
 
 def match_products(line_items_df: pd.DataFrame, price_list_df: pd.DataFrame,
