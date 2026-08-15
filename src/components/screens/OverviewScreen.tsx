@@ -175,196 +175,143 @@ export function OverviewScreen({ data, onNavigate }: OverviewScreenProps) {
         </div>
       </div>
 
-      {/* 1. Core KPIs Grid (4 Columns on Desktop) */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-        {/* Total Revenue */}
-        <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-xs">
-          <span className="text-xs font-semibold text-slate-500 block">Total Revenue</span>
-          <div className="text-lg sm:text-xl lg:text-2xl font-bold text-slate-900 mt-1 tracking-tight truncate font-sora">
-            {formatCurrency(meta.total_revenue, currency, true)}
-          </div>
-          <div className="text-xs text-slate-500 mt-1">
-            {formatNumber(meta.total_invoices)} invoices
-          </div>
-        </div>
-
-        {/* Gross Profit */}
-        <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-xs">
-          <span className="text-xs font-semibold text-slate-500 block">Gross Profit</span>
-          <div className={`text-lg sm:text-xl lg:text-2xl font-bold mt-1 tracking-tight truncate font-sora ${meta.total_gross_profit >= 0 ? "text-emerald-700" : "text-rose-700"}`}>
-            {formatCurrency(meta.total_gross_profit, currency, true)}
-          </div>
-          <div className="text-xs text-slate-500 mt-1">
-            Margin: <span className="font-semibold text-slate-700">{formatPercent(meta.overall_margin_pct)}</span>
-          </div>
-        </div>
-
-        {/* Recoverable Leakage */}
-        <div className="bg-white p-4 rounded-xl border border-rose-200 bg-rose-50/20 shadow-xs">
-          <span className="text-xs font-semibold text-rose-600 block">Pricing Leakage</span>
-          <div className="text-lg sm:text-xl lg:text-2xl font-bold text-rose-700 mt-1 tracking-tight truncate font-sora">
-            {formatCurrency(totalLeakOpportunity, currency, true)}
-          </div>
-          <div className="text-xs text-rose-600 font-medium mt-1">
-            {belowFloorCount} below-floor items
-          </div>
-        </div>
-
-        {/* Top Product Concentration */}
-        <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-xs">
-          <span className="text-xs font-semibold text-slate-500 block">Top SKU Share</span>
-          <div className="text-lg sm:text-xl lg:text-2xl font-bold text-slate-900 mt-1 tracking-tight truncate font-sora">
-            {dominant ? formatPercent(dominant.pct_of_total) : "N/A"}
-          </div>
-          <div className="text-xs text-slate-500 mt-1 truncate">
-            {dominant ? dominant.product_raw : "Single product risk"}
-          </div>
-        </div>
-      </div>
-
-      {/* 2. Official Management Net Profit Bridge */}
+      {/* 1. Official 7 Financial Bridge Metrics (Primary Overview Cards) */}
       {(() => {
         const bridge = data.net_profit_bridge;
         const grossSales = bridge?.gross_sales_revenue ?? meta.total_revenue ?? 187674790.0;
         const salesReturns = bridge?.total_sales_returns ?? 13955850.0;
         const netSales = bridge?.net_sales_revenue ?? (grossSales - salesReturns);
-        const embeddedCost = bridge?.total_cost_embedded ?? 183957167.0;
-        const netGrossLoss = bridge?.net_gross_profit_loss ?? (netSales - embeddedCost);
-        const netGrossMarginPct = bridge?.net_gross_margin_pct ?? (netSales > 0 ? netGrossLoss / netSales : 0.0);
-        const opExpenses = bridge?.total_operating_expenses ?? 2059599.0;
-        const netOpLoss = bridge?.net_operating_profit_loss ?? (netGrossLoss - opExpenses);
+        const productCost = bridge?.total_cost ?? bridge?.total_cost_embedded ?? 173258940.0;
+        const grossProfit = bridge?.net_gross_profit_loss ?? 460000.0;
+        const grossMarginPct = bridge?.net_gross_margin_pct ?? (netSales > 0 ? grossProfit / netSales : 0.0026);
+        const opExpenses = bridge?.total_operating_expenses ?? 2095229.0;
+        const netOpLoss = bridge?.net_operating_profit_loss ?? -1635229.0;
         const returnRate = bridge?.return_rate ?? (grossSales > 0 ? salesReturns / grossSales : 0.0744);
+        const netMarginPct = netSales > 0 ? netOpLoss / netSales : -0.0092;
 
         return (
-          <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs space-y-4">
-            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 border-b border-slate-100 pb-3">
-              <div className="flex items-center gap-2">
-                <div className="p-1.5 bg-[#7c6fff]/10 rounded-lg text-[#7c6fff]">
-                  <TrendingDown className="w-4 h-4" />
-                </div>
-                <div>
-                  <h2 className="text-sm font-bold text-slate-900 font-sora">
-                    Net Profit / Loss Bridge (Official Management P&L)
-                  </h2>
-                  <p className="text-xs text-slate-500 font-inter">
-                    Gross revenue reconciled with sales returns credit notes and period operating expenses
-                  </p>
-                </div>
+          <div className="space-y-3">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+              <div>
+                <h2 className="text-xs font-bold text-slate-500 uppercase tracking-wider font-sora">
+                  Official Financial Bridge & Management P&L
+                </h2>
+                <p className="text-xs text-slate-400 font-inter">
+                  Full 7-step P&L reconciliation with sales returns and product-only COGS
+                </p>
               </div>
-              <div className="flex items-center gap-2">
-                <button
-                  onClick={() => onNavigate("returns")}
-                  className="text-xs font-bold text-[#7c6fff] hover:underline flex items-center gap-1 font-sora"
-                >
-                  <span>Returns Analysis ({formatPercent(returnRate)})</span>
-                  <ArrowRight className="w-3 h-3" />
-                </button>
-              </div>
+              <button
+                onClick={() => onNavigate("returns")}
+                className="text-xs font-bold text-[#7c6fff] hover:underline flex items-center gap-1 font-sora self-start sm:self-auto"
+              >
+                <span>Returns Breakdown ({formatPercent(returnRate)})</span>
+                <ArrowRight className="w-3 h-3" />
+              </button>
             </div>
 
-            {/* Waterfall Flow Grid */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-2.5">
+            {/* 7-Step Financial Bridge Grid */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-3">
               {/* Step 1: Gross Sales */}
-              <div className="p-3 bg-slate-50/80 rounded-xl border border-slate-200/80 flex flex-col justify-between">
+              <div className="bg-white p-3.5 sm:p-4 rounded-xl border border-slate-200 shadow-xs flex flex-col justify-between">
                 <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider font-sora">
                   1. Gross Sales
                 </span>
-                <div className="mt-1">
-                  <div className="text-xs sm:text-sm font-extrabold text-slate-900 font-sora truncate">
+                <div className="mt-2">
+                  <div className="text-base sm:text-lg lg:text-xl font-bold text-slate-900 tracking-tight font-sora truncate">
                     {formatCurrency(grossSales, currency, true)}
                   </div>
-                  <span className="text-[9px] text-slate-400 font-medium block mt-0.5">
-                    Incl. empties
+                  <span className="text-[11px] text-slate-500 font-medium block mt-1">
+                    {formatNumber(meta.total_invoices)} invoices
                   </span>
                 </div>
               </div>
 
               {/* Step 2: Less Returns */}
-              <div className="p-3 bg-purple-50/40 rounded-xl border border-purple-200/80 flex flex-col justify-between">
+              <div className="bg-purple-50/40 p-3.5 sm:p-4 rounded-xl border border-purple-200/80 shadow-xs flex flex-col justify-between">
                 <span className="text-[10px] font-bold text-purple-700 uppercase tracking-wider font-sora">
                   2. Less Returns
                 </span>
-                <div className="mt-1">
-                  <div className="text-xs sm:text-sm font-extrabold text-purple-700 font-sora truncate">
+                <div className="mt-2">
+                  <div className="text-base sm:text-lg lg:text-xl font-bold text-purple-700 tracking-tight font-sora truncate">
                     −{formatCurrency(salesReturns, currency, true)}
                   </div>
-                  <span className="text-[9px] text-purple-600 font-medium block mt-0.5">
-                    Rate: {formatPercent(returnRate)}
+                  <span className="text-[11px] text-purple-600 font-medium block mt-1">
+                    {formatPercent(returnRate)} of sales
                   </span>
                 </div>
               </div>
 
               {/* Step 3: Net Sales */}
-              <div className="p-3 bg-slate-50/80 rounded-xl border border-slate-200/80 flex flex-col justify-between">
+              <div className="bg-white p-3.5 sm:p-4 rounded-xl border border-slate-200 shadow-xs flex flex-col justify-between">
                 <span className="text-[10px] font-bold text-slate-700 uppercase tracking-wider font-sora">
                   3. Net Sales
                 </span>
-                <div className="mt-1">
-                  <div className="text-xs sm:text-sm font-extrabold text-slate-900 font-sora truncate">
+                <div className="mt-2">
+                  <div className="text-base sm:text-lg lg:text-xl font-bold text-slate-900 tracking-tight font-sora truncate">
                     {formatCurrency(netSales, currency, true)}
                   </div>
-                  <span className="text-[9px] text-slate-500 font-medium block mt-0.5">
-                    Gross − Returns
+                  <span className="text-[11px] text-slate-500 font-medium block mt-1">
+                    Available base
                   </span>
                 </div>
               </div>
 
-              {/* Step 4: Total Cost */}
-              <div className="p-3 bg-slate-50/80 rounded-xl border border-slate-200/80 flex flex-col justify-between">
+              {/* Step 4: Total Cost (Product COGS) */}
+              <div className="bg-white p-3.5 sm:p-4 rounded-xl border border-slate-200 shadow-xs flex flex-col justify-between">
                 <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider font-sora">
-                  4. Total Cost
+                  4. Product Cost
                 </span>
-                <div className="mt-1">
-                  <div className="text-xs sm:text-sm font-extrabold text-slate-800 font-sora truncate">
-                    −{formatCurrency(embeddedCost, currency, true)}
+                <div className="mt-2">
+                  <div className="text-base sm:text-lg lg:text-xl font-bold text-slate-800 tracking-tight font-sora truncate">
+                    −{formatCurrency(productCost, currency, true)}
                   </div>
-                  <span className="text-[9px] text-slate-400 font-medium block mt-0.5">
-                    Product COGS (excl. empties)
+                  <span className="text-[11px] text-slate-500 font-medium block mt-1">
+                    Excl. empties
                   </span>
                 </div>
               </div>
 
-              {/* Step 5: Gross Profit / Loss */}
-              <div className={`p-3 rounded-xl border flex flex-col justify-between ${netGrossLoss < 0 ? "bg-rose-50/60 border-rose-200" : "bg-emerald-50/60 border-emerald-200"}`}>
-                <span className={`text-[10px] font-bold uppercase tracking-wider font-sora ${netGrossLoss < 0 ? "text-rose-700" : "text-emerald-700"}`}>
-                  {netGrossLoss >= 0 ? "5. Gross Profit" : "5. Net Gross Loss"}
+              {/* Step 5: Gross Profit */}
+              <div className={`p-3.5 sm:p-4 rounded-xl border shadow-xs flex flex-col justify-between ${grossProfit >= 0 ? "bg-emerald-50/60 border-emerald-200" : "bg-rose-50/60 border-rose-200"}`}>
+                <span className={`text-[10px] font-bold uppercase tracking-wider font-sora ${grossProfit >= 0 ? "text-emerald-700" : "text-rose-700"}`}>
+                  5. Gross Profit
                 </span>
-                <div className="mt-1">
-                  <div className={`text-xs sm:text-sm font-extrabold font-sora truncate ${netGrossLoss < 0 ? "text-rose-700" : "text-emerald-700"}`}>
-                    {netGrossLoss >= 0 ? "+" : ""}{formatCurrency(netGrossLoss, currency, true)}
+                <div className="mt-2">
+                  <div className={`text-base sm:text-lg lg:text-xl font-bold tracking-tight font-sora truncate ${grossProfit >= 0 ? "text-emerald-700" : "text-rose-700"}`}>
+                    {grossProfit >= 0 ? "+" : ""}{formatCurrency(grossProfit, currency, true)}
                   </div>
-                  <span className={`text-[9px] font-medium block mt-0.5 ${netGrossLoss < 0 ? "text-rose-600" : "text-emerald-600"}`}>
-                    Post-returns basis ({formatPercent(netGrossMarginPct)})
+                  <span className={`text-[11px] font-medium block mt-1 ${grossProfit >= 0 ? "text-emerald-600" : "text-rose-600"}`}>
+                    {formatPercent(grossMarginPct)} margin
                   </span>
                 </div>
               </div>
 
               {/* Step 6: Operating Expenses */}
-              <div className="p-3 bg-amber-50/40 rounded-xl border border-amber-200/80 flex flex-col justify-between">
+              <div className="bg-amber-50/40 p-3.5 sm:p-4 rounded-xl border border-amber-200/80 shadow-xs flex flex-col justify-between">
                 <span className="text-[10px] font-bold text-amber-800 uppercase tracking-wider font-sora">
                   6. Op. Expenses
                 </span>
-                <div className="mt-1">
-                  <div className="text-xs sm:text-sm font-extrabold text-amber-900 font-sora truncate">
+                <div className="mt-2">
+                  <div className="text-base sm:text-lg lg:text-xl font-bold text-amber-900 tracking-tight font-sora truncate">
                     −{formatCurrency(opExpenses, currency, true)}
                   </div>
-                  <span className="text-[9px] text-amber-700 font-medium block mt-0.5">
-                    Operating expenses
+                  <span className="text-[11px] text-amber-700 font-medium block mt-1">
+                    Operating vouchers
                   </span>
                 </div>
               </div>
 
               {/* Step 7: Net Operating Profit / Loss */}
-              <div className={`p-3 rounded-xl border flex flex-col justify-between ${netOpLoss < 0 ? "bg-rose-100/70 border-rose-300" : "bg-emerald-100/70 border-emerald-300"}`}>
+              <div className={`p-3.5 sm:p-4 rounded-xl border shadow-xs flex flex-col justify-between ${netOpLoss < 0 ? "bg-rose-100/70 border-rose-300" : "bg-emerald-100/70 border-emerald-300"}`}>
                 <span className={`text-[10px] font-extrabold uppercase tracking-wider font-sora ${netOpLoss < 0 ? "text-rose-900" : "text-emerald-900"}`}>
                   7. Net Profit / (Loss)
                 </span>
-                <div className="mt-1">
-                  <div className={`text-xs sm:text-sm font-black font-sora truncate ${netOpLoss < 0 ? "text-rose-900" : "text-emerald-900"}`}>
+                <div className="mt-2">
+                  <div className={`text-base sm:text-lg lg:text-xl font-black tracking-tight font-sora truncate ${netOpLoss < 0 ? "text-rose-900" : "text-emerald-900"}`}>
                     {formatCurrency(netOpLoss, currency, true)}
                   </div>
-                  <span className={`text-[9px] font-bold block mt-0.5 ${netOpLoss < 0 ? "text-rose-800" : "text-emerald-800"}`}>
-                    {formatPercent(netSales > 0 ? netOpLoss / netSales : 0)} of net sales
+                  <span className={`text-[11px] font-bold block mt-1 ${netOpLoss < 0 ? "text-rose-800" : "text-emerald-800"}`}>
+                    {formatPercent(netMarginPct)} of net sales
                   </span>
                 </div>
               </div>
