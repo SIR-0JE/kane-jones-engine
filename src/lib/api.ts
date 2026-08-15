@@ -78,7 +78,44 @@ export async function fetchComparison(
   return res.json();
 }
 
-export function formatCurrency(amount: number | null | undefined, symbol = "₦"): string {
+export function formatCompactCurrency(
+  amount: number | null | undefined,
+  symbol = "₦",
+  decimals = 2
+): string {
+  if (amount === null || amount === undefined || isNaN(amount)) return "—";
+  const sign = amount < 0 ? "-" : "";
+  const abs = Math.abs(amount);
+
+  if (abs >= 1_000_000_000) {
+    return `${sign}${symbol}${(abs / 1_000_000_000).toFixed(decimals)}B`;
+  }
+  if (abs >= 1_000_000) {
+    return `${sign}${symbol}${(abs / 1_000_000).toFixed(decimals)}M`;
+  }
+  if (abs >= 100_000) {
+    return `${sign}${symbol}${(abs / 1_000).toFixed(1)}k`;
+  }
+  if (abs >= 1_000) {
+    return `${sign}${symbol}${(abs / 1_000).toFixed(1)}k`;
+  }
+
+  const formatted = new Intl.NumberFormat("en-NG", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  }).format(abs);
+
+  return `${sign}${symbol}${formatted}`;
+}
+
+export function formatCurrency(
+  amount: number | null | undefined,
+  symbol = "₦",
+  compact = false
+): string {
+  if (compact) {
+    return formatCompactCurrency(amount, symbol);
+  }
   if (amount === null || amount === undefined || isNaN(amount)) return "—";
   const abs = Math.abs(amount);
   const formatted = new Intl.NumberFormat("en-NG", {

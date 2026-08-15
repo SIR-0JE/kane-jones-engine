@@ -128,7 +128,7 @@ export function ProductsScreen({ data }: ProductsScreenProps) {
                 Product Revenue
               </span>
               <div className="text-lg font-extrabold text-slate-900 font-sora mt-1">
-                {formatCurrency(totalRevenue || 174324840.0, currency)}
+                {formatCurrency(totalRevenue || 174324840.0, currency, true)}
               </div>
               <span className="text-[11px] text-slate-500 font-medium mt-0.5 block">
                 Excludes empties
@@ -140,7 +140,7 @@ export function ProductsScreen({ data }: ProductsScreenProps) {
                 True Cost (tmp3F5D)
               </span>
               <div className="text-lg font-extrabold text-slate-900 font-sora mt-1">
-                {formatCurrency(totalCost || 174260589.0, currency)}
+                {formatCurrency(totalCost || 174260589.0, currency, true)}
               </div>
               <span className="text-[11px] text-slate-500 font-medium mt-0.5 block">
                 Period-end rate basis
@@ -160,7 +160,7 @@ export function ProductsScreen({ data }: ProductsScreenProps) {
               <div className={`text-lg font-extrabold font-sora mt-1 ${
                 (totalGrossProfit || 64251.0) >= 0 ? "text-emerald-800" : "text-rose-800"
               }`}>
-                {formatCurrency(totalGrossProfit || 64251.0, currency)}
+                {formatCurrency(totalGrossProfit || 64251.0, currency, true)}
               </div>
               <span className={`text-[11px] font-bold mt-0.5 block ${
                 (totalGrossProfit || 64251.0) >= 0 ? "text-emerald-700" : "text-rose-700"

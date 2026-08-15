@@ -254,7 +254,7 @@ export function CustomersScreen({ data }: CustomersScreenProps) {
                       )}
                     </div>
                     <span className="text-[11px] text-slate-500 font-inter">
-                      {formatNumber(item.invoices)} invoices • Revenue: {formatCurrency(item.revenue, currency)}
+                      {formatNumber(item.invoices)} invoices • Revenue: {formatCurrency(item.revenue, currency, true)}
                     </span>
                   </div>
 
@@ -264,7 +264,7 @@ export function CustomersScreen({ data }: CustomersScreenProps) {
                         isLoss ? "text-rose-700" : "text-emerald-700"
                       }`}
                     >
-                      {formatCurrency(item.gross_profit, currency)}
+                      {formatCurrency(item.gross_profit, currency, true)}
                     </span>
                     <span className="text-[10px] font-semibold text-slate-500">
                       Margin: <strong className={isLoss ? "text-rose-700" : "text-slate-700"}>{formatPercent(item.margin_pct)}</strong>

@@ -107,7 +107,7 @@ export function ReturnsScreen({ data }: ReturnsScreenProps) {
           </div>
           <div className="mt-2">
             <div className="text-xl font-extrabold text-slate-900 font-sora">
-              {formatCurrency(totalVal, currency)}
+              {formatCurrency(totalVal, currency, true)}
             </div>
             <p className="text-[11px] text-purple-700 font-medium mt-0.5">
               177 credit note line items
@@ -147,7 +147,7 @@ export function ReturnsScreen({ data }: ReturnsScreenProps) {
           </div>
           <div className="mt-2">
             <div className="text-xl font-extrabold text-slate-900 font-sora">
-              {formatCurrency(prodVal, currency)}
+              {formatCurrency(prodVal, currency, true)}
             </div>
             <p className="text-[11px] text-rose-700 font-medium mt-0.5">
               {formatNumber(prodQty)} cases returned (6 SKUs)
@@ -167,7 +167,7 @@ export function ReturnsScreen({ data }: ReturnsScreenProps) {
           </div>
           <div className="mt-2">
             <div className="text-xl font-extrabold text-slate-900 font-sora">
-              {formatCurrency(empVal, currency)}
+              {formatCurrency(empVal, currency, true)}
             </div>
             <p className="text-[11px] text-teal-700 font-medium mt-0.5">
               {formatNumber(empQty)} crates / bottles credited

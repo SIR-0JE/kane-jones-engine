@@ -177,7 +177,7 @@ export function HomeScreen({
             <TrendingUp className="w-4 h-4 text-emerald-600" />
           </div>
           <div className="text-2xl xl:text-3xl font-extrabold text-slate-900 mt-2 truncate">
-            {formatCurrency(totalTrackedRevenue, currency)}
+            {formatCurrency(totalTrackedRevenue, currency, true)}
           </div>
           <span className="text-xs text-emerald-700 font-semibold block mt-1">
             Across {snapshots.reduce((acc, s) => acc + (s.total_invoices || 0), 0)} invoices
@@ -191,7 +191,7 @@ export function HomeScreen({
             <ShieldAlert className="w-4 h-4 text-rose-600" />
           </div>
           <div className="text-2xl xl:text-3xl font-extrabold text-rose-700 mt-2 truncate">
-            {formatCurrency(totalTrackedLeakage, currency)}
+            {formatCurrency(totalTrackedLeakage, currency, true)}
           </div>
           <span className="text-xs text-rose-600 font-semibold block mt-1">
             Recoverable revenue
@@ -274,13 +274,13 @@ export function HomeScreen({
                       <div>
                         <span className="text-[10px] text-slate-400 font-medium block">Gross Revenue</span>
                         <span className="text-xs md:text-sm font-extrabold text-slate-900">
-                          {formatCurrency(item.total_revenue, item.currency_symbol || currency)}
+                          {formatCurrency(item.total_revenue, item.currency_symbol || currency, true)}
                         </span>
                       </div>
                       <div>
                         <span className="text-[10px] text-slate-400 font-medium block">Gross Profit</span>
                         <span className={`text-xs md:text-sm font-extrabold ${item.total_gross_profit >= 0 ? "text-emerald-700" : "text-rose-700"}`}>
-                          {formatCurrency(item.total_gross_profit, item.currency_symbol || currency)}
+                          {formatCurrency(item.total_gross_profit, item.currency_symbol || currency, true)}
                         </span>
                       </div>
                       <div>
@@ -304,7 +304,7 @@ export function HomeScreen({
                       {hasLeaks && (
                         <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-rose-50 border border-rose-100 text-rose-700 text-[10px] font-bold rounded-md">
                           <ShieldAlert className="w-3 h-3 text-rose-600" />
-                          <span>{formatCurrency(itemLeak, item.currency_symbol || currency)} leak</span>
+                          <span>{formatCurrency(itemLeak, item.currency_symbol || currency, true)} leak</span>
                         </span>
                       )}
                       {hasLossAccounts && (

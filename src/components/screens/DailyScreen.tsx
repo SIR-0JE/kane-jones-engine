@@ -153,7 +153,7 @@ export function DailyScreen({ data }: DailyScreenProps) {
         <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-xs">
           <span className="text-xs font-semibold text-slate-500 block">Avg Daily Revenue</span>
           <div className="text-lg sm:text-xl font-bold text-slate-900 mt-1 truncate">
-            {formatCurrency(summaryMetrics.avgDailyRevenue, currency)}
+            {formatCurrency(summaryMetrics.avgDailyRevenue, currency, true)}
           </div>
           <span className="text-xs text-emerald-700 font-semibold block mt-0.5">
             Daily run-rate
@@ -164,7 +164,7 @@ export function DailyScreen({ data }: DailyScreenProps) {
         <div className="bg-white p-4 rounded-xl border border-emerald-200 bg-emerald-50/20 shadow-xs">
           <span className="text-xs font-semibold text-emerald-700 block">Peak Revenue Day</span>
           <div className="text-lg sm:text-xl font-bold text-emerald-800 mt-1 truncate">
-            {summaryMetrics.peakDay ? formatCurrency(summaryMetrics.peakDay.revenue, currency) : "N/A"}
+            {summaryMetrics.peakDay ? formatCurrency(summaryMetrics.peakDay.revenue, currency, true) : "N/A"}
           </div>
           <span className="text-xs text-emerald-700 font-medium block mt-0.5 truncate">
             {summaryMetrics.peakDay ? formatDate(summaryMetrics.peakDay.date_only) : "—"}

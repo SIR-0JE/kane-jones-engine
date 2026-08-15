@@ -85,7 +85,7 @@ export function PricingAuditScreen({ data }: PricingAuditScreenProps) {
           </div>
           <div className="text-right">
             <span className="text-[10px] uppercase font-bold text-rose-700 block">Total Leakage</span>
-            <span className="text-sm font-extrabold text-rose-700">{formatCurrency(totalLeak, currency)}</span>
+            <span className="text-sm font-extrabold text-rose-700">{formatCurrency(totalLeak, currency, true)}</span>
           </div>
         </div>
 
@@ -106,7 +106,7 @@ export function PricingAuditScreen({ data }: PricingAuditScreenProps) {
                   </div>
                   <div className="text-right">
                     <span className="text-xs font-bold text-rose-700">
-                      +{formatCurrency(item.revenue_opportunity, currency)}
+                      +{formatCurrency(item.revenue_opportunity, currency, true)}
                     </span>
                     <span className="block text-[10px] text-rose-600 font-semibold">
                       Gap: {formatPercent(item.gap_pct)}

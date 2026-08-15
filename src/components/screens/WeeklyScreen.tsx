@@ -104,12 +104,12 @@ export function WeeklyScreen({ data }: WeeklyScreenProps) {
 
         {/* Avg Weekly Revenue */}
         <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-xs">
-          <span className="text-xs font-semibold text-slate-500 block">Avg Weekly Run-Rate</span>
+          <span className="text-xs font-semibold text-slate-500 block">Avg Weekly Revenue</span>
           <div className="text-lg sm:text-xl font-bold text-slate-900 mt-1 truncate">
-            {formatCurrency(summaryMetrics.avgWeeklyRevenue, currency)}
+            {formatCurrency(summaryMetrics.avgWeeklyRevenue, currency, true)}
           </div>
           <span className="text-xs text-emerald-700 font-semibold block mt-0.5">
-            Weekly average
+            Weekly run-rate
           </span>
         </div>
 
@@ -117,9 +117,9 @@ export function WeeklyScreen({ data }: WeeklyScreenProps) {
         <div className="bg-white p-4 rounded-xl border border-emerald-200 bg-emerald-50/20 shadow-xs">
           <span className="text-xs font-semibold text-emerald-700 block">Peak Revenue Week</span>
           <div className="text-lg sm:text-xl font-bold text-emerald-800 mt-1 truncate">
-            {summaryMetrics.peakWeek ? formatCurrency(summaryMetrics.peakWeek.revenue, currency) : "N/A"}
+            {summaryMetrics.peakWeek ? formatCurrency(summaryMetrics.peakWeek.revenue, currency, true) : "N/A"}
           </div>
-          <span className="text-xs text-emerald-700 font-medium block mt-0.5">
+          <span className="text-xs text-emerald-700 font-medium block mt-0.5 truncate">
             {summaryMetrics.peakWeek ? `Week ${summaryMetrics.peakWeek.week} (${getWeekDayRange(summaryMetrics.peakWeek.week)})` : "—"}
           </span>
         </div>

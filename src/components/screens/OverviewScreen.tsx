@@ -181,7 +181,7 @@ export function OverviewScreen({ data, onNavigate }: OverviewScreenProps) {
         <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-xs">
           <span className="text-xs font-semibold text-slate-500 block">Total Revenue</span>
           <div className="text-lg sm:text-xl lg:text-2xl font-bold text-slate-900 mt-1 tracking-tight truncate font-sora">
-            {formatCurrency(meta.total_revenue, currency)}
+            {formatCurrency(meta.total_revenue, currency, true)}
           </div>
           <div className="text-xs text-slate-500 mt-1">
             {formatNumber(meta.total_invoices)} invoices
@@ -192,7 +192,7 @@ export function OverviewScreen({ data, onNavigate }: OverviewScreenProps) {
         <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-xs">
           <span className="text-xs font-semibold text-slate-500 block">Gross Profit</span>
           <div className={`text-lg sm:text-xl lg:text-2xl font-bold mt-1 tracking-tight truncate font-sora ${meta.total_gross_profit >= 0 ? "text-emerald-700" : "text-rose-700"}`}>
-            {formatCurrency(meta.total_gross_profit, currency)}
+            {formatCurrency(meta.total_gross_profit, currency, true)}
           </div>
           <div className="text-xs text-slate-500 mt-1">
             Margin: <span className="font-semibold text-slate-700">{formatPercent(meta.overall_margin_pct)}</span>
@@ -203,7 +203,7 @@ export function OverviewScreen({ data, onNavigate }: OverviewScreenProps) {
         <div className="bg-white p-4 rounded-xl border border-rose-200 bg-rose-50/20 shadow-xs">
           <span className="text-xs font-semibold text-rose-600 block">Pricing Leakage</span>
           <div className="text-lg sm:text-xl lg:text-2xl font-bold text-rose-700 mt-1 tracking-tight truncate font-sora">
-            {formatCurrency(totalLeakOpportunity, currency)}
+            {formatCurrency(totalLeakOpportunity, currency, true)}
           </div>
           <div className="text-xs text-rose-600 font-medium mt-1">
             {belowFloorCount} below-floor items
@@ -271,7 +271,7 @@ export function OverviewScreen({ data, onNavigate }: OverviewScreenProps) {
                 </span>
                 <div className="mt-1">
                   <div className="text-xs sm:text-sm font-extrabold text-slate-900 font-sora truncate">
-                    {formatCurrency(grossSales, currency)}
+                    {formatCurrency(grossSales, currency, true)}
                   </div>
                   <span className="text-[9px] text-slate-400 font-medium block mt-0.5">
                     Incl. empties
@@ -286,7 +286,7 @@ export function OverviewScreen({ data, onNavigate }: OverviewScreenProps) {
                 </span>
                 <div className="mt-1">
                   <div className="text-xs sm:text-sm font-extrabold text-purple-700 font-sora truncate">
-                    −{formatCurrency(salesReturns, currency)}
+                    −{formatCurrency(salesReturns, currency, true)}
                   </div>
                   <span className="text-[9px] text-purple-600 font-medium block mt-0.5">
                     Rate: {formatPercent(returnRate)}
@@ -301,7 +301,7 @@ export function OverviewScreen({ data, onNavigate }: OverviewScreenProps) {
                 </span>
                 <div className="mt-1">
                   <div className="text-xs sm:text-sm font-extrabold text-slate-900 font-sora truncate">
-                    {formatCurrency(netSales, currency)}
+                    {formatCurrency(netSales, currency, true)}
                   </div>
                   <span className="text-[9px] text-slate-500 font-medium block mt-0.5">
                     Gross − Returns
@@ -316,7 +316,7 @@ export function OverviewScreen({ data, onNavigate }: OverviewScreenProps) {
                 </span>
                 <div className="mt-1">
                   <div className="text-xs sm:text-sm font-extrabold text-slate-800 font-sora truncate">
-                    −{formatCurrency(embeddedCost, currency)}
+                    −{formatCurrency(embeddedCost, currency, true)}
                   </div>
                   <span className="text-[9px] text-slate-400 font-medium block mt-0.5">
                     Invoice-embedded
@@ -331,7 +331,7 @@ export function OverviewScreen({ data, onNavigate }: OverviewScreenProps) {
                 </span>
                 <div className="mt-1">
                   <div className={`text-xs sm:text-sm font-extrabold font-sora truncate ${netGrossLoss < 0 ? "text-rose-700" : "text-emerald-700"}`}>
-                    {formatCurrency(netGrossLoss, currency)}
+                    {formatCurrency(netGrossLoss, currency, true)}
                   </div>
                   <span className={`text-[9px] font-medium block mt-0.5 ${netGrossLoss < 0 ? "text-rose-600" : "text-emerald-600"}`}>
                     Margin: {formatPercent(netGrossMarginPct)}
@@ -346,7 +346,7 @@ export function OverviewScreen({ data, onNavigate }: OverviewScreenProps) {
                 </span>
                 <div className="mt-1">
                   <div className="text-xs sm:text-sm font-extrabold text-amber-900 font-sora truncate">
-                    −{formatCurrency(opExpenses, currency)}
+                    −{formatCurrency(opExpenses, currency, true)}
                   </div>
                   <span className="text-[9px] text-amber-700 font-medium block mt-0.5">
                     Day book vouchers
@@ -361,7 +361,7 @@ export function OverviewScreen({ data, onNavigate }: OverviewScreenProps) {
                 </span>
                 <div className="mt-1">
                   <div className={`text-xs sm:text-sm font-black font-sora truncate ${netOpLoss < 0 ? "text-rose-900" : "text-emerald-900"}`}>
-                    {formatCurrency(netOpLoss, currency)}
+                    {formatCurrency(netOpLoss, currency, true)}
                   </div>
                   <span className={`text-[9px] font-bold block mt-0.5 ${netOpLoss < 0 ? "text-rose-800" : "text-emerald-800"}`}>
                     Period bottom line
@@ -485,7 +485,7 @@ export function OverviewScreen({ data, onNavigate }: OverviewScreenProps) {
                 <p className="text-xs text-slate-500 mt-1">
                   Total recoverable leakage:{" "}
                   <span className="font-semibold text-rose-700 block mt-0.5">
-                    {formatCurrency(totalLeakOpportunity, currency)}
+                    {formatCurrency(totalLeakOpportunity, currency, true)}
                   </span>
                 </p>
               </div>
@@ -515,7 +515,7 @@ export function OverviewScreen({ data, onNavigate }: OverviewScreenProps) {
                 <p className="text-xs text-slate-500 mt-1">
                   <span className="font-semibold text-slate-800">{dominant?.product_raw || "Top SKU"}</span> accounts for{" "}
                   <span className="font-semibold text-slate-900 block mt-0.5">
-                    {formatCurrency(dominant?.revenue || 0, currency)}
+                    {formatCurrency(dominant?.revenue || 0, currency, true)}
                   </span>
                 </p>
               </div>
@@ -545,7 +545,7 @@ export function OverviewScreen({ data, onNavigate }: OverviewScreenProps) {
                 <p className="text-xs text-slate-500 mt-1">
                   Top loss customer:{" "}
                   <span className="font-semibold text-slate-800 block mt-0.5">
-                    {lossCustomers[0]?.customer || "None"} ({formatCurrency(lossCustomers[0]?.gross_profit || 0, currency)})
+                    {lossCustomers[0]?.customer || "None"} ({formatCurrency(lossCustomers[0]?.gross_profit || 0, currency, true)})
                   </span>
                 </p>
               </div>
