@@ -363,16 +363,26 @@ def parse_inventory_sheet(xlsx_or_wb, profile: ClientProfile = None):
         sheet_name = target_name
     else:
         for name in wb.sheetnames:
-            if "3f5d" in name.lower() or "inventory" in name.lower():
+            if "3f5d" in name.lower() or "inventory" in name.lower() or "stock" in name.lower() or "closing" in name.lower():
                 sheet_name = name
                 break
 
+    # If still not found by name, scan top rows of each sheet for inventory headers
     if not sheet_name:
-        return pd.DataFrame(), [{
-            "row": None,
-            "source_tab": "inventory",
-            "reason": f"Inventory sheet '{target_name}' not found in workbook. Available: {wb.sheetnames}"
-        }]
+        for name in wb.sheetnames:
+            if "price" in name.lower() or name.lower() == getattr(profile, "price_list_sheet", "").lower():
+                continue
+            ws_test = wb[name]
+            for r in range(1, min(15, (ws_test.max_row or 1) + 1)):
+                row_vals = [str(ws_test.cell(r, c).value or "").strip().upper() for c in range(1, min(10, (ws_test.max_column or 1) + 1))]
+                if "ITEM" in row_vals and ("UOM" in row_vals or "RATE PER UNIT" in row_vals or "NO. OF UNITS" in row_vals or "RATE" in row_vals):
+                    sheet_name = name
+                    break
+            if sheet_name:
+                break
+
+    if not sheet_name:
+        return pd.DataFrame(), []
 
     ws = wb[sheet_name]
     rows = []
@@ -382,7 +392,7 @@ def parse_inventory_sheet(xlsx_or_wb, profile: ClientProfile = None):
     header_row_idx = None
     for r in range(1, min(15, ws.max_row + 1)):
         row_vals = [str(ws.cell(r, c).value or "").strip().upper() for c in range(1, ws.max_column + 1)]
-        if "ITEM" in row_vals and ("UOM" in row_vals or "RATE PER UNIT" in row_vals or "NO. OF UNITS" in row_vals):
+        if "ITEM" in row_vals and ("UOM" in row_vals or "RATE PER UNIT" in row_vals or "NO. OF UNITS" in row_vals or "RATE" in row_vals):
             header_row_idx = r
             break
 
@@ -393,60 +403,67 @@ def parse_inventory_sheet(xlsx_or_wb, profile: ClientProfile = None):
         units_val = ws.cell(r, 2).value
         uom_val = ws.cell(r, 3).value
         rate_val = ws.cell(r, 4).value
-        value_val = ws.cell(r, 5).value
-        dpp_val = ws.cell(r, 6).value
+        val_val = ws.cell(r, 5).value
+        dpp_val = ws.cell(r, 6).value if ws.max_column >= 6 else None
 
-        if item_val is None:
+        if not item_val or str(item_val).strip() == "":
             continue
 
         item_str = str(item_val).strip()
-        if item_str.upper() in ["TOTAL VALUE", "TOTAL", "TOTALS"]:
+        if "TOTAL" in item_str.upper() or item_str.startswith("---"):
             continue
 
-        # Leaf SKU has non-null, non-empty UOM
-        if uom_val is not None and str(uom_val).strip() != "":
-            uom_str = str(uom_val).strip()
-            units = _parse_float(units_val)
-            rate = _parse_float(rate_val)
-            val = _parse_float(value_val)
-            dpp = _parse_float(dpp_val)
+        units = _parse_float(units_val)
+        rate = _parse_float(rate_val)
+        val = _parse_float(val_val)
+        dpp = _parse_float(dpp_val) if dpp_val is not None else None
+        uom_str = str(uom_val).strip() if uom_val else "Ctn"
 
-            # Anomaly checks:
-            if rate <= 0:
-                anomalies.append({
-                    "row": r,
-                    "source_tab": sheet_name,
-                    "type": "negative_or_zero_cost",
-                    "item": item_str,
-                    "rate": rate,
-                    "reason": f"Negative or zero inventory cost in {sheet_name}: rate={rate}"
-                })
-
-            calc_val = units * rate
-            if abs(val - calc_val) > max(100.0, abs(val) * 0.02) and units > 0 and rate > 0:
-                anomalies.append({
-                    "row": r,
-                    "source_tab": sheet_name,
-                    "type": "value_mismatch",
-                    "item": item_str,
-                    "units": units,
-                    "rate": rate,
-                    "expected_value": calc_val,
-                    "actual_value": val,
-                    "diff": val - calc_val,
-                    "reason": f"Inventory value mismatch: reported={val}, calculated (units*rate)={calc_val}"
-                })
-
-            rows.append({
-                "item_name": item_str,
-                "units": units,
-                "uom": uom_str,
-                "rate_per_unit": rate,
-                "value": val,
-                "default_purchase_price": dpp,
-                "source_row": r,
+        if units <= 0:
+            anomalies.append({
+                "row": r,
                 "source_tab": sheet_name,
+                "type": "negative_or_zero_inventory_units",
+                "item": item_str,
+                "units": units,
+                "reason": f"Negative or zero inventory units in {sheet_name}: units={units}"
             })
+
+        if rate <= 0:
+            anomalies.append({
+                "row": r,
+                "source_tab": sheet_name,
+                "type": "zero_or_negative_inventory_rate",
+                "item": item_str,
+                "rate": rate,
+                "reason": f"Negative or zero inventory cost in {sheet_name}: rate={rate}"
+            })
+
+        calc_val = units * rate
+        if abs(val - calc_val) > max(100.0, abs(val) * 0.02) and units > 0 and rate > 0:
+            anomalies.append({
+                "row": r,
+                "source_tab": sheet_name,
+                "type": "value_mismatch",
+                "item": item_str,
+                "units": units,
+                "rate": rate,
+                "expected_value": calc_val,
+                "actual_value": val,
+                "diff": val - calc_val,
+                "reason": f"Inventory value mismatch: reported={val}, calculated (units*rate)={calc_val}"
+            })
+
+        rows.append({
+            "item_name": item_str,
+            "units": units,
+            "uom": uom_str,
+            "rate_per_unit": rate,
+            "value": val,
+            "default_purchase_price": dpp,
+            "source_row": r,
+            "source_tab": sheet_name,
+        })
 
     inv_df = pd.DataFrame(rows)
     return inv_df, anomalies
@@ -454,13 +471,8 @@ def parse_inventory_sheet(xlsx_or_wb, profile: ClientProfile = None):
 
 def parse_sales_returns_sheet(xlsx_or_wb, profile: ClientProfile = None):
     """
-    Parses the sales returns / credit notes sheet (Kane-Jones calls it tmpCEF3)
-    into a clean DataFrame of return line items with empties classification.
-
-    Block structure state machine:
-    - Header: VOUCHER DATE, DEBIT ('Sales Return'), CREDIT (Customer), VCH TYPE ('Credit Note'), VCHNO, CREDIT AMOUNT
-    - Item sub-header: ITEM/SERVICE, QUANTITY, RATE, DESCRIPTION
-    - Items: Item name, quantity text ('15 cans', '3 Empty'), unit rate
+    Parses the sales returns / credit notes sheet into a clean DataFrame
+    of return line items with empties classification.
     """
     if profile is None:
         from engine.config import kane_jones_profile
@@ -481,12 +493,20 @@ def parse_sales_returns_sheet(xlsx_or_wb, profile: ClientProfile = None):
                 sheet_name = name
                 break
 
+    # If still not found by name, scan top rows of each sheet for Credit Note headers
     if not sheet_name:
-        return pd.DataFrame(), [{
-            "row": None,
-            "source_tab": "sales_returns",
-            "reason": f"Sales returns sheet '{target_name}' not found in workbook. Available: {wb.sheetnames}"
-        }]
+        for name in wb.sheetnames:
+            ws_test = wb[name]
+            for r in range(1, min(15, (ws_test.max_row or 1) + 1)):
+                row_vals = [str(ws_test.cell(r, c).value or "").strip().lower() for c in range(1, min(10, (ws_test.max_column or 1) + 1))]
+                if any("sales return" in v for v in row_vals) or any("credit note" in v for v in row_vals):
+                    sheet_name = name
+                    break
+            if sheet_name:
+                break
+
+    if not sheet_name:
+        return pd.DataFrame(), []
 
     ws = wb[sheet_name]
     returns = []

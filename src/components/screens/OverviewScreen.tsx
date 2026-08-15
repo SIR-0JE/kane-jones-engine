@@ -206,16 +206,16 @@ export function OverviewScreen({ data, onNavigate, onDeleteAudit, onRenameAudit 
       {/* 1. Official 7 Financial Bridge Metrics (Primary Overview Cards) */}
       {(() => {
         const bridge = data.net_profit_bridge;
-        const grossSales = bridge?.gross_sales_revenue ?? meta.total_revenue ?? 187674790.0;
-        const salesReturns = bridge?.total_sales_returns ?? 13955850.0;
+        const grossSales = bridge?.gross_sales_revenue ?? meta.total_revenue ?? 0;
+        const salesReturns = bridge?.total_sales_returns ?? 0;
         const netSales = bridge?.net_sales_revenue ?? (grossSales - salesReturns);
-        const productCost = bridge?.total_cost ?? bridge?.total_cost_embedded ?? 173258940.0;
-        const grossProfit = bridge?.net_gross_profit_loss ?? 460000.0;
-        const grossMarginPct = bridge?.net_gross_margin_pct ?? (netSales > 0 ? grossProfit / netSales : 0.0026);
-        const opExpenses = bridge?.total_operating_expenses ?? 2095229.0;
-        const netOpLoss = bridge?.net_operating_profit_loss ?? -1635229.0;
-        const returnRate = bridge?.return_rate ?? (grossSales > 0 ? salesReturns / grossSales : 0.0744);
-        const netMarginPct = netSales > 0 ? netOpLoss / netSales : -0.0092;
+        const productCost = bridge?.total_cost ?? bridge?.total_cost_embedded ?? 0;
+        const grossProfit = bridge?.net_gross_profit_loss ?? (netSales - productCost);
+        const grossMarginPct = bridge?.net_gross_margin_pct ?? (netSales > 0 ? grossProfit / netSales : 0);
+        const opExpenses = bridge?.total_operating_expenses ?? 0;
+        const netOpLoss = bridge?.net_operating_profit_loss ?? (grossProfit - opExpenses);
+        const returnRate = bridge?.return_rate ?? (grossSales > 0 ? salesReturns / grossSales : 0);
+        const netMarginPct = bridge?.net_operating_margin_pct ?? (netSales > 0 ? netOpLoss / netSales : 0);
 
         return (
           <div className="space-y-3">

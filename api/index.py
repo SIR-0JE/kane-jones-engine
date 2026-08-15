@@ -243,7 +243,8 @@ async def analyze_sales_report(
             if date_range["start"]:
                 effective_period = date_range["start"][:7]
             else:
-                effective_period = "2026-07"
+                clean_fn = re.sub(r'(?i)\.xlsx?$', '', file.filename).strip()
+                effective_period = clean_fn or "Uploaded Period"
 
         effective_title = audit_title or f"{effective_period} Full Audit"
 
@@ -293,8 +294,15 @@ async def analyze_sales_report(
 
         true_cost_products = []
         true_cost_marketers = []
-        returns_analysis = {}
-        net_profit_bridge = {}
+        returns_analysis = {
+            "total_returns_value": 0.0,
+            "product_returns_value": 0.0,
+            "empties_returns_value": 0.0,
+            "return_rate": 0.0,
+            "items_breakdown": [],
+            "customers_breakdown": [],
+            "anomalies": [],
+        }
 
         if not df_inv.empty:
             prod_true_cost_df, prod_tc_summary, prod_tc_anom = compute_product_profitability(li_df, df_inv, profile)
@@ -304,7 +312,15 @@ async def analyze_sales_report(
 
         if not df_returns.empty:
             returns_analysis = compute_returns_analysis(df_returns, total_revenue, li_df, profile)
-            net_profit_bridge = compute_net_profit_bridge(inv_df, li_df, df_returns, expenses_total=expenses_total, profile=profile)
+
+        # Compute net profit bridge unconditionally for all periods
+        net_profit_bridge = compute_net_profit_bridge(
+            inv_df,
+            li_df,
+            df_returns if not df_returns.empty else pd.DataFrame(),
+            expenses_total=expenses_total,
+            profile=profile,
+        )
 
         # Merge all anomalies
         all_anomalies_list = df_to_records(anomalies_df)

@@ -27,13 +27,13 @@ export function ReturnsScreen({ data }: ReturnsScreenProps) {
 
   const [activeView, setActiveView] = useState<"items" | "customers" | "weekly">("items");
 
-  // Fallback defaults if returns_analysis is not present yet
-  const totalVal = returns?.total_returns_value ?? bridge?.total_sales_returns ?? 13955850.0;
-  const prodVal = returns?.product_returns_value ?? bridge?.product_returns_value ?? 1460600.0;
-  const prodQty = returns?.product_returns_qty ?? bridge?.product_returns_qty ?? 191.0;
-  const empVal = returns?.empties_returns_value ?? bridge?.empties_returns_value ?? 12495250.0;
-  const empQty = returns?.empties_returns_qty ?? bridge?.empties_returns_qty ?? 7039.0;
-  const returnRate = returns?.return_rate ?? bridge?.return_rate ?? (totalVal / (data.meta?.total_revenue || 187674790.0));
+  // Dynamic calculations from parsed data (defaulting to 0 if no returns in period)
+  const totalVal = returns?.total_returns_value ?? bridge?.total_sales_returns ?? 0;
+  const prodVal = returns?.product_returns_value ?? bridge?.product_returns_value ?? 0;
+  const prodQty = returns?.product_returns_qty ?? bridge?.product_returns_qty ?? 0;
+  const empVal = returns?.empties_returns_value ?? bridge?.empties_returns_value ?? 0;
+  const empQty = returns?.empties_returns_qty ?? bridge?.empties_returns_qty ?? 0;
+  const returnRate = returns?.return_rate ?? bridge?.return_rate ?? (data.meta?.total_revenue ? totalVal / data.meta.total_revenue : 0);
 
   const items = returns?.items_breakdown || [];
   const customers = returns?.customers_breakdown || [];

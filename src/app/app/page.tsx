@@ -132,10 +132,6 @@ export default function AppDashboard() {
     setActiveTab("overview");
     setWorkspaceError(null);
 
-    if (session.clientId === "kane-jones" && periodLabel === "2026-07") {
-      setData(CANONICAL_JULY_SNAPSHOT);
-    }
-
     try {
       setLoadingWorkspace(true);
       const snapshotData = await fetchSnapshot(periodLabel, session.clientId);
