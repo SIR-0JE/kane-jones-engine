@@ -380,6 +380,10 @@ async def analyze_sales_report(
             "true_cost_products": true_cost_products,
             "true_cost_marketers": true_cost_marketers,
             "returns_analysis": returns_analysis,
+            "expenses_analysis": {
+                "total_expenses": expenses_total,
+                "categories": df_to_records(df_expenses) if not df_expenses.empty else [],
+            },
             "net_profit_bridge": net_profit_bridge,
         }
 
