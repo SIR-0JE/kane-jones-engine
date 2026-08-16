@@ -259,38 +259,37 @@ def parse_raw_sheet(ws, profile: ClientProfile, source_tab: str):
     return invoices, line_items, anomalies
 
 
-def parse_workbook(xlsx_path: str, profile: ClientProfile):
+def parse_workbook(xlsx_path: str, profile: ClientProfile, classification_report: Optional[Any] = None):
     """Parse raw sales data sheets from workbook. Returns (invoices_df, line_items_df, anomalies_df)."""
     wb = openpyxl.load_workbook(xlsx_path, data_only=True)
 
     # 1. Determine sheets to parse
     sheets_to_parse = []
     
-    # Try finding profile.raw_data_sheets directly or by normalized name
-    for target in profile.raw_data_sheets:
-        if target in wb.sheetnames:
-            sheets_to_parse.append(target)
-        else:
-            clean_target = re.sub(r'(?i)\.xlsx?$', '', target).strip().upper()
-            for name in wb.sheetnames:
-                clean_name = re.sub(r'(?i)\.xlsx?$', '', name).strip().upper()
-                if clean_name == clean_target and name not in sheets_to_parse:
-                    sheets_to_parse.append(name)
-                    break
+    # Check provided classification report
+    if classification_report is not None:
+        raw_rep_sheets = getattr(classification_report, "sales_sheets", [])
+        if isinstance(raw_rep_sheets, list):
+            sheets_to_parse = [s for s in raw_rep_sheets if s in wb.sheetnames]
 
-    # If none matched, auto-discover sheets containing invoice structure (excluding price list)
+    # Fast path from profile
     if not sheets_to_parse:
-        invoice_alias_lookup = _build_alias_lookup(profile.column_aliases, only_fields=INVOICE_FIELDS)
-        for name in wb.sheetnames:
-            if "price" in name.lower() or name.lower() == profile.price_list_sheet.lower():
-                continue
-            ws = wb[name]
-            rows = [[c.value for c in row] for row in ws.iter_rows(max_row=25)]
-            try:
-                _find_header_row(rows, invoice_alias_lookup)
-                sheets_to_parse.append(name)
-            except Exception:
-                pass
+        for target in profile.raw_data_sheets:
+            if target in wb.sheetnames:
+                sheets_to_parse.append(target)
+            else:
+                clean_target = re.sub(r'(?i)\.xlsx?$', '', target).strip().upper()
+                for name in wb.sheetnames:
+                    clean_name = re.sub(r'(?i)\.xlsx?$', '', name).strip().upper()
+                    if clean_name == clean_target and name not in sheets_to_parse:
+                        sheets_to_parse.append(name)
+                        break
+
+    # Dynamic structural classification fallback
+    if not sheets_to_parse:
+        from engine.sheet_classifier import classify_workbook_sheets
+        rep = classify_workbook_sheets(wb, profile)
+        sheets_to_parse = [s for s in rep.sales_sheets if s in wb.sheetnames]
 
     if not sheets_to_parse:
         raise ValueError(
@@ -336,17 +335,9 @@ def parse_workbook(xlsx_path: str, profile: ClientProfile):
     return invoices_df, line_items_df, anomalies_df
 
 
-def parse_inventory_sheet(xlsx_or_wb, profile: ClientProfile = None):
+def parse_inventory_sheet(xlsx_or_wb, profile: ClientProfile = None, classification_report: Optional[Any] = None):
     """
-    Parses the hierarchical inventory/cost sheet (Kane-Jones calls it tmp3F5D)
-    into a clean DataFrame of leaf SKU items and extracts anomalies.
-
-    Distinguishes category rows from leaf SKU rows:
-    - Leaf SKUs have a non-null, non-empty UOM (Units of Measure: 'cans', 'crt', 'pets', 'W&S', 'Empty').
-    - Category header rows have UOM and Rate empty.
-    - Handles 'default' categories near the bottom (group-level and package-level parent rows)
-      by selecting only actual leaf SKU rows with UOM.
-    - Skips summary rows like 'TOTAL VALUE'.
+    Parses the hierarchical inventory/cost sheet into a clean DataFrame of leaf SKU items and extracts anomalies.
     """
     if profile is None:
         from engine.config import kane_jones_profile
@@ -358,28 +349,19 @@ def parse_inventory_sheet(xlsx_or_wb, profile: ClientProfile = None):
         wb = xlsx_or_wb
 
     sheet_name = None
-    target_name = getattr(profile, "inventory_sheet", "tmp3F5D")
-    if target_name in wb.sheetnames:
-        sheet_name = target_name
-    else:
-        for name in wb.sheetnames:
-            if "3f5d" in name.lower() or "inventory" in name.lower() or "stock" in name.lower() or "closing" in name.lower():
-                sheet_name = name
-                break
+    if classification_report is not None and getattr(classification_report, "inventory_sheet", None):
+        if classification_report.inventory_sheet in wb.sheetnames:
+            sheet_name = classification_report.inventory_sheet
 
-    # If still not found by name, scan top rows of each sheet for inventory headers
     if not sheet_name:
-        for name in wb.sheetnames:
-            if "price" in name.lower() or name.lower() == getattr(profile, "price_list_sheet", "").lower():
-                continue
-            ws_test = wb[name]
-            for r in range(1, min(15, (ws_test.max_row or 1) + 1)):
-                row_vals = [str(ws_test.cell(r, c).value or "").strip().upper() for c in range(1, min(10, (ws_test.max_column or 1) + 1))]
-                if "ITEM" in row_vals and ("UOM" in row_vals or "RATE PER UNIT" in row_vals or "NO. OF UNITS" in row_vals or "RATE" in row_vals):
-                    sheet_name = name
-                    break
-            if sheet_name:
-                break
+        target_name = getattr(profile, "inventory_sheet", "tmp3F5D")
+        if target_name in wb.sheetnames:
+            sheet_name = target_name
+        else:
+            from engine.sheet_classifier import classify_workbook_sheets
+            rep = classify_workbook_sheets(wb, profile)
+            if rep.inventory_sheet and rep.inventory_sheet in wb.sheetnames:
+                sheet_name = rep.inventory_sheet
 
     if not sheet_name:
         return pd.DataFrame(), []
@@ -469,7 +451,7 @@ def parse_inventory_sheet(xlsx_or_wb, profile: ClientProfile = None):
     return inv_df, anomalies
 
 
-def parse_sales_returns_sheet(xlsx_or_wb, profile: ClientProfile = None):
+def parse_sales_returns_sheet(xlsx_or_wb, profile: ClientProfile = None, classification_report: Optional[Any] = None):
     """
     Parses the sales returns / credit notes sheet into a clean DataFrame
     of return line items with empties classification.
@@ -484,26 +466,19 @@ def parse_sales_returns_sheet(xlsx_or_wb, profile: ClientProfile = None):
         wb = xlsx_or_wb
 
     sheet_name = None
-    target_name = getattr(profile, "sales_returns_sheet", "tmpCEF3")
-    if target_name in wb.sheetnames:
-        sheet_name = target_name
-    else:
-        for name in wb.sheetnames:
-            if "cef3" in name.lower() or "return" in name.lower() or "credit" in name.lower():
-                sheet_name = name
-                break
+    if classification_report is not None and getattr(classification_report, "sales_returns_sheet", None):
+        if classification_report.sales_returns_sheet in wb.sheetnames:
+            sheet_name = classification_report.sales_returns_sheet
 
-    # If still not found by name, scan top rows of each sheet for Credit Note headers
     if not sheet_name:
-        for name in wb.sheetnames:
-            ws_test = wb[name]
-            for r in range(1, min(15, (ws_test.max_row or 1) + 1)):
-                row_vals = [str(ws_test.cell(r, c).value or "").strip().lower() for c in range(1, min(10, (ws_test.max_column or 1) + 1))]
-                if any("sales return" in v for v in row_vals) or any("credit note" in v for v in row_vals):
-                    sheet_name = name
-                    break
-            if sheet_name:
-                break
+        target_name = getattr(profile, "sales_returns_sheet", "tmpCEF3")
+        if target_name in wb.sheetnames:
+            sheet_name = target_name
+        else:
+            from engine.sheet_classifier import classify_workbook_sheets
+            rep = classify_workbook_sheets(wb, profile)
+            if rep.sales_returns_sheet and rep.sales_returns_sheet in wb.sheetnames:
+                sheet_name = rep.sales_returns_sheet
 
     if not sheet_name:
         return pd.DataFrame(), []

@@ -71,16 +71,21 @@ def normalize_text(text: str) -> str:
     return re.sub(r'\s+', ' ', t).strip()
 
 
-def load_price_list(xlsx_path: str, profile: ClientProfile) -> pd.DataFrame:
+def load_price_list(xlsx_path: str, profile: ClientProfile, classification_report: Optional[Any] = None) -> pd.DataFrame:
     import openpyxl
     wb = openpyxl.load_workbook(xlsx_path, data_only=True)
     
     target_sheet = None
     header_idx = None
     
-    # 1. First, check if exact profile.price_list_sheet exists
+    # 0. Check classification report if provided
     candidate_sheets = []
-    if profile.price_list_sheet in wb.sheetnames:
+    if classification_report is not None and getattr(classification_report, "price_list_sheet", None):
+        if classification_report.price_list_sheet in wb.sheetnames:
+            candidate_sheets.append(classification_report.price_list_sheet)
+
+    # 1. Check if exact profile.price_list_sheet exists
+    if profile.price_list_sheet in wb.sheetnames and profile.price_list_sheet not in candidate_sheets:
         candidate_sheets.append(profile.price_list_sheet)
     
     # 2. Check normalized sheet names
@@ -93,6 +98,13 @@ def load_price_list(xlsx_path: str, profile: ClientProfile) -> pd.DataFrame:
     for name in wb.sheetnames:
         if ("price" in name.lower() or "pricing" in name.lower()) and name not in candidate_sheets:
             candidate_sheets.append(name)
+
+    # Dynamic classification fallback if still none
+    if not candidate_sheets:
+        from engine.sheet_classifier import classify_workbook_sheets
+        rep = classify_workbook_sheets(wb, profile)
+        if rep.price_list_sheet and rep.price_list_sheet in wb.sheetnames:
+            candidate_sheets.append(rep.price_list_sheet)
 
     # 4. Search candidate sheets for a valid header row containing "SKU" or "DESCRIPTION"
     for s_name in candidate_sheets:

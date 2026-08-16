@@ -14,6 +14,7 @@ from fastapi import FastAPI, File, Form, HTTPException, Query, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import Response
 
+from engine.sheet_classifier import classify_workbook_sheets
 from engine.audit import (
     below_floor_pricing,
     concentration_metrics,
@@ -167,8 +168,11 @@ async def analyze_sales_report(
                 )
 
     try:
+        # Dynamic structural sheet role classification
+        classification_report = classify_workbook_sheets(tmp_path, profile)
+
         try:
-            inv_df, li_df, anomalies_df = parse_workbook(tmp_path, profile)
+            inv_df, li_df, anomalies_df = parse_workbook(tmp_path, profile, classification_report=classification_report)
         except ValueError as e:
             raise HTTPException(
                 status_code=422,
@@ -184,7 +188,7 @@ async def analyze_sales_report(
             )
 
         try:
-            price_df = load_price_list(tmp_path, profile)
+            price_df = load_price_list(tmp_path, profile, classification_report=classification_report)
         except ValueError as e:
             raise HTTPException(
                 status_code=422,
@@ -280,8 +284,8 @@ async def analyze_sales_report(
         vol_rev_impact = float(volume_df["revenue_impact"].sum()) if not volume_df.empty else 0.0
 
         # True-cost, Operating Expenses, and Net Profit Analysis
-        df_inv, inv_anomalies = parse_inventory_sheet(tmp_path, profile)
-        df_returns, ret_anomalies = parse_sales_returns_sheet(tmp_path, profile)
+        df_inv, inv_anomalies = parse_inventory_sheet(tmp_path, profile, classification_report=classification_report)
+        df_returns, ret_anomalies = parse_sales_returns_sheet(tmp_path, profile, classification_report=classification_report)
 
         # Parse operating expenses from either separate uploaded file or in-workbook sheets
         expenses_total = 0.0
@@ -290,7 +294,7 @@ async def analyze_sales_report(
         if exp_tmp_path and os.path.exists(exp_tmp_path):
             expenses_total, df_expenses, exp_anomalies = parse_expenses_sheet(exp_tmp_path, profile)
         else:
-            expenses_total, df_expenses, exp_anomalies = parse_expenses_sheet(tmp_path, profile)
+            expenses_total, df_expenses, exp_anomalies = parse_expenses_sheet(tmp_path, profile, classification_report=classification_report)
 
         true_cost_products = []
         true_cost_marketers = []
@@ -385,6 +389,7 @@ async def analyze_sales_report(
                 "categories": df_to_records(df_expenses) if not df_expenses.empty else [],
             },
             "net_profit_bridge": net_profit_bridge,
+            "sheet_classification": classification_report.to_dict(),
         }
 
         try:

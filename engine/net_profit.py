@@ -32,7 +32,11 @@ def _parse_numeric(val: Any) -> Optional[float]:
         return None
 
 
-def parse_expenses_sheet(xlsx_path_or_wb: Any, profile: ClientProfile = None) -> Tuple[float, pd.DataFrame, list]:
+def parse_expenses_sheet(
+    xlsx_path_or_wb: Any,
+    profile: ClientProfile = None,
+    classification_report: Optional[Any] = None,
+) -> Tuple[float, pd.DataFrame, List[Dict[str, Any]]]:
     """
     Parses operating expenses from an expense workbook (e.g. july_expn.xlsx)
     or an in-workbook expenses sheet (e.g. 'July total Expenses', 'July Expenses threshold ', tmp6F17).
@@ -40,13 +44,12 @@ def parse_expenses_sheet(xlsx_path_or_wb: Any, profile: ClientProfile = None) ->
     Supports:
     1. Category / Summary Tables (Col 1 = Category, Col 2 = Amount, Grand Total row).
     2. Day-Book Ledger Format (Date, Category, Payment, Voucher Number, Amount).
-    3. Content-based scanning across all sheets in the workbook.
-
-    Returns:
-    - total_expenses (float): Grand Total of all expenses (e.g. 2,095,229.00)
-    - df_expenses (pd.DataFrame): Category breakdown
-    - anomalies (list): Any parsing warnings
+    Returns: (total_expenses, categories_df, anomalies)
     """
+    if profile is None:
+        from engine.config import kane_jones_profile
+        profile = kane_jones_profile()
+
     if isinstance(xlsx_path_or_wb, str):
         try:
             wb = openpyxl.load_workbook(xlsx_path_or_wb, data_only=True)
@@ -59,11 +62,19 @@ def parse_expenses_sheet(xlsx_path_or_wb: Any, profile: ClientProfile = None) ->
 
     anomalies = []
     
+    # 0. Check classification report if provided
+    candidate_sheets = []
+    if classification_report is not None and getattr(classification_report, "expenses_sheet", None):
+        if classification_report.expenses_sheet in wb.sheetnames:
+            candidate_sheets.append(classification_report.expenses_sheet)
+
     # 1. Identify Candidate Sheets (Prioritizing clean expense summary sheets over ledgers)
     summary_candidates = []
     other_candidates = []
     
     for s in wb.sheetnames:
+        if s in candidate_sheets:
+            continue
         clean = s.strip().lower()
         if any(kw in clean for kw in ["expense", "expn", "exp", "opex", "overhead", "spending"]):
             if any(kw in clean for kw in ["threshold", "summary", "total", "all", "cat"]):
@@ -73,9 +84,9 @@ def parse_expenses_sheet(xlsx_path_or_wb: Any, profile: ClientProfile = None) ->
         elif any(kw in clean for kw in ["voucher", "payment", "6f17"]):
             other_candidates.append(s)
             
-    # 2. Content scan fallback: check top rows of each sheet for expense headers
+    # 2. Dynamic classification fallback: check top rows of each sheet for expense headers
     for s in wb.sheetnames:
-        if s in summary_candidates or s in other_candidates:
+        if s in candidate_sheets or s in summary_candidates or s in other_candidates:
             continue
         clean = s.strip().lower()
         if any(skw in clean for skw in ["sales", "revenue", "price", "inventory", "aggregate", "customer", "marketer", "product"]):
@@ -87,7 +98,12 @@ def parse_expenses_sheet(xlsx_path_or_wb: Any, profile: ClientProfile = None) ->
                 summary_candidates.append(s)
                 break
 
-    candidate_sheets = summary_candidates + other_candidates
+    if not candidate_sheets:
+        candidate_sheets = summary_candidates + other_candidates
+    else:
+        for s in summary_candidates + other_candidates:
+            if s not in candidate_sheets:
+                candidate_sheets.append(s)
 
     # 3. Attempt parsing candidate sheets (Summary Table format first, then Day-book format)
     for sheet_name in candidate_sheets:
