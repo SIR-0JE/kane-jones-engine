@@ -33,19 +33,19 @@ class TestNetProfitBridge:
         # 3. Net Sales Revenue
         assert bridge["net_sales_revenue"] == 173718940.0
 
-        # 4. Gross Product Cost & Cost of Returns Credited Back
-        assert bridge["gross_product_cost"] == 174237808.0
-        assert bridge["cost_of_returns"] == 1405312.0
-        assert bridge["total_cost"] == 172832496.0
+        # 4. Gross Invoiced Embedded Cost (incl. empties) & Cost of Returns Credited Back
+        assert bridge["gross_embedded_cost"] == 183957167.0
+        assert round(bridge["cost_of_returns"], 2) == 10513932.90
+        assert round(bridge["total_cost"], 2) == 173443234.10
 
         # 5. Net Gross Profit (post-returns basis)
-        assert bridge["net_gross_profit_loss"] == 886444.0
+        assert round(bridge["net_gross_profit_loss"], 2) == 275705.90
 
         # 6. Operating Expenses
         assert bridge["total_operating_expenses"] == 2095229.0
 
         # 7. Net Operating Profit / (Loss)
-        assert bridge["net_operating_profit_loss"] == -1208785.0
+        assert round(bridge["net_operating_profit_loss"], 2) == -1819523.10
 
         # 8. Return Rate
         assert round(bridge["return_rate"], 4) == 0.0744

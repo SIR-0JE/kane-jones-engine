@@ -215,22 +215,14 @@ def compute_net_profit_bridge(
     """
     Computes the complete Net Profit / Loss bridge from raw transaction data.
 
-    Returns a dict containing:
-    - gross_sales_revenue (incl. empties)
-    - total_sales_returns (incl. empties)
-    - net_sales_revenue
-    - gross_product_cost (invoiced product lines shipped)
-    - cost_of_returns (credited back for returned product inventory)
-    - total_cost / net_product_cost (gross_product_cost - cost_of_returns)
-    - net_gross_profit_loss (net_sales_revenue - net_product_cost)
-    - net_gross_margin_pct
-    - total_operating_expenses
-    - net_operating_profit_loss
-    - product_returns_value
-    - empties_returns_value
-    - product_returns_qty
-    - empties_returns_qty
-    - return_rate (returns / gross_sales_revenue)
+    Follows the official company-level management bridge:
+      Gross Sales Revenue (all 944 lines, incl. empties)
+    - Total Sales Returns (all 177 credit notes, incl. empties)
+    = Net Sales Revenue
+    - Net Invoiced COGS (Full invoice-embedded cost - Cost of returned product & empties credited back)
+    = Net Gross Profit / (Loss)
+    - Total Operating Expenses (from clean Category Summary Grand Total)
+    = Net Operating Profit / (Loss)
     """
     if profile is None:
         from engine.config import kane_jones_profile
@@ -240,19 +232,13 @@ def compute_net_profit_bridge(
     if gross_sales_revenue == 0.0 and invoices_df is not None and not invoices_df.empty:
         gross_sales_revenue = float(invoices_df["gross_revenue"].sum())
 
-    # Total Gross Product Cost (COGS on invoiced lines, strictly excluding empties container deposits)
-    empties_kws = [k.lower() for k in (getattr(profile, "empties_keywords", []) or [])]
-    if not line_items_df.empty and "product_raw" in line_items_df.columns:
-        is_empties = line_items_df["product_raw"].astype(str).str.lower().apply(
-            lambda p: any(kw in p for kw in empties_kws)
-        )
-        product_lines = line_items_df[~is_empties]
-        gross_product_cost = float(product_lines["cost"].sum()) if not product_lines.empty else 0.0
+    # Full Invoice-Embedded COGS (all lines including empties, matching invoice header total cost)
+    if not line_items_df.empty and "cost" in line_items_df.columns:
+        gross_embedded_cost = float(line_items_df["cost"].sum())
+    elif invoices_df is not None and not invoices_df.empty and "invoice_cost" in invoices_df.columns:
+        gross_embedded_cost = float(invoices_df["invoice_cost"].sum())
     else:
-        gross_product_cost = float(line_items_df["cost"].sum()) if not line_items_df.empty else 0.0
-
-    if gross_product_cost == 0.0 and invoices_df is not None and not invoices_df.empty and "invoice_cost" in invoices_df.columns:
-        gross_product_cost = float(invoices_df["invoice_cost"].sum())
+        gross_embedded_cost = 0.0
 
     # Sales returns breakdown
     total_sales_returns = 0.0
@@ -270,24 +256,40 @@ def compute_net_profit_bridge(
         empties_returns_val = float(emp_ret["return_value"].sum()) if not emp_ret.empty else 0.0
         empties_returns_qty = float(emp_ret["quantity"].sum()) if not emp_ret.empty else 0.0
 
-    # Calculate Cost of Product Returns Credited Back
+    # Calculate Cost of Returns Credited Back (Product + Empties on invoice-embedded basis)
     if cost_of_returns is None:
         cost_of_returns = 0.0
-        if df_inv is not None and not df_inv.empty and df_returns is not None and not df_returns.empty:
-            from engine.true_cost import build_inventory_cost_maps
-            cost_map, dpp_map = build_inventory_cost_maps(df_inv)
-            prod_ret = df_returns[df_returns["item_type"] == "Product"]
-            for _, r in prod_ret.iterrows():
-                item_k = str(r.get("item_name", "")).strip().upper()
-                c_val = cost_map.get(item_k) or dpp_map.get(item_k) or 0.0
-                qty = float(r.get("quantity", 0.0) or 0.0)
-                cost_of_returns += (qty * c_val)
+        if not line_items_df.empty and df_returns is not None and not df_returns.empty:
+            # Build unit cost maps from invoice line items
+            unit_cost_map = {}
+            for p_name, grp in line_items_df.groupby("product_raw"):
+                tot_q = grp["quantity"].sum()
+                tot_c = grp["cost"].sum()
+                if tot_q > 0:
+                    unit_cost_map[str(p_name).strip().upper()] = tot_c / tot_q
 
-    # Net Product COGS = Gross Product Cost - Cost of Returned Goods Credited Back
-    net_product_cost = gross_product_cost - cost_of_returns
+            # Fallback to df_inv true cost if line items didn't have the product
+            if df_inv is not None and not df_inv.empty:
+                from engine.true_cost import build_inventory_cost_maps
+                inv_cost_map, inv_dpp_map = build_inventory_cost_maps(df_inv)
+                for k, v in inv_cost_map.items():
+                    if k not in unit_cost_map:
+                        unit_cost_map[k] = v
+                for k, v in inv_dpp_map.items():
+                    if k not in unit_cost_map:
+                        unit_cost_map[k] = v
+
+            for _, r in df_returns.iterrows():
+                item_k = str(r.get("item_name", "")).strip().upper()
+                unit_c = unit_cost_map.get(item_k, 0.0)
+                qty = float(r.get("quantity", 0.0) or 0.0)
+                cost_of_returns += (qty * unit_c)
+
+    # Net COGS = Full Gross Embedded Cost - Total Returns Cost Credited Back
+    net_cogs = gross_embedded_cost - cost_of_returns
 
     net_sales_revenue = gross_sales_revenue - total_sales_returns
-    net_gross_profit_loss = net_sales_revenue - net_product_cost
+    net_gross_profit_loss = net_sales_revenue - net_cogs
     net_gross_margin_pct = (net_gross_profit_loss / net_sales_revenue) if net_sales_revenue > 0 else 0.0
     return_rate = (total_sales_returns / gross_sales_revenue) if gross_sales_revenue > 0 else 0.0
 
@@ -298,10 +300,11 @@ def compute_net_profit_bridge(
         "gross_sales_revenue": gross_sales_revenue,
         "total_sales_returns": total_sales_returns,
         "net_sales_revenue": net_sales_revenue,
-        "gross_product_cost": gross_product_cost,
+        "gross_product_cost": gross_embedded_cost,
+        "gross_embedded_cost": gross_embedded_cost,
         "cost_of_returns": cost_of_returns,
-        "total_cost": net_product_cost,
-        "total_cost_embedded": net_product_cost,  # alias for backwards compatibility
+        "total_cost": net_cogs,
+        "total_cost_embedded": net_cogs,  # alias for backwards compatibility
         "net_gross_profit_loss": net_gross_profit_loss,
         "net_gross_margin_pct": net_gross_margin_pct,
         "total_operating_expenses": float(expenses_total or 0.0),
