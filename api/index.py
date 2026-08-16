@@ -323,6 +323,7 @@ async def analyze_sales_report(
             li_df,
             df_returns if not df_returns.empty else pd.DataFrame(),
             expenses_total=expenses_total,
+            df_inv=df_inv if not df_inv.empty else None,
             profile=profile,
         )
 

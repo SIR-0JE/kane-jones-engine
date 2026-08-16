@@ -188,18 +188,24 @@ def _check_expenses_signature(
     Checks if rows match operating expense structure:
     1. Category vs Amount summary table (Column 1 = Category, Column 2 = numeric amount, Grand Total row).
     2. Or Day-Book ledger format with Payment / Journal vouchers.
-    Excludes analysis/sales sheets (e.g. 'Product Analysis', 'Marketers', 'Volume Price').
+    Excludes sales, invoices, returns, inventory, and single bank/cash transaction accounts.
     """
     clean_name = sheet_name.strip().lower()
-    if any(ex in clean_name for ex in ["product", "marketer", "volume", "sales", "revenue", "price", "aggregate"]):
-        return False, 0.0, "Sheet name indicates sales/product analysis, not operating expenses", {}
+    
+    # Exclude non-expense sheets
+    if any(ex in clean_name for ex in ["product", "marketer", "volume", "sales", "revenue", "price", "aggregate", "return", "credit", "inv", "stock"]):
+        return False, 0.0, "Sheet name indicates sales/inventory/returns analysis, not operating expenses", {}
 
-    # Check top text for analysis titles
+    # Reject single-account bank/cash sheets (Cash, GTB, etc.)
+    if clean_name in ["cash", "gtb", "gtb (kanejones)", "pos", "bank charges", "advance salary"]:
+        return False, 0.0, "Single-account payment ledger, not primary depot expense summary", {}
+
+    # Check top text for analysis or invoice titles
     top_text = " ".join([str(c or "").strip().lower() for row in rows[:5] for c in row])
-    if any(ex in top_text for ex in ["sales & gross profit", "selling price vs", "cases sold", "product analysis"]):
-        return False, 0.0, "Content indicates sales/product analysis, not operating expenses", {}
+    if any(ex in top_text for ex in ["sales & gross profit", "selling price vs", "cases sold", "product analysis", "voucher date particulars vchno"]):
+        return False, 0.0, "Content indicates sales/invoice register, not operating expenses", {}
 
-    # 1. Check Category Summary Table format
+    # 1. Check Category Summary Table format (Highest Priority, 0.98 confidence)
     categories_count = 0
     has_grand_total = False
     has_expense_header = False
@@ -218,28 +224,38 @@ def _check_expenses_signature(
             has_grand_total = True
             continue
 
-        # Test if c1 is text and c2 is numeric
+        # Test if c1 is category text and c2 is numeric amount
         if c1 and isinstance(c2, (int, float)) and c2 > 0 and not c1.startswith("---") and not c1.startswith("voucher"):
-            categories_count += 1
+            if not any(k in c1 for k in ["date", "particulars", "vchno", "total"]):
+                categories_count += 1
 
-    if (has_expense_header and categories_count >= 2) or (has_grand_total and categories_count >= 2) or (categories_count >= 3 and any(kw in clean_name for kw in ["expense", "expn", "opex"])):
-        return True, 0.94, f"Matched expense category summary table ({categories_count} categories, total row found: {has_grand_total})", {
-            "categories_count": categories_count
+    if (has_expense_header and categories_count >= 2) or (has_grand_total and categories_count >= 2) or (categories_count >= 3 and any(kw in clean_name for kw in ["expense", "expn", "opex", "overhead"])):
+        return True, 0.98, f"Matched clean expense category summary table ({categories_count} categories, grand total row found: {has_grand_total})", {
+            "categories_count": categories_count,
+            "has_grand_total": has_grand_total,
         }
 
-    # 2. Check Day-Book Ledger Format (Payment / Journal vouchers)
-    payment_vouchers_count = 0
-    for row in rows[:50]:
+    # 2. Check Day-Book Ledger Format (Payment / Journal vouchers, 0.85 confidence)
+    is_daybook_header = False
+    for row in rows[:5]:
         row_str = " ".join([str(c or "").strip().lower() for c in row])
-        if "payment" in row_str or "journal" in row_str:
-            payment_vouchers_count += 1
+        if "day book" in row_str or ("debit" in row_str and "credit" in row_str and "vch type" in row_str):
+            is_daybook_header = True
+            break
 
-    if payment_vouchers_count >= 3:
-        return True, 0.85, f"Matched payment/journal expense voucher ledger ({payment_vouchers_count} vouchers)", {
+    payment_vouchers_count = 0
+    if is_daybook_header:
+        for row in rows[:50]:
+            row_str = " ".join([str(c or "").strip().lower() for c in row])
+            if "payment" in row_str or "journal" in row_str:
+                payment_vouchers_count += 1
+
+    if is_daybook_header and payment_vouchers_count >= 3:
+        return True, 0.85, f"Matched payment/journal expense Day-Book ledger ({payment_vouchers_count} vouchers)", {
             "payment_vouchers_count": payment_vouchers_count
         }
 
-    return False, 0.0, "No expense category summary or voucher ledger found", {}
+    return False, 0.0, "No expense category summary or Day-Book voucher ledger found", {}
 
 
 def classify_workbook_sheets(
@@ -347,7 +363,8 @@ def classify_workbook_sheets(
                 details=details,
             )
 
-    # 4. Pass D: Operating Expenses Sheet Detection
+    # 4. Pass D: Operating Expenses Sheet Detection (Prioritize clean category summaries)
+    expense_candidates = []
     for name in sheet_names:
         if name in report.classifications:
             continue
@@ -355,24 +372,30 @@ def classify_workbook_sheets(
         rows = sheet_sample_rows[name]
         is_exp, conf, reason, details = _check_expenses_signature(name, rows)
 
-        if any(kw in clean_name for kw in ["expense", "expn", "opex", "overhead", "6f17"]) or clean_name == getattr(profile, "expenses_sheet", "").lower():
+        if any(kw in clean_name for kw in ["expense", "expn", "opex", "overhead"]) or clean_name == getattr(profile, "expenses_sheet", "").lower():
             if is_exp:
                 conf = min(conf + 0.05, 1.0)
-            elif not any(ex in clean_name for ex in ["product", "marketer", "volume", "sales"]):
+            elif not any(ex in clean_name for ex in ["product", "marketer", "volume", "sales", "cash", "gtb"]):
                 is_exp = True
                 conf = 0.85
                 reason = "Operating expenses sheet identified by profile/name match"
 
-        if is_exp and not report.expenses_sheet:
-            report.expenses_sheet = name
-            report.classifications[name] = SheetClassification(
-                sheet_name=name,
-                role="expenses",
-                confidence=conf,
-                detection_method="structural_signature",
-                reason=reason,
-                details=details,
-            )
+        if is_exp:
+            expense_candidates.append((conf, name, reason, details))
+
+    if expense_candidates:
+        # Pick the highest confidence candidate (Category Summary table > Day Book)
+        expense_candidates.sort(key=lambda x: x[0], reverse=True)
+        best_conf, best_name, best_reason, best_details = expense_candidates[0]
+        report.expenses_sheet = best_name
+        report.classifications[best_name] = SheetClassification(
+            sheet_name=best_name,
+            role="expenses",
+            confidence=best_conf,
+            detection_method="structural_signature",
+            reason=best_reason,
+            details=best_details,
+        )
 
     # 5. Pass E: Sales / Invoice Sheets Detection (Can be multiple sheets, e.g. tmpA1A6, tmp32C7)
     for name in sheet_names:

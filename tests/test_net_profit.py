@@ -1,5 +1,5 @@
 """
-Unit and regression tests for Official Management Net Profit Bridge.
+Unit and regression tests for Official Management Net Profit Bridge and Operating Expenses Parser.
 """
 
 import pytest
@@ -10,14 +10,17 @@ class TestNetProfitBridge:
     """Validates the Management Net Profit Waterfall against official July 2026 benchmarks."""
 
     def test_net_profit_bridge_benchmarks(self, parsed_data):
+        inv_df = parsed_data["inv_df"]
         li_df = parsed_data["li_df"]
         returns_df = parsed_data["returns_df"]
+        df_inv = parsed_data.get("inv_df_cost")
         expenses_total = 2095229.0  # From threshold sheet Grand Total (incl. Journal)
 
         bridge = compute_net_profit_bridge(
-            invoices_df=parsed_data["inv_df"],
+            invoices_df=inv_df,
             line_items_df=li_df,
             df_returns=returns_df,
+            df_inv=df_inv,
             expenses_total=expenses_total,
         )
 
@@ -30,17 +33,21 @@ class TestNetProfitBridge:
         # 3. Net Sales Revenue
         assert bridge["net_sales_revenue"] == 173718940.0
 
-        # 4. Total Cost (product cost only, excl. empties deposits)
-        assert bridge["total_cost_embedded"] < 175000000.0
-        assert bridge["total_cost"] < 175000000.0
+        # 4. Gross Product Cost & Cost of Returns Credited Back
+        assert bridge["gross_product_cost"] == 174237808.0
+        assert bridge["cost_of_returns"] == 1405312.0
+        assert bridge["total_cost"] == 172832496.0
 
         # 5. Net Gross Profit (post-returns basis)
-        assert bridge["net_gross_profit_loss"] > -1000000.0
+        assert bridge["net_gross_profit_loss"] == 886444.0
 
         # 6. Operating Expenses
         assert bridge["total_operating_expenses"] == 2095229.0
 
-        # 7. Return Rate
+        # 7. Net Operating Profit / (Loss)
+        assert bridge["net_operating_profit_loss"] == -1208785.0
+
+        # 8. Return Rate
         assert round(bridge["return_rate"], 4) == 0.0744
 
     def test_expenses_parsing_sheet(self):
@@ -50,10 +57,15 @@ class TestNetProfitBridge:
         assert len(df) == 13
         assert "Journal" in df["category"].values
 
+    def test_expenses_parsing_no_expenses_in_sales_file(self):
+        """Validates that a sales workbook without expenses returns 0.0 and does not parse sales invoices as expenses."""
+        total, df, anoms = parse_expenses_sheet("sample_data/July_sales_report_v6.xlsx")
+        assert total == 0.0
+        assert len(df) == 0
+
     def test_expenses_parsing_fallback(self):
         """Validates expenses parsing behavior when file does not exist or empty."""
         total, df, anoms = parse_expenses_sheet("non_existent_file.xlsx")
         assert total == 0.0
         assert len(df) == 0
         assert len(anoms) == 0
-
