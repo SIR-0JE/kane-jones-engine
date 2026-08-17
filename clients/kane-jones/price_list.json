@@ -1,0 +1,751 @@
+{
+  "client_id": "kane-jones",
+  "source_period": "2026-07",
+  "sku_count": 124,
+  "skus": [
+    {
+      "sku": "33 Export Bottle 60c1",
+      "distributor_price": 8990.0,
+      "sub_distributor_price": 9335.0,
+      "retail_price": 9685.0
+    },
+    {
+      "sku": "33 Export Can 33cl",
+      "distributor_price": 11550.0,
+      "sub_distributor_price": 12160.0,
+      "retail_price": 12630.0
+    },
+    {
+      "sku": "33 Export Can 50cl",
+      "distributor_price": 15555.0,
+      "sub_distributor_price": 16145.0,
+      "retail_price": 16735.0
+    },
+    {
+      "sku": "Desperados Bottle 45cl",
+      "distributor_price": 20440.0,
+      "sub_distributor_price": 21485.0,
+      "retail_price": 22565.0
+    },
+    {
+      "sku": "Desperados Sleek Can 33c1",
+      "distributor_price": 15715.0,
+      "sub_distributor_price": 16550.0,
+      "retail_price": 17390.0
+    },
+    {
+      "sku": "Desperados Can 44cl",
+      "distributor_price": 21595.0,
+      "sub_distributor_price": 22740.0,
+      "retail_price": 23895.0
+    },
+    {
+      "sku": "Goldberg Bottle 60c1",
+      "distributor_price": 8990.0,
+      "sub_distributor_price": 9335.0,
+      "retail_price": 9685.0
+    },
+    {
+      "sku": "Goldberg Can 33cl",
+      "distributor_price": 11550.0,
+      "sub_distributor_price": 12160.0,
+      "retail_price": 12630.0
+    },
+    {
+      "sku": "Goldberg Can 50cl",
+      "distributor_price": 15555.0,
+      "sub_distributor_price": 16145.0,
+      "retail_price": 16735.0
+    },
+    {
+      "sku": "Goldberg Black Bottle 45c1",
+      "distributor_price": 13520.0,
+      "sub_distributor_price": 14145.0,
+      "retail_price": 14765.0
+    },
+    {
+      "sku": "Goldberg Black Can 44cl",
+      "distributor_price": 16595.0,
+      "sub_distributor_price": 17435.0,
+      "retail_price": 18275.0
+    },
+    {
+      "sku": "Gulder Bottle 60c1",
+      "distributor_price": 11315.0,
+      "sub_distributor_price": 11910.0,
+      "retail_price": 12525.0
+    },
+    {
+      "sku": "Gulder Bottle 45cl",
+      "distributor_price": 9700.0,
+      "sub_distributor_price": 10245.0,
+      "retail_price": 10795.0
+    },
+    {
+      "sku": "Gulder Can 44cl",
+      "distributor_price": 17115.0,
+      "sub_distributor_price": 18005.0,
+      "retail_price": 18910.0
+    },
+    {
+      "sku": "Heineken Bottle 60c1",
+      "distributor_price": 12730.0,
+      "sub_distributor_price": 13332.0,
+      "retail_price": 13932.0
+    },
+    {
+      "sku": "Heineken Bottle 45c1",
+      "distributor_price": 17265.0,
+      "sub_distributor_price": 17840.0,
+      "retail_price": 18395.0
+    },
+    {
+      "sku": "Heineken Bottle 33cl",
+      "distributor_price": 15735.0,
+      "sub_distributor_price": 16740.0,
+      "retail_price": 17710.0
+    },
+    {
+      "sku": "Heineken Keg 20Itr",
+      "distributor_price": 32000.0,
+      "sub_distributor_price": 32000.0,
+      "retail_price": 32000.0
+    },
+    {
+      "sku": "Heineken Sleek Can 33cl",
+      "distributor_price": 17100.0,
+      "sub_distributor_price": 17845.0,
+      "retail_price": 18615.0
+    },
+    {
+      "sku": "Heineken Can 50cl",
+      "distributor_price": 22775.0,
+      "sub_distributor_price": 23770.0,
+      "retail_price": 24795.0
+    },
+    {
+      "sku": "Life Bottle 60c1",
+      "distributor_price": 8990.0,
+      "sub_distributor_price": 9335.0,
+      "retail_price": 9685.0
+    },
+    {
+      "sku": "Life Bottle 45cl",
+      "distributor_price": 11165.0,
+      "sub_distributor_price": 11595.0,
+      "retail_price": 12025.0
+    },
+    {
+      "sku": "Life Can 33cl",
+      "distributor_price": 11550.0,
+      "sub_distributor_price": 12160.0,
+      "retail_price": 12630.0
+    },
+    {
+      "sku": "Life Can 50cl",
+      "distributor_price": 15555.0,
+      "sub_distributor_price": 16145.0,
+      "retail_price": 16735.0
+    },
+    {
+      "sku": "More Lager Bottle 60c1",
+      "distributor_price": 7060.0,
+      "sub_distributor_price": 7370.0,
+      "retail_price": 7675.0
+    },
+    {
+      "sku": "Star Bottle 60cl",
+      "distributor_price": 11130.0,
+      "sub_distributor_price": 11600.0,
+      "retail_price": 12090.0
+    },
+    {
+      "sku": "Star Bottle 45cl",
+      "distributor_price": 10520.0,
+      "sub_distributor_price": 11200.0,
+      "retail_price": 11895.0
+    },
+    {
+      "sku": "Star Can 50cl",
+      "distributor_price": 12570.0,
+      "sub_distributor_price": 13090.0,
+      "retail_price": 13625.0
+    },
+    {
+      "sku": "Star Can 33cl",
+      "distributor_price": 12680.0,
+      "sub_distributor_price": 13340.0,
+      "retail_price": 14015.0
+    },
+    {
+      "sku": "Star Lite Bottle 60cl",
+      "distributor_price": 8700.0,
+      "sub_distributor_price": 9065.0,
+      "retail_price": 9445.0
+    },
+    {
+      "sku": "Star Lite Bottle 45cl",
+      "distributor_price": 10250.0,
+      "sub_distributor_price": 10910.0,
+      "retail_price": 11590.0
+    },
+    {
+      "sku": "Star Radler Citrus Bottle 45cl",
+      "distributor_price": 14475.0,
+      "sub_distributor_price": 15115.0,
+      "retail_price": 15765.0
+    },
+    {
+      "sku": "Star Radler Citrus Sleek Can 33cl",
+      "distributor_price": 15100.0,
+      "sub_distributor_price": 15915.0,
+      "retail_price": 16745.0
+    },
+    {
+      "sku": "Star Radler Red Fruits Bottle 45cl",
+      "distributor_price": 13850.0,
+      "sub_distributor_price": 14465.0,
+      "retail_price": 15085.0
+    },
+    {
+      "sku": "Star Radler Red Fruits Sleek Can 33cl",
+      "distributor_price": 14710.0,
+      "sub_distributor_price": 15495.0,
+      "retail_price": 16305.0
+    },
+    {
+      "sku": "Tiger Bottle 45cl",
+      "distributor_price": 14900.0,
+      "sub_distributor_price": 15525.0,
+      "retail_price": 16140.0
+    },
+    {
+      "sku": "Tiger Can 44cl",
+      "distributor_price": 16365.0,
+      "sub_distributor_price": 17250.0,
+      "retail_price": 18040.0
+    },
+    {
+      "sku": "Tiger Keg 201tr",
+      "distributor_price": 29800.0,
+      "sub_distributor_price": 29800.0,
+      "retail_price": 29800.0
+    },
+    {
+      "sku": "Legend Bottle 33cl",
+      "distributor_price": 14845.0,
+      "sub_distributor_price": 15790.0,
+      "retail_price": 16770.0
+    },
+    {
+      "sku": "Legend Bottle 45cl",
+      "distributor_price": 15375.0,
+      "sub_distributor_price": 15945.0,
+      "retail_price": 16535.0
+    },
+    {
+      "sku": "Legend Bottle 60c1",
+      "distributor_price": 10915.0,
+      "sub_distributor_price": 11480.0,
+      "retail_price": 12045.0
+    },
+    {
+      "sku": "Legend Can 44cl",
+      "distributor_price": 20405.0,
+      "sub_distributor_price": 21170.0,
+      "retail_price": 21830.0
+    },
+    {
+      "sku": "Legend Keg 20ltr",
+      "distributor_price": 30855.0,
+      "sub_distributor_price": 30855.0,
+      "retail_price": 30855.0
+    },
+    {
+      "sku": "Legend Twist Ginger Bottle 33cl",
+      "distributor_price": 14715.0,
+      "sub_distributor_price": 15655.0,
+      "retail_price": 16640.0
+    },
+    {
+      "sku": "Legend Twist Ginger Can 33cl",
+      "distributor_price": 17305.0,
+      "sub_distributor_price": 18190.0,
+      "retail_price": 19095.0
+    },
+    {
+      "sku": "Legend Twist Lemon Bottle 33cl",
+      "distributor_price": 14715.0,
+      "sub_distributor_price": 15655.0,
+      "retail_price": 16640.0
+    },
+    {
+      "sku": "Legend Twist Lemon Can 33cl",
+      "distributor_price": 17305.0,
+      "sub_distributor_price": 18190.0,
+      "retail_price": 19095.0
+    },
+    {
+      "sku": "Legend Twist Pineapple Bottle 33cl",
+      "distributor_price": 14715.0,
+      "sub_distributor_price": 15655.0,
+      "retail_price": 16640.0
+    },
+    {
+      "sku": "Legend Twist Pineapple Can 33cl",
+      "distributor_price": 17305.0,
+      "sub_distributor_price": 18190.0,
+      "retail_price": 19095.0
+    },
+    {
+      "sku": "Turbo King Bottle 33cl",
+      "distributor_price": 12390.0,
+      "sub_distributor_price": 13125.0,
+      "retail_price": 13900.0
+    },
+    {
+      "sku": "Turbo King Bottle 60c1",
+      "distributor_price": 8525.0,
+      "sub_distributor_price": 8880.0,
+      "retail_price": 9235.0
+    },
+    {
+      "sku": "Williams Bottle 33cl",
+      "distributor_price": 12390.0,
+      "sub_distributor_price": 13125.0,
+      "retail_price": 13900.0
+    },
+    {
+      "sku": "Williams Bottle 60c1",
+      "distributor_price": 8970.0,
+      "sub_distributor_price": 9345.0,
+      "retail_price": 9720.0
+    },
+    {
+      "sku": "Amstel Malta Bottle 33cl",
+      "distributor_price": 13780.0,
+      "sub_distributor_price": 14450.0,
+      "retail_price": 15415.0
+    },
+    {
+      "sku": "Amstel Malta Sleek Can 33cl",
+      "distributor_price": 14075.0,
+      "sub_distributor_price": 14430.0,
+      "retail_price": 15015.0
+    },
+    {
+      "sku": "Amstel Malta PET 33cl",
+      "distributor_price": 5520.0,
+      "sub_distributor_price": 5720.0,
+      "retail_price": 6030.0
+    },
+    {
+      "sku": "Amstel Malta Ultra Sleek Can 33cl",
+      "distributor_price": 14360.0,
+      "sub_distributor_price": 14820.0,
+      "retail_price": 15525.0
+    },
+    {
+      "sku": "Maltina Bottle 33cl",
+      "distributor_price": 12920.0,
+      "sub_distributor_price": 13550.0,
+      "retail_price": 14455.0
+    },
+    {
+      "sku": "Maltina Can 33cl",
+      "distributor_price": 14075.0,
+      "sub_distributor_price": 14430.0,
+      "retail_price": 15015.0
+    },
+    {
+      "sku": "Maltina PET 33cl",
+      "distributor_price": 5970.0,
+      "sub_distributor_price": 6195.0,
+      "retail_price": 6530.0
+    },
+    {
+      "sku": "Maltina PET 50cl",
+      "distributor_price": 7685.0,
+      "sub_distributor_price": 8020.0,
+      "retail_price": 8355.0
+    },
+    {
+      "sku": "Maltina PET 25cl",
+      "distributor_price": 4590.0,
+      "sub_distributor_price": 4715.0,
+      "retail_price": 4845.0
+    },
+    {
+      "sku": "Maltina Pineapple Bottle 33cl",
+      "distributor_price": 12920.0,
+      "sub_distributor_price": 13550.0,
+      "retail_price": 14455.0
+    },
+    {
+      "sku": "Maltina Pineapple Can 33cl",
+      "distributor_price": 14075.0,
+      "sub_distributor_price": 14430.0,
+      "retail_price": 15015.0
+    },
+    {
+      "sku": "Maltina Pineapple Pet 33cl",
+      "distributor_price": 5970.0,
+      "sub_distributor_price": 6195.0,
+      "retail_price": 6530.0
+    },
+    {
+      "sku": "Maltina Vanilla Bottle 33cl",
+      "distributor_price": 12920.0,
+      "sub_distributor_price": 13550.0,
+      "retail_price": 14455.0
+    },
+    {
+      "sku": "Maltina Vanilla Can 33cl",
+      "distributor_price": 14075.0,
+      "sub_distributor_price": 14430.0,
+      "retail_price": 15015.0
+    },
+    {
+      "sku": "Maltina Vanilla Pet 33cl",
+      "distributor_price": 5970.0,
+      "sub_distributor_price": 6195.0,
+      "retail_price": 6530.0
+    },
+    {
+      "sku": "Hi-Malt Classic Bottle 33cl",
+      "distributor_price": 8775.0,
+      "sub_distributor_price": 9255.0,
+      "retail_price": 9735.0
+    },
+    {
+      "sku": "Hi-Malt Classic Can 33cl",
+      "distributor_price": 11265.0,
+      "sub_distributor_price": 11735.0,
+      "retail_price": 12205.0
+    },
+    {
+      "sku": "Hi-Malt PET 33cl",
+      "distributor_price": 4775.0,
+      "sub_distributor_price": 4950.0,
+      "retail_price": 5125.0
+    },
+    {
+      "sku": "Fayrouz Apple Watermelon Pet 33cl",
+      "distributor_price": 5065.0,
+      "sub_distributor_price": 5465.0,
+      "retail_price": 5880.0
+    },
+    {
+      "sku": "Fayrouz Apple Watermelon Sleek Can",
+      "distributor_price": 12855.0,
+      "sub_distributor_price": 13460.0,
+      "retail_price": 14085.0
+    },
+    {
+      "sku": "Fayrouz Pineapple Bottle 33cl",
+      "distributor_price": 9925.0,
+      "sub_distributor_price": 10315.0,
+      "retail_price": 10705.0
+    },
+    {
+      "sku": "Fayrouz Pineapple PET 33cl",
+      "distributor_price": 5065.0,
+      "sub_distributor_price": 5465.0,
+      "retail_price": 5880.0
+    },
+    {
+      "sku": "Fayrouz Pineapple Sleek Can 33cl",
+      "distributor_price": 12855.0,
+      "sub_distributor_price": 13460.0,
+      "retail_price": 14085.0
+    },
+    {
+      "sku": "Climax PET 50cl",
+      "distributor_price": 7200.0,
+      "sub_distributor_price": 7525.0,
+      "retail_price": 7850.0
+    },
+    {
+      "sku": "Climax Red PET 50cl",
+      "distributor_price": 7200.0,
+      "sub_distributor_price": 7525.0,
+      "retail_price": 7850.0
+    },
+    {
+      "sku": "Climax Sleek Can 33cl",
+      "distributor_price": 12120.0,
+      "sub_distributor_price": 12885.0,
+      "retail_price": 13420.0
+    },
+    {
+      "sku": "Zagg Energy Bottle 33cl",
+      "distributor_price": 11935.0,
+      "sub_distributor_price": 12480.0,
+      "retail_price": 13025.0
+    },
+    {
+      "sku": "Zagg PET 50c1",
+      "distributor_price": 6600.0,
+      "sub_distributor_price": 6900.0,
+      "retail_price": 7200.0
+    },
+    {
+      "sku": "Zagg PET 33cl",
+      "distributor_price": 5475.0,
+      "sub_distributor_price": 5715.0,
+      "retail_price": 5965.0
+    },
+    {
+      "sku": "Zagg Sleek Can 33cl",
+      "distributor_price": 11970.0,
+      "sub_distributor_price": 12715.0,
+      "retail_price": 13245.0
+    },
+    {
+      "sku": "Zagg Bottle 33cl",
+      "distributor_price": 11645.0,
+      "sub_distributor_price": 12165.0,
+      "retail_price": 12695.0
+    },
+    {
+      "sku": "Ace Root Bitters PET 20cl",
+      "distributor_price": 19305.0,
+      "sub_distributor_price": 20655.0,
+      "retail_price": 22040.0
+    },
+    {
+      "sku": "Ace Herbal Bottle 45cl",
+      "distributor_price": 11145.0,
+      "sub_distributor_price": 11560.0,
+      "retail_price": 11980.0
+    },
+    {
+      "sku": "Ace Root CAN 50c1",
+      "distributor_price": 23400.0,
+      "sub_distributor_price": 24140.0,
+      "retail_price": 24810.0
+    },
+    {
+      "sku": "Chamdor Red 75cl",
+      "distributor_price": 25930.0,
+      "sub_distributor_price": 28445.0,
+      "retail_price": 30935.0
+    },
+    {
+      "sku": "Chamdor White 75cl",
+      "distributor_price": 25930.0,
+      "sub_distributor_price": 28445.0,
+      "retail_price": 30935.0
+    },
+    {
+      "sku": "4th Street Sweet Red 75cl",
+      "distributor_price": 22250.0,
+      "sub_distributor_price": 24185.0,
+      "retail_price": 28085.0
+    },
+    {
+      "sku": "4th Street Sweet White 75cl",
+      "distributor_price": 22250.0,
+      "sub_distributor_price": 24185.0,
+      "retail_price": 28085.0
+    },
+    {
+      "sku": "4th Street Sweet Rose 75cl",
+      "distributor_price": 22250.0,
+      "sub_distributor_price": 24235.0,
+      "retail_price": 28145.0
+    },
+    {
+      "sku": "4th Street Nat Sweet Red Alc Sparkling",
+      "distributor_price": 25180.0,
+      "sub_distributor_price": 26825.0,
+      "retail_price": 30290.0
+    },
+    {
+      "sku": "4th Street Nat Sweet Rose Alc Sparkling",
+      "distributor_price": 25180.0,
+      "sub_distributor_price": 26825.0,
+      "retail_price": 30290.0
+    },
+    {
+      "sku": "4th Street Nat Sweet White Alc Sparkling",
+      "distributor_price": 25180.0,
+      "sub_distributor_price": 26825.0,
+      "retail_price": 30290.0
+    },
+    {
+      "sku": "4th Street Nat Sweet Red Non-Alc Sparkling",
+      "distributor_price": 21540.0,
+      "sub_distributor_price": 23480.0,
+      "retail_price": 25285.0
+    },
+    {
+      "sku": "TROPHY BOTTLE",
+      "distributor_price": 8550.0,
+      "sub_distributor_price": 8870.0,
+      "retail_price": 9190.0
+    },
+    {
+      "sku": "TROPHY CAN",
+      "distributor_price": 14970.0,
+      "sub_distributor_price": 15490.0,
+      "retail_price": 16030.0
+    },
+    {
+      "sku": "BUDWESIER ROYELE",
+      "distributor_price": 14400.0,
+      "sub_distributor_price": 15040.0,
+      "retail_price": 15650.0
+    },
+    {
+      "sku": "BUDWESIER ",
+      "distributor_price": 10410.0,
+      "sub_distributor_price": 10860.0,
+      "retail_price": 11320.0
+    },
+    {
+      "sku": "BUDWESIER CAN",
+      "distributor_price": 17740.0,
+      "sub_distributor_price": 18450.0,
+      "retail_price": 19180.0
+    },
+    {
+      "sku": "TROPHY STOUT",
+      "distributor_price": 10130.0,
+      "sub_distributor_price": 10650.0,
+      "retail_price": 11180.0
+    },
+    {
+      "sku": "FLYING FISH",
+      "distributor_price": 13470.0,
+      "sub_distributor_price": 14060.0,
+      "retail_price": 14660.0
+    },
+    {
+      "sku": "EAGLE BEER",
+      "distributor_price": 6200.0,
+      "sub_distributor_price": 6460.0,
+      "retail_price": 6720.0
+    },
+    {
+      "sku": "CASTLE LITE",
+      "distributor_price": 9280.0,
+      "sub_distributor_price": 9710.0,
+      "retail_price": 10150.0
+    },
+    {
+      "sku": "CASTLE  LITE CAN",
+      "distributor_price": 15950.0,
+      "sub_distributor_price": 16600.0,
+      "retail_price": 17260.0
+    },
+    {
+      "sku": "HERO",
+      "distributor_price": 8550.0,
+      "sub_distributor_price": 8870.0,
+      "retail_price": 9190.0
+    },
+    {
+      "sku": "REDBULL",
+      "distributor_price": 28500.0,
+      "sub_distributor_price": 29250.0,
+      "retail_price": 30000.0
+    },
+    {
+      "sku": "BETA MALT 33CL",
+      "distributor_price": 10930.0,
+      "sub_distributor_price": 11300.0,
+      "retail_price": 11680.0
+    },
+    {
+      "sku": "BETA MALT 25CL",
+      "distributor_price": 9910.0,
+      "sub_distributor_price": 10190.0,
+      "retail_price": 10480.0
+    },
+    {
+      "sku": "BETA MALT CAN 33CL",
+      "distributor_price": 12020.0,
+      "sub_distributor_price": 12510.0,
+      "retail_price": 13010.0
+    },
+    {
+      "sku": "MED STOUT",
+      "distributor_price": 17100.0,
+      "sub_distributor_price": 17700.0,
+      "retail_price": 18100.0
+    },
+    {
+      "sku": "BIG ICE",
+      "distributor_price": 16350.0,
+      "sub_distributor_price": 16900.0,
+      "retail_price": 17600.0
+    },
+    {
+      "sku": "BIG STOUT",
+      "distributor_price": 15280.0,
+      "sub_distributor_price": 15750.0,
+      "retail_price": 16300.0
+    },
+    {
+      "sku": "BIG BITTERS",
+      "distributor_price": 18600.0,
+      "sub_distributor_price": 18600.0,
+      "retail_price": NaN
+    },
+    {
+      "sku": "SMALL STOUT",
+      "distributor_price": 18890.0,
+      "sub_distributor_price": 19390.0,
+      "retail_price": 20375.0
+    },
+    {
+      "sku": "MALTA GUINESS",
+      "distributor_price": 12920.0,
+      "sub_distributor_price": 13500.0,
+      "retail_price": 14300.0
+    },
+    {
+      "sku": "BIG ORIGIN",
+      "distributor_price": 8990.0,
+      "sub_distributor_price": 9350.0,
+      "retail_price": 9700.0
+    },
+    {
+      "sku": "BITTERS",
+      "distributor_price": 20400.0,
+      "sub_distributor_price": 20400.0,
+      "retail_price": 20400.0
+    },
+    {
+      "sku": "SMIRNOFF ICE",
+      "distributor_price": 16350.0,
+      "sub_distributor_price": 17060.0,
+      "retail_price": 17770.0
+    },
+    {
+      "sku": "STOUT CAN BIG",
+      "distributor_price": 24000.0,
+      "sub_distributor_price": 24500.0,
+      "retail_price": 25700.0
+    },
+    {
+      "sku": "MALTA GUINESS  CAN",
+      "distributor_price": 13735.0,
+      "sub_distributor_price": 13950.0,
+      "retail_price": 14470.0
+    },
+    {
+      "sku": "ORIGIN CAN BIG",
+      "distributor_price": 15500.0,
+      "sub_distributor_price": 15900.0,
+      "retail_price": 16300.0
+    },
+    {
+      "sku": "SMIRNOFF CAN BIG",
+      "distributor_price": 21595.0,
+      "sub_distributor_price": 22740.0,
+      "retail_price": 23895.0
+    }
+  ]
+}

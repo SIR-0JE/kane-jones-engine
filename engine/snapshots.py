@@ -554,3 +554,144 @@ def clear_all_audits(client_id: str = "kane-jones") -> bool:
         pass
 
     return True
+
+
+def save_client_price_list(client_id: str, period_label: str, price_list_df: Any, base_dir: Optional[str] = None) -> bool:
+    """Persists parsed master price list to clients/<client_id>/price_list.json and Supabase depot config."""
+    import pandas as pd
+    if price_list_df is None or (isinstance(price_list_df, pd.DataFrame) and price_list_df.empty):
+        return False
+
+    records = price_list_df.to_dict(orient="records") if isinstance(price_list_df, pd.DataFrame) else list(price_list_df)
+    if not records:
+        return False
+
+    payload = {
+        "client_id": client_id,
+        "source_period": period_label,
+        "sku_count": len(records),
+        "skus": records,
+    }
+
+    # 1. Save local cache
+    try:
+        if base_dir:
+            root = Path(base_dir)
+        else:
+            root = Path(os.getcwd())
+        client_dir = root / "clients" / client_id
+        client_dir.mkdir(parents=True, exist_ok=True)
+        pl_file = client_dir / "price_list.json"
+        with open(pl_file, "w", encoding="utf-8") as f:
+            json.dump(payload, f, indent=2, default=str)
+    except Exception:
+        pass
+
+    # 2. Update Supabase depot config if online
+    try:
+        depot_id = get_or_create_depot(client_id)
+        if depot_id:
+            headers = _get_headers()
+            r_get = requests.get(
+                f"{SUPABASE_URL}/rest/v1/depots?id=eq.{depot_id}&select=config",
+                headers=headers,
+                timeout=5,
+            )
+            if r_get.status_code == 200:
+                rows = r_get.json()
+                current_cfg = (rows[0].get("config") or {}) if rows else {}
+                current_cfg["last_price_list"] = {
+                    "source_period": period_label,
+                    "sku_count": len(records),
+                    "skus": records,
+                }
+                requests.patch(
+                    f"{SUPABASE_URL}/rest/v1/depots?id=eq.{depot_id}",
+                    headers=headers,
+                    json={"config": current_cfg},
+                    timeout=5,
+                )
+    except Exception:
+        pass
+
+    return True
+
+
+def load_client_price_list(client_id: str, base_dir: Optional[str] = None) -> Optional[Any]:
+    """Loads most recent persisted price list for a depot.
+    Returns (price_list_df: pd.DataFrame, source_period: str) or None.
+    """
+    import pandas as pd
+
+    # 1. Try local file clients/<client_id>/price_list.json
+    try:
+        if base_dir:
+            root = Path(base_dir)
+        else:
+            root = Path(os.getcwd())
+        pl_file = root / "clients" / client_id / "price_list.json"
+        if pl_file.exists():
+            with open(pl_file, "r", encoding="utf-8") as f:
+                data = json.load(f)
+            skus = data.get("skus", [])
+            source_period = data.get("source_period", "previous period")
+            if skus:
+                df = pd.DataFrame(skus)
+                return df, source_period
+    except Exception:
+        pass
+
+    # 2. Try Supabase depot config
+    try:
+        depot_id = get_or_create_depot(client_id)
+        if depot_id:
+            headers = _get_headers()
+            r = requests.get(
+                f"{SUPABASE_URL}/rest/v1/depots?id=eq.{depot_id}&select=config",
+                headers=headers,
+                timeout=5,
+            )
+            if r.status_code == 200:
+                rows = r.json()
+                if rows:
+                    cfg = rows[0].get("config") or {}
+                    pl_info = cfg.get("last_price_list") or {}
+                    skus = pl_info.get("skus", [])
+                    source_period = pl_info.get("source_period", "previous period")
+                    if skus:
+                        df = pd.DataFrame(skus)
+                        return df, source_period
+    except Exception:
+        pass
+
+    # 3. Fallback: Search existing snapshots in local directory or Supabase for any period with price_list / below_floor_pricing
+    try:
+        sn_dir = get_snapshots_dir(client_id, base_dir=base_dir)
+        for json_file in sorted(sn_dir.glob("*.json"), reverse=True):
+            try:
+                with open(json_file, "r", encoding="utf-8") as f:
+                    snap_data = json.load(f)
+                # Check if snapshot had below_floor_pricing items with distributor_price
+                bfp = snap_data.get("below_floor_pricing", [])
+                if bfp:
+                    # Construct skus from bfp items
+                    skus = []
+                    for it in bfp:
+                        if it.get("product_raw") and it.get("distributor_price"):
+                            skus.append({
+                                "sku": it["product_raw"],
+                                "distributor_price": float(it["distributor_price"]),
+                                "sub_distributor_price": float(it.get("sub_distributor_price", it["distributor_price"])),
+                                "retail_price": float(it.get("retail_price", it["distributor_price"])),
+                            })
+                    if skus:
+                        df = pd.DataFrame(skus)
+                        period = snap_data.get("meta", {}).get("period_label") or json_file.stem
+                        return df, period
+            except Exception:
+                continue
+    except Exception:
+        pass
+
+    return None
+

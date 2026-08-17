@@ -34,7 +34,14 @@ from engine.parser import parse_inventory_sheet, parse_sales_returns_sheet, pars
 from engine.price_match import load_price_list, match_products
 from engine.report import generate_report_pdf
 from engine.presentation import generate_presentation_pptx
-from engine.snapshots import list_snapshots, list_snapshots_summary, load_snapshot, save_snapshot
+from engine.snapshots import (
+    list_snapshots,
+    list_snapshots_summary,
+    load_snapshot,
+    save_snapshot,
+    save_client_price_list,
+    load_client_price_list,
+)
 from engine.true_cost import (
     compute_marketer_profitability,
     compute_product_profitability,
@@ -187,21 +194,51 @@ async def analyze_sales_report(
                 detail=f"Unexpected parsing error in workbook '{file.filename}': {str(e)}",
             )
 
+        # 1. Derive date range and effective period from invoices
+        min_date = inv_df["date"].min() if not inv_df.empty else None
+        max_date = inv_df["date"].max() if not inv_df.empty else None
+        date_range = {
+            "start": min_date.strftime("%Y-%m-%d") if pd.notna(min_date) else None,
+            "end": max_date.strftime("%Y-%m-%d") if pd.notna(max_date) else None,
+        }
+
+        effective_period = period_label
+        if not effective_period:
+            if date_range["start"]:
+                effective_period = date_range["start"][:7]
+            else:
+                clean_fn = re.sub(r'(?i)\.xlsx?$', '', file.filename).strip()
+                effective_period = clean_fn or "Uploaded Period"
+
+        effective_title = audit_title or f"{effective_period} Full Audit"
+
+        # 2. Load Price List (current workbook -> carry-forward fallback -> graceful empty)
         try:
             price_df = load_price_list(tmp_path, profile, classification_report=classification_report)
-        except ValueError as e:
-            raise HTTPException(
-                status_code=422,
-                detail=(
-                    f"Price list loading failed: {str(e)}. "
-                    f"Profile '{client_id}' expected price list sheet '{profile.price_list_sheet}'."
-                ),
-            )
-        except Exception as e:
-            raise HTTPException(
-                status_code=422,
-                detail=f"Error reading price list sheet '{profile.price_list_sheet}': {str(e)}",
-            )
+        except Exception:
+            price_df = pd.DataFrame(columns=["sku", "distributor_price", "sub_distributor_price", "retail_price"])
+
+        has_current_price_list = price_df is not None and not price_df.empty and len(price_df.dropna(subset=["distributor_price"])) > 0
+
+        if has_current_price_list:
+            price_list_source = "current"
+            price_list_source_period = effective_period
+            price_list_message = f"Using official price list from {effective_period}"
+            save_client_price_list(profile.client_id, effective_period, price_df)
+        else:
+            cached_pl = load_client_price_list(profile.client_id)
+            if cached_pl is not None:
+                price_df, carried_from = cached_pl
+                price_list_source = "carried_forward"
+                price_list_source_period = carried_from
+                price_list_message = f"Using price list carried over from {carried_from} (no updated price list found for {effective_period})"
+            else:
+                price_df = pd.DataFrame(columns=["sku", "distributor_price", "sub_distributor_price", "retail_price"])
+                price_list_source = "none"
+                price_list_source_period = None
+                price_list_message = f"No price list available for this period ({effective_period})"
+
+        has_price_list = price_df is not None and not price_df.empty and len(price_df.dropna(subset=["distributor_price"])) > 0
 
         try:
             matched_df = match_products(li_df, price_df, profile)
@@ -234,23 +271,6 @@ async def analyze_sales_report(
         overall_margin_pct = (
             float(total_gross_profit / total_revenue) if total_revenue > 0 else 0.0
         )
-
-        min_date = inv_df["date"].min() if not inv_df.empty else None
-        max_date = inv_df["date"].max() if not inv_df.empty else None
-        date_range = {
-            "start": min_date.strftime("%Y-%m-%d") if pd.notna(min_date) else None,
-            "end": max_date.strftime("%Y-%m-%d") if pd.notna(max_date) else None,
-        }
-
-        effective_period = period_label
-        if not effective_period:
-            if date_range["start"]:
-                effective_period = date_range["start"][:7]
-            else:
-                clean_fn = re.sub(r'(?i)\.xlsx?$', '', file.filename).strip()
-                effective_period = clean_fn or "Uploaded Period"
-
-        effective_title = audit_title or f"{effective_period} Full Audit"
 
         unique_match_rows = matched_df[
             ["product_raw", "matched_sku", "match_score", "match_method"]
@@ -338,9 +358,6 @@ async def analyze_sales_report(
         if returns_analysis.get("anomalies"):
             all_anomalies_list.extend(returns_analysis["anomalies"])
 
-        has_price_list = price_df is not None and not price_df.empty and len(price_df.dropna(subset=["distributor_price"])) > 0
-        price_list_status = "active" if has_price_list else "No price list available for this period"
-
         response_payload = {
             "meta": {
                 "client_id": profile.client_id,
@@ -356,7 +373,10 @@ async def analyze_sales_report(
                 "total_anomalies": int(len(all_anomalies_list)),
                 "total_recoverable_leakage": total_leakage,
                 "has_price_list": has_price_list,
-                "price_list_status": price_list_status,
+                "price_list_source": price_list_source,
+                "price_list_source_period": price_list_source_period,
+                "price_list_status": price_list_message,
+                "price_list_message": price_list_message,
                 "below_floor_items_count": int(len(bfp_df)),
                 "reconciled_invoices_count": reconciled_invoices_count,
                 "reconciliation_discrepancies_count": int(len(rec_check_df)),

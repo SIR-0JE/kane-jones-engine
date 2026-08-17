@@ -17,7 +17,8 @@ import {
   DollarSign,
   Package,
   Layers,
-  Scale
+  Scale,
+  Info
 } from "lucide-react";
 import { AnalyzeResponse, BelowFloorItem, VolumeTierItem, TrueCostProductItem } from "@/types/api";
 import { formatCurrency, formatPercent, formatNumber } from "@/lib/api";
@@ -182,6 +183,35 @@ export function PricingAuditScreen({ data }: PricingAuditScreenProps) {
           </button>
         </div>
       </div>
+
+      {/* Price List Status Banner */}
+      {data.meta?.price_list_source === "carried_forward" && (
+        <div className="flex items-start gap-3 p-3.5 bg-amber-50/90 border border-amber-200/80 rounded-xl text-amber-900 text-xs font-inter">
+          <Info className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
+          <div className="space-y-0.5">
+            <p className="font-bold text-amber-950 font-sora">
+              Price List Carried Over
+            </p>
+            <p className="text-amber-800 text-[11px]">
+              {data.meta?.price_list_message || `Using price list carried over from ${data.meta?.price_list_source_period || "previous period"} (no updated price list found for this period).`}
+            </p>
+          </div>
+        </div>
+      )}
+
+      {(!data.meta?.has_price_list || data.meta?.price_list_source === "none") && (
+        <div className="flex items-start gap-3 p-3.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-700 text-xs font-inter">
+          <Info className="w-4 h-4 text-slate-500 shrink-0 mt-0.5" />
+          <div className="space-y-0.5">
+            <p className="font-bold text-slate-900 font-sora">
+              No Price List Available
+            </p>
+            <p className="text-slate-600 text-[11px]">
+              No official price list was found in this workbook or previous periods. Below-floor and volume-tier price checks are skipped.
+            </p>
+          </div>
+        </div>
+      )}
 
       {/* SECTION 1: Below-Floor Pricing */}
       {activeSection === "below_floor" && (

@@ -13,6 +13,11 @@ export interface MetaData {
   };
   total_invoices: number;
   total_anomalies: number;
+  has_price_list?: boolean;
+  price_list_source?: "current" | "carried_forward" | "none";
+  price_list_source_period?: string | null;
+  price_list_message?: string;
+  price_list_status?: string;
   total_recoverable_leakage?: number;
   below_floor_items_count?: number;
   reconciled_invoices_count?: number;
