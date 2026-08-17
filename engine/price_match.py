@@ -18,7 +18,7 @@ Strategy:
 """
 
 import re
-from typing import Optional
+from typing import Any, Dict, List, Optional, Tuple
 import pandas as pd
 from rapidfuzz import fuzz, process
 from engine.config import ClientProfile
