@@ -22,7 +22,7 @@ you get a report of what was skipped, not a silent wrong number or a stack trace
 
 import datetime
 import re
-from typing import Optional, Tuple
+from typing import Any, Dict, List, Optional, Tuple
 import pandas as pd
 import openpyxl
 from engine.config import ClientProfile
