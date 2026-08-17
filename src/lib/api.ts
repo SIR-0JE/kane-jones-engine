@@ -80,8 +80,19 @@ export async function uploadAndAnalyze(
   });
 
   if (!res.ok) {
-    const err = await res.json().catch(() => ({ detail: "Failed to analyze spreadsheet." }));
-    throw new Error(err.detail || "Analysis request failed");
+    let message = "Failed to analyze spreadsheet.";
+    try {
+      const err = await res.json();
+      message = err.detail || err.message || message;
+    } catch {
+      if (res.status === 500 || res.status === 502 || res.status === 504) {
+        message = "Analysis engine offline. Ensure Python FastAPI backend is running on port 8000 (e.g. 'uvicorn api.index:app --port 8000').";
+      } else {
+        const text = await res.text().catch(() => "");
+        message = text || `Request failed with status ${res.status}`;
+      }
+    }
+    throw new Error(message);
   }
 
   return res.json();
