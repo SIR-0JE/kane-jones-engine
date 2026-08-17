@@ -132,25 +132,8 @@ def load_price_list(xlsx_path: str, profile: ClientProfile, classification_repor
                 price_list[col] = pd.to_numeric(price_list[col], errors="coerce")
         return price_list
 
-    # 6. Fallback: If no dedicated 3-tier price list sheet exists, check if inventory sheet (tmp3F5D) exists
-    from engine.parser import parse_inventory_sheet
-    inv_sheet_name = getattr(profile, "inventory_sheet", "tmp3F5D")
-    has_inv = any(inv_sheet_name.lower() in name.lower() for name in wb.sheetnames)
-    if has_inv:
-        try:
-            inv_df, _ = parse_inventory_sheet(wb, profile)
-            if not inv_df.empty and "item_name" in inv_df.columns and "rate_per_unit" in inv_df.columns:
-                price_list = pd.DataFrame({
-                    "sku": inv_df["item_name"],
-                    "distributor_price": pd.to_numeric(inv_df["rate_per_unit"], errors="coerce"),
-                    "sub_distributor_price": pd.to_numeric(inv_df["rate_per_unit"], errors="coerce"),
-                    "retail_price": pd.to_numeric(inv_df["rate_per_unit"], errors="coerce"),
-                }).dropna(subset=["sku"]).reset_index(drop=True)
-                return price_list
-        except Exception:
-            pass
-
-    # 7. Final fallback: Return empty price list DataFrame
+    # 6. If no dedicated 3-tier price list sheet exists in workbook, return empty DataFrame
+    # (Do not guess or synthesize prices from inventory cost sheet tmp3F5D)
     return pd.DataFrame(columns=["sku", "distributor_price", "sub_distributor_price", "retail_price"])
 
 

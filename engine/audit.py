@@ -25,11 +25,18 @@ def is_empties(product_raw: str, profile: ClientProfile) -> bool:
 
 
 def below_floor_pricing(matched_line_items: pd.DataFrame, profile: ClientProfile) -> pd.DataFrame:
+    if matched_line_items is None or matched_line_items.empty or "matched_sku" not in matched_line_items.columns:
+        return pd.DataFrame(columns=["product_raw", "cases_sold", "avg_rate_charged", "distributor_price", "gap_pct", "revenue_opportunity"])
     df = matched_line_items[matched_line_items["matched_sku"].notna()].copy()
+    if df.empty or "distributor_price" not in df.columns:
+        return pd.DataFrame(columns=["product_raw", "cases_sold", "avg_rate_charged", "distributor_price", "gap_pct", "revenue_opportunity"])
     df = df[~df["product_raw"].apply(lambda p: is_empties(p, profile))]
     df["quantity"] = pd.to_numeric(df["quantity"], errors="coerce").fillna(0)
     df["rate"] = pd.to_numeric(df["rate"], errors="coerce").fillna(0)
     df["distributor_price"] = pd.to_numeric(df["distributor_price"], errors="coerce")
+    df = df.dropna(subset=["distributor_price"])
+    if df.empty:
+        return pd.DataFrame(columns=["product_raw", "cases_sold", "avg_rate_charged", "distributor_price", "gap_pct", "revenue_opportunity"])
 
     grouped = df.groupby("product_raw").apply(
         lambda g: pd.Series({
@@ -41,6 +48,9 @@ def below_floor_pricing(matched_line_items: pd.DataFrame, profile: ClientProfile
     ).reset_index()
 
     grouped = grouped.dropna(subset=["distributor_price"])
+    if grouped.empty:
+        return pd.DataFrame(columns=["product_raw", "cases_sold", "avg_rate_charged", "distributor_price", "gap_pct", "revenue_opportunity"])
+
     grouped["gap_pct"] = (grouped["avg_rate_charged"] - grouped["distributor_price"]) / grouped["distributor_price"]
     grouped["revenue_opportunity"] = (grouped["distributor_price"] - grouped["avg_rate_charged"]) * grouped["cases_sold"]
 
@@ -49,8 +59,14 @@ def below_floor_pricing(matched_line_items: pd.DataFrame, profile: ClientProfile
 
 
 def volume_tier_audit(matched_line_items: pd.DataFrame, profile: ClientProfile) -> pd.DataFrame:
+    if matched_line_items is None or matched_line_items.empty or "matched_sku" not in matched_line_items.columns:
+        return pd.DataFrame()
     df = matched_line_items[matched_line_items["matched_sku"].notna()].copy()
+    if df.empty:
+        return pd.DataFrame()
     df = df[~df["product_raw"].apply(lambda p: is_empties(p, profile))]
+    if df.empty:
+        return pd.DataFrame()
     df["quantity"] = pd.to_numeric(df["quantity"], errors="coerce").fillna(0)
     df["rate"] = pd.to_numeric(df["rate"], errors="coerce").fillna(0)
 

@@ -338,6 +338,9 @@ async def analyze_sales_report(
         if returns_analysis.get("anomalies"):
             all_anomalies_list.extend(returns_analysis["anomalies"])
 
+        has_price_list = price_df is not None and not price_df.empty and len(price_df.dropna(subset=["distributor_price"])) > 0
+        price_list_status = "active" if has_price_list else "No price list available for this period"
+
         response_payload = {
             "meta": {
                 "client_id": profile.client_id,
@@ -352,6 +355,8 @@ async def analyze_sales_report(
                 "total_invoices": int(len(inv_df)),
                 "total_anomalies": int(len(all_anomalies_list)),
                 "total_recoverable_leakage": total_leakage,
+                "has_price_list": has_price_list,
+                "price_list_status": price_list_status,
                 "below_floor_items_count": int(len(bfp_df)),
                 "reconciled_invoices_count": reconciled_invoices_count,
                 "reconciliation_discrepancies_count": int(len(rec_check_df)),
