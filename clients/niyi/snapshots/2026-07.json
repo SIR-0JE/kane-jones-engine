@@ -1278,7 +1278,7 @@
         null,
         null,
         null,
-        -30444,
+        -30444.0,
         null,
         null
       ],
@@ -1295,9 +1295,9 @@
         null,
         null,
         null,
-        7874270,
-        7904380,
-        -30110,
+        7874270.0,
+        7904380.0,
+        -30110.0,
         null,
         null
       ],
@@ -1309,9 +1309,9 @@
       "raw": [
         null,
         "GNS EMPTIES",
-        16,
-        5000,
-        -57938,
+        16.0,
+        5000.0,
+        -57938.0,
         null,
         null,
         null,
@@ -1336,7 +1336,7 @@
         "NGN94,508,490",
         "NGN92,706,204",
         "NGN1,802,286",
-        2,
+        2.0,
         null
       ],
       "reason": "Row outside a known block: no date+invoice_no, not blank."
@@ -1348,8 +1348,8 @@
         null,
         "GNS EMPTIES",
         "10 Empty",
-        5000,
-        -36211,
+        5000.0,
+        -36211.0,
         null,
         null,
         null,
@@ -1368,8 +1368,8 @@
         null,
         "GNS EMPTIES",
         "20 Empty",
-        5000,
-        -72422,
+        5000.0,
+        -72422.0,
         null,
         null,
         null,
@@ -1388,8 +1388,8 @@
         null,
         "GNS EMPTIES",
         "1 Empty",
-        5000,
-        -3621,
+        5000.0,
+        -3621.0,
         null,
         null,
         null,
@@ -1408,8 +1408,8 @@
         null,
         "GNS EMPTIES",
         "20 Empty",
-        5000,
-        -74515,
+        5000.0,
+        -74515.0,
         null,
         null,
         null,
@@ -1429,14 +1429,14 @@
         null,
         null,
         null,
-        14815,
+        14815.0,
         "NGN93,166,300",
         "NGN59,787,065",
         "NGN33,379,235",
         "NGN93,166,300",
         "NGN91,250,963",
         "NGN1,915,337",
-        2,
+        2.0,
         null
       ],
       "reason": "Row outside a known block: no date+invoice_no, not blank."
@@ -1667,7 +1667,7 @@
       "gross_revenue": 6138000.0,
       "invoice_cost": 6448000.0,
       "gross_profit": -310000.0,
-      "pct_profit": -5
+      "pct_profit": -5.0
     },
     {
       "invoice_no": "ann-INV422",
@@ -1677,7 +1677,7 @@
       "gross_revenue": 6138000.0,
       "invoice_cost": 6448000.0,
       "gross_profit": -310000.0,
-      "pct_profit": -5
+      "pct_profit": -5.0
     },
     {
       "invoice_no": "ann-INV350",
@@ -1687,7 +1687,7 @@
       "gross_revenue": 2480000.0,
       "invoice_cost": 2579200.0,
       "gross_profit": -99200.0,
-      "pct_profit": -4
+      "pct_profit": -4.0
     },
     {
       "invoice_no": "ann-INV183",
@@ -1697,7 +1697,7 @@
       "gross_revenue": 2647500.0,
       "invoice_cost": 2715050.0,
       "gross_profit": -67550.0,
-      "pct_profit": -3
+      "pct_profit": -3.0
     },
     {
       "invoice_no": "ann-INV198",
@@ -1707,7 +1707,7 @@
       "gross_revenue": 1237500.0,
       "invoice_cost": 1300000.0,
       "gross_profit": -62500.0,
-      "pct_profit": -5
+      "pct_profit": -5.0
     },
     {
       "invoice_no": "ann-INV410",
@@ -1717,7 +1717,7 @@
       "gross_revenue": 1307800.0,
       "invoice_cost": 1366450.0,
       "gross_profit": -58650.0,
-      "pct_profit": -4
+      "pct_profit": -4.0
     },
     {
       "invoice_no": "ann-INV362",
@@ -1727,7 +1727,7 @@
       "gross_revenue": 1350000.0,
       "invoice_cost": 1404000.0,
       "gross_profit": -54000.0,
-      "pct_profit": -4
+      "pct_profit": -4.0
     },
     {
       "invoice_no": "ann-INV374",
@@ -1737,7 +1737,7 @@
       "gross_revenue": 1300000.0,
       "invoice_cost": 1352000.0,
       "gross_profit": -52000.0,
-      "pct_profit": -4
+      "pct_profit": -4.0
     },
     {
       "invoice_no": "ann-INV268",
@@ -1747,7 +1747,7 @@
       "gross_revenue": 1265000.0,
       "invoice_cost": 1315600.0,
       "gross_profit": -50600.0,
-      "pct_profit": -4
+      "pct_profit": -4.0
     },
     {
       "invoice_no": "ann-INV156",
@@ -1757,7 +1757,7 @@
       "gross_revenue": 1324235.0,
       "invoice_cost": 1374250.0,
       "gross_profit": -50015.0,
-      "pct_profit": -4
+      "pct_profit": -4.0
     },
     {
       "invoice_no": "ann-INV321",
@@ -1767,7 +1767,7 @@
       "gross_revenue": 1240000.0,
       "invoice_cost": 1289600.0,
       "gross_profit": -49600.0,
-      "pct_profit": -4
+      "pct_profit": -4.0
     },
     {
       "invoice_no": "ann-INV339",
@@ -1777,7 +1777,7 @@
       "gross_revenue": 1240000.0,
       "invoice_cost": 1289600.0,
       "gross_profit": -49600.0,
-      "pct_profit": -4
+      "pct_profit": -4.0
     },
     {
       "invoice_no": "ann-INV352",
@@ -1787,7 +1787,7 @@
       "gross_revenue": 1240000.0,
       "invoice_cost": 1289600.0,
       "gross_profit": -49600.0,
-      "pct_profit": -4
+      "pct_profit": -4.0
     },
     {
       "invoice_no": "ann-INV175",
@@ -1797,7 +1797,7 @@
       "gross_revenue": 1326000.0,
       "invoice_cost": 1375100.0,
       "gross_profit": -49100.0,
-      "pct_profit": -4
+      "pct_profit": -4.0
     },
     {
       "invoice_no": "ann-INV333",
@@ -1807,7 +1807,7 @@
       "gross_revenue": 1200000.0,
       "invoice_cost": 1248000.0,
       "gross_profit": -48000.0,
-      "pct_profit": -4
+      "pct_profit": -4.0
     },
     {
       "invoice_no": "ann-INV319",
@@ -1817,7 +1817,7 @@
       "gross_revenue": 3611300.0,
       "invoice_cost": 3659161.0,
       "gross_profit": -47861.0,
-      "pct_profit": -1
+      "pct_profit": -1.0
     },
     {
       "invoice_no": "ann-INV144",
@@ -1827,7 +1827,7 @@
       "gross_revenue": 1533700.0,
       "invoice_cost": 1579003.0,
       "gross_profit": -45303.0,
-      "pct_profit": -3
+      "pct_profit": -3.0
     },
     {
       "invoice_no": "ann-INV411",
@@ -1837,7 +1837,7 @@
       "gross_revenue": 1325335.0,
       "invoice_cost": 1367390.0,
       "gross_profit": -42055.0,
-      "pct_profit": -3
+      "pct_profit": -3.0
     },
     {
       "invoice_no": "ann-INV344",
@@ -1847,7 +1847,7 @@
       "gross_revenue": 1050000.0,
       "invoice_cost": 1092000.0,
       "gross_profit": -42000.0,
-      "pct_profit": -4
+      "pct_profit": -4.0
     },
     {
       "invoice_no": "ann-INV395",
@@ -1857,7 +1857,7 @@
       "gross_revenue": 1050000.0,
       "invoice_cost": 1092000.0,
       "gross_profit": -42000.0,
-      "pct_profit": -4
+      "pct_profit": -4.0
     },
     {
       "invoice_no": "ann-INV242",
@@ -1867,7 +1867,7 @@
       "gross_revenue": 1000000.0,
       "invoice_cost": 1040000.0,
       "gross_profit": -40000.0,
-      "pct_profit": -4
+      "pct_profit": -4.0
     },
     {
       "invoice_no": "ann-INV167",
@@ -1877,7 +1877,7 @@
       "gross_revenue": 1000000.0,
       "invoice_cost": 1040000.0,
       "gross_profit": -40000.0,
-      "pct_profit": -4
+      "pct_profit": -4.0
     },
     {
       "invoice_no": "ann-INV301",
@@ -1887,7 +1887,7 @@
       "gross_revenue": 1000000.0,
       "invoice_cost": 1040000.0,
       "gross_profit": -40000.0,
-      "pct_profit": -4
+      "pct_profit": -4.0
     },
     {
       "invoice_no": "ann-INV204",
@@ -1897,7 +1897,7 @@
       "gross_revenue": 1170400.0,
       "invoice_cost": 1204100.0,
       "gross_profit": -33700.0,
-      "pct_profit": -3
+      "pct_profit": -3.0
     },
     {
       "invoice_no": "ann-INV264",
@@ -1907,7 +1907,7 @@
       "gross_revenue": 815750.0,
       "invoice_cost": 847507.0,
       "gross_profit": -31757.0,
-      "pct_profit": -4
+      "pct_profit": -4.0
     },
     {
       "invoice_no": "ann-INV421",
@@ -1917,7 +1917,7 @@
       "gross_revenue": 750000.0,
       "invoice_cost": 780000.0,
       "gross_profit": -30000.0,
-      "pct_profit": -4
+      "pct_profit": -4.0
     },
     {
       "invoice_no": "ann-INV433",
@@ -1927,7 +1927,7 @@
       "gross_revenue": 750000.0,
       "invoice_cost": 780000.0,
       "gross_profit": -30000.0,
-      "pct_profit": -4
+      "pct_profit": -4.0
     },
     {
       "invoice_no": "ann-INV222",
@@ -1937,7 +1937,7 @@
       "gross_revenue": 839225.0,
       "invoice_cost": 865500.0,
       "gross_profit": -26275.0,
-      "pct_profit": -3
+      "pct_profit": -3.0
     },
     {
       "invoice_no": "ann-INV189",
@@ -1947,7 +1947,7 @@
       "gross_revenue": 495000.0,
       "invoice_cost": 520000.0,
       "gross_profit": -25000.0,
-      "pct_profit": -5
+      "pct_profit": -5.0
     },
     {
       "invoice_no": "ann-INV329",
@@ -1957,7 +1957,7 @@
       "gross_revenue": 600000.0,
       "invoice_cost": 624000.0,
       "gross_profit": -24000.0,
-      "pct_profit": -4
+      "pct_profit": -4.0
     },
     {
       "invoice_no": "ann-INV281",
@@ -1967,7 +1967,7 @@
       "gross_revenue": 613000.0,
       "invoice_cost": 634028.0,
       "gross_profit": -21028.0,
-      "pct_profit": -3
+      "pct_profit": -3.0
     },
     {
       "invoice_no": "ann-INV255",
@@ -1977,7 +1977,7 @@
       "gross_revenue": 500000.0,
       "invoice_cost": 520000.0,
       "gross_profit": -20000.0,
-      "pct_profit": -4
+      "pct_profit": -4.0
     },
     {
       "invoice_no": "ann-INV403",
@@ -1987,7 +1987,7 @@
       "gross_revenue": 500000.0,
       "invoice_cost": 520000.0,
       "gross_profit": -20000.0,
-      "pct_profit": -4
+      "pct_profit": -4.0
     },
     {
       "invoice_no": "ann-INV341",
@@ -1997,7 +1997,7 @@
       "gross_revenue": 500000.0,
       "invoice_cost": 520000.0,
       "gross_profit": -20000.0,
-      "pct_profit": -4
+      "pct_profit": -4.0
     },
     {
       "invoice_no": "ann-INV285",
@@ -2007,7 +2007,7 @@
       "gross_revenue": 1877025.0,
       "invoice_cost": 1892820.0,
       "gross_profit": -15795.0,
-      "pct_profit": -1
+      "pct_profit": -1.0
     },
     {
       "invoice_no": "ann-INV176",
@@ -2017,7 +2017,7 @@
       "gross_revenue": 842250.0,
       "invoice_cost": 857292.0,
       "gross_profit": -15042.0,
-      "pct_profit": -2
+      "pct_profit": -2.0
     },
     {
       "invoice_no": "ann-INV296",
@@ -2027,7 +2027,7 @@
       "gross_revenue": 322500.0,
       "invoice_cost": 337535.0,
       "gross_profit": -15035.0,
-      "pct_profit": -5
+      "pct_profit": -5.0
     },
     {
       "invoice_no": "ann-INV254",
@@ -2037,7 +2037,7 @@
       "gross_revenue": 660400.0,
       "invoice_cost": 673700.0,
       "gross_profit": -13300.0,
-      "pct_profit": -2
+      "pct_profit": -2.0
     },
     {
       "invoice_no": "ann-INV196",
@@ -2047,7 +2047,7 @@
       "gross_revenue": 612000.0,
       "invoice_cost": 624000.0,
       "gross_profit": -12000.0,
-      "pct_profit": -2
+      "pct_profit": -2.0
     },
     {
       "invoice_no": "ann-INV355",
@@ -2057,7 +2057,7 @@
       "gross_revenue": 300000.0,
       "invoice_cost": 312000.0,
       "gross_profit": -12000.0,
-      "pct_profit": -4
+      "pct_profit": -4.0
     },
     {
       "invoice_no": "ann-INV293",
@@ -2067,7 +2067,7 @@
       "gross_revenue": 780000.0,
       "invoice_cost": 790692.0,
       "gross_profit": -10692.0,
-      "pct_profit": -1
+      "pct_profit": -1.0
     },
     {
       "invoice_no": "ann-INV324",
@@ -2077,7 +2077,7 @@
       "gross_revenue": 888995.0,
       "invoice_cost": 899546.0,
       "gross_profit": -10551.0,
-      "pct_profit": -1
+      "pct_profit": -1.0
     },
     {
       "invoice_no": "ann-INV274",
@@ -2087,7 +2087,7 @@
       "gross_revenue": 250000.0,
       "invoice_cost": 260000.0,
       "gross_profit": -10000.0,
-      "pct_profit": -4
+      "pct_profit": -4.0
     },
     {
       "invoice_no": "ann-INV406",
@@ -2097,7 +2097,7 @@
       "gross_revenue": 380200.0,
       "invoice_cost": 388850.0,
       "gross_profit": -8650.0,
-      "pct_profit": -2
+      "pct_profit": -2.0
     },
     {
       "invoice_no": "ann-INV342",
@@ -2107,7 +2107,7 @@
       "gross_revenue": 200000.0,
       "invoice_cost": 208000.0,
       "gross_profit": -8000.0,
-      "pct_profit": -4
+      "pct_profit": -4.0
     },
     {
       "invoice_no": "ann-INV249",
@@ -2117,7 +2117,7 @@
       "gross_revenue": 150000.0,
       "invoice_cost": 156000.0,
       "gross_profit": -6000.0,
-      "pct_profit": -4
+      "pct_profit": -4.0
     },
     {
       "invoice_no": "ann-INV435",
@@ -2127,7 +2127,7 @@
       "gross_revenue": 150000.0,
       "invoice_cost": 156000.0,
       "gross_profit": -6000.0,
-      "pct_profit": -4
+      "pct_profit": -4.0
     },
     {
       "invoice_no": "ann-INV174",
@@ -2137,7 +2137,7 @@
       "gross_revenue": 150000.0,
       "invoice_cost": 156000.0,
       "gross_profit": -6000.0,
-      "pct_profit": -4
+      "pct_profit": -4.0
     },
     {
       "invoice_no": "ann-INV152",
@@ -2147,7 +2147,7 @@
       "gross_revenue": 1421000.0,
       "invoice_cost": 1426855.0,
       "gross_profit": -5855.0,
-      "pct_profit": 0
+      "pct_profit": 0.0
     },
     {
       "invoice_no": "ann-INV276",
@@ -2157,7 +2157,7 @@
       "gross_revenue": 447500.0,
       "invoice_cost": 453125.0,
       "gross_profit": -5625.0,
-      "pct_profit": -1
+      "pct_profit": -1.0
     },
     {
       "invoice_no": "ann-INV271",
@@ -2167,7 +2167,7 @@
       "gross_revenue": 100000.0,
       "invoice_cost": 104000.0,
       "gross_profit": -4000.0,
-      "pct_profit": -4
+      "pct_profit": -4.0
     },
     {
       "invoice_no": "ann-INV412",
@@ -2177,7 +2177,7 @@
       "gross_revenue": 75000.0,
       "invoice_cost": 78000.0,
       "gross_profit": -3000.0,
-      "pct_profit": -4
+      "pct_profit": -4.0
     },
     {
       "invoice_no": "ann-INV216",
@@ -2187,7 +2187,7 @@
       "gross_revenue": 230200.0,
       "invoice_cost": 232850.0,
       "gross_profit": -2650.0,
-      "pct_profit": -1
+      "pct_profit": -1.0
     },
     {
       "invoice_no": "ann-INV434",
@@ -2197,7 +2197,7 @@
       "gross_revenue": 60000.0,
       "invoice_cost": 62400.0,
       "gross_profit": -2400.0,
-      "pct_profit": -4
+      "pct_profit": -4.0
     },
     {
       "invoice_no": "ann-INV228",
@@ -2207,7 +2207,7 @@
       "gross_revenue": 50000.0,
       "invoice_cost": 52000.0,
       "gross_profit": -2000.0,
-      "pct_profit": -4
+      "pct_profit": -4.0
     },
     {
       "invoice_no": "ann-INV313",
@@ -2217,7 +2217,7 @@
       "gross_revenue": 50000.0,
       "invoice_cost": 52000.0,
       "gross_profit": -2000.0,
-      "pct_profit": -4
+      "pct_profit": -4.0
     },
     {
       "invoice_no": "ann-INV307",
@@ -2227,7 +2227,7 @@
       "gross_revenue": 679000.0,
       "invoice_cost": 680531.0,
       "gross_profit": -1531.0,
-      "pct_profit": 0
+      "pct_profit": 0.0
     },
     {
       "invoice_no": "ann-INV338",
@@ -2237,7 +2237,7 @@
       "gross_revenue": 115100.0,
       "invoice_cost": 116425.0,
       "gross_profit": -1325.0,
-      "pct_profit": -1
+      "pct_profit": -1.0
     },
     {
       "invoice_no": "ann-INV163",
@@ -2247,7 +2247,7 @@
       "gross_revenue": 303000.0,
       "invoice_cost": 304123.0,
       "gross_profit": -1123.0,
-      "pct_profit": 0
+      "pct_profit": 0.0
     },
     {
       "invoice_no": "ann-INV202",
@@ -2257,7 +2257,7 @@
       "gross_revenue": 111100.0,
       "invoice_cost": 111512.0,
       "gross_profit": -412.0,
-      "pct_profit": 0
+      "pct_profit": 0.0
     },
     {
       "invoice_no": "ann-INV147",
@@ -2267,7 +2267,7 @@
       "gross_revenue": 86000.0,
       "invoice_cost": 86374.0,
       "gross_profit": -374.0,
-      "pct_profit": 0
+      "pct_profit": 0.0
     },
     {
       "invoice_no": "ann-INV425",
@@ -2277,7 +2277,7 @@
       "gross_revenue": 165620.0,
       "invoice_cost": 165935.0,
       "gross_profit": -315.0,
-      "pct_profit": 0
+      "pct_profit": 0.0
     },
     {
       "invoice_no": "ann-INV300",
@@ -2287,7 +2287,7 @@
       "gross_revenue": 13200.0,
       "invoice_cost": 13501.0,
       "gross_profit": -301.0,
-      "pct_profit": -2
+      "pct_profit": -2.0
     },
     {
       "invoice_no": "ann-INV336",
@@ -2297,7 +2297,7 @@
       "gross_revenue": 5000.0,
       "invoice_cost": 5200.0,
       "gross_profit": -200.0,
-      "pct_profit": -4
+      "pct_profit": -4.0
     },
     {
       "invoice_no": "ann-INV440",
@@ -2307,7 +2307,7 @@
       "gross_revenue": 5000.0,
       "invoice_cost": 5200.0,
       "gross_profit": -200.0,
-      "pct_profit": -4
+      "pct_profit": -4.0
     },
     {
       "invoice_no": "ann-INV188",
@@ -2317,7 +2317,7 @@
       "gross_revenue": 34400.0,
       "invoice_cost": 34550.0,
       "gross_profit": -150.0,
-      "pct_profit": 0
+      "pct_profit": 0.0
     },
     {
       "invoice_no": "ann-INV154",
@@ -2327,7 +2327,7 @@
       "gross_revenue": 17200.0,
       "invoice_cost": 17275.0,
       "gross_profit": -75.0,
-      "pct_profit": 0
+      "pct_profit": 0.0
     },
     {
       "invoice_no": "ann-INV273",
@@ -2337,7 +2337,7 @@
       "gross_revenue": 835385.0,
       "invoice_cost": 835426.0,
       "gross_profit": -41.0,
-      "pct_profit": 0
+      "pct_profit": 0.0
     }
   ],
   "loss_making_customers": [
@@ -3941,9 +3941,9 @@
     "total_cost_embedded": 173164329.69273746,
     "net_gross_profit_loss": 554610.3072625399,
     "net_gross_margin_pct": 0.003192572480942722,
-    "total_operating_expenses": 0.0,
-    "net_operating_profit_loss": 554610.3072625399,
-    "net_operating_margin_pct": 0.003192572480942722,
+    "total_operating_expenses": 2095229.0,
+    "net_operating_profit_loss": -1540618.6927374601,
+    "net_operating_margin_pct": -0.008868455522106342,
     "product_returns_value": 1460600.0,
     "product_returns_qty": 191.0,
     "empties_returns_value": 12495250.0,
