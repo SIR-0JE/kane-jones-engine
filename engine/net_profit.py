@@ -228,9 +228,12 @@ def compute_net_profit_bridge(
         from engine.config import kane_jones_profile
         profile = kane_jones_profile()
 
-    gross_sales_revenue = float(line_items_df["quantity"].mul(line_items_df["rate"]).sum()) if not line_items_df.empty else 0.0
-    if gross_sales_revenue == 0.0 and invoices_df is not None and not invoices_df.empty:
+    if invoices_df is not None and not invoices_df.empty and "gross_revenue" in invoices_df.columns:
         gross_sales_revenue = float(invoices_df["gross_revenue"].sum())
+    elif not line_items_df.empty:
+        gross_sales_revenue = float(line_items_df["quantity"].mul(line_items_df["rate"]).sum())
+    else:
+        gross_sales_revenue = 0.0
 
     # Full Invoice-Embedded COGS (all lines including empties, matching invoice header total cost)
     if not line_items_df.empty and "cost" in line_items_df.columns:
