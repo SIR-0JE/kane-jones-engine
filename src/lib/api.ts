@@ -11,14 +11,11 @@ export async function fetchSnapshots(clientId = "kane-jones"): Promise<Snapshots
 }
 
 export async function fetchSnapshot(periodLabel: string, clientId = "kane-jones"): Promise<AnalyzeResponse> {
-  const res = await fetch(`${API_BASE}/api/snapshots/${encodeURIComponent(periodLabel)}?client_id=${encodeURIComponent(clientId)}`);
+  const res = await fetch(
+    `${API_BASE}/api/snapshot?period_label=${encodeURIComponent(periodLabel)}&client_id=${encodeURIComponent(clientId)}`
+  );
   if (!res.ok) {
-    // Fallback to /api/snapshot?period_label=...
-    const fallbackRes = await fetch(`${API_BASE}/api/snapshot?period_label=${encodeURIComponent(periodLabel)}&client_id=${encodeURIComponent(clientId)}`);
-    if (!fallbackRes.ok) {
-      throw new Error(`Failed to load snapshot for period ${periodLabel}`);
-    }
-    return fallbackRes.json();
+    throw new Error(`Failed to load snapshot for period ${periodLabel}`);
   }
   return res.json();
 }
