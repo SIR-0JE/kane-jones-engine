@@ -122,6 +122,8 @@ def df_to_records(df: pd.DataFrame) -> List[Dict[str, Any]]:
 
 
 @app.get("/")
+@app.get("/api")
+@app.get("/api/")
 @app.get("/health")
 @app.get("/api/health")
 def health_check():
