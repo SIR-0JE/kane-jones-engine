@@ -21263,16 +21263,20 @@ export const CANONICAL_JULY_SNAPSHOT: AnalyzeResponse = {
     "gross_sales_revenue": 187674790.0,
     "total_sales_returns": 13955850.0,
     "net_sales_revenue": 173718940.0,
-    "total_cost": 173258940.0,
-    "total_cost_embedded": 173258940.0,
-    "net_gross_profit_loss": 460000.0,
-    "net_gross_margin_pct": 0.00264795537554902,
+    "gross_embedded_cost": 183957167.0,
+    "cost_of_returns": 10792837.31,
+    "total_cost": 173164329.69,
+    "total_cost_embedded": 173164329.69,
+    "net_gross_profit_loss": 554610.31,
+    "net_gross_margin_pct": 0.003192572480942722,
     "total_operating_expenses": 2095229.0,
-    "net_operating_profit_loss": -1635229.0,
+    "net_operating_profit_loss": -1540618.69,
+    "net_operating_margin_pct": -0.008868455522106342,
     "product_returns_value": 1460600.0,
     "product_returns_qty": 191.0,
     "empties_returns_value": 12495250.0,
     "empties_returns_qty": 7039.0,
-    "return_rate": 0.0743618788650303
+    "return_rate": 0.0743618788650303,
+    "missing_cost_anomalies": []
   }
 };
