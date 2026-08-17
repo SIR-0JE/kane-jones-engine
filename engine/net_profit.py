@@ -260,23 +260,26 @@ def compute_net_profit_bridge(
     if cost_of_returns is None:
         cost_of_returns = 0.0
         if not line_items_df.empty and df_returns is not None and not df_returns.empty:
-            # Build unit cost maps from invoice line items
+            # Build unit cost maps from invoice line items (excluding negative cost anomalies)
             unit_cost_map = {}
             for p_name, grp in line_items_df.groupby("product_raw"):
-                tot_q = grp["quantity"].sum()
-                tot_c = grp["cost"].sum()
-                if tot_q > 0:
-                    unit_cost_map[str(p_name).strip().upper()] = tot_c / tot_q
+                # Exclude corrupted negative cost lines
+                valid_grp = grp[grp["cost"] > 0]
+                if not valid_grp.empty:
+                    tot_q = valid_grp["quantity"].sum()
+                    tot_c = valid_grp["cost"].sum()
+                    if tot_q > 0:
+                        unit_cost_map[str(p_name).strip().upper()] = tot_c / tot_q
 
-            # Fallback to df_inv true cost if line items didn't have the product
+            # Fallback to df_inv true cost or DPP if line items had no valid positive cost
             if df_inv is not None and not df_inv.empty:
                 from engine.true_cost import build_inventory_cost_maps
                 inv_cost_map, inv_dpp_map = build_inventory_cost_maps(df_inv)
                 for k, v in inv_cost_map.items():
-                    if k not in unit_cost_map:
+                    if k not in unit_cost_map and v > 0:
                         unit_cost_map[k] = v
                 for k, v in inv_dpp_map.items():
-                    if k not in unit_cost_map:
+                    if k not in unit_cost_map and v > 0:
                         unit_cost_map[k] = v
 
             for _, r in df_returns.iterrows():

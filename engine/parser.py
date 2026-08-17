@@ -242,6 +242,15 @@ def parse_raw_sheet(ws, profile: ClientProfile, source_tab: str):
                 })
                 continue
 
+            parsed_cost = _parse_float(iget("item_cost"))
+            if parsed_cost is not None and parsed_cost < 0:
+                anomalies.append({
+                    "row": i + 1,
+                    "source_tab": source_tab,
+                    "raw": row,
+                    "reason": f"Negative item cost ({parsed_cost}) detected for '{product}' in invoice '{current_invoice['invoice_no']}'. Flagged as data entry anomaly.",
+                })
+
             line_items.append({
                 "source_tab": source_tab,
                 "row": i + 1,
@@ -251,7 +260,7 @@ def parse_raw_sheet(ws, profile: ClientProfile, source_tab: str):
                 "product_raw": str(product).strip(),
                 "quantity": qty_val,
                 "rate": _parse_float(iget("rate")),
-                "cost": _parse_float(iget("item_cost")),
+                "cost": parsed_cost,
                 "description": iget("description"),
             })
             continue
