@@ -133,6 +133,8 @@ def health_check():
 
 @app.post("/analyze")
 @app.post("/api/analyze")
+@app.post("/api/index/analyze")
+@app.post("/api/index")
 async def analyze_sales_report(
     file: UploadFile = File(..., description="Raw Excel workbook (.xlsx)"),
     expenses_file: Optional[UploadFile] = File(None, description="Optional separate operating expenses workbook (.xlsx)"),
