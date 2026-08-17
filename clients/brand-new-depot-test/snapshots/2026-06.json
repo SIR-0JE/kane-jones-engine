@@ -1,0 +1,3205 @@
+{
+  "client_id": "brand-new-depot-test",
+  "period_label": "2026-06",
+  "audit_title": "2026-06 Full Audit",
+  "meta": {
+    "client_id": "brand-new-depot-test",
+    "client_display_name": "Kane-Jones Depot (Ogun State)",
+    "period_label": "2026-06",
+    "audit_title": "2026-06 Full Audit",
+    "currency_symbol": "\u20a6",
+    "total_revenue": 149300425.0,
+    "total_gross_profit": 1917954.0,
+    "overall_margin_pct": 0.012846272875646537,
+    "date_range": {
+      "start": "2026-06-01",
+      "end": "2026-06-30"
+    },
+    "total_invoices": 259,
+    "total_anomalies": 28,
+    "total_recoverable_leakage": 0.0,
+    "has_price_list": false,
+    "price_list_source": "none",
+    "price_list_source_period": null,
+    "price_list_status": "No price list available for this period (2026-06)",
+    "price_list_message": "No price list available for this period (2026-06)",
+    "below_floor_items_count": 0,
+    "reconciled_invoices_count": 238,
+    "reconciliation_discrepancies_count": 21,
+    "loss_making_invoices_count": 24,
+    "loss_making_customers_count": 6,
+    "dominant_products_count": 2,
+    "volume_tier_counts": {
+      "total": 0,
+      "underpriced": 0,
+      "overpriced": 0,
+      "correct": 0,
+      "total_revenue_impact": 0.0
+    }
+  },
+  "daily_summary": [
+    {
+      "date_only": "2026-06-01",
+      "revenue": 6596415.0,
+      "gross_profit": 121043.0,
+      "invoices": 7,
+      "margin_pct": 0.018349815771142357
+    },
+    {
+      "date_only": "2026-06-02",
+      "revenue": 6533335.0,
+      "gross_profit": 122650.0,
+      "invoices": 16,
+      "margin_pct": 0.01877295439465449
+    },
+    {
+      "date_only": "2026-06-03",
+      "revenue": 7651910.0,
+      "gross_profit": 153072.0,
+      "invoices": 8,
+      "margin_pct": 0.020004417197797674
+    },
+    {
+      "date_only": "2026-06-04",
+      "revenue": 1805840.0,
+      "gross_profit": 46662.0,
+      "invoices": 9,
+      "margin_pct": 0.025839498515926106
+    },
+    {
+      "date_only": "2026-06-05",
+      "revenue": 9483945.0,
+      "gross_profit": 42884.0,
+      "invoices": 12,
+      "margin_pct": 0.004521747015614283
+    },
+    {
+      "date_only": "2026-06-06",
+      "revenue": 10198900.0,
+      "gross_profit": 47103.0,
+      "invoices": 16,
+      "margin_pct": 0.004618439243447823
+    },
+    {
+      "date_only": "2026-06-08",
+      "revenue": 6609815.0,
+      "gross_profit": 99187.0,
+      "invoices": 12,
+      "margin_pct": 0.015006017566301023
+    },
+    {
+      "date_only": "2026-06-09",
+      "revenue": 5755170.0,
+      "gross_profit": 98017.0,
+      "invoices": 8,
+      "margin_pct": 0.017031121582855066
+    },
+    {
+      "date_only": "2026-06-10",
+      "revenue": 5234725.0,
+      "gross_profit": 109493.0,
+      "invoices": 12,
+      "margin_pct": 0.020916667064650004
+    },
+    {
+      "date_only": "2026-06-11",
+      "revenue": 5043500.0,
+      "gross_profit": 105977.0,
+      "invoices": 9,
+      "margin_pct": 0.02101259046297214
+    },
+    {
+      "date_only": "2026-06-12",
+      "revenue": 1680735.0,
+      "gross_profit": 76254.0,
+      "invoices": 8,
+      "margin_pct": 0.04536943658577944
+    },
+    {
+      "date_only": "2026-06-13",
+      "revenue": 7286115.0,
+      "gross_profit": 99682.0,
+      "invoices": 19,
+      "margin_pct": 0.013681090677267652
+    },
+    {
+      "date_only": "2026-06-15",
+      "revenue": 4853755.0,
+      "gross_profit": 59855.0,
+      "invoices": 8,
+      "margin_pct": 0.012331689588782294
+    },
+    {
+      "date_only": "2026-06-16",
+      "revenue": 13354530.0,
+      "gross_profit": 43882.0,
+      "invoices": 8,
+      "margin_pct": 0.0032859261988254173
+    },
+    {
+      "date_only": "2026-06-17",
+      "revenue": 3383235.0,
+      "gross_profit": 56159.0,
+      "invoices": 3,
+      "margin_pct": 0.01659920165167362
+    },
+    {
+      "date_only": "2026-06-18",
+      "revenue": 7334800.0,
+      "gross_profit": 195635.0,
+      "invoices": 6,
+      "margin_pct": 0.026672165566886622
+    },
+    {
+      "date_only": "2026-06-19",
+      "revenue": 980495.0,
+      "gross_profit": 33531.0,
+      "invoices": 11,
+      "margin_pct": 0.034198032626377495
+    },
+    {
+      "date_only": "2026-06-20",
+      "revenue": 12909390.0,
+      "gross_profit": 124506.0,
+      "invoices": 10,
+      "margin_pct": 0.009644607529867793
+    },
+    {
+      "date_only": "2026-06-22",
+      "revenue": 5523310.0,
+      "gross_profit": 110830.0,
+      "invoices": 9,
+      "margin_pct": 0.02006586630118534
+    },
+    {
+      "date_only": "2026-06-23",
+      "revenue": 7204730.0,
+      "gross_profit": 153599.0,
+      "invoices": 15,
+      "margin_pct": 0.021319188921722257
+    },
+    {
+      "date_only": "2026-06-24",
+      "revenue": 5075925.0,
+      "gross_profit": 68792.0,
+      "invoices": 11,
+      "margin_pct": 0.013552603712623807
+    },
+    {
+      "date_only": "2026-06-25",
+      "revenue": 4312255.0,
+      "gross_profit": -52273.0,
+      "invoices": 11,
+      "margin_pct": -0.012121964030420278
+    },
+    {
+      "date_only": "2026-06-26",
+      "revenue": 1412230.0,
+      "gross_profit": 14035.0,
+      "invoices": 10,
+      "margin_pct": 0.00993818287389448
+    },
+    {
+      "date_only": "2026-06-27",
+      "revenue": 821250.0,
+      "gross_profit": -11118.0,
+      "invoices": 8,
+      "margin_pct": -0.013537899543378995
+    },
+    {
+      "date_only": "2026-06-29",
+      "revenue": 4626690.0,
+      "gross_profit": 72699.0,
+      "invoices": 7,
+      "margin_pct": 0.01571296110178119
+    },
+    {
+      "date_only": "2026-06-30",
+      "revenue": 3627425.0,
+      "gross_profit": -74202.0,
+      "invoices": 6,
+      "margin_pct": -0.020455832994479554
+    }
+  ],
+  "weekly_summary": [
+    {
+      "week": 1,
+      "revenue": 42270345.0,
+      "gross_profit": 533414.0,
+      "invoices": 68,
+      "margin_pct": 0.012619106846655735
+    },
+    {
+      "week": 2,
+      "revenue": 31610060.0,
+      "gross_profit": 588610.0,
+      "invoices": 68,
+      "margin_pct": 0.018620970665667827
+    },
+    {
+      "week": 3,
+      "revenue": 42816205.0,
+      "gross_profit": 513568.0,
+      "invoices": 46,
+      "margin_pct": 0.011994710881078788
+    },
+    {
+      "week": 4,
+      "revenue": 24349700.0,
+      "gross_profit": 283865.0,
+      "invoices": 64,
+      "margin_pct": 0.011657843833804934
+    },
+    {
+      "week": 5,
+      "revenue": 8254115.0,
+      "gross_profit": -1503.0,
+      "invoices": 13,
+      "margin_pct": -0.00018209099340147307
+    }
+  ],
+  "product_ranking": [
+    {
+      "product_raw": "Goldberg 60cl",
+      "cases_sold": 3924.0,
+      "revenue": 34451900.0,
+      "pct_of_total": 0.2318901352343013,
+      "is_dominant": 1
+    },
+    {
+      "product_raw": "Maltina Pet 33cl",
+      "cases_sold": 6521.0,
+      "revenue": 33603500.0,
+      "pct_of_total": 0.22617969282814135,
+      "is_dominant": 1
+    },
+    {
+      "product_raw": "33 Export 60cl",
+      "cases_sold": 2448.0,
+      "revenue": 22246230.0,
+      "pct_of_total": 0.1497357557392588,
+      "is_dominant": 0
+    },
+    {
+      "product_raw": "Heineken Bottle 60cl",
+      "cases_sold": 824.0,
+      "revenue": 10845705.0,
+      "pct_of_total": 0.07300067628088255,
+      "is_dominant": 0
+    },
+    {
+      "product_raw": "Maltina Bottle",
+      "cases_sold": 428.0,
+      "revenue": 5619200.0,
+      "pct_of_total": 0.037821921226654724,
+      "is_dominant": 0
+    },
+    {
+      "product_raw": "Desperados Bottle",
+      "cases_sold": 252.0,
+      "revenue": 5237985.0,
+      "pct_of_total": 0.03525602506698445,
+      "is_dominant": 0
+    },
+    {
+      "product_raw": "Gulder Bottle",
+      "cases_sold": 413.0,
+      "revenue": 4718490.0,
+      "pct_of_total": 0.031759388718813716,
+      "is_dominant": 0
+    },
+    {
+      "product_raw": "Heineken Sleek Can",
+      "cases_sold": 216.0,
+      "revenue": 3842745.0,
+      "pct_of_total": 0.025864891565368968,
+      "is_dominant": 0
+    },
+    {
+      "product_raw": "33 Export Can",
+      "cases_sold": 185.0,
+      "revenue": 2945245.0,
+      "pct_of_total": 0.019823965045415483,
+      "is_dominant": 0
+    },
+    {
+      "product_raw": "Star Radler 45cl",
+      "cases_sold": 188.0,
+      "revenue": 2742310.0,
+      "pct_of_total": 0.01845804256817118,
+      "is_dominant": 0
+    },
+    {
+      "product_raw": "Goldberg Can 50cl",
+      "cases_sold": 146.0,
+      "revenue": 2348130.0,
+      "pct_of_total": 0.01580488110228231,
+      "is_dominant": 0
+    },
+    {
+      "product_raw": "Desperados Can",
+      "cases_sold": 100.0,
+      "revenue": 2210070.0,
+      "pct_of_total": 0.014875621697998434,
+      "is_dominant": 0
+    },
+    {
+      "product_raw": "Maltina Can",
+      "cases_sold": 161.0,
+      "revenue": 2126200.0,
+      "pct_of_total": 0.014311106369610135,
+      "is_dominant": 0
+    },
+    {
+      "product_raw": "Turbo King Bottle 60cl",
+      "cases_sold": 229.0,
+      "revenue": 2042780.0,
+      "pct_of_total": 0.013749619918028498,
+      "is_dominant": 0
+    },
+    {
+      "product_raw": "Fayrouz Can",
+      "cases_sold": 147.0,
+      "revenue": 1966850.0,
+      "pct_of_total": 0.01323854743818441,
+      "is_dominant": 0
+    },
+    {
+      "product_raw": "Trophy",
+      "cases_sold": 223.0,
+      "revenue": 1852800.0,
+      "pct_of_total": 0.01247089543862932,
+      "is_dominant": 0
+    },
+    {
+      "product_raw": "Goldberg Black 45cl",
+      "cases_sold": 132.0,
+      "revenue": 1832340.0,
+      "pct_of_total": 0.012333182506486424,
+      "is_dominant": 0
+    },
+    {
+      "product_raw": "Legend Bottle 60cl",
+      "cases_sold": 139.0,
+      "revenue": 1574685.0,
+      "pct_of_total": 0.010598948609552034,
+      "is_dominant": 0
+    },
+    {
+      "product_raw": "Fayrouz Bottle",
+      "cases_sold": 110.0,
+      "revenue": 1117850.0,
+      "pct_of_total": 0.0075240665296156,
+      "is_dominant": 0
+    },
+    {
+      "product_raw": "Heineken Bottle 45cl",
+      "cases_sold": 60.0,
+      "revenue": 1070400.0,
+      "pct_of_total": 0.007204688297446472,
+      "is_dominant": 0
+    },
+    {
+      "product_raw": "Amstel Bottle",
+      "cases_sold": 43.0,
+      "revenue": 624300.0,
+      "pct_of_total": 0.004202061756442295,
+      "is_dominant": 0
+    },
+    {
+      "product_raw": "Tiger Bottle",
+      "cases_sold": 37.0,
+      "revenue": 574425.0,
+      "pct_of_total": 0.0038663612437039325,
+      "is_dominant": 0
+    },
+    {
+      "product_raw": "ACE BITTERS",
+      "cases_sold": 25.0,
+      "revenue": 516375.0,
+      "pct_of_total": 0.0034756361356445458,
+      "is_dominant": 0
+    },
+    {
+      "product_raw": "STK 33cl",
+      "cases_sold": 36.0,
+      "revenue": 478700.0,
+      "pct_of_total": 0.0032220518385534624,
+      "is_dominant": 0
+    },
+    {
+      "product_raw": "Maltina Pet 50cl",
+      "cases_sold": 58.0,
+      "revenue": 465495.0,
+      "pct_of_total": 0.0031331711313713055,
+      "is_dominant": 0
+    },
+    {
+      "product_raw": "Amstel Can",
+      "cases_sold": 32.0,
+      "revenue": 461760.0,
+      "pct_of_total": 0.0031080314538760117,
+      "is_dominant": 0
+    },
+    {
+      "product_raw": "CLIMAX CAN",
+      "cases_sold": 27.0,
+      "revenue": 347895.0,
+      "pct_of_total": 0.0023416246592303253,
+      "is_dominant": 0
+    },
+    {
+      "product_raw": "Legend 45cl",
+      "cases_sold": 12.0,
+      "revenue": 191340.0,
+      "pct_of_total": 0.0012878784181926456,
+      "is_dominant": 0
+    },
+    {
+      "product_raw": "Star Bottle 60cl",
+      "cases_sold": 15.0,
+      "revenue": 173935.0,
+      "pct_of_total": 0.001170728194148311,
+      "is_dominant": 0
+    },
+    {
+      "product_raw": "Medium Stout",
+      "cases_sold": 8.0,
+      "revenue": 146100.0,
+      "pct_of_total": 0.0009833753365629013,
+      "is_dominant": 0
+    },
+    {
+      "product_raw": "Chamdor 75cl",
+      "cases_sold": 2.0,
+      "revenue": 56890.0,
+      "pct_of_total": 0.00038291733673554725,
+      "is_dominant": 0
+    },
+    {
+      "product_raw": "Williams Bottle 60cl",
+      "cases_sold": 5.0,
+      "revenue": 46725.0,
+      "pct_of_total": 0.0003144983750917287,
+      "is_dominant": 0
+    },
+    {
+      "product_raw": "Smirnoff Ice.",
+      "cases_sold": 2.0,
+      "revenue": 35200.0,
+      "pct_of_total": 0.00023692547465444303,
+      "is_dominant": 0
+    },
+    {
+      "product_raw": "Heineken Can 50cl",
+      "cases_sold": 1.0,
+      "revenue": 24000.0,
+      "pct_of_total": 0.00016154009635530205,
+      "is_dominant": 0
+    },
+    {
+      "product_raw": "Legend Can 44cl",
+      "cases_sold": 1.0,
+      "revenue": 21170.0,
+      "pct_of_total": 0.00014249182666007269,
+      "is_dominant": 0
+    },
+    {
+      "product_raw": "Castle Lite",
+      "cases_sold": 1.0,
+      "revenue": 10200.0,
+      "pct_of_total": 6.865454095100338e-05,
+      "is_dominant": 0
+    },
+    {
+      "product_raw": "Goldberg Black Promo",
+      "cases_sold": 21.0,
+      "revenue": 0.0,
+      "pct_of_total": 0.0,
+      "is_dominant": 0
+    }
+  ],
+  "product_revenue_ranking": [
+    {
+      "product_raw": "Goldberg 60cl",
+      "cases_sold": 3924.0,
+      "revenue": 34451900.0,
+      "pct_of_total": 0.2318901352343013,
+      "is_dominant": 1
+    },
+    {
+      "product_raw": "Maltina Pet 33cl",
+      "cases_sold": 6521.0,
+      "revenue": 33603500.0,
+      "pct_of_total": 0.22617969282814135,
+      "is_dominant": 1
+    },
+    {
+      "product_raw": "33 Export 60cl",
+      "cases_sold": 2448.0,
+      "revenue": 22246230.0,
+      "pct_of_total": 0.1497357557392588,
+      "is_dominant": 0
+    },
+    {
+      "product_raw": "Heineken Bottle 60cl",
+      "cases_sold": 824.0,
+      "revenue": 10845705.0,
+      "pct_of_total": 0.07300067628088255,
+      "is_dominant": 0
+    },
+    {
+      "product_raw": "Maltina Bottle",
+      "cases_sold": 428.0,
+      "revenue": 5619200.0,
+      "pct_of_total": 0.037821921226654724,
+      "is_dominant": 0
+    },
+    {
+      "product_raw": "Desperados Bottle",
+      "cases_sold": 252.0,
+      "revenue": 5237985.0,
+      "pct_of_total": 0.03525602506698445,
+      "is_dominant": 0
+    },
+    {
+      "product_raw": "Gulder Bottle",
+      "cases_sold": 413.0,
+      "revenue": 4718490.0,
+      "pct_of_total": 0.031759388718813716,
+      "is_dominant": 0
+    },
+    {
+      "product_raw": "Heineken Sleek Can",
+      "cases_sold": 216.0,
+      "revenue": 3842745.0,
+      "pct_of_total": 0.025864891565368968,
+      "is_dominant": 0
+    },
+    {
+      "product_raw": "33 Export Can",
+      "cases_sold": 185.0,
+      "revenue": 2945245.0,
+      "pct_of_total": 0.019823965045415483,
+      "is_dominant": 0
+    },
+    {
+      "product_raw": "Star Radler 45cl",
+      "cases_sold": 188.0,
+      "revenue": 2742310.0,
+      "pct_of_total": 0.01845804256817118,
+      "is_dominant": 0
+    },
+    {
+      "product_raw": "Goldberg Can 50cl",
+      "cases_sold": 146.0,
+      "revenue": 2348130.0,
+      "pct_of_total": 0.01580488110228231,
+      "is_dominant": 0
+    },
+    {
+      "product_raw": "Desperados Can",
+      "cases_sold": 100.0,
+      "revenue": 2210070.0,
+      "pct_of_total": 0.014875621697998434,
+      "is_dominant": 0
+    },
+    {
+      "product_raw": "Maltina Can",
+      "cases_sold": 161.0,
+      "revenue": 2126200.0,
+      "pct_of_total": 0.014311106369610135,
+      "is_dominant": 0
+    },
+    {
+      "product_raw": "Turbo King Bottle 60cl",
+      "cases_sold": 229.0,
+      "revenue": 2042780.0,
+      "pct_of_total": 0.013749619918028498,
+      "is_dominant": 0
+    },
+    {
+      "product_raw": "Fayrouz Can",
+      "cases_sold": 147.0,
+      "revenue": 1966850.0,
+      "pct_of_total": 0.01323854743818441,
+      "is_dominant": 0
+    },
+    {
+      "product_raw": "Trophy",
+      "cases_sold": 223.0,
+      "revenue": 1852800.0,
+      "pct_of_total": 0.01247089543862932,
+      "is_dominant": 0
+    },
+    {
+      "product_raw": "Goldberg Black 45cl",
+      "cases_sold": 132.0,
+      "revenue": 1832340.0,
+      "pct_of_total": 0.012333182506486424,
+      "is_dominant": 0
+    },
+    {
+      "product_raw": "Legend Bottle 60cl",
+      "cases_sold": 139.0,
+      "revenue": 1574685.0,
+      "pct_of_total": 0.010598948609552034,
+      "is_dominant": 0
+    },
+    {
+      "product_raw": "Fayrouz Bottle",
+      "cases_sold": 110.0,
+      "revenue": 1117850.0,
+      "pct_of_total": 0.0075240665296156,
+      "is_dominant": 0
+    },
+    {
+      "product_raw": "Heineken Bottle 45cl",
+      "cases_sold": 60.0,
+      "revenue": 1070400.0,
+      "pct_of_total": 0.007204688297446472,
+      "is_dominant": 0
+    },
+    {
+      "product_raw": "Amstel Bottle",
+      "cases_sold": 43.0,
+      "revenue": 624300.0,
+      "pct_of_total": 0.004202061756442295,
+      "is_dominant": 0
+    },
+    {
+      "product_raw": "Tiger Bottle",
+      "cases_sold": 37.0,
+      "revenue": 574425.0,
+      "pct_of_total": 0.0038663612437039325,
+      "is_dominant": 0
+    },
+    {
+      "product_raw": "ACE BITTERS",
+      "cases_sold": 25.0,
+      "revenue": 516375.0,
+      "pct_of_total": 0.0034756361356445458,
+      "is_dominant": 0
+    },
+    {
+      "product_raw": "STK 33cl",
+      "cases_sold": 36.0,
+      "revenue": 478700.0,
+      "pct_of_total": 0.0032220518385534624,
+      "is_dominant": 0
+    },
+    {
+      "product_raw": "Maltina Pet 50cl",
+      "cases_sold": 58.0,
+      "revenue": 465495.0,
+      "pct_of_total": 0.0031331711313713055,
+      "is_dominant": 0
+    },
+    {
+      "product_raw": "Amstel Can",
+      "cases_sold": 32.0,
+      "revenue": 461760.0,
+      "pct_of_total": 0.0031080314538760117,
+      "is_dominant": 0
+    },
+    {
+      "product_raw": "CLIMAX CAN",
+      "cases_sold": 27.0,
+      "revenue": 347895.0,
+      "pct_of_total": 0.0023416246592303253,
+      "is_dominant": 0
+    },
+    {
+      "product_raw": "Legend 45cl",
+      "cases_sold": 12.0,
+      "revenue": 191340.0,
+      "pct_of_total": 0.0012878784181926456,
+      "is_dominant": 0
+    },
+    {
+      "product_raw": "Star Bottle 60cl",
+      "cases_sold": 15.0,
+      "revenue": 173935.0,
+      "pct_of_total": 0.001170728194148311,
+      "is_dominant": 0
+    },
+    {
+      "product_raw": "Medium Stout",
+      "cases_sold": 8.0,
+      "revenue": 146100.0,
+      "pct_of_total": 0.0009833753365629013,
+      "is_dominant": 0
+    },
+    {
+      "product_raw": "Chamdor 75cl",
+      "cases_sold": 2.0,
+      "revenue": 56890.0,
+      "pct_of_total": 0.00038291733673554725,
+      "is_dominant": 0
+    },
+    {
+      "product_raw": "Williams Bottle 60cl",
+      "cases_sold": 5.0,
+      "revenue": 46725.0,
+      "pct_of_total": 0.0003144983750917287,
+      "is_dominant": 0
+    },
+    {
+      "product_raw": "Smirnoff Ice.",
+      "cases_sold": 2.0,
+      "revenue": 35200.0,
+      "pct_of_total": 0.00023692547465444303,
+      "is_dominant": 0
+    },
+    {
+      "product_raw": "Heineken Can 50cl",
+      "cases_sold": 1.0,
+      "revenue": 24000.0,
+      "pct_of_total": 0.00016154009635530205,
+      "is_dominant": 0
+    },
+    {
+      "product_raw": "Legend Can 44cl",
+      "cases_sold": 1.0,
+      "revenue": 21170.0,
+      "pct_of_total": 0.00014249182666007269,
+      "is_dominant": 0
+    },
+    {
+      "product_raw": "Castle Lite",
+      "cases_sold": 1.0,
+      "revenue": 10200.0,
+      "pct_of_total": 6.865454095100338e-05,
+      "is_dominant": 0
+    },
+    {
+      "product_raw": "Goldberg Black Promo",
+      "cases_sold": 21.0,
+      "revenue": 0.0,
+      "pct_of_total": 0.0,
+      "is_dominant": 0
+    }
+  ],
+  "customer_margin_detail": [
+    {
+      "customer": "Rita SR",
+      "invoices": 34,
+      "revenue": 15866270.0,
+      "cost": 15519355.0,
+      "gross_profit": 346915.0,
+      "margin_pct": 0.021864937379737014,
+      "pct_of_total_revenue": 0.10627076245764203,
+      "is_loss_making": 0
+    },
+    {
+      "customer": "WURAOLA",
+      "invoices": 4,
+      "revenue": 15037300.0,
+      "cost": 14878177.0,
+      "gross_profit": 159123.0,
+      "margin_pct": 0.010581886375878648,
+      "pct_of_total_revenue": 0.10071840050019952,
+      "is_loss_making": 0
+    },
+    {
+      "customer": "FINO STORES",
+      "invoices": 2,
+      "revenue": 13163600.0,
+      "cost": 13159564.0,
+      "gross_profit": 4036.0,
+      "margin_pct": 0.0003066030569145219,
+      "pct_of_total_revenue": 0.08816853669371671,
+      "is_loss_making": 0
+    },
+    {
+      "customer": "Alhaja Ijebu Ode.",
+      "invoices": 2,
+      "revenue": 12163250.0,
+      "cost": 12117090.0,
+      "gross_profit": 46160.0,
+      "margin_pct": 0.0037950383326824655,
+      "pct_of_total_revenue": 0.0814682878498169,
+      "is_loss_making": 0
+    },
+    {
+      "customer": "Ameh Mathew",
+      "invoices": 37,
+      "revenue": 11238315.0,
+      "cost": 11006872.0,
+      "gross_profit": 231443.0,
+      "margin_pct": 0.02059410151788769,
+      "pct_of_total_revenue": 0.075273161479614,
+      "is_loss_making": 0
+    },
+    {
+      "customer": "Mama Oyin Mowe",
+      "invoices": 3,
+      "revenue": 8745950.0,
+      "cost": 8583435.0,
+      "gross_profit": 162515.0,
+      "margin_pct": 0.018581743549871656,
+      "pct_of_total_revenue": 0.05857953853781729,
+      "is_loss_making": 0
+    },
+    {
+      "customer": "Abbey Illisan",
+      "invoices": 2,
+      "revenue": 8065900.0,
+      "cost": 7947546.0,
+      "gross_profit": 118354.0,
+      "margin_pct": 0.014673378048326908,
+      "pct_of_total_revenue": 0.05402462853002595,
+      "is_loss_making": 0
+    },
+    {
+      "customer": "Emmycee",
+      "invoices": 3,
+      "revenue": 7127950.0,
+      "cost": 7068666.0,
+      "gross_profit": 59284.0,
+      "margin_pct": 0.008317117824900567,
+      "pct_of_total_revenue": 0.047742328931749525,
+      "is_loss_making": 0
+    },
+    {
+      "customer": "Delayers",
+      "invoices": 3,
+      "revenue": 5735190.0,
+      "cost": 5691029.0,
+      "gross_profit": 44161.0,
+      "margin_pct": 0.007700006451399169,
+      "pct_of_total_revenue": 0.0384137553526723,
+      "is_loss_making": 0
+    },
+    {
+      "customer": "TD Odiolowo",
+      "invoices": 8,
+      "revenue": 5251175.0,
+      "cost": 5210428.0,
+      "gross_profit": 40747.0,
+      "margin_pct": 0.007759596661699525,
+      "pct_of_total_revenue": 0.03517186906869153,
+      "is_loss_making": 0
+    },
+    {
+      "customer": "Ola Etigwam",
+      "invoices": 2,
+      "revenue": 4516600.0,
+      "cost": 4450700.0,
+      "gross_profit": 65900.0,
+      "margin_pct": 0.01459062126378249,
+      "pct_of_total_revenue": 0.030251755813823035,
+      "is_loss_making": 0
+    },
+    {
+      "customer": "Stella SR",
+      "invoices": 7,
+      "revenue": 4470885.0,
+      "cost": 4519805.0,
+      "gross_profit": -48920.0,
+      "margin_pct": -0.010941905238000977,
+      "pct_of_total_revenue": 0.02994556110607187,
+      "is_loss_making": 1
+    },
+    {
+      "customer": "Alhaja GRA Road",
+      "invoices": 1,
+      "revenue": 4360250.0,
+      "cost": 4274209.0,
+      "gross_profit": 86041.0,
+      "margin_pct": 0.019733042830112953,
+      "pct_of_total_revenue": 0.029204538433162532,
+      "is_loss_making": 0
+    },
+    {
+      "customer": "Rukky bee",
+      "invoices": 1,
+      "revenue": 4035690.0,
+      "cost": 3973626.0,
+      "gross_profit": 62064.0,
+      "margin_pct": 0.015378782810374435,
+      "pct_of_total_revenue": 0.02703066652355477,
+      "is_loss_making": 0
+    },
+    {
+      "customer": "Damnoch",
+      "invoices": 1,
+      "revenue": 3864000.0,
+      "cost": 3756399.0,
+      "gross_profit": 107601.0,
+      "margin_pct": 0.027847049689440993,
+      "pct_of_total_revenue": 0.02588070328667852,
+      "is_loss_making": 0
+    },
+    {
+      "customer": "Eniola Marketer",
+      "invoices": 6,
+      "revenue": 3779850.0,
+      "cost": 3792591.0,
+      "gross_profit": -12741.0,
+      "margin_pct": -0.0033707686812968767,
+      "pct_of_total_revenue": 0.025317074616498916,
+      "is_loss_making": 1
+    },
+    {
+      "customer": "Seun Ijebu",
+      "invoices": 1,
+      "revenue": 3612000.0,
+      "cost": 3642852.0,
+      "gross_profit": -30852.0,
+      "margin_pct": -0.008541528239202657,
+      "pct_of_total_revenue": 0.024192831333199487,
+      "is_loss_making": 1
+    },
+    {
+      "customer": "M J STORE",
+      "invoices": 1,
+      "revenue": 2861150.0,
+      "cost": 2878989.0,
+      "gross_profit": -17839.0,
+      "margin_pct": -0.006234905544973175,
+      "pct_of_total_revenue": 0.019163709681335468,
+      "is_loss_making": 1
+    },
+    {
+      "customer": "Mr Lekan Ojifini",
+      "invoices": 6,
+      "revenue": 2086265.0,
+      "cost": 2084777.0,
+      "gross_profit": 1488.0,
+      "margin_pct": 0.0007132363338310329,
+      "pct_of_total_revenue": 0.013973603892956099,
+      "is_loss_making": 0
+    },
+    {
+      "customer": "Walk in Customer",
+      "invoices": 48,
+      "revenue": 1801165.0,
+      "cost": 1674301.0,
+      "gross_profit": 126864.0,
+      "margin_pct": 0.07043441328251437,
+      "pct_of_total_revenue": 0.012064031297968509,
+      "is_loss_making": 0
+    },
+    {
+      "customer": "Tmoney NB",
+      "invoices": 5,
+      "revenue": 1729275.0,
+      "cost": 1671719.0,
+      "gross_profit": 57556.0,
+      "margin_pct": 0.033283312370791227,
+      "pct_of_total_revenue": 0.011582518937906574,
+      "is_loss_making": 0
+    },
+    {
+      "customer": "Solomon",
+      "invoices": 10,
+      "revenue": 1707110.0,
+      "cost": 1708449.0,
+      "gross_profit": -1339.0,
+      "margin_pct": -0.0007843665610300449,
+      "pct_of_total_revenue": 0.011434059882950768,
+      "is_loss_making": 1
+    },
+    {
+      "customer": "Ola SR",
+      "invoices": 4,
+      "revenue": 1429060.0,
+      "cost": 1382953.0,
+      "gross_profit": 46107.0,
+      "margin_pct": 0.03226386575791079,
+      "pct_of_total_revenue": 0.009571707515233127,
+      "is_loss_making": 0
+    },
+    {
+      "customer": "DESOLA STORE",
+      "invoices": 1,
+      "revenue": 1425200.0,
+      "cost": 1443300.0,
+      "gross_profit": -18100.0,
+      "margin_pct": -0.012699971933763682,
+      "pct_of_total_revenue": 0.009545853603564759,
+      "is_loss_making": 1
+    },
+    {
+      "customer": "Ahmed SR",
+      "invoices": 6,
+      "revenue": 1352100.0,
+      "cost": 1308038.0,
+      "gross_profit": 44062.0,
+      "margin_pct": 0.03258782634420531,
+      "pct_of_total_revenue": 0.009056236778964293,
+      "is_loss_making": 0
+    },
+    {
+      "customer": "XXIII LOUNGE",
+      "invoices": 3,
+      "revenue": 764800.0,
+      "cost": 703612.0,
+      "gross_profit": 61188.0,
+      "margin_pct": 0.08000523012552302,
+      "pct_of_total_revenue": 0.005122557420717322,
+      "is_loss_making": 0
+    },
+    {
+      "customer": "Jeff SR",
+      "invoices": 6,
+      "revenue": 675745.0,
+      "cost": 655035.0,
+      "gross_profit": 20710.0,
+      "margin_pct": 0.030647655550540515,
+      "pct_of_total_revenue": 0.004526075528586071,
+      "is_loss_making": 0
+    },
+    {
+      "customer": "Mr Godswill",
+      "invoices": 12,
+      "revenue": 608870.0,
+      "cost": 584907.0,
+      "gross_profit": 23963.0,
+      "margin_pct": 0.03935651288452379,
+      "pct_of_total_revenue": 0.0040781531599792835,
+      "is_loss_making": 0
+    },
+    {
+      "customer": "MRS IK.",
+      "invoices": 9,
+      "revenue": 573265.0,
+      "cost": 526988.0,
+      "gross_profit": 46277.0,
+      "margin_pct": 0.08072531900604432,
+      "pct_of_total_revenue": 0.003839674267504597,
+      "is_loss_making": 0
+    },
+    {
+      "customer": "Damilola",
+      "invoices": 12,
+      "revenue": 261900.0,
+      "cost": 241913.0,
+      "gross_profit": 19987.0,
+      "margin_pct": 0.07631538755250096,
+      "pct_of_total_revenue": 0.0017541812087942818,
+      "is_loss_making": 0
+    },
+    {
+      "customer": "Amandla",
+      "invoices": 1,
+      "revenue": 260825.0,
+      "cost": 239662.0,
+      "gross_profit": 21163.0,
+      "margin_pct": 0.08113869452698169,
+      "pct_of_total_revenue": 0.0017469809613736866,
+      "is_loss_making": 0
+    },
+    {
+      "customer": "Mr Olayinka",
+      "invoices": 1,
+      "revenue": 178250.0,
+      "cost": 169132.0,
+      "gross_profit": 9118.0,
+      "margin_pct": 0.05115287517531557,
+      "pct_of_total_revenue": 0.0011939014909033245,
+      "is_loss_making": 0
+    },
+    {
+      "customer": "Uche rep",
+      "invoices": 2,
+      "revenue": 152205.0,
+      "cost": 143236.0,
+      "gross_profit": 8969.0,
+      "margin_pct": 0.05892710489142932,
+      "pct_of_total_revenue": 0.0010194545661876045,
+      "is_loss_making": 0
+    },
+    {
+      "customer": "ACCESS Bar",
+      "invoices": 1,
+      "revenue": 128375.0,
+      "cost": 118430.0,
+      "gross_profit": 9945.0,
+      "margin_pct": 0.07746835443037975,
+      "pct_of_total_revenue": 0.0008598435001105992,
+      "is_loss_making": 0
+    },
+    {
+      "customer": "Remilekun",
+      "invoices": 7,
+      "revenue": 108450.0,
+      "cost": 98665.0,
+      "gross_profit": 9785.0,
+      "margin_pct": 0.09022591055786076,
+      "pct_of_total_revenue": 0.0007263877514079414,
+      "is_loss_making": 0
+    },
+    {
+      "customer": "ATW PROMO",
+      "invoices": 1,
+      "revenue": 71360.0,
+      "cost": 69060.0,
+      "gross_profit": 2300.0,
+      "margin_pct": 0.03223094170403588,
+      "pct_of_total_revenue": 0.0004779624706359677,
+      "is_loss_making": 0
+    },
+    {
+      "customer": "Y k BAR",
+      "invoices": 1,
+      "revenue": 45480.0,
+      "cost": 43190.0,
+      "gross_profit": 2290.0,
+      "margin_pct": 0.05035180299032542,
+      "pct_of_total_revenue": 0.00030462070017550185,
+      "is_loss_making": 0
+    },
+    {
+      "customer": "Staff Debit",
+      "invoices": 3,
+      "revenue": 36200.0,
+      "cost": 34781.0,
+      "gross_profit": 1419.0,
+      "margin_pct": 0.03919889502762431,
+      "pct_of_total_revenue": 0.0002424641456981787,
+      "is_loss_making": 0
+    },
+    {
+      "customer": "Breakages",
+      "invoices": 2,
+      "revenue": 9200.0,
+      "cost": 8990.0,
+      "gross_profit": 210.0,
+      "margin_pct": 0.02282608695652174,
+      "pct_of_total_revenue": 6.162072211113934e-05,
+      "is_loss_making": 0
+    }
+  ],
+  "below_floor_pricing": [],
+  "volume_tier_audit": [],
+  "reconciliation_discrepancies": [
+    {
+      "invoice_no": "ann-INV47",
+      "source_tab": "tmp7C22",
+      "date": "2026-06-13",
+      "customer": "Mr Godswill",
+      "gross_revenue": 46000.0,
+      "computed_line_revenue": 51300.0,
+      "diff": 5300.0,
+      "diff_pct": 0.11521739130434783,
+      "tolerance": 460.0
+    },
+    {
+      "invoice_no": "ann-INV121",
+      "source_tab": "tmp7C22",
+      "date": "2026-06-27",
+      "customer": "Walk in Customer",
+      "gross_revenue": 112400.0,
+      "computed_line_revenue": 121900.0,
+      "diff": 9500.0,
+      "diff_pct": 0.08451957295373666,
+      "tolerance": 1124.0
+    },
+    {
+      "invoice_no": "Tayo-INV55",
+      "source_tab": "tmp7C22",
+      "date": "2026-06-06",
+      "customer": "Rita SR",
+      "gross_revenue": 730500.0,
+      "computed_line_revenue": 746025.0,
+      "diff": 15525.0,
+      "diff_pct": 0.021252566735112936,
+      "tolerance": 7305.0
+    },
+    {
+      "invoice_no": "Tayo-INV106",
+      "source_tab": "tmp7C22",
+      "date": "2026-06-13",
+      "customer": "Rita SR",
+      "gross_revenue": 226000.0,
+      "computed_line_revenue": 245000.0,
+      "diff": 19000.0,
+      "diff_pct": 0.084070796460177,
+      "tolerance": 2260.0
+    },
+    {
+      "invoice_no": "ann-INV46",
+      "source_tab": "tmp7C22",
+      "date": "2026-06-13",
+      "customer": "Ameh Mathew",
+      "gross_revenue": 741655.0,
+      "computed_line_revenue": 769255.0,
+      "diff": 27600.0,
+      "diff_pct": 0.037214068535909556,
+      "tolerance": 7416.55
+    },
+    {
+      "invoice_no": "Tayo-INV70",
+      "source_tab": "tmp7C22",
+      "date": "2026-06-08",
+      "customer": "Uche rep",
+      "gross_revenue": 117920.0,
+      "computed_line_revenue": 152205.0,
+      "diff": 34285.0,
+      "diff_pct": 0.29074796472184533,
+      "tolerance": 1179.2
+    },
+    {
+      "invoice_no": "ann-INV45",
+      "source_tab": "tmp7C22",
+      "date": "2026-06-13",
+      "customer": "Ameh Mathew",
+      "gross_revenue": 46270.0,
+      "computed_line_revenue": 88720.0,
+      "diff": 42450.0,
+      "diff_pct": 0.9174411065485195,
+      "tolerance": 462.7
+    },
+    {
+      "invoice_no": "Tayo-INV53",
+      "source_tab": "tmp7C22",
+      "date": "2026-06-05",
+      "customer": "Solomon",
+      "gross_revenue": 43425.0,
+      "computed_line_revenue": 86850.0,
+      "diff": 43425.0,
+      "diff_pct": 1.0,
+      "tolerance": 434.25
+    },
+    {
+      "invoice_no": "Tayo-INV53",
+      "source_tab": "tmp7C22",
+      "date": "2026-06-06",
+      "customer": "Mr Lekan Ojifini",
+      "gross_revenue": 43425.0,
+      "computed_line_revenue": 86850.0,
+      "diff": 43425.0,
+      "diff_pct": 1.0,
+      "tolerance": 434.25
+    },
+    {
+      "invoice_no": "ann-INV47",
+      "source_tab": "tmp7C22",
+      "date": "2026-06-13",
+      "customer": "Damilola",
+      "gross_revenue": 5300.0,
+      "computed_line_revenue": 51300.0,
+      "diff": 46000.0,
+      "diff_pct": 8.679245283018869,
+      "tolerance": 100.0
+    },
+    {
+      "invoice_no": "ann-INV45",
+      "source_tab": "tmp7C22",
+      "date": "2026-06-13",
+      "customer": "Damilola",
+      "gross_revenue": 42450.0,
+      "computed_line_revenue": 88720.0,
+      "diff": 46270.0,
+      "diff_pct": 1.0899882214369847,
+      "tolerance": 424.5
+    },
+    {
+      "invoice_no": "ann-INV77",
+      "source_tab": "tmp7C22",
+      "date": "2026-06-23",
+      "customer": "Solomon",
+      "gross_revenue": 163720.0,
+      "computed_line_revenue": 237920.0,
+      "diff": 74200.0,
+      "diff_pct": 0.45321280234546785,
+      "tolerance": 1637.2
+    },
+    {
+      "invoice_no": "ann-INV121",
+      "source_tab": "tmp7C22",
+      "date": "2026-06-27",
+      "customer": "Remilekun",
+      "gross_revenue": 9500.0,
+      "computed_line_revenue": 121900.0,
+      "diff": 112400.0,
+      "diff_pct": 11.83157894736842,
+      "tolerance": 100.0
+    },
+    {
+      "invoice_no": "Tayo-INV70",
+      "source_tab": "tmp7C22",
+      "date": "2026-06-08",
+      "customer": "Uche rep",
+      "gross_revenue": 34285.0,
+      "computed_line_revenue": 152205.0,
+      "diff": 117920.0,
+      "diff_pct": 3.4394049876039086,
+      "tolerance": 342.85
+    },
+    {
+      "invoice_no": "Tayo-INV54",
+      "source_tab": "tmp7C22",
+      "date": "2026-06-06",
+      "customer": "Rita SR",
+      "gross_revenue": 469500.0,
+      "computed_line_revenue": 621590.0,
+      "diff": 152090.0,
+      "diff_pct": 0.32394036208732696,
+      "tolerance": 4695.0
+    },
+    {
+      "invoice_no": "ann-INV77",
+      "source_tab": "tmp7C22",
+      "date": "2026-06-23",
+      "customer": "Walk in Customer",
+      "gross_revenue": 74200.0,
+      "computed_line_revenue": 237920.0,
+      "diff": 163720.0,
+      "diff_pct": 2.206469002695418,
+      "tolerance": 742.0
+    },
+    {
+      "invoice_no": "Tayo-INV106",
+      "source_tab": "tmp7C22",
+      "date": "2026-06-13",
+      "customer": "Walk in Customer",
+      "gross_revenue": 19000.0,
+      "computed_line_revenue": 245000.0,
+      "diff": 226000.0,
+      "diff_pct": 11.894736842105264,
+      "tolerance": 190.0
+    },
+    {
+      "invoice_no": "Tayo-INV54",
+      "source_tab": "tmp7C22",
+      "date": "2026-06-05",
+      "customer": "Ameh Mathew",
+      "gross_revenue": 152090.0,
+      "computed_line_revenue": 621590.0,
+      "diff": 469500.0,
+      "diff_pct": 3.086987967650733,
+      "tolerance": 1520.9
+    },
+    {
+      "invoice_no": "Tayo-INV55",
+      "source_tab": "tmp7C22",
+      "date": "2026-06-05",
+      "customer": "Mr Godswill",
+      "gross_revenue": 15525.0,
+      "computed_line_revenue": 746025.0,
+      "diff": 730500.0,
+      "diff_pct": 47.05314009661836,
+      "tolerance": 155.25
+    },
+    {
+      "invoice_no": "ann-INV46",
+      "source_tab": "tmp7C22",
+      "date": "2026-06-13",
+      "customer": "Ameh Mathew",
+      "gross_revenue": 27600.0,
+      "computed_line_revenue": 769255.0,
+      "diff": 741655.0,
+      "diff_pct": 26.871557971014493,
+      "tolerance": 276.0
+    },
+    {
+      "invoice_no": "Tayo-INV130",
+      "source_tab": "tmp7C22",
+      "date": "2026-06-19",
+      "customer": "Walk in Customer",
+      "gross_revenue": 19000.0,
+      "computed_line_revenue": 4984050.0,
+      "diff": 4965050.0,
+      "diff_pct": 261.3184210526316,
+      "tolerance": 190.0
+    }
+  ],
+  "anomalies": [
+    {
+      "row": 1501,
+      "source_tab": "tmp7C22",
+      "raw": [
+        "TOTAL ( 259 Transactions)",
+        null,
+        null,
+        null,
+        17659.0,
+        "NGN149,300,425",
+        "NGN149,219,865",
+        "NGN80,560",
+        "NGN149,300,425",
+        "NGN147,382,471",
+        "NGN1,917,954",
+        1.0,
+        null
+      ],
+      "reason": "Row outside a known block: no date+invoice_no, not blank."
+    },
+    {
+      "row": 5,
+      "source_tab": "tmp3F5D",
+      "type": "zero_or_negative_inventory_rate",
+      "item": "Guiness",
+      "rate": 0.0,
+      "reason": "Negative or zero inventory cost in tmp3F5D: rate=0.0"
+    },
+    {
+      "row": 6,
+      "source_tab": "tmp3F5D",
+      "type": "zero_or_negative_inventory_rate",
+      "item": "Can",
+      "rate": 0.0,
+      "reason": "Negative or zero inventory cost in tmp3F5D: rate=0.0"
+    },
+    {
+      "row": 8,
+      "source_tab": "tmp3F5D",
+      "type": "zero_or_negative_inventory_rate",
+      "item": "RGB",
+      "rate": 0.0,
+      "reason": "Negative or zero inventory cost in tmp3F5D: rate=0.0"
+    },
+    {
+      "row": 11,
+      "source_tab": "tmp3F5D",
+      "type": "negative_or_zero_inventory_units",
+      "item": "ORIJIN BT",
+      "units": 0.0,
+      "reason": "Negative or zero inventory units in tmp3F5D: units=0.0"
+    },
+    {
+      "row": 11,
+      "source_tab": "tmp3F5D",
+      "type": "zero_or_negative_inventory_rate",
+      "item": "ORIJIN BT",
+      "rate": 0.0,
+      "reason": "Negative or zero inventory cost in tmp3F5D: rate=0.0"
+    },
+    {
+      "row": 12,
+      "source_tab": "tmp3F5D",
+      "type": "negative_or_zero_inventory_units",
+      "item": "Small Guinness Stout",
+      "units": 0.0,
+      "reason": "Negative or zero inventory units in tmp3F5D: units=0.0"
+    },
+    {
+      "row": 12,
+      "source_tab": "tmp3F5D",
+      "type": "zero_or_negative_inventory_rate",
+      "item": "Small Guinness Stout",
+      "rate": 0.0,
+      "reason": "Negative or zero inventory cost in tmp3F5D: rate=0.0"
+    },
+    {
+      "row": 14,
+      "source_tab": "tmp3F5D",
+      "type": "zero_or_negative_inventory_rate",
+      "item": "IntlB",
+      "rate": 0.0,
+      "reason": "Negative or zero inventory cost in tmp3F5D: rate=0.0"
+    },
+    {
+      "row": 15,
+      "source_tab": "tmp3F5D",
+      "type": "negative_or_zero_inventory_units",
+      "item": "Can",
+      "units": 0.0,
+      "reason": "Negative or zero inventory units in tmp3F5D: units=0.0"
+    },
+    {
+      "row": 15,
+      "source_tab": "tmp3F5D",
+      "type": "zero_or_negative_inventory_rate",
+      "item": "Can",
+      "rate": 0.0,
+      "reason": "Negative or zero inventory cost in tmp3F5D: rate=0.0"
+    },
+    {
+      "row": 16,
+      "source_tab": "tmp3F5D",
+      "type": "negative_or_zero_inventory_units",
+      "item": "TROPHY CAN",
+      "units": 0.0,
+      "reason": "Negative or zero inventory units in tmp3F5D: units=0.0"
+    },
+    {
+      "row": 16,
+      "source_tab": "tmp3F5D",
+      "type": "zero_or_negative_inventory_rate",
+      "item": "TROPHY CAN",
+      "rate": 0.0,
+      "reason": "Negative or zero inventory cost in tmp3F5D: rate=0.0"
+    },
+    {
+      "row": 17,
+      "source_tab": "tmp3F5D",
+      "type": "zero_or_negative_inventory_rate",
+      "item": "RGB",
+      "rate": 0.0,
+      "reason": "Negative or zero inventory cost in tmp3F5D: rate=0.0"
+    },
+    {
+      "row": 21,
+      "source_tab": "tmp3F5D",
+      "type": "zero_or_negative_inventory_rate",
+      "item": "NB PLC",
+      "rate": 0.0,
+      "reason": "Negative or zero inventory cost in tmp3F5D: rate=0.0"
+    },
+    {
+      "row": 22,
+      "source_tab": "tmp3F5D",
+      "type": "zero_or_negative_inventory_rate",
+      "item": "Can",
+      "rate": 0.0,
+      "reason": "Negative or zero inventory cost in tmp3F5D: rate=0.0"
+    },
+    {
+      "row": 33,
+      "source_tab": "tmp3F5D",
+      "type": "zero_or_negative_inventory_rate",
+      "item": "Pet",
+      "rate": 0.0,
+      "reason": "Negative or zero inventory cost in tmp3F5D: rate=0.0"
+    },
+    {
+      "row": 35,
+      "source_tab": "tmp3F5D",
+      "type": "negative_or_zero_inventory_units",
+      "item": "Fayrouz Pet",
+      "units": 0.0,
+      "reason": "Negative or zero inventory units in tmp3F5D: units=0.0"
+    },
+    {
+      "row": 35,
+      "source_tab": "tmp3F5D",
+      "type": "zero_or_negative_inventory_rate",
+      "item": "Fayrouz Pet",
+      "rate": 0.0,
+      "reason": "Negative or zero inventory cost in tmp3F5D: rate=0.0"
+    },
+    {
+      "row": 36,
+      "source_tab": "tmp3F5D",
+      "type": "negative_or_zero_inventory_units",
+      "item": "Maltina Pet 25cl",
+      "units": 0.0,
+      "reason": "Negative or zero inventory units in tmp3F5D: units=0.0"
+    },
+    {
+      "row": 36,
+      "source_tab": "tmp3F5D",
+      "type": "zero_or_negative_inventory_rate",
+      "item": "Maltina Pet 25cl",
+      "rate": 0.0,
+      "reason": "Negative or zero inventory cost in tmp3F5D: rate=0.0"
+    },
+    {
+      "row": 39,
+      "source_tab": "tmp3F5D",
+      "type": "zero_or_negative_inventory_rate",
+      "item": "RGB",
+      "rate": 0.0,
+      "reason": "Negative or zero inventory cost in tmp3F5D: rate=0.0"
+    },
+    {
+      "row": 45,
+      "source_tab": "tmp3F5D",
+      "type": "zero_or_negative_inventory_rate",
+      "item": "Goldberg Black Promo",
+      "rate": 0.0,
+      "reason": "Negative or zero inventory cost in tmp3F5D: rate=0.0"
+    },
+    {
+      "row": 56,
+      "source_tab": "tmp3F5D",
+      "type": "zero_or_negative_inventory_rate",
+      "item": "RGB Premium",
+      "rate": 0.0,
+      "reason": "Negative or zero inventory cost in tmp3F5D: rate=0.0"
+    },
+    {
+      "row": 60,
+      "source_tab": "tmp3F5D",
+      "type": "zero_or_negative_inventory_rate",
+      "item": "Wines",
+      "rate": 0.0,
+      "reason": "Negative or zero inventory cost in tmp3F5D: rate=0.0"
+    },
+    {
+      "row": 63,
+      "source_tab": "tmp3F5D",
+      "type": "zero_or_negative_inventory_rate",
+      "item": "default",
+      "rate": 0.0,
+      "reason": "Negative or zero inventory cost in tmp3F5D: rate=0.0"
+    },
+    {
+      "row": 64,
+      "source_tab": "tmp3F5D",
+      "type": "zero_or_negative_inventory_rate",
+      "item": "default",
+      "rate": 0.0,
+      "reason": "Negative or zero inventory cost in tmp3F5D: rate=0.0"
+    },
+    {
+      "row": 66,
+      "source_tab": "tmp3F5D",
+      "type": "zero_or_negative_inventory_rate",
+      "item": "GNS EMPTIES",
+      "rate": -7186.0,
+      "reason": "Negative or zero inventory cost in tmp3F5D: rate=-7186.0"
+    }
+  ],
+  "loss_making_invoices": [
+    {
+      "invoice_no": "ann-INV106",
+      "source_tab": "tmp7C22",
+      "date": "2026-06-25",
+      "customer": "Stella SR",
+      "gross_revenue": 1215200.0,
+      "invoice_cost": 1289600.0,
+      "gross_profit": -74400.0,
+      "pct_profit": -6.0
+    },
+    {
+      "invoice_no": "ann-INV135",
+      "source_tab": "tmp7C22",
+      "date": "2026-06-30",
+      "customer": "Eniola Marketer",
+      "gross_revenue": 1624450.0,
+      "invoice_cost": 1693829.0,
+      "gross_profit": -69379.0,
+      "pct_profit": -4.0
+    },
+    {
+      "invoice_no": "Tayo-INV118",
+      "source_tab": "tmp7C22",
+      "date": "2026-06-16",
+      "customer": "Alhaja Ijebu Ode.",
+      "gross_revenue": 7198200.0,
+      "invoice_cost": 7236932.0,
+      "gross_profit": -38732.0,
+      "pct_profit": -1.0
+    },
+    {
+      "invoice_no": "PC1-INV1",
+      "source_tab": "tmp7C22",
+      "date": "2026-06-13",
+      "customer": "Seun Ijebu",
+      "gross_revenue": 3612000.0,
+      "invoice_cost": 3642852.0,
+      "gross_profit": -30852.0,
+      "pct_profit": -1.0
+    },
+    {
+      "invoice_no": "ann-INV101",
+      "source_tab": "tmp7C22",
+      "date": "2026-06-25",
+      "customer": "Rita SR",
+      "gross_revenue": 490000.0,
+      "invoice_cost": 520000.0,
+      "gross_profit": -30000.0,
+      "pct_profit": -6.0
+    },
+    {
+      "invoice_no": "ann-INV96",
+      "source_tab": "tmp7C22",
+      "date": "2026-06-24",
+      "customer": "Solomon",
+      "gross_revenue": 750000.0,
+      "invoice_cost": 780000.0,
+      "gross_profit": -30000.0,
+      "pct_profit": -4.0
+    },
+    {
+      "invoice_no": "ann-INV122",
+      "source_tab": "tmp7C22",
+      "date": "2026-06-27",
+      "customer": "Mr Lekan Ojifini",
+      "gross_revenue": 490000.0,
+      "invoice_cost": 520000.0,
+      "gross_profit": -30000.0,
+      "pct_profit": -6.0
+    },
+    {
+      "invoice_no": "ann-INV137",
+      "source_tab": "tmp7C22",
+      "date": "2026-06-30",
+      "customer": "DESOLA STORE",
+      "gross_revenue": 1425200.0,
+      "invoice_cost": 1443300.0,
+      "gross_profit": -18100.0,
+      "pct_profit": -1.0
+    },
+    {
+      "invoice_no": "Tayo-INV46",
+      "source_tab": "tmp7C22",
+      "date": "2026-06-05",
+      "customer": "M J STORE",
+      "gross_revenue": 2861150.0,
+      "invoice_cost": 2878989.0,
+      "gross_profit": -17839.0,
+      "pct_profit": -1.0
+    },
+    {
+      "invoice_no": "ann-INV111",
+      "source_tab": "tmp7C22",
+      "date": "2026-06-26",
+      "customer": "Ameh Mathew",
+      "gross_revenue": 296835.0,
+      "invoice_cost": 309449.0,
+      "gross_profit": -12614.0,
+      "pct_profit": -4.0
+    },
+    {
+      "invoice_no": "ann-INV102",
+      "source_tab": "tmp7C22",
+      "date": "2026-06-25",
+      "customer": "Rita SR",
+      "gross_revenue": 196000.0,
+      "invoice_cost": 208000.0,
+      "gross_profit": -12000.0,
+      "pct_profit": -6.0
+    },
+    {
+      "invoice_no": "ann-INV94",
+      "source_tab": "tmp7C22",
+      "date": "2026-06-24",
+      "customer": "Ameh Mathew",
+      "gross_revenue": 250000.0,
+      "invoice_cost": 260000.0,
+      "gross_profit": -10000.0,
+      "pct_profit": -4.0
+    },
+    {
+      "invoice_no": "ann-INV112",
+      "source_tab": "tmp7C22",
+      "date": "2026-06-26",
+      "customer": "Ameh Mathew",
+      "gross_revenue": 147000.0,
+      "invoice_cost": 156000.0,
+      "gross_profit": -9000.0,
+      "pct_profit": -6.0
+    },
+    {
+      "invoice_no": "Tayo-INV107",
+      "source_tab": "tmp7C22",
+      "date": "2026-06-13",
+      "customer": "Rita SR",
+      "gross_revenue": 264000.0,
+      "invoice_cost": 270028.0,
+      "gross_profit": -6028.0,
+      "pct_profit": -2.0
+    },
+    {
+      "invoice_no": "Tayo-INV111",
+      "source_tab": "tmp7C22",
+      "date": "2026-06-15",
+      "customer": "Delayers",
+      "gross_revenue": 444290.0,
+      "invoice_cost": 447863.0,
+      "gross_profit": -3573.0,
+      "pct_profit": -1.0
+    },
+    {
+      "invoice_no": "Tayo-INV52",
+      "source_tab": "tmp7C22",
+      "date": "2026-06-05",
+      "customer": "WURAOLA",
+      "gross_revenue": 4304060.0,
+      "invoice_cost": 4307353.0,
+      "gross_profit": -3293.0,
+      "pct_profit": 0.0
+    },
+    {
+      "invoice_no": "ann-INV20",
+      "source_tab": "tmp7C22",
+      "date": "2026-06-03",
+      "customer": "Walk in Customer",
+      "gross_revenue": 132000.0,
+      "invoice_cost": 135014.0,
+      "gross_profit": -3014.0,
+      "pct_profit": -2.0
+    },
+    {
+      "invoice_no": "ann-INV85",
+      "source_tab": "tmp7C22",
+      "date": "2026-06-23",
+      "customer": "TD Odiolowo",
+      "gross_revenue": 602000.0,
+      "invoice_cost": 604621.0,
+      "gross_profit": -2621.0,
+      "pct_profit": 0.0
+    },
+    {
+      "invoice_no": "ann-INV62",
+      "source_tab": "tmp7C22",
+      "date": "2026-06-20",
+      "customer": "TD Odiolowo",
+      "gross_revenue": 258000.0,
+      "invoice_cost": 259123.0,
+      "gross_profit": -1123.0,
+      "pct_profit": 0.0
+    },
+    {
+      "invoice_no": "ann-INV116",
+      "source_tab": "tmp7C22",
+      "date": "2026-06-26",
+      "customer": "TD Odiolowo",
+      "gross_revenue": 129000.0,
+      "invoice_cost": 129562.0,
+      "gross_profit": -562.0,
+      "pct_profit": 0.0
+    },
+    {
+      "invoice_no": "ann-INV140",
+      "source_tab": "tmp7C22",
+      "date": "2026-06-30",
+      "customer": "TD Odiolowo",
+      "gross_revenue": 131300.0,
+      "invoice_cost": 131787.0,
+      "gross_profit": -487.0,
+      "pct_profit": 0.0
+    },
+    {
+      "invoice_no": "Tayo-INV129",
+      "source_tab": "tmp7C22",
+      "date": "2026-06-19",
+      "customer": "TD Odiolowo",
+      "gross_revenue": 86000.0,
+      "invoice_cost": 86374.0,
+      "gross_profit": -374.0,
+      "pct_profit": 0.0
+    },
+    {
+      "invoice_no": "ann-INV70",
+      "source_tab": "tmp7C22",
+      "date": "2026-06-22",
+      "customer": "TD Odiolowo",
+      "gross_revenue": 86000.0,
+      "invoice_cost": 86374.0,
+      "gross_profit": -374.0,
+      "pct_profit": 0.0
+    },
+    {
+      "invoice_no": "ann-INV124",
+      "source_tab": "tmp7C22",
+      "date": "2026-06-27",
+      "customer": "TD Odiolowo",
+      "gross_revenue": 50500.0,
+      "invoice_cost": 50687.0,
+      "gross_profit": -187.0,
+      "pct_profit": 0.0
+    }
+  ],
+  "loss_making_customers": [
+    {
+      "customer": "Stella SR",
+      "invoices": 7,
+      "revenue": 4470885.0,
+      "cost": 4519805.0,
+      "gross_profit": -48920.0,
+      "margin_pct": -0.010941905238000977,
+      "pct_of_total_revenue": 0.02994556110607187,
+      "is_loss_making": 1
+    },
+    {
+      "customer": "Seun Ijebu",
+      "invoices": 1,
+      "revenue": 3612000.0,
+      "cost": 3642852.0,
+      "gross_profit": -30852.0,
+      "margin_pct": -0.008541528239202657,
+      "pct_of_total_revenue": 0.024192831333199487,
+      "is_loss_making": 1
+    },
+    {
+      "customer": "DESOLA STORE",
+      "invoices": 1,
+      "revenue": 1425200.0,
+      "cost": 1443300.0,
+      "gross_profit": -18100.0,
+      "margin_pct": -0.012699971933763682,
+      "pct_of_total_revenue": 0.009545853603564759,
+      "is_loss_making": 1
+    },
+    {
+      "customer": "M J STORE",
+      "invoices": 1,
+      "revenue": 2861150.0,
+      "cost": 2878989.0,
+      "gross_profit": -17839.0,
+      "margin_pct": -0.006234905544973175,
+      "pct_of_total_revenue": 0.019163709681335468,
+      "is_loss_making": 1
+    },
+    {
+      "customer": "Eniola Marketer",
+      "invoices": 6,
+      "revenue": 3779850.0,
+      "cost": 3792591.0,
+      "gross_profit": -12741.0,
+      "margin_pct": -0.0033707686812968767,
+      "pct_of_total_revenue": 0.025317074616498916,
+      "is_loss_making": 1
+    },
+    {
+      "customer": "Solomon",
+      "invoices": 10,
+      "revenue": 1707110.0,
+      "cost": 1708449.0,
+      "gross_profit": -1339.0,
+      "margin_pct": -0.0007843665610300449,
+      "pct_of_total_revenue": 0.011434059882950768,
+      "is_loss_making": 1
+    }
+  ],
+  "match_quality": {
+    "total_products": 38,
+    "counts": {
+      "exact": 0,
+      "fuzzy": 0,
+      "manual_override": 5,
+      "fuzzy_no_size_match": 0,
+      "unmatched": 33
+    },
+    "unmatched_products": [
+      "Maltina Pet 33cl",
+      "Goldberg 60cl",
+      "33 Export 60cl",
+      "Heineken Bottle 60cl",
+      "Desperados Bottle",
+      "33 Export Can",
+      "Maltina Can",
+      "Star Radler 45cl",
+      "Desperados Can",
+      "Trophy",
+      "Gulder Bottle",
+      "Medium Stout",
+      "Tiger Bottle",
+      "Legend 45cl",
+      "Maltina Bottle",
+      "Maltina Pet 50cl",
+      "Turbo King Bottle 60cl",
+      "Heineken Sleek Can",
+      "Legend Bottle 60cl",
+      "ACE BITTERS",
+      "Goldberg Black 45cl",
+      "Goldberg Black Promo",
+      "Heineken Bottle 45cl",
+      "STK 33cl",
+      "Star Bottle 60cl",
+      "NB Empties",
+      "Legend Can 44cl",
+      "Goldberg Can 50cl",
+      "Chamdor 75cl",
+      "Williams Bottle 60cl",
+      "Smirnoff Ice.",
+      "Castle Lite",
+      "Heineken Can 50cl"
+    ]
+  },
+  "concentration_metrics": {
+    "top_n": 10,
+    "top_n_revenue": 126253310.0,
+    "total_revenue": 148569925.0,
+    "top_n_pct": 0.8497904942739926
+  },
+  "dominant_products": [
+    {
+      "product_raw": "Goldberg 60cl",
+      "cases_sold": 3924.0,
+      "revenue": 34451900.0,
+      "pct_of_total": 0.2318901352343013,
+      "is_dominant": 1
+    },
+    {
+      "product_raw": "Maltina Pet 33cl",
+      "cases_sold": 6521.0,
+      "revenue": 33603500.0,
+      "pct_of_total": 0.22617969282814135,
+      "is_dominant": 1
+    }
+  ],
+  "loss_making_invoices_count": 24,
+  "anomalies_count": 28,
+  "true_cost_products": [
+    {
+      "product_raw": "Goldberg 60cl",
+      "cases_sold": 3924.0,
+      "revenue": 34451900.0,
+      "tmp3f5d_cost": 8657.0,
+      "avg_selling_price": 8779.791029561671,
+      "total_cost": 33970068.0,
+      "price_diff": 122.79102956167117,
+      "price_diff_pct": 0.01418401635227806,
+      "gross_profit": 481832.0,
+      "gross_profit_pct": 0.013985643752594196
+    },
+    {
+      "product_raw": "Maltina Pet 33cl",
+      "cases_sold": 6521.0,
+      "revenue": 33603500.0,
+      "tmp3f5d_cost": 5200.0,
+      "avg_selling_price": 5153.120687011195,
+      "total_cost": 33909200.0,
+      "price_diff": -46.879312988805395,
+      "price_diff_pct": -0.009015252497847192,
+      "gross_profit": -305700.0,
+      "gross_profit_pct": -0.009097266653771184
+    },
+    {
+      "product_raw": "33 Export 60cl",
+      "cases_sold": 2448.0,
+      "revenue": 22246230.0,
+      "tmp3f5d_cost": 8990.0,
+      "avg_selling_price": 9087.512254901962,
+      "total_cost": 22007520.0,
+      "price_diff": 97.51225490196157,
+      "price_diff_pct": 0.01084674693014033,
+      "gross_profit": 238710.0,
+      "gross_profit_pct": 0.010730357458319904
+    },
+    {
+      "product_raw": "Heineken Bottle 60cl",
+      "cases_sold": 824.0,
+      "revenue": 10845705.0,
+      "tmp3f5d_cost": 12746.0,
+      "avg_selling_price": 13162.263349514564,
+      "total_cost": 10502704.0,
+      "price_diff": 416.26334951456374,
+      "price_diff_pct": 0.03265835160164473,
+      "gross_profit": 343001.0,
+      "gross_profit_pct": 0.03162551443174971
+    },
+    {
+      "product_raw": "Maltina Bottle",
+      "cases_sold": 428.0,
+      "revenue": 5619200.0,
+      "tmp3f5d_cost": 12920.0,
+      "avg_selling_price": 13128.971962616823,
+      "total_cost": 5529760.0,
+      "price_diff": 208.97196261682257,
+      "price_diff_pct": 0.01617430051213797,
+      "gross_profit": 89440.0,
+      "gross_profit_pct": 0.015916856492027336
+    },
+    {
+      "product_raw": "Desperados Bottle",
+      "cases_sold": 252.0,
+      "revenue": 5237985.0,
+      "tmp3f5d_cost": 20440.0,
+      "avg_selling_price": 20785.654761904763,
+      "total_cost": 5150880.0,
+      "price_diff": 345.6547619047633,
+      "price_diff_pct": 0.01691070263721934,
+      "gross_profit": 87105.0,
+      "gross_profit_pct": 0.01662948633873522
+    },
+    {
+      "product_raw": "Gulder Bottle",
+      "cases_sold": 413.0,
+      "revenue": 4718490.0,
+      "tmp3f5d_cost": 11315.0,
+      "avg_selling_price": 11424.915254237289,
+      "total_cost": 4673095.0,
+      "price_diff": 109.91525423728854,
+      "price_diff_pct": 0.009714118801351174,
+      "gross_profit": 45395.0,
+      "gross_profit_pct": 0.009620662542465916
+    },
+    {
+      "product_raw": "Heineken Sleek Can",
+      "cases_sold": 216.0,
+      "revenue": 3842745.0,
+      "tmp3f5d_cost": 17100.0,
+      "avg_selling_price": 17790.48611111111,
+      "total_cost": 3693600.0,
+      "price_diff": 690.4861111111095,
+      "price_diff_pct": 0.040379304743339735,
+      "gross_profit": 149145.0,
+      "gross_profit_pct": 0.0388120991634886
+    },
+    {
+      "product_raw": "33 Export Can",
+      "cases_sold": 185.0,
+      "revenue": 2945245.0,
+      "tmp3f5d_cost": 15555.0,
+      "avg_selling_price": 15920.243243243243,
+      "total_cost": 2877675.0,
+      "price_diff": 365.24324324324334,
+      "price_diff_pct": 0.02348076137854345,
+      "gross_profit": 67570.0,
+      "gross_profit_pct": 0.022942064242533304
+    },
+    {
+      "product_raw": "Star Radler 45cl",
+      "cases_sold": 188.0,
+      "revenue": 2742310.0,
+      "tmp3f5d_cost": 14475.0,
+      "avg_selling_price": 14586.755319148937,
+      "total_cost": 2721300.0,
+      "price_diff": 111.7553191489369,
+      "price_diff_pct": 0.007720574725315158,
+      "gross_profit": 21010.0,
+      "gross_profit_pct": 0.007661424127833834
+    },
+    {
+      "product_raw": "Goldberg Can 50cl",
+      "cases_sold": 146.0,
+      "revenue": 2348130.0,
+      "tmp3f5d_cost": 15247.0,
+      "avg_selling_price": 16083.082191780823,
+      "total_cost": 2226062.0,
+      "price_diff": 836.0821917808225,
+      "price_diff_pct": 0.05483584913627747,
+      "gross_profit": 122068.0,
+      "gross_profit_pct": 0.051985196731015745
+    },
+    {
+      "product_raw": "Desperados Can",
+      "cases_sold": 100.0,
+      "revenue": 2210070.0,
+      "tmp3f5d_cost": 21595.0,
+      "avg_selling_price": 22100.7,
+      "total_cost": 2159500.0,
+      "price_diff": 505.7000000000007,
+      "price_diff_pct": 0.023417457744848377,
+      "gross_profit": 50570.0,
+      "gross_profit_pct": 0.022881628183722687
+    },
+    {
+      "product_raw": "Maltina Can",
+      "cases_sold": 161.0,
+      "revenue": 2126200.0,
+      "tmp3f5d_cost": 13501.0,
+      "avg_selling_price": 13206.211180124224,
+      "total_cost": 2173661.0,
+      "price_diff": -294.7888198757755,
+      "price_diff_pct": -0.02183459150253874,
+      "gross_profit": -47461.0,
+      "gross_profit_pct": -0.022321982880255855
+    },
+    {
+      "product_raw": "Turbo King Bottle 60cl",
+      "cases_sold": 229.0,
+      "revenue": 2042780.0,
+      "tmp3f5d_cost": 8525.0,
+      "avg_selling_price": 8920.436681222707,
+      "total_cost": 1952225.0,
+      "price_diff": 395.4366812227072,
+      "price_diff_pct": 0.046385534454276504,
+      "gross_profit": 90555.0,
+      "gross_profit_pct": 0.04432929635105102
+    },
+    {
+      "product_raw": "Fayrouz Can",
+      "cases_sold": 147.0,
+      "revenue": 1966850.0,
+      "tmp3f5d_cost": 12855.0,
+      "avg_selling_price": 13379.931972789116,
+      "total_cost": 1889685.0,
+      "price_diff": 524.9319727891161,
+      "price_diff_pct": 0.04083484813606504,
+      "gross_profit": 77165.0,
+      "gross_profit_pct": 0.03923278338459974
+    },
+    {
+      "product_raw": "Trophy",
+      "cases_sold": 223.0,
+      "revenue": 1852800.0,
+      "tmp3f5d_cost": 8118.0,
+      "avg_selling_price": 8308.520179372197,
+      "total_cost": 1810314.0,
+      "price_diff": 190.52017937219716,
+      "price_diff_pct": 0.02346885678396122,
+      "gross_profit": 42486.0,
+      "gross_profit_pct": 0.022930699481865286
+    },
+    {
+      "product_raw": "Goldberg Black 45cl",
+      "cases_sold": 132.0,
+      "revenue": 1832340.0,
+      "tmp3f5d_cost": 13520.0,
+      "avg_selling_price": 13881.363636363636,
+      "total_cost": 1784640.0,
+      "price_diff": 361.36363636363603,
+      "price_diff_pct": 0.026728079612694973,
+      "gross_profit": 47700.0,
+      "gross_profit_pct": 0.026032286584367532
+    },
+    {
+      "product_raw": "Legend Bottle 60cl",
+      "cases_sold": 139.0,
+      "revenue": 1574685.0,
+      "tmp3f5d_cost": 10915.0,
+      "avg_selling_price": 11328.669064748201,
+      "total_cost": 1517185.0,
+      "price_diff": 413.669064748201,
+      "price_diff_pct": 0.03789913557015126,
+      "gross_profit": 57500.0,
+      "gross_profit_pct": 0.03651523955584768
+    },
+    {
+      "product_raw": "Fayrouz Bottle",
+      "cases_sold": 110.0,
+      "revenue": 1117850.0,
+      "tmp3f5d_cost": 9925.0,
+      "avg_selling_price": 10162.272727272728,
+      "total_cost": 1091750.0,
+      "price_diff": 237.27272727272793,
+      "price_diff_pct": 0.02390657201740332,
+      "gross_profit": 26100.0,
+      "gross_profit_pct": 0.023348392002504808
+    },
+    {
+      "product_raw": "Heineken Bottle 45cl",
+      "cases_sold": 60.0,
+      "revenue": 1070400.0,
+      "tmp3f5d_cost": 17265.0,
+      "avg_selling_price": 17840.0,
+      "total_cost": 1035900.0,
+      "price_diff": 575.0,
+      "price_diff_pct": 0.0333043730089777,
+      "gross_profit": 34500.0,
+      "gross_profit_pct": 0.03223094170403588
+    },
+    {
+      "product_raw": "Amstel Bottle",
+      "cases_sold": 43.0,
+      "revenue": 624300.0,
+      "tmp3f5d_cost": 13780.0,
+      "avg_selling_price": 14518.60465116279,
+      "total_cost": 592540.0,
+      "price_diff": 738.6046511627901,
+      "price_diff_pct": 0.05359975697843179,
+      "gross_profit": 31760.0,
+      "gross_profit_pct": 0.050872977735063274
+    },
+    {
+      "product_raw": "Tiger Bottle",
+      "cases_sold": 37.0,
+      "revenue": 574425.0,
+      "tmp3f5d_cost": 14900.0,
+      "avg_selling_price": 15525.0,
+      "total_cost": 551300.0,
+      "price_diff": 625.0,
+      "price_diff_pct": 0.04194630872483222,
+      "gross_profit": 23125.0,
+      "gross_profit_pct": 0.040257648953301126
+    },
+    {
+      "product_raw": "ACE BITTERS",
+      "cases_sold": 25.0,
+      "revenue": 516375.0,
+      "tmp3f5d_cost": 19305.0,
+      "avg_selling_price": 20655.0,
+      "total_cost": 482625.0,
+      "price_diff": 1350.0,
+      "price_diff_pct": 0.06993006993006994,
+      "gross_profit": 33750.0,
+      "gross_profit_pct": 0.06535947712418301
+    },
+    {
+      "product_raw": "STK 33cl",
+      "cases_sold": 36.0,
+      "revenue": 478700.0,
+      "tmp3f5d_cost": 12390.0,
+      "avg_selling_price": 13297.222222222223,
+      "total_cost": 446040.0,
+      "price_diff": 907.2222222222226,
+      "price_diff_pct": 0.07322213254416647,
+      "gross_profit": 32660.0,
+      "gross_profit_pct": 0.06822644662627951
+    },
+    {
+      "product_raw": "Maltina Pet 50cl",
+      "cases_sold": 58.0,
+      "revenue": 465495.0,
+      "tmp3f5d_cost": 7685.0,
+      "avg_selling_price": 8025.775862068966,
+      "total_cost": 445730.0,
+      "price_diff": 340.7758620689656,
+      "price_diff_pct": 0.04434298790747763,
+      "gross_profit": 19765.0,
+      "gross_profit_pct": 0.04246017680103975
+    },
+    {
+      "product_raw": "Amstel Can",
+      "cases_sold": 32.0,
+      "revenue": 461760.0,
+      "tmp3f5d_cost": 13911.0,
+      "avg_selling_price": 14430.0,
+      "total_cost": 445152.0,
+      "price_diff": 519.0,
+      "price_diff_pct": 0.03730860470131551,
+      "gross_profit": 16608.0,
+      "gross_profit_pct": 0.03596673596673597
+    },
+    {
+      "product_raw": "CLIMAX CAN",
+      "cases_sold": 27.0,
+      "revenue": 347895.0,
+      "tmp3f5d_cost": 12120.0,
+      "avg_selling_price": 12885.0,
+      "total_cost": 327240.0,
+      "price_diff": 765.0,
+      "price_diff_pct": 0.06311881188118812,
+      "gross_profit": 20655.0,
+      "gross_profit_pct": 0.059371362048894066
+    },
+    {
+      "product_raw": "Legend 45cl",
+      "cases_sold": 12.0,
+      "revenue": 191340.0,
+      "tmp3f5d_cost": 15375.0,
+      "avg_selling_price": 15945.0,
+      "total_cost": 184500.0,
+      "price_diff": 570.0,
+      "price_diff_pct": 0.037073170731707315,
+      "gross_profit": 6840.0,
+      "gross_profit_pct": 0.03574788334901223
+    },
+    {
+      "product_raw": "Star Bottle 60cl",
+      "cases_sold": 15.0,
+      "revenue": 173935.0,
+      "tmp3f5d_cost": 11130.0,
+      "avg_selling_price": 11595.666666666666,
+      "total_cost": 166950.0,
+      "price_diff": 465.66666666666606,
+      "price_diff_pct": 0.041838873914345556,
+      "gross_profit": 6985.0,
+      "gross_profit_pct": 0.04015867996665421
+    },
+    {
+      "product_raw": "Medium Stout",
+      "cases_sold": 8.0,
+      "revenue": 146100.0,
+      "tmp3f5d_cost": 17150.0,
+      "avg_selling_price": 18262.5,
+      "total_cost": 137200.0,
+      "price_diff": 1112.5,
+      "price_diff_pct": 0.06486880466472303,
+      "gross_profit": 8900.0,
+      "gross_profit_pct": 0.06091718001368925
+    },
+    {
+      "product_raw": "Chamdor 75cl",
+      "cases_sold": 2.0,
+      "revenue": 56890.0,
+      "tmp3f5d_cost": 25930.0,
+      "avg_selling_price": 28445.0,
+      "total_cost": 51860.0,
+      "price_diff": 2515.0,
+      "price_diff_pct": 0.09699190127265715,
+      "gross_profit": 5030.0,
+      "gross_profit_pct": 0.08841624187027597
+    },
+    {
+      "product_raw": "Williams Bottle 60cl",
+      "cases_sold": 5.0,
+      "revenue": 46725.0,
+      "tmp3f5d_cost": 8970.0,
+      "avg_selling_price": 9345.0,
+      "total_cost": 44850.0,
+      "price_diff": 375.0,
+      "price_diff_pct": 0.04180602006688963,
+      "gross_profit": 1875.0,
+      "gross_profit_pct": 0.04012841091492777
+    },
+    {
+      "product_raw": "Smirnoff Ice.",
+      "cases_sold": 2.0,
+      "revenue": 35200.0,
+      "tmp3f5d_cost": 16350.0,
+      "avg_selling_price": 17600.0,
+      "total_cost": 32700.0,
+      "price_diff": 1250.0,
+      "price_diff_pct": 0.0764525993883792,
+      "gross_profit": 2500.0,
+      "gross_profit_pct": 0.07102272727272728
+    },
+    {
+      "product_raw": "Heineken Can 50cl",
+      "cases_sold": 1.0,
+      "revenue": 24000.0,
+      "tmp3f5d_cost": 22775.0,
+      "avg_selling_price": 24000.0,
+      "total_cost": 22775.0,
+      "price_diff": 1225.0,
+      "price_diff_pct": 0.05378704720087816,
+      "gross_profit": 1225.0,
+      "gross_profit_pct": 0.051041666666666666
+    },
+    {
+      "product_raw": "Legend Can 44cl",
+      "cases_sold": 1.0,
+      "revenue": 21170.0,
+      "tmp3f5d_cost": 20405.0,
+      "avg_selling_price": 21170.0,
+      "total_cost": 20405.0,
+      "price_diff": 765.0,
+      "price_diff_pct": 0.03749081107571674,
+      "gross_profit": 765.0,
+      "gross_profit_pct": 0.03613604156825697
+    },
+    {
+      "product_raw": "Castle Lite",
+      "cases_sold": 1.0,
+      "revenue": 10200.0,
+      "tmp3f5d_cost": 9280.0,
+      "avg_selling_price": 10200.0,
+      "total_cost": 9280.0,
+      "price_diff": 920.0,
+      "price_diff_pct": 0.09913793103448276,
+      "gross_profit": 920.0,
+      "gross_profit_pct": 0.09019607843137255
+    },
+    {
+      "product_raw": "Goldberg Black Promo",
+      "cases_sold": 21.0,
+      "revenue": 0.0,
+      "tmp3f5d_cost": 0.0,
+      "avg_selling_price": 0.0,
+      "total_cost": 0.0,
+      "price_diff": 0.0,
+      "price_diff_pct": 0.0,
+      "gross_profit": 0.0,
+      "gross_profit_pct": 0.0
+    }
+  ],
+  "true_cost_marketers": [
+    {
+      "customer": "Rita SR",
+      "total_revenue": 15851270.0,
+      "total_cost": 15540028.0,
+      "total_gross_profit": 311242.0,
+      "total_cases_sold": 1649.0,
+      "invoices": 34,
+      "gross_profit_pct": 0.01963514595360498
+    },
+    {
+      "customer": "WURAOLA",
+      "total_revenue": 15037300.0,
+      "total_cost": 14853190.0,
+      "total_gross_profit": 184110.0,
+      "total_cases_sold": 1448.0,
+      "invoices": 4,
+      "gross_profit_pct": 0.012243554361487767
+    },
+    {
+      "customer": "FINO STORES",
+      "total_revenue": 13163600.0,
+      "total_cost": 13159560.0,
+      "total_gross_profit": 4040.0,
+      "total_cases_sold": 2500.0,
+      "invoices": 2,
+      "gross_profit_pct": 0.0003069069251572518
+    },
+    {
+      "customer": "Alhaja Ijebu Ode.",
+      "total_revenue": 12163250.0,
+      "total_cost": 12125629.0,
+      "total_gross_profit": 37621.0,
+      "total_cases_sold": 1216.0,
+      "invoices": 2,
+      "gross_profit_pct": 0.003093005570057345
+    },
+    {
+      "customer": "Ameh Mathew",
+      "total_revenue": 11164815.0,
+      "total_cost": 10942772.0,
+      "total_gross_profit": 222043.0,
+      "total_cases_sold": 1205.0,
+      "invoices": 36,
+      "gross_profit_pct": 0.019887745564973535
+    },
+    {
+      "customer": "Mama Oyin Mowe",
+      "total_revenue": 8745950.0,
+      "total_cost": 8584730.0,
+      "total_gross_profit": 161220.0,
+      "total_cases_sold": 838.0,
+      "invoices": 3,
+      "gross_profit_pct": 0.01843367501529279
+    },
+    {
+      "customer": "Abbey Illisan",
+      "total_revenue": 8065900.0,
+      "total_cost": 7949350.0,
+      "total_gross_profit": 116550.0,
+      "total_cases_sold": 830.0,
+      "invoices": 2,
+      "gross_profit_pct": 0.01444972042797456
+    },
+    {
+      "customer": "Emmycee",
+      "total_revenue": 6595450.0,
+      "total_cost": 6547030.0,
+      "total_gross_profit": 48420.0,
+      "total_cases_sold": 665.0,
+      "invoices": 3,
+      "gross_profit_pct": 0.007341424770106664
+    },
+    {
+      "customer": "Delayers",
+      "total_revenue": 5735190.0,
+      "total_cost": 5690060.0,
+      "total_gross_profit": 45130.0,
+      "total_cases_sold": 788.0,
+      "invoices": 3,
+      "gross_profit_pct": 0.007868963364770828
+    },
+    {
+      "customer": "TD Odiolowo",
+      "total_revenue": 5224175.0,
+      "total_cost": 5186918.0,
+      "total_gross_profit": 37257.0,
+      "total_cases_sold": 578.0,
+      "invoices": 8,
+      "gross_profit_pct": 0.007131652366163079
+    },
+    {
+      "customer": "Ola Etigwam",
+      "total_revenue": 4516600.0,
+      "total_cost": 4450700.0,
+      "total_gross_profit": 65900.0,
+      "total_cases_sold": 417.0,
+      "invoices": 2,
+      "gross_profit_pct": 0.01459062126378249
+    },
+    {
+      "customer": "Stella SR",
+      "total_revenue": 4470885.0,
+      "total_cost": 4519844.0,
+      "total_gross_profit": -48959.0,
+      "total_cases_sold": 800.0,
+      "invoices": 7,
+      "gross_profit_pct": -0.01095062834315801
+    },
+    {
+      "customer": "Alhaja GRA Road",
+      "total_revenue": 4360250.0,
+      "total_cost": 4250440.0,
+      "total_gross_profit": 109810.0,
+      "total_cases_sold": 410.0,
+      "invoices": 1,
+      "gross_profit_pct": 0.025184335760564187
+    },
+    {
+      "customer": "Rukky bee",
+      "total_revenue": 4035690.0,
+      "total_cost": 3973480.0,
+      "total_gross_profit": 62210.0,
+      "total_cases_sold": 284.0,
+      "invoices": 1,
+      "gross_profit_pct": 0.015414960019228435
+    },
+    {
+      "customer": "Damnoch",
+      "total_revenue": 3864000.0,
+      "total_cost": 3752490.0,
+      "total_gross_profit": 111510.0,
+      "total_cases_sold": 420.0,
+      "invoices": 1,
+      "gross_profit_pct": 0.028858695652173912
+    },
+    {
+      "customer": "Eniola Marketer",
+      "total_revenue": 3779850.0,
+      "total_cost": 3784835.0,
+      "total_gross_profit": -4985.0,
+      "total_cases_sold": 595.0,
+      "invoices": 6,
+      "gross_profit_pct": -0.0013188354035213038
+    },
+    {
+      "customer": "Seun Ijebu",
+      "total_revenue": 3612000.0,
+      "total_cost": 3635940.0,
+      "total_gross_profit": -23940.0,
+      "total_cases_sold": 420.0,
+      "invoices": 1,
+      "gross_profit_pct": -0.006627906976744186
+    },
+    {
+      "customer": "M J STORE",
+      "total_revenue": 2861150.0,
+      "total_cost": 2864470.0,
+      "total_gross_profit": -3320.0,
+      "total_cases_sold": 324.0,
+      "invoices": 1,
+      "gross_profit_pct": -0.0011603725774601123
+    },
+    {
+      "customer": "Mr Lekan Ojifini",
+      "total_revenue": 2086265.0,
+      "total_cost": 2084875.0,
+      "total_gross_profit": 1390.0,
+      "total_cases_sold": 331.0,
+      "invoices": 6,
+      "gross_profit_pct": 0.0006662624355007633
+    },
+    {
+      "customer": "Walk in Customer",
+      "total_revenue": 1786165.0,
+      "total_cost": 1658788.0,
+      "total_gross_profit": 127377.0,
+      "total_cases_sold": 170.0,
+      "invoices": 48,
+      "gross_profit_pct": 0.07131312056836854
+    },
+    {
+      "customer": "Tmoney NB",
+      "total_revenue": 1729275.0,
+      "total_cost": 1671924.0,
+      "total_gross_profit": 57351.0,
+      "total_cases_sold": 140.0,
+      "invoices": 5,
+      "gross_profit_pct": 0.033164765580951557
+    },
+    {
+      "customer": "Solomon",
+      "total_revenue": 1707110.0,
+      "total_cost": 1708210.0,
+      "total_gross_profit": -1100.0,
+      "total_cases_sold": 265.0,
+      "invoices": 10,
+      "gross_profit_pct": -0.0006443638664175126
+    },
+    {
+      "customer": "DESOLA STORE",
+      "total_revenue": 1425200.0,
+      "total_cost": 1443300.0,
+      "total_gross_profit": -18100.0,
+      "total_cases_sold": 268.0,
+      "invoices": 1,
+      "gross_profit_pct": -0.012699971933763682
+    },
+    {
+      "customer": "Ola SR",
+      "total_revenue": 1400560.0,
+      "total_cost": 1353878.0,
+      "total_gross_profit": 46682.0,
+      "total_cases_sold": 131.0,
+      "invoices": 4,
+      "gross_profit_pct": 0.03333095333295253
+    },
+    {
+      "customer": "Ahmed SR",
+      "total_revenue": 1352100.0,
+      "total_cost": 1308015.0,
+      "total_gross_profit": 44085.0,
+      "total_cases_sold": 137.0,
+      "invoices": 6,
+      "gross_profit_pct": 0.03260483692034613
+    },
+    {
+      "customer": "XXIII LOUNGE",
+      "total_revenue": 728800.0,
+      "total_cost": 667135.0,
+      "total_gross_profit": 61665.0,
+      "total_cases_sold": 53.0,
+      "invoices": 2,
+      "gross_profit_pct": 0.08461169045005489
+    },
+    {
+      "customer": "Jeff SR",
+      "total_revenue": 675745.0,
+      "total_cost": 655074.0,
+      "total_gross_profit": 20671.0,
+      "total_cases_sold": 66.0,
+      "invoices": 6,
+      "gross_profit_pct": 0.030589941472004972
+    },
+    {
+      "customer": "Mr Godswill",
+      "total_revenue": 608870.0,
+      "total_cost": 585255.0,
+      "total_gross_profit": 23615.0,
+      "total_cases_sold": 59.0,
+      "invoices": 12,
+      "gross_profit_pct": 0.038784962307224856
+    },
+    {
+      "customer": "MRS IK.",
+      "total_revenue": 570265.0,
+      "total_cost": 523489.0,
+      "total_gross_profit": 46776.0,
+      "total_cases_sold": 54.0,
+      "invoices": 9,
+      "gross_profit_pct": 0.08202502345400822
+    },
+    {
+      "customer": "Damilola",
+      "total_revenue": 261900.0,
+      "total_cost": 241730.0,
+      "total_gross_profit": 20170.0,
+      "total_cases_sold": 29.0,
+      "invoices": 12,
+      "gross_profit_pct": 0.07701412752959144
+    },
+    {
+      "customer": "Amandla",
+      "total_revenue": 260825.0,
+      "total_cost": 239676.0,
+      "total_gross_profit": 21149.0,
+      "total_cases_sold": 21.0,
+      "invoices": 1,
+      "gross_profit_pct": 0.081085018690693
+    },
+    {
+      "customer": "Mr Olayinka",
+      "total_revenue": 178250.0,
+      "total_cost": 169098.0,
+      "total_gross_profit": 9152.0,
+      "total_cases_sold": 18.0,
+      "invoices": 1,
+      "gross_profit_pct": 0.05134361851332398
+    },
+    {
+      "customer": "Uche rep",
+      "total_revenue": 152205.0,
+      "total_cost": 143156.0,
+      "total_gross_profit": 9049.0,
+      "total_cases_sold": 11.0,
+      "invoices": 1,
+      "gross_profit_pct": 0.05945271180316021
+    },
+    {
+      "customer": "ACCESS Bar",
+      "total_revenue": 128375.0,
+      "total_cost": 118233.0,
+      "total_gross_profit": 10142.0,
+      "total_cases_sold": 11.0,
+      "invoices": 1,
+      "gross_profit_pct": 0.07900292112950341
+    },
+    {
+      "customer": "Remilekun",
+      "total_revenue": 108450.0,
+      "total_cost": 98582.0,
+      "total_gross_profit": 9868.0,
+      "total_cases_sold": 11.0,
+      "invoices": 7,
+      "gross_profit_pct": 0.09099124020285845
+    },
+    {
+      "customer": "ATW PROMO",
+      "total_revenue": 71360.0,
+      "total_cost": 69060.0,
+      "total_gross_profit": 2300.0,
+      "total_cases_sold": 4.0,
+      "invoices": 1,
+      "gross_profit_pct": 0.03223094170403588
+    },
+    {
+      "customer": "Y k BAR",
+      "total_revenue": 45480.0,
+      "total_cost": 43190.0,
+      "total_gross_profit": 2290.0,
+      "total_cases_sold": 2.0,
+      "invoices": 1,
+      "gross_profit_pct": 0.05035180299032542
+    },
+    {
+      "customer": "Staff Debit",
+      "total_revenue": 36200.0,
+      "total_cost": 34747.0,
+      "total_gross_profit": 1453.0,
+      "total_cases_sold": 3.0,
+      "invoices": 3,
+      "gross_profit_pct": 0.04013812154696133
+    },
+    {
+      "customer": "Breakages",
+      "total_revenue": 9200.0,
+      "total_cost": 8990.0,
+      "total_gross_profit": 210.0,
+      "total_cases_sold": 1.0,
+      "invoices": 2,
+      "gross_profit_pct": 0.02282608695652174
+    }
+  ],
+  "returns_analysis": {
+    "total_returns_value": 2320485.0,
+    "product_returns_value": 1631985.0,
+    "product_returns_qty": 177.0,
+    "empties_returns_value": 688500.0,
+    "empties_returns_qty": 467.0,
+    "return_rate": 0.015542387103050778,
+    "items_breakdown": [
+      {
+        "item_name": "NB Empties",
+        "item_type": "Empties",
+        "qty_returned": 451.0,
+        "value_returned": 676500.0,
+        "pct_of_total_returns": 0.29153388192554575
+      },
+      {
+        "item_name": "Maltina Pet 33cl",
+        "item_type": "Product",
+        "qty_returned": 76.0,
+        "value_returned": 385400.0,
+        "pct_of_total_returns": 0.16608596909697756
+      },
+      {
+        "item_name": "Goldberg 60cl",
+        "item_type": "Product",
+        "qty_returned": 25.0,
+        "value_returned": 218000.0,
+        "pct_of_total_returns": 0.0939458776936718
+      },
+      {
+        "item_name": "Heineken Bottle 45cl",
+        "item_type": "Product",
+        "qty_returned": 10.0,
+        "value_returned": 178400.0,
+        "pct_of_total_returns": 0.07688047972729839
+      },
+      {
+        "item_name": "Heineken Bottle 60cl",
+        "item_type": "Product",
+        "qty_returned": 12.0,
+        "value_returned": 160115.0,
+        "pct_of_total_returns": 0.06900066149964339
+      },
+      {
+        "item_name": "Fayrouz Bottle",
+        "item_type": "Product",
+        "qty_returned": 14.0,
+        "value_returned": 144410.0,
+        "pct_of_total_returns": 0.06223267980616121
+      },
+      {
+        "item_name": "Goldberg Can 50cl",
+        "item_type": "Product",
+        "qty_returned": 6.0,
+        "value_returned": 96000.0,
+        "pct_of_total_returns": 0.04137066173666281
+      },
+      {
+        "item_name": "Desperados Bottle",
+        "item_type": "Product",
+        "qty_returned": 4.0,
+        "value_returned": 85600.0,
+        "pct_of_total_returns": 0.036888840048524336
+      },
+      {
+        "item_name": "Amstel Can",
+        "item_type": "Product",
+        "qty_returned": 5.0,
+        "value_returned": 72150.0,
+        "pct_of_total_returns": 0.031092637961460643
+      },
+      {
+        "item_name": "Fayrouz Can",
+        "item_type": "Product",
+        "qty_returned": 5.0,
+        "value_returned": 66750.0,
+        "pct_of_total_returns": 0.02876553823877336
+      },
+      {
+        "item_name": "Williams Bottle 60cl",
+        "item_type": "Product",
+        "qty_returned": 5.0,
+        "value_returned": 46725.0,
+        "pct_of_total_returns": 0.02013587676714135
+      },
+      {
+        "item_name": "Turbo King Bottle 60cl",
+        "item_type": "Product",
+        "qty_returned": 5.0,
+        "value_returned": 45640.0,
+        "pct_of_total_returns": 0.019668302100638444
+      },
+      {
+        "item_name": "CLIMAX CAN",
+        "item_type": "Product",
+        "qty_returned": 3.0,
+        "value_returned": 38655.0,
+        "pct_of_total_returns": 0.016658155514903135
+      },
+      {
+        "item_name": "Amstel Bottle",
+        "item_type": "Product",
+        "qty_returned": 2.0,
+        "value_returned": 28900.0,
+        "pct_of_total_returns": 0.012454292960307867
+      },
+      {
+        "item_name": "Legend 45cl",
+        "item_type": "Product",
+        "qty_returned": 1.0,
+        "value_returned": 15945.0,
+        "pct_of_total_returns": 0.006871408347823838
+      },
+      {
+        "item_name": "Tiger Bottle",
+        "item_type": "Product",
+        "qty_returned": 1.0,
+        "value_returned": 15525.0,
+        "pct_of_total_returns": 0.0066904117027259385
+      },
+      {
+        "item_name": "Maltina Can",
+        "item_type": "Product",
+        "qty_returned": 1.0,
+        "value_returned": 13200.0,
+        "pct_of_total_returns": 0.005688465988791136
+      },
+      {
+        "item_name": "NB Loose Crate",
+        "item_type": "Empties",
+        "qty_returned": 16.0,
+        "value_returned": 12000.0,
+        "pct_of_total_returns": 0.005171332717082851
+      },
+      {
+        "item_name": "Legend Bottle 60cl",
+        "item_type": "Product",
+        "qty_returned": 1.0,
+        "value_returned": 11480.0,
+        "pct_of_total_returns": 0.004947241632675928
+      },
+      {
+        "item_name": "33 Export 60cl",
+        "item_type": "Product",
+        "qty_returned": 1.0,
+        "value_returned": 9090.0,
+        "pct_of_total_returns": 0.00391728453319026
+      }
+    ],
+    "customers_breakdown": [
+      {
+        "customer": "Emmycee",
+        "return_transactions": 1,
+        "product_qty": 0.0,
+        "product_val": 0.0,
+        "empties_qty": 355.0,
+        "empties_val": 532500.0,
+        "total_val": 532500.0,
+        "pct_of_total_returns": 0.22947788932055152,
+        "sales_revenue": 7127950.0,
+        "return_rate_pct": 0.0747059112367511,
+        "risk_flag": "Normal"
+      },
+      {
+        "customer": "Rita SR",
+        "return_transactions": 5,
+        "product_qty": 52.0,
+        "product_val": 447825.0,
+        "empties_qty": 10.0,
+        "empties_val": 15000.0,
+        "total_val": 462825.0,
+        "pct_of_total_returns": 0.1994518387319892,
+        "sales_revenue": 15866270.0,
+        "return_rate_pct": 0.02917037211644577,
+        "risk_flag": "Normal"
+      },
+      {
+        "customer": "Mama Oyin Mowe",
+        "return_transactions": 1,
+        "product_qty": 30.0,
+        "product_val": 305350.0,
+        "empties_qty": 0.0,
+        "empties_val": 0.0,
+        "total_val": 305350.0,
+        "pct_of_total_returns": 0.13158887043010406,
+        "sales_revenue": 8745950.0,
+        "return_rate_pct": 0.034913302728691566,
+        "risk_flag": "Normal"
+      },
+      {
+        "customer": "Mr Lekan Ojifini",
+        "return_transactions": 2,
+        "product_qty": 22.0,
+        "product_val": 282660.0,
+        "empties_qty": 0.0,
+        "empties_val": 0.0,
+        "total_val": 282660.0,
+        "pct_of_total_returns": 0.12181074215088657,
+        "sales_revenue": 2086265.0,
+        "return_rate_pct": 0.1354861438983063,
+        "risk_flag": "Elevated (>8%)"
+      },
+      {
+        "customer": "Solomon",
+        "return_transactions": 1,
+        "product_qty": 49.0,
+        "product_val": 245000.0,
+        "empties_qty": 0.0,
+        "empties_val": 0.0,
+        "total_val": 245000.0,
+        "pct_of_total_returns": 0.10558137630710822,
+        "sales_revenue": 1707110.0,
+        "return_rate_pct": 0.14351740661117326,
+        "risk_flag": "Elevated (>8%)"
+      },
+      {
+        "customer": "Ameh Mathew",
+        "return_transactions": 6,
+        "product_qty": 5.0,
+        "product_val": 99535.0,
+        "empties_qty": 65.0,
+        "empties_val": 85500.0,
+        "total_val": 185035.0,
+        "pct_of_total_returns": 0.07973979577545212,
+        "sales_revenue": 11238315.0,
+        "return_rate_pct": 0.016464656845799393,
+        "risk_flag": "Normal"
+      },
+      {
+        "customer": "Ola SR",
+        "return_transactions": 2,
+        "product_qty": 5.0,
+        "product_val": 89200.0,
+        "empties_qty": 19.0,
+        "empties_val": 28500.0,
+        "total_val": 117700.0,
+        "pct_of_total_returns": 0.05072215506672097,
+        "sales_revenue": 1429060.0,
+        "return_rate_pct": 0.08236183225336935,
+        "risk_flag": "Elevated (>8%)"
+      },
+      {
+        "customer": "Eniola Marketer",
+        "return_transactions": 1,
+        "product_qty": 6.0,
+        "product_val": 85350.0,
+        "empties_qty": 0.0,
+        "empties_val": 0.0,
+        "total_val": 85350.0,
+        "pct_of_total_returns": 0.03678110395025178,
+        "sales_revenue": 3779850.0,
+        "return_rate_pct": 0.022580261121473075,
+        "risk_flag": "Normal"
+      },
+      {
+        "customer": "Tmoney NB",
+        "return_transactions": 1,
+        "product_qty": 3.0,
+        "product_val": 30945.0,
+        "empties_qty": 0.0,
+        "empties_val": 0.0,
+        "total_val": 30945.0,
+        "pct_of_total_returns": 0.013335574244177403,
+        "sales_revenue": 1729275.0,
+        "return_rate_pct": 0.017894782495554495,
+        "risk_flag": "Normal"
+      },
+      {
+        "customer": "TD Odiolowo",
+        "return_transactions": 2,
+        "product_qty": 0.0,
+        "product_val": 0.0,
+        "empties_qty": 18.0,
+        "empties_val": 27000.0,
+        "total_val": 27000.0,
+        "pct_of_total_returns": 0.011635498613436416,
+        "sales_revenue": 5251175.0,
+        "return_rate_pct": 0.005141706380000667,
+        "risk_flag": "Normal"
+      },
+      {
+        "customer": "Walk in Customer",
+        "return_transactions": 1,
+        "product_qty": 2.0,
+        "product_val": 19000.0,
+        "empties_qty": 0.0,
+        "empties_val": 0.0,
+        "total_val": 19000.0,
+        "pct_of_total_returns": 0.008187943468714515,
+        "sales_revenue": 1801165.0,
+        "return_rate_pct": 0.010548728184258522,
+        "risk_flag": "Normal"
+      },
+      {
+        "customer": "Delayers",
+        "return_transactions": 1,
+        "product_qty": 2.0,
+        "product_val": 14290.0,
+        "empties_qty": 0.0,
+        "empties_val": 0.0,
+        "total_val": 14290.0,
+        "pct_of_total_returns": 0.006158195377259495,
+        "sales_revenue": 5735190.0,
+        "return_rate_pct": 0.0024916349763477756,
+        "risk_flag": "Normal"
+      },
+      {
+        "customer": "Alhaja GRA Road",
+        "return_transactions": 1,
+        "product_qty": 1.0,
+        "product_val": 12830.0,
+        "empties_qty": 0.0,
+        "empties_val": 0.0,
+        "total_val": 12830.0,
+        "pct_of_total_returns": 0.005529016563347748,
+        "sales_revenue": 4360250.0,
+        "return_rate_pct": 0.002942491829596927,
+        "risk_flag": "Normal"
+      }
+    ],
+    "weekly_trend": [
+      {
+        "week": "W1",
+        "date_range": "Jul 1-7",
+        "return_transactions": 2,
+        "product_val": 98180.0,
+        "empties_val": 0.0,
+        "total_val": 98180.0
+      },
+      {
+        "week": "W2",
+        "date_range": "Jul 8-14",
+        "return_transactions": 4,
+        "product_val": 415390.0,
+        "empties_val": 0.0,
+        "total_val": 415390.0
+      },
+      {
+        "week": "W3",
+        "date_range": "Jul 15-21",
+        "return_transactions": 5,
+        "product_val": 423885.0,
+        "empties_val": 12000.0,
+        "total_val": 435885.0
+      },
+      {
+        "week": "W4",
+        "date_range": "Jul 22-28",
+        "return_transactions": 11,
+        "product_val": 694530.0,
+        "empties_val": 75000.0,
+        "total_val": 769530.0
+      },
+      {
+        "week": "Tail",
+        "date_range": "Jul 29-31",
+        "return_transactions": 3,
+        "product_val": 0.0,
+        "empties_val": 601500.0,
+        "total_val": 601500.0
+      }
+    ],
+    "anomalies": []
+  },
+  "net_profit_bridge": {
+    "gross_sales_revenue": 149300425.0,
+    "total_sales_returns": 2320485.0,
+    "net_sales_revenue": 146979940.0,
+    "gross_product_cost": 147382471.0,
+    "gross_embedded_cost": 147382471.0,
+    "cost_of_returns": 2282889.8986201333,
+    "total_cost": 145099581.10137987,
+    "total_cost_embedded": 145099581.10137987,
+    "net_gross_profit_loss": 1880358.8986201286,
+    "net_gross_margin_pct": 0.012793302940660669,
+    "total_operating_expenses": 1934440.0,
+    "net_operating_profit_loss": -54081.10137987137,
+    "net_operating_margin_pct": -0.0003679488600952713,
+    "product_returns_value": 1631985.0,
+    "product_returns_qty": 177.0,
+    "empties_returns_value": 688500.0,
+    "empties_returns_qty": 467.0,
+    "return_rate": 0.015542387103050778,
+    "missing_cost_anomalies": []
+  }
+}

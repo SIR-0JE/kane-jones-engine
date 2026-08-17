@@ -664,34 +664,5 @@ def load_client_price_list(client_id: str, base_dir: Optional[str] = None) -> Op
     except Exception:
         pass
 
-    # 3. Fallback: Search existing snapshots in local directory or Supabase for any period with price_list / below_floor_pricing
-    try:
-        sn_dir = get_snapshots_dir(client_id, base_dir=base_dir)
-        for json_file in sorted(sn_dir.glob("*.json"), reverse=True):
-            try:
-                with open(json_file, "r", encoding="utf-8") as f:
-                    snap_data = json.load(f)
-                # Check if snapshot had below_floor_pricing items with distributor_price
-                bfp = snap_data.get("below_floor_pricing", [])
-                if bfp:
-                    # Construct skus from bfp items
-                    skus = []
-                    for it in bfp:
-                        if it.get("product_raw") and it.get("distributor_price"):
-                            skus.append({
-                                "sku": it["product_raw"],
-                                "distributor_price": float(it["distributor_price"]),
-                                "sub_distributor_price": float(it.get("sub_distributor_price", it["distributor_price"])),
-                                "retail_price": float(it.get("retail_price", it["distributor_price"])),
-                            })
-                    if skus:
-                        df = pd.DataFrame(skus)
-                        period = snap_data.get("meta", {}).get("period_label") or json_file.stem
-                        return df, period
-            except Exception:
-                continue
-    except Exception:
-        pass
-
     return None
 

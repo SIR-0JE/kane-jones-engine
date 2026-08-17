@@ -18773,6 +18773,7 @@
     "product_returns_qty": 177.0,
     "empties_returns_value": 688500.0,
     "empties_returns_qty": 467.0,
-    "return_rate": 0.015542387103050778
+    "return_rate": 0.015542387103050778,
+    "missing_cost_anomalies": []
   }
 }
