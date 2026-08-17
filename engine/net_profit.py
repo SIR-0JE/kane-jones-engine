@@ -257,36 +257,25 @@ def compute_net_profit_bridge(
         empties_returns_qty = float(emp_ret["quantity"].sum()) if not emp_ret.empty else 0.0
 
     # Calculate Cost of Returns Credited Back (Product + Empties on invoice-embedded basis)
+    missing_cost_anomalies = []
     if cost_of_returns is None:
         cost_of_returns = 0.0
-        if not line_items_df.empty and df_returns is not None and not df_returns.empty:
-            # Build unit cost maps from invoice line items (excluding negative cost anomalies)
-            unit_cost_map = {}
-            for p_name, grp in line_items_df.groupby("product_raw"):
-                # Exclude corrupted negative cost lines
-                valid_grp = grp[grp["cost"] > 0]
-                if not valid_grp.empty:
-                    tot_q = valid_grp["quantity"].sum()
-                    tot_c = valid_grp["cost"].sum()
-                    if tot_q > 0:
-                        unit_cost_map[str(p_name).strip().upper()] = tot_c / tot_q
-
-            # Fallback to df_inv true cost or DPP if line items had no valid positive cost
-            if df_inv is not None and not df_inv.empty:
-                from engine.true_cost import build_inventory_cost_maps
-                inv_cost_map, inv_dpp_map = build_inventory_cost_maps(df_inv)
-                for k, v in inv_cost_map.items():
-                    if k not in unit_cost_map and v > 0:
-                        unit_cost_map[k] = v
-                for k, v in inv_dpp_map.items():
-                    if k not in unit_cost_map and v > 0:
-                        unit_cost_map[k] = v
+        if df_returns is not None and not df_returns.empty:
+            from engine.true_cost import resolve_sku_cost_maps, resolve_return_unit_cost
+            unit_cost_map = resolve_sku_cost_maps(line_items_df, df_inv, prefer_inventory=False)
 
             for _, r in df_returns.iterrows():
-                item_k = str(r.get("item_name", "")).strip().upper()
-                unit_c = unit_cost_map.get(item_k, 0.0)
+                item_name = str(r.get("item_name", "")).strip()
+                unit_c, anom = resolve_return_unit_cost(item_name, unit_cost_map)
                 qty = float(r.get("quantity", 0.0) or 0.0)
-                cost_of_returns += (qty * unit_c)
+                if unit_c is not None:
+                    cost_of_returns += (qty * unit_c)
+                elif anom is not None:
+                    anom["voucher_no"] = r.get("voucher_no")
+                    anom["customer"] = r.get("customer")
+                    anom["quantity"] = qty
+                    anom["return_value"] = float(r.get("return_value", 0.0) or 0.0)
+                    missing_cost_anomalies.append(anom)
 
     # Net COGS = Full Gross Embedded Cost - Total Returns Cost Credited Back
     net_cogs = gross_embedded_cost - cost_of_returns
@@ -318,4 +307,5 @@ def compute_net_profit_bridge(
         "empties_returns_value": empties_returns_val,
         "empties_returns_qty": empties_returns_qty,
         "return_rate": return_rate,
+        "missing_cost_anomalies": missing_cost_anomalies,
     }

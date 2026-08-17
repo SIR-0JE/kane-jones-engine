@@ -217,6 +217,9 @@ export interface NetProfitBridgeData {
   gross_sales_revenue: number;
   total_sales_returns: number;
   net_sales_revenue: number;
+  gross_product_cost?: number;
+  gross_embedded_cost?: number;
+  cost_of_returns: number;
   total_cost?: number;
   total_cost_embedded: number;
   net_gross_profit_loss: number;
@@ -229,6 +232,7 @@ export interface NetProfitBridgeData {
   empties_returns_value: number;
   empties_returns_qty: number;
   return_rate: number;
+  missing_cost_anomalies?: any[];
 }
 
 export interface ExpenseItem {

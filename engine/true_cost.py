@@ -31,6 +31,85 @@ def build_inventory_cost_maps(df_inventory: pd.DataFrame) -> Tuple[Dict[str, flo
     return cost_map, dpp_map
 
 
+def resolve_sku_cost_maps(
+    line_items_df: Optional[pd.DataFrame] = None,
+    df_inventory: Optional[pd.DataFrame] = None,
+    prefer_inventory: bool = False,
+) -> Dict[str, float]:
+    """
+    Unified canonical cost lookup engine for both sales line items and returns.
+    
+    Parameters:
+    - line_items_df: sales register line items DataFrame containing quantity, rate, and cost.
+    - df_inventory: inventory stock valuation DataFrame (tmp3F5D) containing rate_per_unit and default_purchase_price.
+    - prefer_inventory: if True (used for Product True Cost view), prioritizes inventory closing rate;
+                        if False (used for Net Profit bridge & Returns credit costing), prioritizes invoice-embedded positive unit cost.
+    
+    Negative cost lines (data entry errors) are strictly filtered out (cost > 0).
+    """
+    cost_map: Dict[str, float] = {}
+
+    inv_rates: Dict[str, float] = {}
+    if df_inventory is not None and not df_inventory.empty:
+        for _, row in df_inventory.iterrows():
+            k = str(row.get("item_name", "")).strip().upper()
+            rate = float(row.get("rate_per_unit", 0.0) or 0.0)
+            dpp = float(row.get("default_purchase_price", 0.0) or 0.0)
+            if rate > 0:
+                inv_rates[k] = rate
+            elif dpp > 0:
+                inv_rates[k] = dpp
+
+    invoice_unit_costs: Dict[str, float] = {}
+    if line_items_df is not None and not line_items_df.empty and "product_raw" in line_items_df.columns:
+        for p_name, grp in line_items_df.groupby("product_raw"):
+            valid_grp = grp[grp["cost"] > 0]
+            if not valid_grp.empty:
+                tot_q = valid_grp["quantity"].sum()
+                tot_c = valid_grp["cost"].sum()
+                if tot_q > 0:
+                    invoice_unit_costs[str(p_name).strip().upper()] = tot_c / tot_q
+
+    if prefer_inventory:
+        # Inventory first, fallback to invoice
+        cost_map.update(invoice_unit_costs)
+        cost_map.update(inv_rates)
+    else:
+        # Invoice first, fallback to inventory
+        cost_map.update(inv_rates)
+        cost_map.update(invoice_unit_costs)
+
+    return cost_map
+
+
+def resolve_return_unit_cost(
+    item_name: str,
+    cost_map: Dict[str, float],
+) -> Tuple[Optional[float], Optional[Dict[str, Any]]]:
+    """
+    Resolves the unit cost for a returned SKU using the shared cost lookup map.
+    
+    If no positive cost is found in sales invoices or inventory valuation,
+    returns (None, anomaly_dict) with exact label 'Missing Cost — Return',
+    excluding it from the Cost of Returns total without estimating a replacement value.
+    """
+    key = str(item_name).strip().upper()
+    unit_cost = cost_map.get(key)
+
+    if unit_cost is not None and unit_cost > 0:
+        return unit_cost, None
+
+    # Missing Cost — Return Exception
+    anomaly = {
+        "type": "missing_cost_return",
+        "label": "Missing Cost — Return",
+        "item_name": item_name,
+        "reason": f"Returned product/empties '{item_name}' has no matching sales invoice cost or inventory valuation. Excluded from Cost of Returns without estimating replacement value.",
+    }
+    return None, anomaly
+
+
+
 def compute_product_profitability(
     line_items_df: pd.DataFrame,
     df_inventory: pd.DataFrame,

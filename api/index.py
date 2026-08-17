@@ -357,6 +357,8 @@ async def analyze_sales_report(
             all_anomalies_list.extend(exp_anomalies)
         if returns_analysis.get("anomalies"):
             all_anomalies_list.extend(returns_analysis["anomalies"])
+        if net_profit_bridge.get("missing_cost_anomalies"):
+            all_anomalies_list.extend(net_profit_bridge["missing_cost_anomalies"])
 
         response_payload = {
             "meta": {

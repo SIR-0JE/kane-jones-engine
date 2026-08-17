@@ -35,6 +35,8 @@ export function ReturnsScreen({ data }: ReturnsScreenProps) {
   const empQty = returns?.empties_returns_qty ?? bridge?.empties_returns_qty ?? 0;
   const returnRate = returns?.return_rate ?? bridge?.return_rate ?? (data.meta?.total_revenue ? totalVal / data.meta.total_revenue : 0);
 
+  const costOfReturns = bridge?.cost_of_returns ?? 0;
+
   const items = returns?.items_breakdown || [];
   const customers = returns?.customers_breakdown || [];
   const weekly = returns?.weekly_trend || [];
@@ -53,7 +55,7 @@ export function ReturnsScreen({ data }: ReturnsScreenProps) {
                 Sales Returns & Credit Notes Analysis
               </h1>
               <p className="text-xs text-slate-500 font-inter">
-                Credit note analysis (tmpCEF3) • Period returns reconciliation
+                Credit note analysis (tmpCEF3) • Period returns reconciliation & COGS cost credit
               </p>
             </div>
           </div>
@@ -94,83 +96,103 @@ export function ReturnsScreen({ data }: ReturnsScreenProps) {
       </div>
 
       {/* 2. Top Summary KPI Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3.5">
         {/* Card 1: Total Sales Returns */}
-        <div className="p-4 rounded-2xl bg-gradient-to-br from-white to-purple-50/30 border border-purple-100 shadow-xs">
+        <div className="p-3.5 rounded-2xl bg-gradient-to-br from-white to-purple-50/30 border border-purple-100 shadow-xs">
           <div className="flex items-center justify-between">
-            <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider font-sora">
+            <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider font-sora">
               Total Returns
             </span>
-            <div className="p-1.5 rounded-lg bg-purple-100/70 text-[#7c6fff]">
+            <div className="p-1 rounded-lg bg-purple-100/70 text-[#7c6fff]">
               <RotateCcw className="w-3.5 h-3.5" />
             </div>
           </div>
           <div className="mt-2">
-            <div className="text-xl font-extrabold text-slate-900 font-sora">
+            <div className="text-lg font-extrabold text-slate-900 font-sora">
               {formatCurrency(totalVal, currency, true)}
             </div>
-            <p className="text-[11px] text-purple-700 font-medium mt-0.5">
-              177 credit note line items
+            <p className="text-[10px] text-purple-700 font-medium mt-0.5">
+              177 credit notes
             </p>
           </div>
         </div>
 
         {/* Card 2: Return Rate */}
-        <div className="p-4 rounded-2xl bg-gradient-to-br from-white to-amber-50/30 border border-amber-100 shadow-xs">
+        <div className="p-3.5 rounded-2xl bg-gradient-to-br from-white to-amber-50/30 border border-amber-100 shadow-xs">
           <div className="flex items-center justify-between">
-            <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider font-sora">
+            <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider font-sora">
               Return Rate
             </span>
-            <div className="p-1.5 rounded-lg bg-amber-100/70 text-amber-700">
+            <div className="p-1 rounded-lg bg-amber-100/70 text-amber-700">
               <TrendingDown className="w-3.5 h-3.5" />
             </div>
           </div>
           <div className="mt-2">
-            <div className="text-xl font-extrabold text-slate-900 font-sora">
+            <div className="text-lg font-extrabold text-slate-900 font-sora">
               {formatPercent(returnRate)}
             </div>
-            <p className="text-[11px] text-amber-800 font-medium mt-0.5">
-              Of gross revenue (₦187.67M)
+            <p className="text-[10px] text-amber-800 font-medium mt-0.5">
+              Of gross sales
             </p>
           </div>
         </div>
 
         {/* Card 3: Product Returns */}
-        <div className="p-4 rounded-2xl bg-gradient-to-br from-white to-rose-50/30 border border-rose-100 shadow-xs">
+        <div className="p-3.5 rounded-2xl bg-gradient-to-br from-white to-rose-50/30 border border-rose-100 shadow-xs">
           <div className="flex items-center justify-between">
-            <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider font-sora">
+            <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider font-sora">
               Product Returns
             </span>
-            <div className="p-1.5 rounded-lg bg-rose-100/70 text-rose-700">
+            <div className="p-1 rounded-lg bg-rose-100/70 text-rose-700">
               <Package className="w-3.5 h-3.5" />
             </div>
           </div>
           <div className="mt-2">
-            <div className="text-xl font-extrabold text-slate-900 font-sora">
+            <div className="text-lg font-extrabold text-slate-900 font-sora">
               {formatCurrency(prodVal, currency, true)}
             </div>
-            <p className="text-[11px] text-rose-700 font-medium mt-0.5">
-              {formatNumber(prodQty)} cases returned (6 SKUs)
+            <p className="text-[10px] text-rose-700 font-medium mt-0.5">
+              {formatNumber(prodQty)} cs returned
             </p>
           </div>
         </div>
 
         {/* Card 4: Empties Returns */}
-        <div className="p-4 rounded-2xl bg-gradient-to-br from-white to-teal-50/30 border border-teal-100 shadow-xs">
+        <div className="p-3.5 rounded-2xl bg-gradient-to-br from-white to-teal-50/30 border border-teal-100 shadow-xs">
           <div className="flex items-center justify-between">
-            <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider font-sora">
+            <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider font-sora">
               Empties Returns
             </span>
-            <div className="p-1.5 rounded-lg bg-teal-100/70 text-teal-700">
+            <div className="p-1 rounded-lg bg-teal-100/70 text-teal-700">
               <Boxes className="w-3.5 h-3.5" />
             </div>
           </div>
           <div className="mt-2">
-            <div className="text-xl font-extrabold text-slate-900 font-sora">
+            <div className="text-lg font-extrabold text-slate-900 font-sora">
               {formatCurrency(empVal, currency, true)}
             </div>
-            <p className="text-[11px] text-teal-700 font-medium mt-0.5">
-              {formatNumber(empQty)} crates / bottles credited
+            <p className="text-[10px] text-teal-700 font-medium mt-0.5">
+              {formatNumber(empQty)} crates credited
+            </p>
+          </div>
+        </div>
+
+        {/* Card 5: Cost of Returns Credited Back */}
+        <div className="p-3.5 rounded-2xl bg-gradient-to-br from-white to-emerald-50/30 border border-emerald-100 shadow-xs">
+          <div className="flex items-center justify-between">
+            <span className="text-[10px] font-bold text-emerald-700 uppercase tracking-wider font-sora">
+              Cost of Returns
+            </span>
+            <div className="p-1 rounded-lg bg-emerald-100/70 text-emerald-700">
+              <RotateCcw className="w-3.5 h-3.5" />
+            </div>
+          </div>
+          <div className="mt-2">
+            <div className="text-lg font-extrabold text-emerald-800 font-sora">
+              {formatCurrency(costOfReturns, currency, true)}
+            </div>
+            <p className="text-[10px] text-emerald-700 font-medium mt-0.5">
+              Credited back in P&L
             </p>
           </div>
         </div>
