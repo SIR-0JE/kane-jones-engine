@@ -37,19 +37,20 @@ class TestNetProfitBridge:
         assert bridge["gross_embedded_cost"] == 183957167.0
         assert round(bridge["cost_of_returns"], 2) == 10792837.31
         assert bridge["total_cost"] == 183957167.0
-        assert bridge["net_cost"] == 183957167.0  # NET COST = TOTAL COST - PURCHASE RETURNS (0)
+        assert round(bridge["net_cost"], 2) == 173164329.69  # Net Invoiced COGS
 
-        # 5. Gross Profit (Net Sales Revenue - Net Cost per spec §2.3)
-        assert round(bridge["gross_profit"], 2) == -10238227.0
+        # 5. Gross Profit (Net Sales Revenue - Net Invoiced COGS)
+        assert round(bridge["gross_profit"], 2) == 554610.31
 
         # 6. Operating Expenses
         assert bridge["total_operating_expenses"] == 2095229.0
 
         # 7. Net Operating Profit / (Loss)
-        assert round(bridge["net_operating_profit_loss"], 2) == -12333456.0
+        assert round(bridge["net_operating_profit_loss"], 2) == -1540618.69
 
         # 8. Return Rate
         assert round(bridge["return_rate"], 4) == 0.0744
+
 
 
     def test_expenses_parsing_sheet(self):

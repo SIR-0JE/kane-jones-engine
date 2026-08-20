@@ -167,9 +167,11 @@ export interface TrueCostMarketerItem {
   total_cases_sold: number;
   invoices: number;
   gross_profit_pct: number;
+  is_marketer?: boolean;
   cases_target?: number;
   pct_of_target_met?: number;
 }
+
 
 
 export interface SalesReturnsItemBreakdown {

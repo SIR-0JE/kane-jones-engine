@@ -79,10 +79,13 @@ export function ProductsScreen({ data }: ProductsScreenProps) {
               const clientId = data.meta?.client_id || "kane-jones";
               setPptxLoading(true);
               try {
-                const res = await fetch(`/api/pptx`, {
+                const res = await fetch(`/api/pptx?module=products`, {
                   method: "POST",
                   headers: { "Content-Type": "application/json" },
-                  body: JSON.stringify(data),
+                  body: JSON.stringify({
+                    ...data,
+                    _ppt_module: "products",
+                  }),
                 });
                 if (res.ok) {
                   const blob = await res.blob();
@@ -97,6 +100,7 @@ export function ProductsScreen({ data }: ProductsScreenProps) {
                 setPptxLoading(false);
               }
             }}
+
             disabled={pptxLoading}
             className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-900 text-white text-[11px] font-bold font-sora shadow hover:bg-slate-700 transition-colors disabled:opacity-60"
           >

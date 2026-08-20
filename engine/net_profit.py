@@ -287,9 +287,10 @@ def compute_net_profit_bridge(
                     anom["return_value"] = float(r.get("return_value", 0.0) or 0.0)
                     missing_cost_anomalies.append(anom)
 
-    # NET COST = TOTAL COST − PURCHASE RETURNS only (spec §2.3)
-    # purchase_returns = goods returned to supplier (purchasing side only)
-    net_cost = gross_embedded_cost - float(purchase_returns or 0.0)
+    # Management Bridge:
+    # Net Invoiced COGS = Gross Invoiced Embedded Cost - Cost of Sales Returns Credited Back - Purchase Returns
+    net_cogs = gross_embedded_cost - float(cost_of_returns or 0.0) - float(purchase_returns or 0.0)
+    net_cost = net_cogs
 
     net_sales_revenue = gross_sales_revenue - total_sales_returns
     gross_profit = net_sales_revenue - net_cost
@@ -305,11 +306,11 @@ def compute_net_profit_bridge(
         "net_sales_revenue": net_sales_revenue,
         "gross_product_cost": gross_embedded_cost,
         "gross_embedded_cost": gross_embedded_cost,
-        "total_cost": gross_embedded_cost,          # Total Cost (before purchase return deduction)
+        "total_cost": gross_embedded_cost,          # Full Gross Invoice Embedded Cost
         "purchase_returns": float(purchase_returns or 0.0),
-        "net_cost": net_cost,                        # NET COST = Total Cost - Purchase Returns
+        "cost_of_returns": float(cost_of_returns or 0.0), # Cost basis of goods returned by customers
+        "net_cost": net_cost,                        # Net Invoiced COGS (post-returns basis)
         "total_cost_embedded": net_cost,             # alias for backwards compat
-        "cost_of_returns": cost_of_returns,          # sales-return credited cost (audit trail only)
         "gross_profit": gross_profit,
         "net_gross_profit_loss": gross_profit,       # alias for backwards compat
         "net_gross_margin_pct": net_gross_margin_pct,
@@ -324,4 +325,5 @@ def compute_net_profit_bridge(
         "return_rate": return_rate,
         "missing_cost_anomalies": missing_cost_anomalies,
     }
+
 

@@ -68,7 +68,7 @@ export function CustomersScreen({ data }: CustomersScreenProps) {
     const apiBase = ANALYSIS_API_URL || "";
     setPptxLoading(true);
     try {
-      const res = await fetch(`${apiBase}/api/presentation`, {
+      const res = await fetch(`/api/pptx?module=customers`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -85,12 +85,8 @@ export function CustomersScreen({ data }: CustomersScreenProps) {
       a.click();
       URL.revokeObjectURL(url);
     } catch {
-      // fallback: download full deck via Next.js proxy
-      const res = await fetch(`/api/pptx`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      });
+      // fallback: try direct endpoint
+      const res = await fetch(`/api/presentation?client_id=${encodeURIComponent(clientId)}&period_label=${encodeURIComponent(periodLabel)}&module=customers`);
       if (res.ok) {
         const blob = await res.blob();
         const url = URL.createObjectURL(blob);
@@ -104,6 +100,7 @@ export function CustomersScreen({ data }: CustomersScreenProps) {
       setPptxLoading(false);
     }
   };
+
 
   return (
     <div className="p-4 sm:p-6 lg:p-8 space-y-6 pb-24 md:pb-12 w-full">
@@ -233,16 +230,9 @@ export function CustomersScreen({ data }: CustomersScreenProps) {
             <table className="w-full text-left text-xs">
               <thead>
                 <tr className="bg-slate-50/80 border-b border-slate-100 text-slate-600 font-bold font-sora">
-                  <th className="py-3 px-4">Customer / Marketer</th>
+                  <th className="py-3 px-4">Customer Account</th>
                   <th className="py-3 px-3 text-center">Invoices</th>
                   <th className="py-3 px-3 text-right">Cases Sold</th>
-                  <th className="py-3 px-3 text-right">
-                    <span className="flex items-center justify-end gap-1">
-                      <Target className="w-3 h-3 text-[#7c6fff]" />
-                      Target (6000)
-                    </span>
-                  </th>
-                  <th className="py-3 px-3 text-right">% of Target</th>
                   <th className="py-3 px-4 text-right">Revenue (excl. empties)</th>
                   <th className="py-3 px-4 text-right">True Cost (tmp3F5D)</th>
                   <th className="py-3 px-4 text-right">Gross Profit</th>
@@ -254,9 +244,6 @@ export function CustomersScreen({ data }: CustomersScreenProps) {
                 {filteredTrueCost.length > 0 ? (
                   filteredTrueCost.map((item, idx) => {
                     const isLoss = (item.total_gross_profit || 0) < 0;
-                    const casesTarget = item.cases_target ?? 6000;
-                    const pctTarget = item.pct_of_target_met ?? (item.total_cases_sold / casesTarget);
-                    const metTarget = pctTarget >= 1.0;
                     return (
                       <tr
                         key={idx}
@@ -279,20 +266,6 @@ export function CustomersScreen({ data }: CustomersScreenProps) {
                         </td>
                         <td className="py-3 px-3 text-right text-slate-700 font-semibold">
                           {formatNumber(item.total_cases_sold)}
-                        </td>
-                        {/* Cases Target */}
-                        <td className="py-3 px-3 text-right text-slate-400 font-medium">
-                          {formatNumber(casesTarget)}
-                        </td>
-                        {/* % of Target */}
-                        <td className="py-3 px-3 text-right">
-                          <span
-                            className={`text-xs font-bold ${
-                              metTarget ? "text-emerald-700" : "text-amber-600"
-                            }`}
-                          >
-                            {(pctTarget * 100).toFixed(1)}%
-                          </span>
                         </td>
                         <td className="py-3 px-4 text-right font-semibold text-slate-900">
                           {formatCurrency(item.total_revenue, currency)}
@@ -329,13 +302,14 @@ export function CustomersScreen({ data }: CustomersScreenProps) {
                   })
                 ) : (
                   <tr>
-                    <td colSpan={10} className="py-6 text-center text-slate-400">
+                    <td colSpan={8} className="py-6 text-center text-slate-400">
                       No customer accounts match your criteria.
                     </td>
                   </tr>
                 )}
               </tbody>
             </table>
+
           </div>
         </div>
       ) : (
@@ -437,20 +411,12 @@ export function CustomersScreen({ data }: CustomersScreenProps) {
               <span className="px-2.5 py-1 bg-slate-100 text-slate-700 rounded-lg text-[11px] font-semibold font-inter">
                 Margin: {formatPercent(drillCustomer.gross_profit_pct)}
               </span>
-              {/* Cases target */}
-              <span className={`flex items-center gap-1 px-2.5 py-1 rounded-lg text-[11px] font-semibold font-inter ${
-                (drillCustomer.pct_of_target_met ?? drillCustomer.total_cases_sold / 6000) >= 1
-                  ? "bg-emerald-50 text-emerald-800"
-                  : "bg-amber-50 text-amber-800"
-              }`}>
-                <Target className="w-3 h-3" />
-                {((drillCustomer.pct_of_target_met ?? drillCustomer.total_cases_sold / 6000) * 100).toFixed(1)}% of 6,000-case target
-              </span>
               {/* Invoices */}
               <span className="flex items-center gap-1 px-2.5 py-1 bg-slate-100 text-slate-700 rounded-lg text-[11px] font-semibold font-inter">
                 <FileText className="w-3 h-3" /> {drillCustomer.invoices} invoices
               </span>
             </div>
+
 
             {/* Invoice Margin Detail */}
             {drillInvoices.length > 0 && (

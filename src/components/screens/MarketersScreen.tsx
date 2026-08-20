@@ -28,8 +28,23 @@ interface MarketersScreenProps {
 
 export function MarketersScreen({ data }: MarketersScreenProps) {
   const currency = data.meta?.currency_symbol || "₦";
-  const marketers: TrueCostMarketerItem[] = data.true_cost_marketers || [];
+  const rawMarketers: TrueCostMarketerItem[] = data.true_cost_marketers || [];
   const rawInvoiceCustomers = data.customer_margin_detail || [];
+
+  // Filter to actual marketers (Eniola, AZ, or marked is_marketer)
+  const marketers = useMemo(() => {
+    const identified = rawMarketers.filter((m) => {
+      if (m.is_marketer !== undefined) return m.is_marketer;
+      const name = m.customer.toLowerCase();
+      return (
+        name.includes("marketer") ||
+        name.includes("rep") ||
+        name.includes("eniola") ||
+        name.includes("az")
+      );
+    });
+    return identified.length > 0 ? identified : rawMarketers;
+  }, [rawMarketers]);
 
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [filterMode, setFilterMode] = useState<"all" | "met_target" | "below_target" | "loss">("all");
@@ -82,7 +97,7 @@ export function MarketersScreen({ data }: MarketersScreenProps) {
     const apiBase = ANALYSIS_API_URL || "";
     setPptxLoading(true);
     try {
-      const res = await fetch(`${apiBase}/api/presentation`, {
+      const res = await fetch(`/api/pptx?module=marketers`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -99,15 +114,8 @@ export function MarketersScreen({ data }: MarketersScreenProps) {
       a.click();
       URL.revokeObjectURL(url);
     } catch {
-      // fallback via Next.js proxy route
-      const res = await fetch(`/api/pptx`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          ...data,
-          _ppt_module: "marketers",
-        }),
-      });
+      // fallback via Next.js direct query
+      const res = await fetch(`/api/presentation?client_id=${encodeURIComponent(clientId)}&period_label=${encodeURIComponent(periodLabel)}&module=marketers`);
       if (res.ok) {
         const blob = await res.blob();
         const url = URL.createObjectURL(blob);
@@ -121,6 +129,7 @@ export function MarketersScreen({ data }: MarketersScreenProps) {
       setPptxLoading(false);
     }
   };
+
 
   return (
     <div className="p-4 sm:p-6 lg:p-8 space-y-6 pb-24 md:pb-12 w-full">

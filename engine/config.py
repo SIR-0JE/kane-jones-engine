@@ -68,6 +68,9 @@ class ClientProfile:
     reconciliation_tolerance_pct: float = 0.01  # 1% tolerance between invoice gross_revenue and line item sum
     reconciliation_min_tolerance_amount: float = 100.0  # minimum naira tolerance for reconciliation check
     product_dominance_threshold: float = 0.20  # revenue share threshold (20%) above which a product is flagged as concentration risk
+    marketer_identifiers: list = field(default_factory=lambda: ["marketer", "sales rep", "rep", "agent"])
+    marketers: list = field(default_factory=lambda: ["Eniola Marketer", "AZ Marketer", "Eniola", "AZ"])
+    marketer_target_cases: int = 6000  # monthly target per marketer per spec §8
 
     def to_json(self, path: str):
         with open(path, "w") as f:
@@ -87,6 +90,8 @@ def kane_jones_profile() -> ClientProfile:
         raw_data_sheets=["tmpA1A6", "tmp32C7"],
         price_list_sheet="Price list",
         daily_sheet_pattern="* Sales Report*",
+        marketers=["Eniola Marketer", "AZ Marketer", "Eniola", "AZ"],
+        marketer_target_cases=6000,
         manual_overrides={
             "Amstel Bottle": "Amstel Malta Bottle 33cl",
             "Amstel Can": "Amstel Malta Sleek Can 33cl",
@@ -95,3 +100,4 @@ def kane_jones_profile() -> ClientProfile:
             "Fayrouz Can": "Fayrouz Apple Watermelon Sleek Can",
         },
     )
+

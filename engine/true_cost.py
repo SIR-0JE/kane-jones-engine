@@ -258,7 +258,29 @@ def compute_marketer_profitability(
     prod_items["total_cost"] = prod_items["quantity"] * prod_items["tmp3f5d_cost"]
     prod_items["gross_profit"] = prod_items["revenue"] - prod_items["total_cost"]
 
-    # 3. Customer Summary
+    # 3. Customer & Marketer Summary
+    def _is_marketer(name: str) -> bool:
+        if not name or pd.isna(name):
+            return False
+        c_str = str(name).strip()
+        c_lower = c_str.lower()
+        if profile is not None:
+            # 1. Configured exact marketer names
+            if getattr(profile, "marketers", None):
+                for m in profile.marketers:
+                    m_clean = m.strip().lower()
+                    if m_clean == c_lower or m_clean in c_lower or c_lower in m_clean:
+                        return True
+            # 2. Configured marketer keyword identifiers
+            identifiers = getattr(profile, "marketer_identifiers", ["marketer", "sales rep", "rep", "agent"])
+            for kw in identifiers:
+                if kw in c_lower:
+                    return True
+        else:
+            if "marketer" in c_lower or "sales rep" in c_lower or "rep" in c_lower or "eniola" in c_lower or "az" in c_lower:
+                return True
+        return False
+
     cust_summary = prod_items.groupby("customer", as_index=False).agg(
         total_revenue=("revenue", "sum"),
         total_cost=("total_cost", "sum"),
@@ -271,15 +293,18 @@ def compute_marketer_profitability(
         cust_summary["total_gross_profit"] / cust_summary["total_revenue"],
         0.0
     )
-    # Spec §8: cases target is 6000 per marketer per month
-    CASES_TARGET = 6000
-    cust_summary["cases_target"] = CASES_TARGET
+    cust_summary["is_marketer"] = cust_summary["customer"].apply(_is_marketer)
+
+    # Spec §8: 6000 cases target is ONLY for marketers (e.g. Eniola & AZ)
+    target_val = profile.marketer_target_cases if profile and hasattr(profile, "marketer_target_cases") else 6000
+    cust_summary["cases_target"] = np.where(cust_summary["is_marketer"], target_val, None)
     cust_summary["pct_of_target_met"] = np.where(
-        CASES_TARGET > 0,
-        cust_summary["total_cases_sold"] / CASES_TARGET,
-        0.0
+        cust_summary["is_marketer"],
+        cust_summary["total_cases_sold"] / target_val,
+        None
     )
     cust_summary = cust_summary.sort_values(by="total_revenue", ascending=False).reset_index(drop=True)
+
 
     # 4. Detailed Per-Customer Product Breakdown
     customer_product_details = {}
