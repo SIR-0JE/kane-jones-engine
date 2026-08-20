@@ -82,7 +82,7 @@ class TestTrueCostEngine:
             profile=profile,
         )
 
-        assert len(cust_summary_df) == 43
+        assert len(cust_summary_df) == 42
 
         # Locate Eniola Marketer
         eniola_rows = cust_summary_df[cust_summary_df["customer"].str.contains("Eniola", case=False, na=False)]
@@ -94,15 +94,18 @@ class TestTrueCostEngine:
         assert eniola["total_cost"] == 24010817.0
         assert eniola["total_gross_profit"] == -475202.0
 
-        # Locate AZ Marketer
+        # Locate AZ Marketer (consolidated with Emmycee per spec §8)
         az_rows = cust_summary_df[cust_summary_df["customer"].str.contains("AZ", case=False, na=False)]
         assert not az_rows.empty
         az = az_rows.iloc[0]
 
-        assert az["total_revenue"] == 3642500.0
-        assert az["total_cases_sold"] == 660.0
-        assert az["total_cost"] == 3755050.0
-        assert az["total_gross_profit"] == -112550.0
+        assert az["total_revenue"] == 10728965.0
+        assert az["total_cases_sold"] == 1391.0
+        assert az["total_cost"] == 10812060.0
+        assert az["total_gross_profit"] == -83095.0
+        assert az["is_marketer"] == True
+        assert az["cases_target"] == 6000
+
 
     def test_sales_returns_analysis_benchmarks(self, parsed_data, profile):
         returns_df = parsed_data["returns_df"]

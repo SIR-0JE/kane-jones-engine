@@ -212,32 +212,43 @@ def compute_product_profitability(
 def compute_marketer_profitability(
     line_items_df: pd.DataFrame,
     df_inventory: pd.DataFrame,
-    profile: ClientProfile = None
+    profile: ClientProfile = None,
+    df_expenses: pd.DataFrame = None,
 ) -> Tuple[pd.DataFrame, Dict[str, pd.DataFrame], Dict[str, Any]]:
+
     """
     Computes customer (marketer) level true-cost profitability excluding empties,
     reproducing the 'Marketers' reference sheet.
 
     Returns:
     - customer_summary_df: Summary per customer (revenue, cost, gross profit, cases, invoices)
-    - customer_product_details: Dict of {customer_name: product_breakdown_df}
-    - overall_summary: Total metrics across all customers
+    Computes true-cost unit profitability aggregated by customer account & marketer.
+    Implements Spec §8 rules:
+      - Maps aliases (e.g. 'emmycee' -> 'AZ Marketer')
+      - Evaluates 6000-case target ONLY for verified marketers
+      - Attributes vehicle/operational expenses to marketers (e.g. Eniola Van)
     """
-    if profile is None:
-        from engine.config import kane_jones_profile
-        profile = kane_jones_profile()
-
     if line_items_df is None or line_items_df.empty:
         return pd.DataFrame(), {}, {}
 
     # 1. Filter out empties
-    empties_kws = [k.lower() for k in profile.empties_keywords]
+    empties_kws = [k.lower() for k in profile.empties_keywords] if profile else ["empty", "crate", "bottle"]
     is_empties_col = line_items_df["product_raw"].apply(
         lambda p: any(kw in str(p).lower() for kw in empties_kws)
     )
     prod_items = line_items_df[~is_empties_col].copy()
 
-    # 2. Map tmp3F5D costs
+    # 2. Normalize customer aliases (e.g. Emmycee -> AZ Marketer per spec §8)
+    if profile is not None and getattr(profile, "customer_aliases", None):
+        aliases = {str(k).strip().lower(): str(v).strip() for k, v in profile.customer_aliases.items()}
+        def _normalize_cust(c):
+            if not c or pd.isna(c):
+                return c
+            c_str = str(c).strip()
+            return aliases.get(c_str.lower(), c_str)
+        prod_items["customer"] = prod_items["customer"].apply(_normalize_cust)
+
+    # 3. Map tmp3F5D costs
     cost_map, dpp_map = build_inventory_cost_maps(df_inventory)
 
     matched_costs = []
@@ -258,7 +269,7 @@ def compute_marketer_profitability(
     prod_items["total_cost"] = prod_items["quantity"] * prod_items["tmp3f5d_cost"]
     prod_items["gross_profit"] = prod_items["revenue"] - prod_items["total_cost"]
 
-    # 3. Customer & Marketer Summary
+    # 4. Customer & Marketer Summary
     def _is_marketer(name: str) -> bool:
         if not name or pd.isna(name):
             return False
@@ -271,13 +282,13 @@ def compute_marketer_profitability(
                     m_clean = m.strip().lower()
                     if m_clean == c_lower or m_clean in c_lower or c_lower in m_clean:
                         return True
-            # 2. Configured marketer keyword identifiers
-            identifiers = getattr(profile, "marketer_identifiers", ["marketer", "sales rep", "rep", "agent"])
+            # 2. Strict marketer keyword identifiers (e.g. "marketer")
+            identifiers = getattr(profile, "marketer_identifiers", ["marketer"])
             for kw in identifiers:
                 if kw in c_lower:
                     return True
         else:
-            if "marketer" in c_lower or "sales rep" in c_lower or "rep" in c_lower or "eniola" in c_lower or "az" in c_lower:
+            if "marketer" in c_lower or "eniola" in c_lower or "az" in c_lower:
                 return True
         return False
 
@@ -295,7 +306,7 @@ def compute_marketer_profitability(
     )
     cust_summary["is_marketer"] = cust_summary["customer"].apply(_is_marketer)
 
-    # Spec §8: 6000 cases target is ONLY for marketers (e.g. Eniola & AZ)
+    # Spec §8: 6000 cases target is ONLY for marketers
     target_val = profile.marketer_target_cases if profile and hasattr(profile, "marketer_target_cases") else 6000
     cust_summary["cases_target"] = np.where(cust_summary["is_marketer"], target_val, None)
     cust_summary["pct_of_target_met"] = np.where(
@@ -303,8 +314,47 @@ def compute_marketer_profitability(
         cust_summary["total_cases_sold"] / target_val,
         None
     )
-    cust_summary = cust_summary.sort_values(by="total_revenue", ascending=False).reset_index(drop=True)
 
+    # 5. Marketer Attributable Expenses (§8 & §10)
+    # Attribute van/vehicle running expenses to marketers
+    attributable_expenses = []
+    exp_mapping = getattr(profile, "marketer_expenses_mapping", {}) if profile else {}
+    for idx, r in cust_summary.iterrows():
+        if not r["is_marketer"] or df_expenses is None or df_expenses.empty:
+            attributable_expenses.append(0.0)
+            continue
+
+        c_name = str(r["customer"]).strip()
+        c_lower = c_name.lower()
+
+        # Find matching keywords for this marketer
+        keywords = exp_mapping.get(c_name, [])
+        if not keywords:
+            # default heuristics
+            if "eniola" in c_lower:
+                keywords = ["eniola", "bdg301xx"]
+            elif "az" in c_lower:
+                keywords = []  # AZ has no van assigned yet
+            else:
+                keywords = [c_lower]
+
+        total_exp = 0.0
+        if keywords and "category" in df_expenses.columns:
+            for _, exp_row in df_expenses.iterrows():
+                cat_str = str(exp_row.get("category", "")).lower()
+                amt = float(exp_row.get("amount", 0.0) or 0.0)
+                if any(kw in cat_str for kw in keywords):
+                    total_exp += amt
+        attributable_expenses.append(total_exp)
+
+    cust_summary["attributable_expenses"] = attributable_expenses
+    cust_summary["net_marketer_profit"] = np.where(
+        cust_summary["is_marketer"],
+        cust_summary["total_gross_profit"] - cust_summary["attributable_expenses"],
+        cust_summary["total_gross_profit"]
+    )
+
+    cust_summary = cust_summary.sort_values(by="total_revenue", ascending=False).reset_index(drop=True)
 
     # 4. Detailed Per-Customer Product Breakdown
     customer_product_details = {}

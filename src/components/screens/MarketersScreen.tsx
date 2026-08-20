@@ -310,9 +310,11 @@ export function MarketersScreen({ data }: MarketersScreenProps) {
                   </span>
                 </th>
                 <th className="py-3 px-3 text-right">% Met</th>
-                <th className="py-3 px-4 text-right">Revenue (excl. empties)</th>
+                <th className="py-3 px-4 text-right">Revenue</th>
                 <th className="py-3 px-4 text-right">True Cost</th>
                 <th className="py-3 px-4 text-right">Gross Profit</th>
+                <th className="py-3 px-4 text-right">Op. Expenses</th>
+                <th className="py-3 px-4 text-right">Net Profit</th>
                 <th className="py-3 px-4 text-right">Margin %</th>
                 <th className="py-3 px-3 text-center">Action</th>
               </tr>
@@ -320,10 +322,12 @@ export function MarketersScreen({ data }: MarketersScreenProps) {
             <tbody className="divide-y divide-slate-100 font-inter">
               {filteredMarketers.length > 0 ? (
                 filteredMarketers.map((item, idx) => {
-                  const isLoss = (item.total_gross_profit || 0) < 0;
+                  const isLoss = (item.net_marketer_profit ?? item.total_gross_profit ?? 0) < 0;
                   const casesTarget = item.cases_target ?? TARGET_PER_MARKETER;
                   const pctTarget = item.pct_of_target_met ?? (item.total_cases_sold / casesTarget);
                   const metTarget = pctTarget >= 1.0;
+                  const opExp = item.attributable_expenses || 0;
+                  const netProfit = item.net_marketer_profit ?? (item.total_gross_profit - opExp);
 
                   return (
                     <tr
@@ -353,11 +357,9 @@ export function MarketersScreen({ data }: MarketersScreenProps) {
                       <td className="py-3 px-3 text-right text-slate-800 font-semibold">
                         {formatNumber(item.total_cases_sold)}
                       </td>
-                      {/* Target */}
                       <td className="py-3 px-3 text-right text-slate-400 font-medium">
                         {formatNumber(casesTarget)}
                       </td>
-                      {/* % Met */}
                       <td className="py-3 px-3 text-right">
                         <span
                           className={`text-xs font-bold ${
@@ -375,10 +377,20 @@ export function MarketersScreen({ data }: MarketersScreenProps) {
                       </td>
                       <td
                         className={`py-3 px-4 text-right font-bold ${
-                          isLoss ? "text-rose-700" : "text-emerald-700"
+                          item.total_gross_profit < 0 ? "text-rose-700" : "text-emerald-700"
                         }`}
                       >
                         {formatCurrency(item.total_gross_profit, currency)}
+                      </td>
+                      <td className="py-3 px-4 text-right text-slate-600 font-medium">
+                        {opExp > 0 ? `−${formatCurrency(opExp, currency)}` : "₦0"}
+                      </td>
+                      <td
+                        className={`py-3 px-4 text-right font-bold ${
+                          netProfit < 0 ? "text-rose-700" : "text-emerald-700"
+                        }`}
+                      >
+                        {formatCurrency(netProfit, currency)}
                       </td>
                       <td
                         className={`py-3 px-4 text-right font-extrabold ${
@@ -387,12 +399,11 @@ export function MarketersScreen({ data }: MarketersScreenProps) {
                       >
                         {formatPercent(item.gross_profit_pct)}
                       </td>
-                      {/* Drill-down */}
                       <td className="py-3 px-3 text-center">
                         <button
                           onClick={() => setDrillMarketer(item)}
-                          className="p-1.5 rounded-lg bg-slate-100 hover:bg-amber-100 text-slate-500 hover:text-amber-700 transition-colors"
-                          title="View marketer drill-down"
+                          className="p-1.5 rounded-lg bg-slate-100 hover:bg-amber-500/10 text-slate-500 hover:text-amber-600 transition-colors"
+                          title="View marketer breakdown"
                         >
                           <ChevronRight className="w-3.5 h-3.5" />
                         </button>
@@ -402,8 +413,8 @@ export function MarketersScreen({ data }: MarketersScreenProps) {
                 })
               ) : (
                 <tr>
-                  <td colSpan={10} className="py-8 text-center text-slate-400">
-                    No marketers match your selected criteria.
+                  <td colSpan={12} className="py-8 text-center text-slate-400">
+                    No marketers found matching your filter criteria.
                   </td>
                 </tr>
               )}
@@ -440,14 +451,14 @@ export function MarketersScreen({ data }: MarketersScreenProps) {
             </div>
 
             {/* KPI Cards */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 p-5">
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 p-5">
               {[
                 {
                   label: "Cases Sold",
                   value: `${formatNumber(drillMarketer.total_cases_sold)} cs`,
                 },
                 {
-                  label: "Target Attainment",
+                  label: "Target %",
                   value: `${((drillMarketer.pct_of_target_met ?? drillMarketer.total_cases_sold / TARGET_PER_MARKETER) * 100).toFixed(1)}%`,
                   highlight:
                     (drillMarketer.pct_of_target_met ?? drillMarketer.total_cases_sold / TARGET_PER_MARKETER) >= 1.0
@@ -463,6 +474,19 @@ export function MarketersScreen({ data }: MarketersScreenProps) {
                   value: formatCurrency(drillMarketer.total_gross_profit, currency, true),
                   highlight: (drillMarketer.total_gross_profit || 0) < 0 ? "text-rose-700" : "text-emerald-700",
                 },
+                {
+                  label: "Van / Op. Expenses",
+                  value: (drillMarketer.attributable_expenses || 0) > 0 ? `−${formatCurrency(drillMarketer.attributable_expenses || 0, currency, true)}` : "₦0",
+                },
+                {
+                  label: "Net Profit",
+                  value: formatCurrency(
+                    drillMarketer.net_marketer_profit ?? (drillMarketer.total_gross_profit - (drillMarketer.attributable_expenses || 0)),
+                    currency,
+                    true
+                  ),
+                  highlight: (drillMarketer.net_marketer_profit ?? (drillMarketer.total_gross_profit - (drillMarketer.attributable_expenses || 0))) < 0 ? "text-rose-700" : "text-emerald-700",
+                },
               ].map((kpi) => (
                 <div key={kpi.label} className="bg-slate-50 border border-slate-200 rounded-xl p-3 space-y-1">
                   <p className="text-[10px] text-slate-500 font-inter">{kpi.label}</p>
@@ -472,6 +496,7 @@ export function MarketersScreen({ data }: MarketersScreenProps) {
                 </div>
               ))}
             </div>
+
 
             {/* Badges & Tags */}
             <div className="px-5 pb-3 flex items-center gap-2 flex-wrap">

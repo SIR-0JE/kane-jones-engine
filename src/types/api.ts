@@ -170,7 +170,10 @@ export interface TrueCostMarketerItem {
   is_marketer?: boolean;
   cases_target?: number;
   pct_of_target_met?: number;
+  attributable_expenses?: number;
+  net_marketer_profit?: number;
 }
+
 
 
 

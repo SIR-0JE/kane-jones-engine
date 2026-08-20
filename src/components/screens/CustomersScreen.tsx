@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
+
 import {
   Users,
   AlertOctagon,
@@ -13,6 +14,7 @@ import {
   FileText,
   Presentation,
   Loader2,
+  ArrowRightLeft,
 } from "lucide-react";
 import { AnalyzeResponse, CustomerMarginItem, TrueCostMarketerItem } from "@/types/api";
 import { formatCurrency, formatPercent, formatNumber } from "@/lib/api";
@@ -33,6 +35,15 @@ export function CustomersScreen({ data }: CustomersScreenProps) {
   const [viewFilter, setViewFilter] = useState<"all" | "loss" | "profit">("all");
   const [drillCustomer, setDrillCustomer] = useState<TrueCostMarketerItem | null>(null);
   const [pptxLoading, setPptxLoading] = useState<boolean>(false);
+
+  // In-tab Customer Comparison State
+  const [selectedCustA, setSelectedCustA] = useState<string>(
+    trueCostMarketers[0]?.customer || ""
+  );
+  const [selectedCustB, setSelectedCustB] = useState<string>(
+    trueCostMarketers[1]?.customer || trueCostMarketers[0]?.customer || ""
+  );
+
 
   // Loss accounts count
   const trueCostLossCount = trueCostMarketers.filter((c) => (c.total_gross_profit || 0) < 0).length;
@@ -178,9 +189,165 @@ export function CustomersScreen({ data }: CustomersScreenProps) {
         </div>
       )}
 
+      {/* Customer-to-Customer Comparative Analytics Widget */}
+      {trueCostMarketers.length >= 2 && (
+        <div className="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-2xs space-y-4">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-3">
+            <div className="flex items-center gap-2">
+              <div className="p-1.5 bg-[#7c6fff]/10 rounded-lg text-[#7c6fff]">
+                <ArrowRightLeft className="w-4 h-4" />
+              </div>
+              <div>
+                <h2 className="text-xs sm:text-sm font-bold text-slate-900 font-sora">
+                  Customer vs. Customer Comparison
+                </h2>
+                <p className="text-[11px] text-slate-500 font-inter">
+                  Benchmark volume, revenue, true cost, and profitability between any two customer accounts
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Selectors */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 bg-slate-50 p-3 rounded-xl border border-slate-100">
+            <div className="flex flex-col gap-1">
+              <label className="text-[11px] font-bold text-slate-700 font-sora">
+                Baseline Customer (A):
+              </label>
+              <select
+                value={selectedCustA}
+                onChange={(e) => setSelectedCustA(e.target.value)}
+                className="w-full bg-white border border-slate-200 rounded-lg px-2.5 py-1.5 text-xs font-medium text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#7c6fff]"
+              >
+                {trueCostMarketers.map((c) => (
+                  <option key={`custA-${c.customer}`} value={c.customer}>
+                    {c.customer} ({formatCurrency(c.total_revenue, currency, true)})
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div className="flex flex-col gap-1">
+              <label className="text-[11px] font-bold text-slate-700 font-sora">
+                Comparison Customer (B):
+              </label>
+              <select
+                value={selectedCustB}
+                onChange={(e) => setSelectedCustB(e.target.value)}
+                className="w-full bg-white border border-slate-200 rounded-lg px-2.5 py-1.5 text-xs font-medium text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#7c6fff]"
+              >
+                {trueCostMarketers.map((c) => (
+                  <option key={`custB-${c.customer}`} value={c.customer}>
+                    {c.customer} ({formatCurrency(c.total_revenue, currency, true)})
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+
+          {/* Comparison Metrics Grid */}
+          {(() => {
+            const custA = trueCostMarketers.find((c) => c.customer === selectedCustA) || trueCostMarketers[0];
+            const custB = trueCostMarketers.find((c) => c.customer === selectedCustB) || trueCostMarketers[1] || trueCostMarketers[0];
+            if (!custA || !custB) return null;
+
+            const deltaRev = (custB.total_revenue || 0) - (custA.total_revenue || 0);
+            const deltaRevPct = custA.total_revenue > 0 ? (deltaRev / custA.total_revenue) * 100 : 0;
+            const deltaCases = (custB.total_cases_sold || 0) - (custA.total_cases_sold || 0);
+            const deltaInvoices = (custB.invoices || 0) - (custA.invoices || 0);
+            const deltaCost = (custB.total_cost || 0) - (custA.total_cost || 0);
+            const deltaGp = (custB.total_gross_profit || 0) - (custA.total_gross_profit || 0);
+            const deltaMarginPts = ((custB.gross_profit_pct || 0) - (custA.gross_profit_pct || 0)) * 100;
+
+            return (
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5">
+                {/* Revenue */}
+                <div className="p-3 bg-slate-50/70 rounded-xl border border-slate-200/70 space-y-1">
+                  <span className="text-[10px] font-bold text-slate-500 uppercase font-sora block">
+                    Revenue Delta
+                  </span>
+                  <div className={`text-xs sm:text-sm font-extrabold font-sora ${deltaRev >= 0 ? "text-emerald-700" : "text-rose-700"}`}>
+                    {deltaRev >= 0 ? "+" : ""}{formatCurrency(deltaRev, currency, true)}
+                  </div>
+                  <span className="text-[10px] text-slate-500 font-inter block">
+                    {deltaRevPct >= 0 ? "+" : ""}{deltaRevPct.toFixed(1)}% vs Base
+                  </span>
+                </div>
+
+                {/* Cases Sold */}
+                <div className="p-3 bg-slate-50/70 rounded-xl border border-slate-200/70 space-y-1">
+                  <span className="text-[10px] font-bold text-slate-500 uppercase font-sora block">
+                    Cases Delta
+                  </span>
+                  <div className={`text-xs sm:text-sm font-extrabold font-sora ${deltaCases >= 0 ? "text-emerald-700" : "text-rose-700"}`}>
+                    {deltaCases >= 0 ? "+" : ""}{formatNumber(deltaCases)} cs
+                  </div>
+                  <span className="text-[10px] text-slate-500 font-inter block">
+                    Base: {formatNumber(custA.total_cases_sold)} cs
+                  </span>
+                </div>
+
+                {/* Invoices */}
+                <div className="p-3 bg-slate-50/70 rounded-xl border border-slate-200/70 space-y-1">
+                  <span className="text-[10px] font-bold text-slate-500 uppercase font-sora block">
+                    Invoices Delta
+                  </span>
+                  <div className={`text-xs sm:text-sm font-extrabold font-sora ${deltaInvoices >= 0 ? "text-emerald-700" : "text-rose-700"}`}>
+                    {deltaInvoices >= 0 ? "+" : ""}{deltaInvoices} inv
+                  </div>
+                  <span className="text-[10px] text-slate-500 font-inter block">
+                    Base: {custA.invoices} invoices
+                  </span>
+                </div>
+
+                {/* True Cost */}
+                <div className="p-3 bg-slate-50/70 rounded-xl border border-slate-200/70 space-y-1">
+                  <span className="text-[10px] font-bold text-slate-500 uppercase font-sora block">
+                    Cost Delta
+                  </span>
+                  <div className={`text-xs sm:text-sm font-extrabold font-sora ${deltaCost <= 0 ? "text-emerald-700" : "text-amber-700"}`}>
+                    {deltaCost >= 0 ? "+" : ""}{formatCurrency(deltaCost, currency, true)}
+                  </div>
+                  <span className="text-[10px] text-slate-500 font-inter block">
+                    Base: {formatCurrency(custA.total_cost, currency, true)}
+                  </span>
+                </div>
+
+                {/* Gross Profit */}
+                <div className="p-3 bg-slate-50/70 rounded-xl border border-slate-200/70 space-y-1">
+                  <span className="text-[10px] font-bold text-slate-500 uppercase font-sora block">
+                    Gross Profit Delta
+                  </span>
+                  <div className={`text-xs sm:text-sm font-extrabold font-sora ${deltaGp >= 0 ? "text-emerald-700" : "text-rose-700"}`}>
+                    {deltaGp >= 0 ? "+" : ""}{formatCurrency(deltaGp, currency, true)}
+                  </div>
+                  <span className="text-[10px] text-slate-500 font-inter block">
+                    Base: {formatCurrency(custA.total_gross_profit, currency, true)}
+                  </span>
+                </div>
+
+                {/* Margin Spread */}
+                <div className="p-3 bg-slate-50/70 rounded-xl border border-slate-200/70 space-y-1">
+                  <span className="text-[10px] font-bold text-slate-500 uppercase font-sora block">
+                    Margin Spread
+                  </span>
+                  <div className={`text-xs sm:text-sm font-extrabold font-sora ${deltaMarginPts >= 0 ? "text-emerald-700" : "text-rose-700"}`}>
+                    {deltaMarginPts >= 0 ? "+" : ""}{deltaMarginPts.toFixed(2)} pts
+                  </div>
+                  <span className="text-[10px] text-slate-500 font-inter block">
+                    Base: {formatPercent(custA.gross_profit_pct)}
+                  </span>
+                </div>
+              </div>
+            );
+          })()}
+        </div>
+      )}
+
       {/* 3. Filter and Search Bar */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
         <div className="relative flex-1 max-w-sm">
+
           <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
           <input
             type="text"

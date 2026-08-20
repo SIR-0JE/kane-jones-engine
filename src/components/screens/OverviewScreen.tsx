@@ -278,11 +278,13 @@ export function OverviewScreen({ data, onNavigate, onDeleteAudit, onRenameAudit 
         const grossSales = bridge?.gross_sales_revenue ?? meta.total_revenue ?? 0;
         const salesReturns = bridge?.total_sales_returns ?? 0;
         const netSales = bridge?.net_sales_revenue ?? (grossSales - salesReturns);
-        const productCost = bridge?.total_cost ?? bridge?.total_cost_embedded ?? 0;
-        const grossProfit = bridge?.net_gross_profit_loss ?? (netSales - productCost);
+        const grossCost = bridge?.total_cost ?? bridge?.gross_embedded_cost ?? 0;
+        const purchaseReturns = bridge?.purchase_returns ?? 0;
+        const netCost = bridge?.net_cost ?? (grossCost - purchaseReturns);
+        const grossProfit = bridge?.gross_profit ?? bridge?.net_gross_profit_loss ?? (netSales - netCost);
         const grossMarginPct = bridge?.net_gross_margin_pct ?? (netSales > 0 ? grossProfit / netSales : 0);
         const opExpenses = bridge?.total_operating_expenses ?? 0;
-        const netOpLoss = bridge?.net_operating_profit_loss ?? (grossProfit - opExpenses);
+        const netOpLoss = bridge?.net_profit ?? bridge?.net_operating_profit_loss ?? (grossProfit - opExpenses);
         const returnRate = bridge?.return_rate ?? (grossSales > 0 ? salesReturns / grossSales : 0);
         const netMarginPct = bridge?.net_operating_margin_pct ?? (netSales > 0 ? netOpLoss / netSales : 0);
 
@@ -358,14 +360,15 @@ export function OverviewScreen({ data, onNavigate, onDeleteAudit, onRenameAudit 
                     formattedExact: `−${formatCurrency(salesReturns, currency, false)}`,
                     formattedCompact: `−${formatCurrency(salesReturns, currency, true)}`,
                     isDeduction: true,
-                    description: "Total value of credit notes issued to customers for returned products and returned empties/crates during the period.",
-                    formula: "Sum of all Credit Note voucher credit amounts",
-                    sourceSheet: "Sales Returns Sheet (tmpCEF3 / Credit Notes)",
+                    description: "Total value of credit notes issued to customers for returned products and empty crates/bottles.",
+                    formula: "Sum of (Return Quantity × Unit Return Price) from Sales Returns Sheet (tmpCEF3)",
+                    sourceSheet: "Sales Returns & Credit Notes (tmpCEF3)",
                     targetTab: "returns",
                     details: [
-                      { label: "Return Rate", value: `${formatPercent(returnRate)} of Gross Sales` },
-                      { label: "Product Returns", value: formatCurrency(data.returns_analysis?.product_returns_value || 0, currency, false) },
-                      { label: "Empties Returns", value: formatCurrency(data.returns_analysis?.empties_returns_value || 0, currency, false) },
+                      { label: "Product Returns", value: formatCurrency(bridge?.product_returns_value || 0, currency, false) },
+                      { label: "Empties / Crates Returns", value: formatCurrency(bridge?.empties_returns_value || 0, currency, false) },
+                      { label: "Total Returns Credited", value: formatCurrency(salesReturns, currency, false) },
+                      { label: "Return Rate (% Gross)", value: formatPercent(returnRate) },
                     ],
                   })
                 }
@@ -418,37 +421,38 @@ export function OverviewScreen({ data, onNavigate, onDeleteAudit, onRenameAudit 
                 </div>
               </div>
 
-              {/* Step 4: Total Cost (Product COGS - RED DEDUCTION) */}
+              {/* Step 4: Net Cost (Total Cost − Purchase Returns - RED DEDUCTION) */}
               <div
                 onClick={() =>
                   setSelectedMetric({
                     step: "Step 4",
-                    title: "Product Cost of Goods Sold (COGS)",
-                    value: productCost,
-                    formattedExact: `−${formatCurrency(productCost, currency, false)}`,
-                    formattedCompact: `−${formatCurrency(productCost, currency, true)}`,
+                    title: "Net Cost (Total Cost − Purchase Returns)",
+                    value: netCost,
+                    formattedExact: `−${formatCurrency(netCost, currency, false)}`,
+                    formattedCompact: `−${formatCurrency(netCost, currency, true)}`,
                     isDeduction: true,
-                    description: "Direct manufacturer/distributor cost of goods sold across all sales invoices, strictly excluding container bottle/crate deposits.",
-                    formula: "Sum of (Line Item Quantity × Unit Product Purchase Cost)",
-                    sourceSheet: "Invoice Product Line Items & Inventory Cost Master (tmp3F5D)",
+                    description: "Net cost of goods sold computed as Total Invoiced Embedded Cost minus Purchase Returns (goods returned to suppliers).",
+                    formula: "Total Invoiced Cost − Purchase Returns",
+                    sourceSheet: "Invoice Product Line Items (tmp3F5D) & Purchase Returns",
                     targetTab: "products",
                     details: [
-                      { label: "Product COGS Total", value: formatCurrency(productCost, currency, false) },
-                      { label: "Container Empties", value: "Excluded (Pass-through deposit)" },
+                      { label: "Total Invoiced Cost", value: formatCurrency(grossCost, currency, false) },
+                      { label: "Purchase Returns", value: purchaseReturns > 0 ? `−${formatCurrency(purchaseReturns, currency, false)}` : "₦0.00 (None recorded)" },
+                      { label: "Net Cost Basis", value: formatCurrency(netCost, currency, false) },
                     ],
                   })
                 }
                 className="bg-rose-50/60 hover:bg-rose-100/50 hover:border-rose-300 hover:shadow-sm cursor-pointer p-3.5 sm:p-4 rounded-xl border border-rose-200 shadow-xs flex flex-col justify-between transition-all"
               >
                 <span className="text-[10px] font-bold text-rose-700 uppercase tracking-wider font-sora">
-                  4. Product Cost
+                  4. Net Cost
                 </span>
                 <div className="mt-2">
                   <div className="text-base sm:text-lg lg:text-xl font-bold text-rose-700 tracking-tight font-sora truncate">
-                    {displayMoney(productCost, true)}
+                    {displayMoney(netCost, true)}
                   </div>
                   <span className="text-[11px] text-rose-600 font-medium block mt-1">
-                    Excl. empties
+                    Total Cost − Returns
                   </span>
                 </div>
               </div>
@@ -463,14 +467,15 @@ export function OverviewScreen({ data, onNavigate, onDeleteAudit, onRenameAudit 
                     formattedExact: `${grossProfit >= 0 ? "+" : ""}${formatCurrency(grossProfit, currency, false)}`,
                     formattedCompact: `${grossProfit >= 0 ? "+" : ""}${formatCurrency(grossProfit, currency, true)}`,
                     description: "Trading gross profit after deducting true product purchase cost and sales returns from gross revenue.",
-                    formula: "Net Sales Revenue − Product COGS",
+                    formula: "Net Sales Revenue − Net Cost",
                     sourceSheet: "Trading P&L Calculation",
                     details: [
                       { label: "Net Sales", value: formatCurrency(netSales, currency, false) },
-                      { label: "Product Cost", value: `−${formatCurrency(productCost, currency, false)}` },
+                      { label: "Net Cost", value: `−${formatCurrency(netCost, currency, false)}` },
                       { label: "Gross Margin %", value: formatPercent(grossMarginPct) },
                     ],
                   })
+
                 }
                 className={`cursor-pointer p-3.5 sm:p-4 rounded-xl border shadow-xs flex flex-col justify-between transition-all ${
                   grossProfit >= 0

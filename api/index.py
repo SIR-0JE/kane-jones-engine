@@ -335,8 +335,11 @@ async def analyze_sales_report(
         if not df_inv.empty:
             prod_true_cost_df, prod_tc_summary, prod_tc_anom = compute_product_profitability(li_df, df_inv, profile)
             true_cost_products = df_to_records(prod_true_cost_df)
-            cust_tc_df, cust_tc_prod_map, cust_tc_summary = compute_marketer_profitability(li_df, df_inv, profile)
+            cust_tc_df, cust_tc_prod_map, cust_tc_summary = compute_marketer_profitability(
+                li_df, df_inv, profile, df_expenses=df_expenses
+            )
             true_cost_marketers = df_to_records(cust_tc_df)
+
 
         if not df_returns.empty:
             returns_analysis = compute_returns_analysis(df_returns, total_revenue, li_df, profile)

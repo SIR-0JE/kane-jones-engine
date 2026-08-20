@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
+
 import {
   Package,
   AlertCircle,
@@ -12,6 +13,8 @@ import {
   Info,
   Presentation,
   Loader2,
+  ArrowRightLeft,
+  Layers,
 } from "lucide-react";
 import { AnalyzeResponse, TrueCostProductItem } from "@/types/api";
 import { formatCurrency, formatPercent, formatNumber } from "@/lib/api";
@@ -34,6 +37,15 @@ export function ProductsScreen({ data }: ProductsScreenProps) {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [profitFilter, setProfitFilter] = useState<"all" | "negative" | "positive">("all");
   const [pptxLoading, setPptxLoading] = useState<boolean>(false);
+
+  // In-tab Product Comparison State
+  const [selectedProductA, setSelectedProductA] = useState<string>(
+    trueCostProducts[0]?.product_raw || ""
+  );
+  const [selectedProductB, setSelectedProductB] = useState<string>(
+    trueCostProducts[1]?.product_raw || trueCostProducts[0]?.product_raw || ""
+  );
+
 
   // Summary figures for True-Cost matrix
   const totalCases = trueCostProducts.reduce((acc, p) => acc + (p.cases_sold || 0), 0);
@@ -215,9 +227,165 @@ export function ProductsScreen({ data }: ProductsScreenProps) {
             </div>
           </div>
 
+          {/* Product-to-Product Comparative Analytics Widget */}
+          {trueCostProducts.length >= 2 && (
+            <div className="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-2xs space-y-4">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-3">
+                <div className="flex items-center gap-2">
+                  <div className="p-1.5 bg-[#7c6fff]/10 rounded-lg text-[#7c6fff]">
+                    <ArrowRightLeft className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <h2 className="text-xs sm:text-sm font-bold text-slate-900 font-sora">
+                      Product vs. Product Comparison
+                    </h2>
+                    <p className="text-[11px] text-slate-500 font-inter">
+                      Compare pricing, volume, true cost basis, and margin spread between any two SKUs
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Selectors */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 bg-slate-50 p-3 rounded-xl border border-slate-100">
+                <div className="flex flex-col gap-1">
+                  <label className="text-[11px] font-bold text-slate-700 font-sora">
+                    Baseline Product (A):
+                  </label>
+                  <select
+                    value={selectedProductA}
+                    onChange={(e) => setSelectedProductA(e.target.value)}
+                    className="w-full bg-white border border-slate-200 rounded-lg px-2.5 py-1.5 text-xs font-medium text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#7c6fff]"
+                  >
+                    {trueCostProducts.map((p) => (
+                      <option key={`prodA-${p.product_raw}`} value={p.product_raw}>
+                        {p.product_raw} ({formatCurrency(p.revenue, currency, true)})
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <div className="flex flex-col gap-1">
+                  <label className="text-[11px] font-bold text-slate-700 font-sora">
+                    Comparison Product (B):
+                  </label>
+                  <select
+                    value={selectedProductB}
+                    onChange={(e) => setSelectedProductB(e.target.value)}
+                    className="w-full bg-white border border-slate-200 rounded-lg px-2.5 py-1.5 text-xs font-medium text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#7c6fff]"
+                  >
+                    {trueCostProducts.map((p) => (
+                      <option key={`prodB-${p.product_raw}`} value={p.product_raw}>
+                        {p.product_raw} ({formatCurrency(p.revenue, currency, true)})
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+
+              {/* Side-by-Side Comparison Metrics Grid */}
+              {(() => {
+                const prodA = trueCostProducts.find((p) => p.product_raw === selectedProductA) || trueCostProducts[0];
+                const prodB = trueCostProducts.find((p) => p.product_raw === selectedProductB) || trueCostProducts[1] || trueCostProducts[0];
+                if (!prodA || !prodB) return null;
+
+                const deltaRev = (prodB.revenue || 0) - (prodA.revenue || 0);
+                const deltaRevPct = prodA.revenue > 0 ? (deltaRev / prodA.revenue) * 100 : 0;
+                const deltaCases = (prodB.cases_sold || 0) - (prodA.cases_sold || 0);
+                const deltaPrice = (prodB.avg_selling_price || 0) - (prodA.avg_selling_price || 0);
+                const deltaCost = (prodB.tmp3f5d_cost || 0) - (prodA.tmp3f5d_cost || 0);
+                const deltaGp = (prodB.gross_profit || 0) - (prodA.gross_profit || 0);
+                const deltaMarginPts = ((prodB.gross_profit_pct || 0) - (prodA.gross_profit_pct || 0)) * 100;
+
+                return (
+                  <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5">
+                    {/* Revenue */}
+                    <div className="p-3 bg-slate-50/70 rounded-xl border border-slate-200/70 space-y-1">
+                      <span className="text-[10px] font-bold text-slate-500 uppercase font-sora block">
+                        Revenue Delta
+                      </span>
+                      <div className={`text-xs sm:text-sm font-extrabold font-sora ${deltaRev >= 0 ? "text-emerald-700" : "text-rose-700"}`}>
+                        {deltaRev >= 0 ? "+" : ""}{formatCurrency(deltaRev, currency, true)}
+                      </div>
+                      <span className="text-[10px] text-slate-500 font-inter block">
+                        {deltaRevPct >= 0 ? "+" : ""}{deltaRevPct.toFixed(1)}% vs Base
+                      </span>
+                    </div>
+
+                    {/* Cases */}
+                    <div className="p-3 bg-slate-50/70 rounded-xl border border-slate-200/70 space-y-1">
+                      <span className="text-[10px] font-bold text-slate-500 uppercase font-sora block">
+                        Volume Delta
+                      </span>
+                      <div className={`text-xs sm:text-sm font-extrabold font-sora ${deltaCases >= 0 ? "text-emerald-700" : "text-rose-700"}`}>
+                        {deltaCases >= 0 ? "+" : ""}{formatNumber(deltaCases)} cs
+                      </div>
+                      <span className="text-[10px] text-slate-500 font-inter block">
+                        Base: {formatNumber(prodA.cases_sold)} cs
+                      </span>
+                    </div>
+
+                    {/* Realized Price */}
+                    <div className="p-3 bg-slate-50/70 rounded-xl border border-slate-200/70 space-y-1">
+                      <span className="text-[10px] font-bold text-slate-500 uppercase font-sora block">
+                        Price / Case
+                      </span>
+                      <div className={`text-xs sm:text-sm font-extrabold font-sora ${deltaPrice >= 0 ? "text-emerald-700" : "text-rose-700"}`}>
+                        {deltaPrice >= 0 ? "+" : ""}{formatCurrency(deltaPrice, currency)}
+                      </div>
+                      <span className="text-[10px] text-slate-500 font-inter block">
+                        Base: {formatCurrency(prodA.avg_selling_price, currency)}
+                      </span>
+                    </div>
+
+                    {/* Unit Cost */}
+                    <div className="p-3 bg-slate-50/70 rounded-xl border border-slate-200/70 space-y-1">
+                      <span className="text-[10px] font-bold text-slate-500 uppercase font-sora block">
+                        Cost / Case
+                      </span>
+                      <div className={`text-xs sm:text-sm font-extrabold font-sora ${deltaCost <= 0 ? "text-emerald-700" : "text-amber-700"}`}>
+                        {deltaCost >= 0 ? "+" : ""}{formatCurrency(deltaCost, currency)}
+                      </div>
+                      <span className="text-[10px] text-slate-500 font-inter block">
+                        Base: {formatCurrency(prodA.tmp3f5d_cost, currency)}
+                      </span>
+                    </div>
+
+                    {/* Gross Profit */}
+                    <div className="p-3 bg-slate-50/70 rounded-xl border border-slate-200/70 space-y-1">
+                      <span className="text-[10px] font-bold text-slate-500 uppercase font-sora block">
+                        Gross Profit Delta
+                      </span>
+                      <div className={`text-xs sm:text-sm font-extrabold font-sora ${deltaGp >= 0 ? "text-emerald-700" : "text-rose-700"}`}>
+                        {deltaGp >= 0 ? "+" : ""}{formatCurrency(deltaGp, currency, true)}
+                      </div>
+                      <span className="text-[10px] text-slate-500 font-inter block">
+                        Base: {formatCurrency(prodA.gross_profit, currency, true)}
+                      </span>
+                    </div>
+
+                    {/* Margin Spread */}
+                    <div className="p-3 bg-slate-50/70 rounded-xl border border-slate-200/70 space-y-1">
+                      <span className="text-[10px] font-bold text-slate-500 uppercase font-sora block">
+                        Margin Spread
+                      </span>
+                      <div className={`text-xs sm:text-sm font-extrabold font-sora ${deltaMarginPts >= 0 ? "text-emerald-700" : "text-rose-700"}`}>
+                        {deltaMarginPts >= 0 ? "+" : ""}{deltaMarginPts.toFixed(2)} pts
+                      </div>
+                      <span className="text-[10px] text-slate-500 font-inter block">
+                        Base: {formatPercent(prodA.gross_profit_pct)}
+                      </span>
+                    </div>
+                  </div>
+                );
+              })()}
+            </div>
+          )}
+
           {/* Filters & Search Toolbar */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
             <div className="relative flex-1 max-w-sm">
+
               <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
               <input
                 type="text"
