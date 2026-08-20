@@ -116,11 +116,12 @@ export function CustomersScreen({ data }: CustomersScreenProps) {
             </div>
             <div>
               <h1 className="text-base font-extrabold text-slate-900 font-sora">
-                Customer &amp; Marketer Profitability
+                Customer Account Intelligence
               </h1>
               <p className="text-xs text-slate-500 font-inter">
-                True-cost customer P&amp;L (excluding empties) &amp; invoice transaction margins
+                Customer accounts, invoice-level margins &amp; true-cost profitability (§7)
               </p>
+
             </div>
           </div>
         </div>

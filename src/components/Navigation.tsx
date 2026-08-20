@@ -12,6 +12,7 @@ import {
   RotateCcw,
   Receipt,
   TrendingUp,
+  Award,
 } from "lucide-react";
 
 export type TabType =
@@ -21,11 +22,13 @@ export type TabType =
   | "pricing"
   | "products"
   | "customers"
+  | "marketers"
   | "returns"
   | "expenses"
   | "quality"
   | "trends"
   | "settings";
+
 
 
 interface NavigationProps {
@@ -81,12 +84,20 @@ export function Navigation({
       badgeColor: "bg-rose-600 text-white",
     },
     {
+      id: "marketers",
+      label: "Marketers",
+      icon: Award,
+      badge: undefined,
+      badgeColor: "",
+    },
+    {
       id: "returns",
       label: "Returns",
       icon: RotateCcw,
       badge: returnsCount > 0 ? returnsCount : undefined,
       badgeColor: "bg-[#7c6fff] text-white",
     },
+
     {
       id: "expenses",
       label: "Expenses",

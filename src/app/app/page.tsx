@@ -13,11 +13,13 @@ import { WeeklyScreen } from "@/components/screens/WeeklyScreen";
 import { PricingAuditScreen } from "@/components/screens/PricingAuditScreen";
 import { ProductsScreen } from "@/components/screens/ProductsScreen";
 import { CustomersScreen } from "@/components/screens/CustomersScreen";
+import { MarketersScreen } from "@/components/screens/MarketersScreen";
 import { ReturnsScreen } from "@/components/screens/ReturnsScreen";
 import { ExpensesScreen } from "@/components/screens/ExpensesScreen";
 import { DataQualityScreen } from "@/components/screens/DataQualityScreen";
 import { TrendScreen } from "@/components/screens/TrendScreen";
 import { SettingsScreen } from "@/components/screens/SettingsScreen";
+
 
 import { AnalyzeResponse, SnapshotSummary } from "@/types/api";
 import { fetchSnapshots, fetchSnapshot, deleteSnapshot, renameSnapshot } from "@/lib/api";
@@ -373,8 +375,10 @@ export default function AppDashboard() {
                   {activeTab === "pricing" && <PricingAuditScreen data={data} />}
                   {activeTab === "products" && <ProductsScreen data={data} />}
                   {activeTab === "customers" && <CustomersScreen data={data} />}
+                  {activeTab === "marketers" && <MarketersScreen data={data} />}
                   {activeTab === "returns" && <ReturnsScreen data={data} />}
                   {activeTab === "expenses" && <ExpensesScreen data={data} />}
+
                   {activeTab === "quality" && <DataQualityScreen data={data} />}
                   {activeTab === "trends" && (
                     <TrendScreen

@@ -17,7 +17,9 @@ import {
   X,
   Sparkles,
   TrendingUp,
+  Award,
 } from "lucide-react";
+
 
 import { TabType } from "@/components/Navigation";
 import { SnapshotSummary } from "@/types/api";
@@ -110,12 +112,20 @@ export function DesktopSidebar({
       badgeColor: "bg-rose-500 text-white",
     },
     {
+      id: "marketers" as TabType,
+      label: "Marketers",
+      icon: Award,
+      badge: null,
+      badgeColor: "",
+    },
+    {
       id: "returns" as TabType,
       label: "Sales Returns",
       icon: RotateCcw,
       badge: returnsCount > 0 ? returnsCount : null,
       badgeColor: "bg-[#7c6fff] text-white",
     },
+
     {
       id: "expenses" as TabType,
       label: "Expenses",
