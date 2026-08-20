@@ -16,7 +16,9 @@ import { CustomersScreen } from "@/components/screens/CustomersScreen";
 import { ReturnsScreen } from "@/components/screens/ReturnsScreen";
 import { ExpensesScreen } from "@/components/screens/ExpensesScreen";
 import { DataQualityScreen } from "@/components/screens/DataQualityScreen";
+import { TrendScreen } from "@/components/screens/TrendScreen";
 import { SettingsScreen } from "@/components/screens/SettingsScreen";
+
 import { AnalyzeResponse, SnapshotSummary } from "@/types/api";
 import { fetchSnapshots, fetchSnapshot, deleteSnapshot, renameSnapshot } from "@/lib/api";
 import { CANONICAL_JULY_SNAPSHOT } from "@/data/canonicalSnapshot";
@@ -374,8 +376,16 @@ export default function AppDashboard() {
                   {activeTab === "returns" && <ReturnsScreen data={data} />}
                   {activeTab === "expenses" && <ExpensesScreen data={data} />}
                   {activeTab === "quality" && <DataQualityScreen data={data} />}
+                  {activeTab === "trends" && (
+                    <TrendScreen
+                      data={data}
+                      allSnapshots={snapshots}
+                      clientId={session?.clientId || "kane-jones"}
+                    />
+                  )}
                 </>
               ) : null}
+
             </div>
           </div>
         </div>

@@ -766,13 +766,17 @@ def download_audit_report(
 @app.get("/api/report/pptx")
 @app.get("/presentation")
 @app.get("/api/presentation")
+@app.get("/pptx")
+@app.get("/api/pptx")
 def download_presentation_pptx_endpoint(
     client_id: str = Query("kane-jones", description="Client identifier"),
     period_label: str = Query("2026-07", description="Audit period label (e.g. '2026-07')"),
+    module: Optional[str] = Query(None, description="Optional curated module: 'customers', 'products', 'marketers', or 'overview'"),
 ):
     """
-    Generates and returns a 16-slide PowerPoint presentation (.pptx) report
+    Generates and returns a PowerPoint presentation (.pptx) report
     for the specified audit period based directly on the stored audit snapshot.
+    Supports curated module slide decks per spec §14.
     """
     try:
         payload = load_snapshot(client_id, period_label)
@@ -788,7 +792,7 @@ def download_presentation_pptx_endpoint(
         )
 
     try:
-        pptx_bytes = generate_presentation_pptx(payload)
+        pptx_bytes = generate_presentation_pptx(payload, module=module)
     except Exception as e:
         raise HTTPException(
             status_code=500,
@@ -797,7 +801,8 @@ def download_presentation_pptx_endpoint(
 
     safe_client = client_id.replace(" ", "-").lower()
     safe_period = period_label.replace(" ", "_")
-    filename = f"{safe_client}_{safe_period}_management_intelligence.pptx"
+    mod_tag = f"_{module}" if module else ""
+    filename = f"{safe_client}_{safe_period}{mod_tag}_management_intelligence.pptx"
 
     return Response(
         content=pptx_bytes,
@@ -807,6 +812,45 @@ def download_presentation_pptx_endpoint(
             "Content-Length": str(len(pptx_bytes)),
         },
     )
+
+
+@app.post("/presentation")
+@app.post("/api/presentation")
+@app.post("/pptx")
+@app.post("/api/pptx")
+async def generate_presentation_pptx_post(
+    payload: Dict[str, Any],
+    module: Optional[str] = Query(None),
+):
+    """
+    Renders PowerPoint presentation (.pptx) on-the-fly directly from uploaded JSON payload.
+    Supports module="customers" | "products" | "marketers" | "overview".
+    """
+    try:
+        mod = module or payload.get("_ppt_module") or payload.get("module")
+        pptx_bytes = generate_presentation_pptx(payload, module=mod)
+    except Exception as e:
+        raise HTTPException(
+            status_code=500,
+            detail=f"PowerPoint generation failed: {str(e)}",
+        )
+
+    client_id = payload.get("meta", {}).get("client_id", "kane-jones")
+    period_label = payload.get("meta", {}).get("period_label", "snapshot")
+    safe_client = client_id.replace(" ", "-").lower()
+    safe_period = str(period_label).replace(" ", "_")
+    mod_tag = f"_{mod}" if mod else ""
+    filename = f"{safe_client}_{safe_period}{mod_tag}_management_intelligence.pptx"
+
+    return Response(
+        content=pptx_bytes,
+        media_type="application/vnd.openxmlformats-officedocument.presentationml.presentation",
+        headers={
+            "Content-Disposition": f'attachment; filename="{filename}"',
+            "Content-Length": str(len(pptx_bytes)),
+        },
+    )
+
 
 
 

@@ -271,6 +271,14 @@ def compute_marketer_profitability(
         cust_summary["total_gross_profit"] / cust_summary["total_revenue"],
         0.0
     )
+    # Spec §8: cases target is 6000 per marketer per month
+    CASES_TARGET = 6000
+    cust_summary["cases_target"] = CASES_TARGET
+    cust_summary["pct_of_target_met"] = np.where(
+        CASES_TARGET > 0,
+        cust_summary["total_cases_sold"] / CASES_TARGET,
+        0.0
+    )
     cust_summary = cust_summary.sort_values(by="total_revenue", ascending=False).reset_index(drop=True)
 
     # 4. Detailed Per-Customer Product Breakdown

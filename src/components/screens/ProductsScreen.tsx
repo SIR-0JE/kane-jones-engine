@@ -10,9 +10,13 @@ import {
   Search,
   SlidersHorizontal,
   Info,
+  Presentation,
+  Loader2,
 } from "lucide-react";
 import { AnalyzeResponse, TrueCostProductItem } from "@/types/api";
 import { formatCurrency, formatPercent, formatNumber } from "@/lib/api";
+
+const ANALYSIS_API_URL = process.env.NEXT_PUBLIC_ANALYSIS_API_URL || "";
 
 interface ProductsScreenProps {
   data: AnalyzeResponse;
@@ -29,6 +33,7 @@ export function ProductsScreen({ data }: ProductsScreenProps) {
   const [activeTab, setActiveTab] = useState<"true_cost" | "volume">("true_cost");
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [profitFilter, setProfitFilter] = useState<"all" | "negative" | "positive">("all");
+  const [pptxLoading, setPptxLoading] = useState<boolean>(false);
 
   // Summary figures for True-Cost matrix
   const totalCases = trueCostProducts.reduce((acc, p) => acc + (p.cases_sold || 0), 0);
@@ -66,29 +71,65 @@ export function ProductsScreen({ data }: ProductsScreenProps) {
           </div>
         </div>
 
-        <div className="inline-flex p-1 bg-slate-100/80 rounded-xl border border-slate-200/60 self-start sm:self-auto">
+        <div className="flex items-center gap-2 self-start sm:self-auto">
+          {/* PPT Export */}
           <button
-            onClick={() => setActiveTab("true_cost")}
-            className={`px-3 py-1.5 rounded-lg text-xs font-bold font-sora transition-all ${
-              activeTab === "true_cost"
-                ? "bg-white text-slate-900 shadow-xs"
-                : "text-slate-600 hover:text-slate-900"
-            }`}
+            onClick={async () => {
+              const periodLabel = data.meta?.period_label || "unknown";
+              const clientId = data.meta?.client_id || "kane-jones";
+              setPptxLoading(true);
+              try {
+                const res = await fetch(`/api/pptx`, {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify(data),
+                });
+                if (res.ok) {
+                  const blob = await res.blob();
+                  const url = URL.createObjectURL(blob);
+                  const a = document.createElement("a");
+                  a.href = url;
+                  a.download = `${clientId}_${periodLabel}_products.pptx`;
+                  a.click();
+                  URL.revokeObjectURL(url);
+                }
+              } finally {
+                setPptxLoading(false);
+              }
+            }}
+            disabled={pptxLoading}
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-900 text-white text-[11px] font-bold font-sora shadow hover:bg-slate-700 transition-colors disabled:opacity-60"
           >
-            True-Cost Margins ({trueCostProducts.length || 40})
+            {pptxLoading ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Presentation className="w-3.5 h-3.5 text-[#7c6fff]" />}
+            <span>Export Slides</span>
           </button>
-          <button
-            onClick={() => setActiveTab("volume")}
-            className={`px-3 py-1.5 rounded-lg text-xs font-bold font-sora transition-all ${
-              activeTab === "volume"
-                ? "bg-white text-slate-900 shadow-xs"
-                : "text-slate-600 hover:text-slate-900"
-            }`}
-          >
-            Revenue Ranking ({revenueRanking.length})
-          </button>
+
+          {/* Tab Switcher */}
+          <div className="inline-flex p-1 bg-slate-100/80 rounded-xl border border-slate-200/60">
+            <button
+              onClick={() => setActiveTab("true_cost")}
+              className={`px-3 py-1.5 rounded-lg text-xs font-bold font-sora transition-all ${
+                activeTab === "true_cost"
+                  ? "bg-white text-slate-900 shadow-xs"
+                  : "text-slate-600 hover:text-slate-900"
+              }`}
+            >
+              True-Cost Margins ({trueCostProducts.length || 40})
+            </button>
+            <button
+              onClick={() => setActiveTab("volume")}
+              className={`px-3 py-1.5 rounded-lg text-xs font-bold font-sora transition-all ${
+                activeTab === "volume"
+                  ? "bg-white text-slate-900 shadow-xs"
+                  : "text-slate-600 hover:text-slate-900"
+              }`}
+            >
+              Revenue Ranking ({revenueRanking.length})
+            </button>
+          </div>
         </div>
       </div>
+
 
       {/* 2. Dominant Product Concentration Alert */}
       {dominantProducts.length > 0 && (

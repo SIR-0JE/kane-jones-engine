@@ -167,7 +167,10 @@ export interface TrueCostMarketerItem {
   total_cases_sold: number;
   invoices: number;
   gross_profit_pct: number;
+  cases_target?: number;
+  pct_of_target_met?: number;
 }
+
 
 export interface SalesReturnsItemBreakdown {
   item_name: string;
@@ -219,21 +222,26 @@ export interface NetProfitBridgeData {
   net_sales_revenue: number;
   gross_product_cost?: number;
   gross_embedded_cost?: number;
-  cost_of_returns: number;
   total_cost?: number;
-  total_cost_embedded: number;
-  net_gross_profit_loss: number;
-  net_gross_margin_pct: number;
+  purchase_returns?: number;
+  net_cost?: number;
+  cost_of_returns?: number;
+  total_cost_embedded?: number;
+  gross_profit?: number;
+  net_gross_profit_loss?: number;  // alias
+  net_gross_margin_pct?: number;
   total_operating_expenses: number;
-  net_operating_profit_loss: number;
+  net_profit?: number;
+  net_operating_profit_loss?: number;  // alias
   net_operating_margin_pct?: number;
-  product_returns_value: number;
-  product_returns_qty: number;
-  empties_returns_value: number;
-  empties_returns_qty: number;
-  return_rate: number;
+  product_returns_value?: number;
+  product_returns_qty?: number;
+  empties_returns_value?: number;
+  empties_returns_qty?: number;
+  return_rate?: number;
   missing_cost_anomalies?: any[];
 }
+
 
 export interface ExpenseItem {
   category: string;

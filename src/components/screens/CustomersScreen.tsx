@@ -4,15 +4,20 @@ import React, { useState } from "react";
 import {
   Users,
   AlertOctagon,
+  Search,
+  X,
+  ChevronRight,
+  Target,
   TrendingDown,
   TrendingUp,
-  Search,
-  SlidersHorizontal,
-  Building2,
   FileText,
+  Presentation,
+  Loader2,
 } from "lucide-react";
 import { AnalyzeResponse, CustomerMarginItem, TrueCostMarketerItem } from "@/types/api";
 import { formatCurrency, formatPercent, formatNumber } from "@/lib/api";
+
+const ANALYSIS_API_URL = process.env.NEXT_PUBLIC_ANALYSIS_API_URL || "";
 
 interface CustomersScreenProps {
   data: AnalyzeResponse;
@@ -26,8 +31,10 @@ export function CustomersScreen({ data }: CustomersScreenProps) {
   const [activeTab, setActiveTab] = useState<"true_cost" | "invoice">("true_cost");
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [viewFilter, setViewFilter] = useState<"all" | "loss" | "profit">("all");
+  const [drillCustomer, setDrillCustomer] = useState<TrueCostMarketerItem | null>(null);
+  const [pptxLoading, setPptxLoading] = useState<boolean>(false);
 
-  // Loss accounts count on True Cost basis
+  // Loss accounts count
   const trueCostLossCount = trueCostMarketers.filter((c) => (c.total_gross_profit || 0) < 0).length;
   const invoiceLossCount = rawInvoiceCustomers.filter((c) => (c.gross_profit || 0) < 0).length;
 
@@ -47,9 +54,60 @@ export function CustomersScreen({ data }: CustomersScreenProps) {
     return true;
   });
 
+  // Find invoice detail rows for a drilled customer
+  const drillInvoices = drillCustomer
+    ? rawInvoiceCustomers.filter(
+        (c) => c.customer.toLowerCase() === drillCustomer.customer.toLowerCase()
+      )
+    : [];
+
+  // PPT export — Customers module
+  const handleDownloadPptx = async () => {
+    const periodLabel = data.meta?.period_label || "unknown";
+    const clientId = data.meta?.client_id || "kane-jones";
+    const apiBase = ANALYSIS_API_URL || "";
+    setPptxLoading(true);
+    try {
+      const res = await fetch(`${apiBase}/api/presentation`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...data,
+          _ppt_module: "customers",
+        }),
+      });
+      if (!res.ok) throw new Error("PPT generation failed");
+      const blob = await res.blob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `${clientId}_${periodLabel}_customers.pptx`;
+      a.click();
+      URL.revokeObjectURL(url);
+    } catch {
+      // fallback: download full deck via Next.js proxy
+      const res = await fetch(`/api/pptx`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+      if (res.ok) {
+        const blob = await res.blob();
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `${clientId}_${periodLabel}_customers.pptx`;
+        a.click();
+        URL.revokeObjectURL(url);
+      }
+    } finally {
+      setPptxLoading(false);
+    }
+  };
+
   return (
     <div className="p-4 sm:p-6 lg:p-8 space-y-6 pb-24 md:pb-12 w-full">
-      {/* 1. Header & Switcher */}
+      {/* 1. Header & Actions */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-4">
         <div>
           <div className="flex items-center gap-2">
@@ -58,40 +116,53 @@ export function CustomersScreen({ data }: CustomersScreenProps) {
             </div>
             <div>
               <h1 className="text-base font-extrabold text-slate-900 font-sora">
-                Customer & Marketer Profitability
+                Customer &amp; Marketer Profitability
               </h1>
               <p className="text-xs text-slate-500 font-inter">
-                True-cost customer P&L (excluding empties) & invoice transaction margins
+                True-cost customer P&amp;L (excluding empties) &amp; invoice transaction margins
               </p>
             </div>
           </div>
         </div>
 
-        <div className="inline-flex p-1 bg-slate-100/80 rounded-xl border border-slate-200/60 self-start sm:self-auto">
+        <div className="flex items-center gap-2">
+          {/* PPT Export */}
           <button
-            onClick={() => setActiveTab("true_cost")}
-            className={`px-3 py-1.5 rounded-lg text-xs font-bold font-sora transition-all ${
-              activeTab === "true_cost"
-                ? "bg-white text-slate-900 shadow-xs"
-                : "text-slate-600 hover:text-slate-900"
-            }`}
+            onClick={handleDownloadPptx}
+            disabled={pptxLoading}
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-900 text-white text-[11px] font-bold font-sora shadow hover:bg-slate-700 transition-colors disabled:opacity-60"
           >
-            True-Cost Accounts ({trueCostMarketers.length || 43})
+            {pptxLoading ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Presentation className="w-3.5 h-3.5 text-[#7c6fff]" />}
+            <span>Export Slides</span>
           </button>
-          <button
-            onClick={() => setActiveTab("invoice")}
-            className={`px-3 py-1.5 rounded-lg text-xs font-bold font-sora transition-all ${
-              activeTab === "invoice"
-                ? "bg-white text-slate-900 shadow-xs"
-                : "text-slate-600 hover:text-slate-900"
-            }`}
-          >
-            Invoice Margins ({rawInvoiceCustomers.length})
-          </button>
+
+          {/* Tab Switcher */}
+          <div className="inline-flex p-1 bg-slate-100/80 rounded-xl border border-slate-200/60 self-start sm:self-auto">
+            <button
+              onClick={() => setActiveTab("true_cost")}
+              className={`px-3 py-1.5 rounded-lg text-xs font-bold font-sora transition-all ${
+                activeTab === "true_cost"
+                  ? "bg-white text-slate-900 shadow-xs"
+                  : "text-slate-600 hover:text-slate-900"
+              }`}
+            >
+              True-Cost Accounts ({trueCostMarketers.length || 43})
+            </button>
+            <button
+              onClick={() => setActiveTab("invoice")}
+              className={`px-3 py-1.5 rounded-lg text-xs font-bold font-sora transition-all ${
+                activeTab === "invoice"
+                  ? "bg-white text-slate-900 shadow-xs"
+                  : "text-slate-600 hover:text-slate-900"
+              }`}
+            >
+              Invoice Margins ({rawInvoiceCustomers.length})
+            </button>
+          </div>
         </div>
       </div>
 
-      {/* 2. Loss-Making Accounts Highlight Banner */}
+      {/* 2. Loss-Making Alert Banner */}
       {trueCostLossCount > 0 && (
         <div className="p-4 bg-rose-50 border border-rose-200/80 rounded-2xl space-y-1.5 shadow-2xs">
           <div className="flex items-center justify-between">
@@ -164,16 +235,27 @@ export function CustomersScreen({ data }: CustomersScreenProps) {
                   <th className="py-3 px-4">Customer / Marketer</th>
                   <th className="py-3 px-3 text-center">Invoices</th>
                   <th className="py-3 px-3 text-right">Cases Sold</th>
+                  <th className="py-3 px-3 text-right">
+                    <span className="flex items-center justify-end gap-1">
+                      <Target className="w-3 h-3 text-[#7c6fff]" />
+                      Target (6000)
+                    </span>
+                  </th>
+                  <th className="py-3 px-3 text-right">% of Target</th>
                   <th className="py-3 px-4 text-right">Revenue (excl. empties)</th>
                   <th className="py-3 px-4 text-right">True Cost (tmp3F5D)</th>
                   <th className="py-3 px-4 text-right">Gross Profit</th>
                   <th className="py-3 px-4 text-right">Margin %</th>
+                  <th className="py-3 px-3 text-center">Details</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100 font-inter">
                 {filteredTrueCost.length > 0 ? (
                   filteredTrueCost.map((item, idx) => {
                     const isLoss = (item.total_gross_profit || 0) < 0;
+                    const casesTarget = item.cases_target ?? 6000;
+                    const pctTarget = item.pct_of_target_met ?? (item.total_cases_sold / casesTarget);
+                    const metTarget = pctTarget >= 1.0;
                     return (
                       <tr
                         key={idx}
@@ -197,6 +279,20 @@ export function CustomersScreen({ data }: CustomersScreenProps) {
                         <td className="py-3 px-3 text-right text-slate-700 font-semibold">
                           {formatNumber(item.total_cases_sold)}
                         </td>
+                        {/* Cases Target */}
+                        <td className="py-3 px-3 text-right text-slate-400 font-medium">
+                          {formatNumber(casesTarget)}
+                        </td>
+                        {/* % of Target */}
+                        <td className="py-3 px-3 text-right">
+                          <span
+                            className={`text-xs font-bold ${
+                              metTarget ? "text-emerald-700" : "text-amber-600"
+                            }`}
+                          >
+                            {(pctTarget * 100).toFixed(1)}%
+                          </span>
+                        </td>
                         <td className="py-3 px-4 text-right font-semibold text-slate-900">
                           {formatCurrency(item.total_revenue, currency)}
                         </td>
@@ -217,12 +313,22 @@ export function CustomersScreen({ data }: CustomersScreenProps) {
                         >
                           {formatPercent(item.gross_profit_pct)}
                         </td>
+                        {/* Drill-down */}
+                        <td className="py-3 px-3 text-center">
+                          <button
+                            onClick={() => setDrillCustomer(item)}
+                            className="p-1.5 rounded-lg bg-slate-100 hover:bg-[#7c6fff]/10 text-slate-500 hover:text-[#7c6fff] transition-colors"
+                            title="View customer detail"
+                          >
+                            <ChevronRight className="w-3.5 h-3.5" />
+                          </button>
+                        </td>
                       </tr>
                     );
                   })
                 ) : (
                   <tr>
-                    <td colSpan={7} className="py-6 text-center text-slate-400">
+                    <td colSpan={10} className="py-6 text-center text-slate-400">
                       No customer accounts match your criteria.
                     </td>
                   </tr>
@@ -274,6 +380,117 @@ export function CustomersScreen({ data }: CustomersScreenProps) {
               </div>
             );
           })}
+        </div>
+      )}
+
+      {/* 5. Customer Drill-Down Modal */}
+      {drillCustomer && (
+        <div className="fixed inset-0 z-50 flex items-start justify-center p-4 pt-12 bg-slate-900/60 backdrop-blur-sm overflow-y-auto">
+          <div className="w-full max-w-2xl bg-white rounded-2xl border border-slate-200 shadow-xl">
+            {/* Modal Header */}
+            <div className="flex items-center justify-between p-5 border-b border-slate-100">
+              <div>
+                <h2 className="text-sm font-extrabold text-slate-900 font-sora">{drillCustomer.customer}</h2>
+                <p className="text-xs text-slate-500 font-inter">Customer Detail — {data.meta?.period_label}</p>
+              </div>
+              <button
+                onClick={() => setDrillCustomer(null)}
+                className="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+
+            {/* KPI Cards */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 p-5">
+              {[
+                { label: "Cases Sold", value: formatNumber(drillCustomer.total_cases_sold) },
+                { label: "Revenue", value: formatCurrency(drillCustomer.total_revenue, currency, true) },
+                { label: "True Cost", value: formatCurrency(drillCustomer.total_cost, currency, true) },
+                {
+                  label: "Gross Profit",
+                  value: formatCurrency(drillCustomer.total_gross_profit, currency, true),
+                  highlight: (drillCustomer.total_gross_profit || 0) < 0 ? "text-rose-700" : "text-emerald-700",
+                },
+              ].map((kpi) => (
+                <div key={kpi.label} className="bg-slate-50 border border-slate-200 rounded-xl p-3 space-y-1">
+                  <p className="text-[10px] text-slate-500 font-inter">{kpi.label}</p>
+                  <p className={`text-sm font-extrabold font-sora ${kpi.highlight || "text-slate-900"}`}>{kpi.value}</p>
+                </div>
+              ))}
+            </div>
+
+            {/* Tags row */}
+            <div className="px-5 pb-3 flex items-center gap-2 flex-wrap">
+              {/* Profitable / Loss Tag */}
+              {(drillCustomer.total_gross_profit || 0) >= 0 ? (
+                <span className="flex items-center gap-1 px-2.5 py-1 bg-emerald-50 text-emerald-800 border border-emerald-200 rounded-lg text-[11px] font-bold font-sora">
+                  <TrendingUp className="w-3 h-3" /> Profitable
+                </span>
+              ) : (
+                <span className="flex items-center gap-1 px-2.5 py-1 bg-rose-50 text-rose-800 border border-rose-200 rounded-lg text-[11px] font-bold font-sora">
+                  <TrendingDown className="w-3 h-3" /> Loss Account
+                </span>
+              )}
+              {/* Margin */}
+              <span className="px-2.5 py-1 bg-slate-100 text-slate-700 rounded-lg text-[11px] font-semibold font-inter">
+                Margin: {formatPercent(drillCustomer.gross_profit_pct)}
+              </span>
+              {/* Cases target */}
+              <span className={`flex items-center gap-1 px-2.5 py-1 rounded-lg text-[11px] font-semibold font-inter ${
+                (drillCustomer.pct_of_target_met ?? drillCustomer.total_cases_sold / 6000) >= 1
+                  ? "bg-emerald-50 text-emerald-800"
+                  : "bg-amber-50 text-amber-800"
+              }`}>
+                <Target className="w-3 h-3" />
+                {((drillCustomer.pct_of_target_met ?? drillCustomer.total_cases_sold / 6000) * 100).toFixed(1)}% of 6,000-case target
+              </span>
+              {/* Invoices */}
+              <span className="flex items-center gap-1 px-2.5 py-1 bg-slate-100 text-slate-700 rounded-lg text-[11px] font-semibold font-inter">
+                <FileText className="w-3 h-3" /> {drillCustomer.invoices} invoices
+              </span>
+            </div>
+
+            {/* Invoice Margin Detail */}
+            {drillInvoices.length > 0 && (
+              <div className="px-5 pb-5">
+                <h3 className="text-[11px] font-bold text-slate-700 mb-2 font-sora uppercase tracking-wide">Invoice-Level Margins</h3>
+                <div className="bg-slate-50 rounded-xl border border-slate-200 overflow-hidden">
+                  <table className="w-full text-xs">
+                    <thead>
+                      <tr className="border-b border-slate-200 text-slate-600 font-bold font-sora">
+                        <th className="py-2 px-3 text-left">Customer</th>
+                        <th className="py-2 px-3 text-right">Invoices</th>
+                        <th className="py-2 px-3 text-right">Revenue</th>
+                        <th className="py-2 px-3 text-right">Cost</th>
+                        <th className="py-2 px-3 text-right">Gross Profit</th>
+                        <th className="py-2 px-3 text-right">Margin %</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-slate-100 font-inter">
+                      {drillInvoices.map((inv, i) => {
+                        const loss = inv.gross_profit < 0;
+                        return (
+                          <tr key={i} className={loss ? "bg-rose-50/40" : ""}>
+                            <td className="py-2 px-3 font-semibold text-slate-900">{inv.customer}</td>
+                            <td className="py-2 px-3 text-right text-slate-500">{inv.invoices}</td>
+                            <td className="py-2 px-3 text-right">{formatCurrency(inv.revenue, currency, true)}</td>
+                            <td className="py-2 px-3 text-right text-slate-500">{formatCurrency(inv.cost, currency, true)}</td>
+                            <td className={`py-2 px-3 text-right font-bold ${loss ? "text-rose-700" : "text-emerald-700"}`}>
+                              {formatCurrency(inv.gross_profit, currency, true)}
+                            </td>
+                            <td className={`py-2 px-3 text-right font-bold ${loss ? "text-rose-700" : "text-slate-700"}`}>
+                              {formatPercent(inv.margin_pct)}
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
       )}
     </div>

@@ -1138,24 +1138,48 @@ class PresentationBuilder:
             p.font.color.rgb = COLOR_TEXT_MUTED
             p.space_before = Pt(6)
 
-    def generate(self) -> bytes:
-        """Executes the 16-slide generation pipeline and returns raw pptx bytes."""
-        self.build_slide_1_title()
-        self.build_slide_2_exec_summary()
-        self.build_slide_3_financial_bridge()
-        self.build_slide_4_returns_burden()
-        self.build_slide_5_returns_timing()
-        self.build_slide_6_product_concentration()
-        self.build_slide_7_product_margin_spread()
-        self.build_slide_8_customer_concentration()
-        self.build_slide_9_loss_customers()
-        self.build_slide_10_marketers()
-        self.build_slide_11_pricing()
-        self.build_slide_12_key_insights()
-        self.build_slide_13_commercial_recs()
-        self.build_slide_14_operational_recs()
-        self.build_slide_15_action_plan()
-        self.build_slide_16_takeaway()
+    def generate(self, module: Optional[str] = None) -> bytes:
+        """
+        Executes the PowerPoint generation pipeline and returns raw pptx bytes.
+        Supports module-specific curated slide decks (Customers, Products, Marketers)
+        as well as the full 16-slide board deck per spec §14 & §16.
+        """
+        target_module = (module or self.payload.get("_ppt_module") or self.payload.get("module") or "full").lower().strip()
+
+        if target_module in ("customers", "customer"):
+            self.build_slide_1_title()
+            self.build_slide_8_customer_concentration()
+            self.build_slide_9_loss_customers()
+            self.build_slide_13_commercial_recs()
+        elif target_module in ("products", "product"):
+            self.build_slide_1_title()
+            self.build_slide_6_product_concentration()
+            self.build_slide_7_product_margin_spread()
+            self.build_slide_11_pricing()
+            self.build_slide_14_operational_recs()
+        elif target_module in ("marketers", "marketer"):
+            # Per spec §14 note: Marketer PPT must not exceed 2-3 slides
+            self.build_slide_1_title()
+            self.build_slide_10_marketers()
+            self.build_slide_15_action_plan()
+        else:
+            # Full 16-slide executive deck
+            self.build_slide_1_title()
+            self.build_slide_2_exec_summary()
+            self.build_slide_3_financial_bridge()
+            self.build_slide_4_returns_burden()
+            self.build_slide_5_returns_timing()
+            self.build_slide_6_product_concentration()
+            self.build_slide_7_product_margin_spread()
+            self.build_slide_8_customer_concentration()
+            self.build_slide_9_loss_customers()
+            self.build_slide_10_marketers()
+            self.build_slide_11_pricing()
+            self.build_slide_12_key_insights()
+            self.build_slide_13_commercial_recs()
+            self.build_slide_14_operational_recs()
+            self.build_slide_15_action_plan()
+            self.build_slide_16_takeaway()
 
         buf = BytesIO()
         self.prs.save(buf)
@@ -1164,10 +1188,12 @@ class PresentationBuilder:
 
 # ── Public Entrypoint ────────────────────────────────────────────────────────
 
-def generate_presentation_pptx(payload: Dict[str, Any]) -> bytes:
+def generate_presentation_pptx(payload: Dict[str, Any], module: Optional[str] = None) -> bytes:
     """
     Accepts the exact JSON payload returned by the audit / snapshot engine
-    and renders a complete 16-slide PowerPoint intelligence report (.pptx).
+    and renders a PowerPoint intelligence report (.pptx).
+    Supports module="customers" | "products" | "marketers" | "overview" (or full 16 slides).
     """
     builder = PresentationBuilder(payload)
-    return builder.generate()
+    return builder.generate(module=module)
+

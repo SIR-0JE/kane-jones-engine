@@ -16,7 +16,9 @@ import {
   Settings,
   X,
   Sparkles,
+  TrendingUp,
 } from "lucide-react";
+
 import { TabType } from "@/components/Navigation";
 import { SnapshotSummary } from "@/types/api";
 import { UserSession, getInitials } from "@/lib/auth";
@@ -129,6 +131,13 @@ export function DesktopSidebar({
       badgeColor: "bg-amber-500 text-white",
     },
     {
+      id: "trends" as TabType,
+      label: "Cross-Month Trends",
+      icon: TrendingUp,
+      badge: null,
+      badgeColor: "",
+    },
+    {
       id: "settings" as TabType,
       label: "Settings",
       icon: Settings,
@@ -136,6 +145,7 @@ export function DesktopSidebar({
       badgeColor: "",
     },
   ];
+
 
   const handleItemClick = (id: TabType) => {
     onTabChange(id);

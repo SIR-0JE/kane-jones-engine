@@ -11,6 +11,7 @@ import {
   CheckCircle2,
   RotateCcw,
   Receipt,
+  TrendingUp,
 } from "lucide-react";
 
 export type TabType =
@@ -23,7 +24,9 @@ export type TabType =
   | "returns"
   | "expenses"
   | "quality"
+  | "trends"
   | "settings";
+
 
 interface NavigationProps {
   activeTab: TabType;
@@ -98,7 +101,15 @@ export function Navigation({
       badge: anomalyCount > 0 ? anomalyCount : undefined,
       badgeColor: "bg-amber-500 text-white",
     },
+    {
+      id: "trends",
+      label: "Trends",
+      icon: TrendingUp,
+      badge: undefined,
+      badgeColor: "",
+    },
   ];
+
 
   return (
     <nav className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-slate-200/90 py-1 px-1 shadow-lg">

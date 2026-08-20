@@ -82,9 +82,23 @@ def volume_tier_audit(matched_line_items: pd.DataFrame, profile: ClientProfile) 
                        "retail": "retail_price"}
 
     df["expected_tier"] = df["quantity"].apply(expected_tier)
-    df["expected_price"] = df.apply(
-        lambda r: r.get(tier_price_col.get(r["expected_tier"])) if r["expected_tier"] else None, axis=1
-    )
+
+    def _get_expected_price(row):
+        tier = row["expected_tier"]
+        if tier is None:
+            return None
+        col = tier_price_col.get(tier)
+        if col is None or col not in row.index:
+            return None
+        val = row[col]
+        if val is None or (hasattr(val, '__class__') and val != val):  # NaN check
+            return None
+        try:
+            return float(val)
+        except (TypeError, ValueError):
+            return None
+
+    df["expected_price"] = df.apply(_get_expected_price, axis=1)
     df["expected_price"] = pd.to_numeric(df["expected_price"], errors="coerce")
 
     df = df.dropna(subset=["expected_price"])
