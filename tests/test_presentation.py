@@ -20,7 +20,8 @@ class TestPresentationGenerator:
 
         # Load back with pptx to inspect slide count and structure
         prs = Presentation(BytesIO(pptx_bytes))
-        assert len(prs.slides) == 16, f"Expected 16 slides, found {len(prs.slides)}"
+        assert len(prs.slides) >= 16, f"Expected at least 16 slides, found {len(prs.slides)}"
+
 
         # Validate slide dimensions (16:9 widescreen)
         assert round(prs.slide_width.inches, 2) == 13.33

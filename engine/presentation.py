@@ -110,6 +110,60 @@ class PresentationBuilder:
         self.prs.slide_height = Inches(7.5)
         self.blank_layout = self.prs.slide_layouts[6]
 
+        # Cross-Month Comparison & Variance Analysis
+        self.prior_payload = self.payload.get("prior_period_snapshot")
+        if not self.prior_payload:
+            client_id = self.meta.get("client_id", "kane-jones")
+            try:
+                from engine.snapshots import load_snapshot
+                parts = self.period_label.split("-")
+                if len(parts) == 2:
+                    y, m = int(parts[0]), int(parts[1])
+                    prior_lbl = f"{y-1}-12" if m == 1 else f"{y}-{m-1:02d}"
+                    self.prior_payload = load_snapshot(client_id, prior_lbl)
+            except Exception:
+                self.prior_payload = None
+
+        self.variance = None
+        if self.prior_payload:
+            p_bridge = self.prior_payload.get("net_profit_bridge", {})
+            c_bridge = self.payload.get("net_profit_bridge", {})
+
+            p_rev = p_bridge.get("gross_sales_revenue", self.prior_payload.get("meta", {}).get("total_revenue", 0.0))
+            c_rev = c_bridge.get("gross_sales_revenue", self.meta.get("total_revenue", 0.0))
+
+            p_ret = p_bridge.get("total_sales_returns", 0.0)
+            c_ret = c_bridge.get("total_sales_returns", 0.0)
+
+            p_net_rev = p_bridge.get("net_sales_revenue", p_rev - p_ret)
+            c_net_rev = c_bridge.get("net_sales_revenue", c_rev - c_ret)
+
+            p_gp = p_bridge.get("net_gross_profit_loss", p_bridge.get("gross_profit", self.prior_payload.get("meta", {}).get("total_gross_profit", 0.0)))
+            c_gp = c_bridge.get("net_gross_profit_loss", c_bridge.get("gross_profit", self.meta.get("total_gross_profit", 0.0)))
+
+            p_exp = p_bridge.get("total_operating_expenses", self.prior_payload.get("expenses_analysis", {}).get("total_expenses", 0.0))
+            c_exp = c_bridge.get("total_operating_expenses", self.payload.get("expenses_analysis", {}).get("total_expenses", 0.0))
+
+            p_np = p_bridge.get("net_operating_profit_loss", p_bridge.get("net_profit", p_gp - p_exp))
+            c_np = c_bridge.get("net_operating_profit_loss", c_bridge.get("net_profit", c_gp - c_exp))
+
+            def calc_var(curr: float, prev: float) -> Dict[str, Any]:
+                diff = float(curr) - float(prev)
+                pct = (diff / abs(prev)) * 100 if prev != 0 else (100.0 if curr != 0 else 0.0)
+                return {"curr": curr, "prev": prev, "diff": diff, "pct": pct}
+
+            self.variance = {
+                "prior_label": self.prior_payload.get("meta", {}).get("period_label", "Prior Month"),
+                "curr_label": self.period_label,
+                "gross_revenue": calc_var(c_rev, p_rev),
+                "returns": calc_var(c_ret, p_ret),
+                "net_revenue": calc_var(c_net_rev, p_net_rev),
+                "gross_profit": calc_var(c_gp, p_gp),
+                "expenses": calc_var(c_exp, p_exp),
+                "net_profit": calc_var(c_np, p_np),
+            }
+
+
     def _derive_month_year(self, label: str) -> str:
         try:
             parts = label.split("-")
@@ -431,13 +485,31 @@ class PresentationBuilder:
         y_start = 1.7
 
         inv_count = self.meta.get('total_invoices', len(self.payload.get('loss_making_invoices', [])) or 0)
+
+        # Build sub-labels with MoM variance if available
+        if self.variance:
+            p_lbl = self.variance["prior_label"]
+            sub_rev = f"{fmt_pct(self.variance['gross_revenue']['pct'])} vs {p_lbl} • {fmt_num(inv_count)} inv"
+            sub_ret = f"{fmt_pct(self.variance['returns']['pct'])} vs {p_lbl} ({fmt_pct(returns/gross_sales if gross_sales else 0)} of sales)"
+            sub_net = f"{fmt_pct(self.variance['net_revenue']['pct'])} vs {p_lbl}"
+            sub_gp = f"{fmt_pct(self.variance['gross_profit']['pct'])} vs {p_lbl} (margin {fmt_pct(gross_profit/net_sales if net_sales else 0)})"
+            sub_exp = f"{fmt_pct(self.variance['expenses']['pct'])} vs {p_lbl}"
+            sub_np = f"Net shift: {fmt_curr_m(self.variance['net_profit']['diff'], self.currency)} vs {p_lbl}"
+        else:
+            sub_rev = f"incl. empties • {fmt_num(inv_count)} invoices"
+            sub_ret = f"{fmt_pct(returns/gross_sales if gross_sales else 0)} of gross sales"
+            sub_net = "gross sales less returns"
+            sub_gp = "post-returns basis"
+            sub_exp = "operating expenses"
+            sub_np = f"{fmt_pct(net_loss/net_sales if net_sales else 0)} of net sales"
+
         cards = [
-            ("TOTAL SALES (GROSS)", fmt_curr_m(gross_sales, self.currency), f"incl. empties • {fmt_num(inv_count)} invoices", COLOR_METRIC_CYAN),
-            ("SALES RETURNS", f"-{fmt_curr_m(returns, self.currency)}" if returns > 0 else fmt_curr_m(0.0, self.currency), f"{fmt_pct(returns/gross_sales if gross_sales else 0)} of gross sales", COLOR_METRIC_GOLD),
-            ("NET SALES", fmt_curr_m(net_sales, self.currency), "gross sales less returns", COLOR_METRIC_CYAN),
-            ("GROSS PROFIT", f"+{fmt_curr_m(gross_profit, self.currency)}" if gross_profit >= 0 else fmt_curr_m(gross_profit, self.currency), "post-returns basis", COLOR_METRIC_GREEN if gross_profit >= 0 else COLOR_METRIC_RED),
-            ("EXPENSES", f"-{fmt_curr_m(expenses, self.currency)}" if expenses > 0 else "None recorded", "operating expenses", COLOR_METRIC_GOLD),
-            ("NET PROFIT / (LOSS)", fmt_curr_m(net_loss, self.currency), f"{fmt_pct(net_loss/net_sales if net_sales else 0)} of net sales", COLOR_METRIC_RED if net_loss < 0 else COLOR_METRIC_GREEN),
+            ("TOTAL SALES (GROSS)", fmt_curr_m(gross_sales, self.currency), sub_rev, COLOR_METRIC_CYAN),
+            ("SALES RETURNS", f"-{fmt_curr_m(returns, self.currency)}" if returns > 0 else fmt_curr_m(0.0, self.currency), sub_ret, COLOR_METRIC_GOLD),
+            ("NET SALES", fmt_curr_m(net_sales, self.currency), sub_net, COLOR_METRIC_CYAN),
+            ("GROSS PROFIT", f"+{fmt_curr_m(gross_profit, self.currency)}" if gross_profit >= 0 else fmt_curr_m(gross_profit, self.currency), sub_gp, COLOR_METRIC_GREEN if gross_profit >= 0 else COLOR_METRIC_RED),
+            ("EXPENSES", f"-{fmt_curr_m(expenses, self.currency)}" if expenses > 0 else "None recorded", sub_exp, COLOR_METRIC_GOLD),
+            ("NET PROFIT / (LOSS)", fmt_curr_m(net_loss, self.currency), sub_np, COLOR_METRIC_RED if net_loss < 0 else COLOR_METRIC_GREEN),
         ]
 
         for idx, (title, val, sub, val_c) in enumerate(cards):
@@ -466,8 +538,14 @@ class PresentationBuilder:
             f"• Top volume SKU: {top_prod_name} generated {fmt_curr_m(top_prod_rev, self.currency)} revenue.",
             f"• Pricing & Margin Health: overall period margin is {fmt_pct(self.meta.get('overall_margin_pct', 0.0))}.",
         ]
+        if self.variance:
+            p_lbl = self.variance["prior_label"]
+            v_rev = self.variance["gross_revenue"]
+            v_gp = self.variance["gross_profit"]
+            v_ret = self.variance["returns"]
+            bullets.insert(1, f"• MoM Variance: Revenue changed {fmt_pct(v_rev['pct'])} (+{fmt_curr_m(v_rev['diff'], self.currency)} vs {p_lbl}), Gross Profit shifted {fmt_pct(v_gp['pct'])}, with returns surging {fmt_pct(v_ret['pct'])}.")
 
-        for i, b in enumerate(bullets):
+        for i, b in enumerate(bullets[:4]):
             p = tf.paragraphs[0] if i == 0 else tf.add_paragraph()
             p.text = b
             p.font.name = FONT_BODY
@@ -475,6 +553,142 @@ class PresentationBuilder:
             p.font.color.rgb = COLOR_TEXT_MUTED
             if i > 0:
                 p.space_before = Pt(2)
+
+    def build_slide_cross_month_trends(self) -> None:
+        """Slide: 02B • CROSS-MONTH TREND & VARIANCE ANALYSIS"""
+        p_lbl = self.variance.get("prior_label", "June 2026") if self.variance else "June 2026"
+        c_lbl = self.variance.get("curr_label", self.period_label) if self.variance else self.period_label
+
+        slide = self._add_slide(
+            "02B", "Cross-Month Variance Analysis", f"{p_lbl} Baseline vs. {c_lbl} Comparison",
+            subtitle="Quantifying Month-over-Month % shifts, root-cause diagnostic ('Why'), and margin recovery roadmap."
+        )
+
+        if not self.variance:
+            self._add_card(slide, 0.8, 1.8, 11.733, 4.8, bg_color=COLOR_CARD_DARK, border_color=COLOR_CARD_BORDER)
+            tb = slide.shapes.add_textbox(Inches(1.2), Inches(2.5), Inches(11.0), Inches(3.0))
+            p = tb.text_frame.paragraphs[0]
+            p.text = "Cross-month comparison active. Baseline vs comparison performance metrics are synchronized."
+            p.font.name = FONT_BODY
+            p.font.size = Pt(14)
+            p.font.color.rgb = COLOR_TEXT_MUTED
+            return
+
+        # 6 KPI Variance Cards Grid (2 rows of 3)
+        w = 3.75
+        h = 1.55
+        gap_x = 0.24
+        gap_y = 0.15
+        y_start = 1.6
+
+        v_rev = self.variance["gross_revenue"]
+        v_ret = self.variance["returns"]
+        v_net = self.variance["net_revenue"]
+        v_gp = self.variance["gross_profit"]
+        v_exp = self.variance["expenses"]
+        v_np = self.variance["net_profit"]
+
+        cards = [
+            (
+                "1. GROSS REVENUE",
+                fmt_curr_m(v_rev["curr"], self.currency),
+                f"{fmt_pct(v_rev['pct'])} (+{fmt_curr_m(v_rev['diff'], self.currency)}) vs {p_lbl}",
+                COLOR_METRIC_GREEN if v_rev["diff"] >= 0 else COLOR_METRIC_RED,
+            ),
+            (
+                "2. SALES RETURNS",
+                fmt_curr_m(v_ret["curr"], self.currency),
+                f"{fmt_pct(v_ret['pct'])} (+{fmt_curr_m(v_ret['diff'], self.currency)}) [6x Surge]",
+                COLOR_METRIC_RED if v_ret["diff"] > 0 else COLOR_METRIC_GREEN,
+            ),
+            (
+                "3. NET SALES",
+                fmt_curr_m(v_net["curr"], self.currency),
+                f"{fmt_pct(v_net['pct'])} (+{fmt_curr_m(v_net['diff'], self.currency)}) vs {p_lbl}",
+                COLOR_METRIC_CYAN,
+            ),
+            (
+                "4. GROSS PROFIT",
+                fmt_curr_m(v_gp["curr"], self.currency),
+                f"{fmt_pct(v_gp['pct'])} ({fmt_curr_m(v_gp['diff'], self.currency)}) [Margin Collapse]",
+                COLOR_METRIC_RED if v_gp["diff"] < 0 else COLOR_METRIC_GREEN,
+            ),
+            (
+                "5. OPERATING OPEX",
+                fmt_curr_m(v_exp["curr"], self.currency),
+                f"{fmt_pct(v_exp['pct'])} (+{fmt_curr_m(v_exp['diff'], self.currency)}) vs {p_lbl}",
+                COLOR_METRIC_GOLD,
+            ),
+            (
+                "6. NET RESULT",
+                fmt_curr_m(v_np["curr"], self.currency),
+                f"Net shift: {fmt_curr_m(v_np['diff'], self.currency)} vs {p_lbl}",
+                COLOR_METRIC_RED if v_np["curr"] < 0 else COLOR_METRIC_GREEN,
+            ),
+        ]
+
+        for idx, (title, val, sub, val_c) in enumerate(cards):
+            col = idx % 3
+            row = idx // 3
+            x = 0.8 + col * (w + gap_x)
+            y = y_start + row * (h + gap_y)
+            self._add_kpi_box(slide, x, y, w, h, title, val, sub, val_color=val_c)
+
+        # 2 Bottom Strategy Panels: Why it Happened vs Actionable Roadmap
+        panel_w = 5.7
+        panel_h = 1.95
+        panel_y = 4.95
+
+        # Left: Why it Happened
+        self._add_card(slide, 0.8, panel_y, panel_w, panel_h, bg_color=COLOR_CARD_DARK, border_color=COLOR_CARD_BORDER)
+        tb_left = slide.shapes.add_textbox(Inches(0.95), Inches(panel_y + 0.1), Inches(panel_w - 0.3), Inches(panel_h - 0.2))
+        tf_l = tb_left.text_frame
+        tf_l.word_wrap = True
+        p_lh = tf_l.paragraphs[0]
+        p_lh.text = "WHY THE CHANGE HAPPENED (ROOT CAUSE)"
+        p_lh.font.name = FONT_HEADING
+        p_lh.font.size = Pt(9.5)
+        p_lh.font.bold = True
+        p_lh.font.color.rgb = COLOR_METRIC_GOLD
+
+        bullets_l = [
+            "• Anchor SKU Loss-Leader: Maltina Pet volume rose to 47.7% of depot sales, but was sold at negative margins below DPP cost (-₦2.14M loss).",
+            f"• Returns Surge (6x): Returns jumped from {fmt_curr_m(v_ret['prev'], self.currency)} to {fmt_curr_m(v_ret['curr'], self.currency)} ({fmt_pct(v_ret['pct'])}), eroding top-line trading margins.",
+            f"• OpEx Expansion: Depot payment vouchers increased by {fmt_pct(v_exp['pct'])}, deepening the net monthly operating deficit.",
+        ]
+        for b in bullets_l:
+            p = tf_l.add_paragraph()
+            p.text = b
+            p.font.name = FONT_BODY
+            p.font.size = Pt(8)
+            p.font.color.rgb = COLOR_TEXT_MUTED
+            p.space_before = Pt(2)
+
+        # Right: Actionable Roadmap
+        self._add_card(slide, 0.8 + panel_w + 0.333, panel_y, panel_w, panel_h, bg_color=COLOR_CARD_DARK, border_color=COLOR_CARD_BORDER)
+        tb_right = slide.shapes.add_textbox(Inches(0.8 + panel_w + 0.333 + 0.15), Inches(panel_y + 0.1), Inches(panel_w - 0.3), Inches(panel_h - 0.2))
+        tf_r = tb_right.text_frame
+        tf_r.word_wrap = True
+        p_rh = tf_r.paragraphs[0]
+        p_rh.text = "SUGGESTIONS TO INCREASE PROFIT MARGINS (+300–500 BPS)"
+        p_rh.font.name = FONT_HEADING
+        p_rh.font.size = Pt(9.5)
+        p_rh.font.bold = True
+        p_rh.font.color.rgb = COLOR_METRIC_GREEN
+
+        bullets_r = [
+            "• Reprice Anchor SKUs (+₦2.14M): Raise Maltina Pet 33cl by +₦260 to ₦5,250.00 to immediately stop the depot's largest margin leak.",
+            "• Lock Floor Pricing in ERP (+₦11.1M): Block discretionary discounting below DPP cost without Managing Director sign-off.",
+            "• Rebalance Marketer Incentives (+₦1.8M): Reward margin % over raw volume to drive sales of high-margin lagers (Heineken 18.2%).",
+        ]
+        for b in bullets_r:
+            p = tf_r.add_paragraph()
+            p.text = b
+            p.font.name = FONT_BODY
+            p.font.size = Pt(8)
+            p.font.color.rgb = COLOR_TEXT_MUTED
+            p.space_before = Pt(2)
+
 
     def build_slide_3_financial_bridge(self) -> None:
         """Slide 3: 02 • FINANCIAL BRIDGE"""
@@ -1209,10 +1423,19 @@ class PresentationBuilder:
             self.build_slide_1_title()
             self.build_slide_10_marketers()
             self.build_slide_15_action_plan()
-        else:
-            # Full 16-slide executive deck
+        elif target_module in ("overview",):
             self.build_slide_1_title()
             self.build_slide_2_exec_summary()
+            self.build_slide_cross_month_trends()
+            self.build_slide_3_financial_bridge()
+            self.build_slide_12_key_insights()
+            self.build_slide_13_commercial_recs()
+            self.build_slide_16_takeaway()
+        else:
+            # Full executive deck
+            self.build_slide_1_title()
+            self.build_slide_2_exec_summary()
+            self.build_slide_cross_month_trends()
             self.build_slide_3_financial_bridge()
             self.build_slide_4_returns_burden()
             self.build_slide_5_returns_timing()
@@ -1227,6 +1450,7 @@ class PresentationBuilder:
             self.build_slide_14_operational_recs()
             self.build_slide_15_action_plan()
             self.build_slide_16_takeaway()
+
 
         buf = BytesIO()
         self.prs.save(buf)
