@@ -275,9 +275,21 @@ def load_snapshot(
                 if rows and len(rows) > 0 and rows[0].get("payload"):
                     payload = rows[0]["payload"]
                     payload["storage_path"] = rows[0].get("storage_path")
+                    if not payload.get("expenses_analysis") or not payload.get("expenses_analysis", {}).get("categories"):
+                        sn_dir = get_snapshots_dir(client_id, base_dir=base_dir)
+                        loc_file = sn_dir / f"{clean_label}.json"
+                        if loc_file.exists():
+                            try:
+                                with open(loc_file, "r", encoding="utf-8") as lf:
+                                    loc_data = json.load(lf)
+                                    if loc_data.get("expenses_analysis"):
+                                        payload["expenses_analysis"] = loc_data["expenses_analysis"]
+                            except Exception:
+                                pass
                     return payload
     except Exception:
         pass
+
 
     # 2. Fallback to local cache
     sn_dir = get_snapshots_dir(client_id, base_dir=base_dir)
