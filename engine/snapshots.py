@@ -207,8 +207,11 @@ def save_snapshot(
         "true_cost_products": data.get("true_cost_products", []),
         "true_cost_marketers": data.get("true_cost_marketers", []),
         "returns_analysis": data.get("returns_analysis", {}),
+        "expenses_analysis": data.get("expenses_analysis", {}),
         "net_profit_bridge": data.get("net_profit_bridge", {}),
+        "sheet_classification": data.get("sheet_classification", {}),
     }
+
 
     storage_path = None
     if file_bytes and filename:

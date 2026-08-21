@@ -1,12 +1,12 @@
 {
   "client_id": "kane-jones",
   "period_label": "2026-07",
-  "audit_title": "July 2026 Full Audit",
+  "audit_title": "2026-07 Full Audit",
   "meta": {
     "client_id": "kane-jones",
     "client_display_name": "Kane-Jones Depot (Ogun State)",
     "period_label": "2026-07",
-    "audit_title": "July 2026 Full Audit",
+    "audit_title": "2026-07 Full Audit",
     "currency_symbol": "\u20a6",
     "total_revenue": 187674790.0,
     "total_gross_profit": 3717623.0,
@@ -16,16 +16,10 @@
       "end": "2026-07-31"
     },
     "total_invoices": 300,
-    "total_anomalies": 36,
+    "total_anomalies": 7,
     "total_recoverable_leakage": 11104465.000000004,
-    "has_price_list": true,
-    "price_list_source": "carried_forward",
-    "price_list_source_period": "2026-07",
-    "price_list_status": "Using price list carried over from 2026-07 (no updated price list found for 2026-07)",
-    "price_list_message": "Using price list carried over from 2026-07 (no updated price list found for 2026-07)",
     "below_floor_items_count": 5,
     "reconciled_invoices_count": 300,
-    "reconciliation_discrepancies_count": 0,
     "loss_making_invoices_count": 68,
     "loss_making_customers_count": 10,
     "dominant_products_count": 1,
@@ -829,7 +823,438 @@
       "is_dominant": 0
     }
   ],
-  "customer_margin_detail": [],
+  "customer_margin_detail": [
+    {
+      "customer": "Eniola Marketer",
+      "invoices": 31,
+      "revenue": 24198115.0,
+      "cost": 24565107.0,
+      "gross_profit": -366992.0,
+      "margin_pct": -0.01516614000718651,
+      "pct_of_total_revenue": 0.12893641708617337,
+      "is_loss_making": 1
+    },
+    {
+      "customer": "Rita SR",
+      "invoices": 25,
+      "revenue": 20732840.0,
+      "cost": 20829470.0,
+      "gross_profit": -96630.0,
+      "margin_pct": -0.004660721830680215,
+      "pct_of_total_revenue": 0.11047216304331552,
+      "is_loss_making": 1
+    },
+    {
+      "customer": "Abbey Illisan",
+      "invoices": 3,
+      "revenue": 18811260.0,
+      "cost": 18244964.0,
+      "gross_profit": 566296.0,
+      "margin_pct": 0.030104097226873693,
+      "pct_of_total_revenue": 0.1002332811988227,
+      "is_loss_making": 0
+    },
+    {
+      "customer": "WURAOLA",
+      "invoices": 4,
+      "revenue": 15517490.0,
+      "cost": 15332928.0,
+      "gross_profit": 184562.0,
+      "margin_pct": 0.011893804990368932,
+      "pct_of_total_revenue": 0.08268286859412498,
+      "is_loss_making": 0
+    },
+    {
+      "customer": "Ameh Mathew",
+      "invoices": 43,
+      "revenue": 15020155.0,
+      "cost": 14389694.0,
+      "gross_profit": 630461.0,
+      "margin_pct": 0.041974333820123694,
+      "pct_of_total_revenue": 0.08003288561026231,
+      "is_loss_making": 0
+    },
+    {
+      "customer": "FINO STORES",
+      "invoices": 2,
+      "revenue": 12276000.0,
+      "cost": 12896000.0,
+      "gross_profit": -620000.0,
+      "margin_pct": -0.050505050505050504,
+      "pct_of_total_revenue": 0.0654110229722383,
+      "is_loss_making": 1
+    },
+    {
+      "customer": "Emmycee",
+      "invoices": 3,
+      "revenue": 8439865.0,
+      "cost": 8039914.0,
+      "gross_profit": 399951.0,
+      "margin_pct": 0.04738831723019266,
+      "pct_of_total_revenue": 0.04497069105552216,
+      "is_loss_making": 0
+    },
+    {
+      "customer": "Mama Oyin Mowe",
+      "invoices": 2,
+      "revenue": 7750900.0,
+      "cost": 7235547.0,
+      "gross_profit": 515353.0,
+      "margin_pct": 0.06648943993600744,
+      "pct_of_total_revenue": 0.04129963326454235,
+      "is_loss_making": 0
+    },
+    {
+      "customer": "ATW",
+      "invoices": 15,
+      "revenue": 7362605.0,
+      "cost": 6851611.0,
+      "gross_profit": 510994.0,
+      "margin_pct": 0.06940396775326124,
+      "pct_of_total_revenue": 0.039230655326695715,
+      "is_loss_making": 0
+    },
+    {
+      "customer": "Delayers",
+      "invoices": 5,
+      "revenue": 6158900.0,
+      "cost": 5838547.0,
+      "gross_profit": 320353.0,
+      "margin_pct": 0.052014645472405786,
+      "pct_of_total_revenue": 0.032816874338849666,
+      "is_loss_making": 0
+    },
+    {
+      "customer": "Alhaja GRA Road",
+      "invoices": 1,
+      "revenue": 5201650.0,
+      "cost": 4840911.0,
+      "gross_profit": 360739.0,
+      "margin_pct": 0.06935087904799439,
+      "pct_of_total_revenue": 0.02771629583280738,
+      "is_loss_making": 0
+    },
+    {
+      "customer": "Looking Good",
+      "invoices": 1,
+      "revenue": 4939800.0,
+      "cost": 4915226.0,
+      "gross_profit": 24574.0,
+      "margin_pct": 0.00497469533179481,
+      "pct_of_total_revenue": 0.02632106315398035,
+      "is_loss_making": 0
+    },
+    {
+      "customer": "Etigwam Nig Ltd",
+      "invoices": 1,
+      "revenue": 4538140.0,
+      "cost": 4253330.0,
+      "gross_profit": 284810.0,
+      "margin_pct": 0.06275919209191431,
+      "pct_of_total_revenue": 0.02418087160241394,
+      "is_loss_making": 0
+    },
+    {
+      "customer": "Rukky bee",
+      "invoices": 1,
+      "revenue": 4512900.0,
+      "cost": 4460698.0,
+      "gross_profit": 52202.0,
+      "margin_pct": 0.011567284894413792,
+      "pct_of_total_revenue": 0.024046383640551828,
+      "is_loss_making": 0
+    },
+    {
+      "customer": "Mr Lekan Ojifini",
+      "invoices": 7,
+      "revenue": 4393180.0,
+      "cost": 4437716.0,
+      "gross_profit": -44536.0,
+      "margin_pct": -0.010137531355419081,
+      "pct_of_total_revenue": 0.023408471643953883,
+      "is_loss_making": 1
+    },
+    {
+      "customer": "AZ Marketer",
+      "invoices": 3,
+      "revenue": 3642500.0,
+      "cost": 3755050.0,
+      "gross_profit": -112550.0,
+      "margin_pct": -0.03089910775566232,
+      "pct_of_total_revenue": 0.0194085737354495,
+      "is_loss_making": 1
+    },
+    {
+      "customer": "Tmoney NB",
+      "invoices": 7,
+      "revenue": 2985985.0,
+      "cost": 2779532.0,
+      "gross_profit": 206453.0,
+      "margin_pct": 0.06914066882452524,
+      "pct_of_total_revenue": 0.015910421426340745,
+      "is_loss_making": 0
+    },
+    {
+      "customer": "OGUNDE SR",
+      "invoices": 1,
+      "revenue": 2976000.0,
+      "cost": 2951040.0,
+      "gross_profit": 24960.0,
+      "margin_pct": 0.008387096774193548,
+      "pct_of_total_revenue": 0.01585721769023959,
+      "is_loss_making": 0
+    },
+    {
+      "customer": "Demola SR",
+      "invoices": 2,
+      "revenue": 2725500.0,
+      "cost": 2775520.0,
+      "gross_profit": -50020.0,
+      "margin_pct": -0.018352595853971747,
+      "pct_of_total_revenue": 0.014522461967321237,
+      "is_loss_making": 1
+    },
+    {
+      "customer": "Jeff SR",
+      "invoices": 11,
+      "revenue": 2449195.0,
+      "cost": 2498835.0,
+      "gross_profit": -49640.0,
+      "margin_pct": -0.02026788393737534,
+      "pct_of_total_revenue": 0.013050207755660737,
+      "is_loss_making": 1
+    },
+    {
+      "customer": "XXIII LOUNGE",
+      "invoices": 5,
+      "revenue": 1514065.0,
+      "cost": 1244876.0,
+      "gross_profit": 269189.0,
+      "margin_pct": 0.17779223481158338,
+      "pct_of_total_revenue": 0.008067492709063375,
+      "is_loss_making": 0
+    },
+    {
+      "customer": "Ahmed SR",
+      "invoices": 5,
+      "revenue": 1318545.0,
+      "cost": 1284665.0,
+      "gross_profit": 33880.0,
+      "margin_pct": 0.025694989552878363,
+      "pct_of_total_revenue": 0.007025690557586344,
+      "is_loss_making": 0
+    },
+    {
+      "customer": "LAKE AND RIVER FOODS",
+      "invoices": 2,
+      "revenue": 1243900.0,
+      "cost": 1056149.0,
+      "gross_profit": 187751.0,
+      "margin_pct": 0.1509373743870086,
+      "pct_of_total_revenue": 0.0066279546656213125,
+      "is_loss_making": 0
+    },
+    {
+      "customer": "Mr Godswill",
+      "invoices": 15,
+      "revenue": 1221680.0,
+      "cost": 1147581.0,
+      "gross_profit": 74099.0,
+      "margin_pct": 0.06065336258267304,
+      "pct_of_total_revenue": 0.006509558369560451,
+      "is_loss_making": 0
+    },
+    {
+      "customer": "Walk in Customer",
+      "invoices": 34,
+      "revenue": 1104095.0,
+      "cost": 1040645.0,
+      "gross_profit": 63450.0,
+      "margin_pct": 0.05746788093415874,
+      "pct_of_total_revenue": 0.005883022434712728,
+      "is_loss_making": 0
+    },
+    {
+      "customer": "Mr Musefiu",
+      "invoices": 2,
+      "revenue": 895800.0,
+      "cost": 773071.0,
+      "gross_profit": 122729.0,
+      "margin_pct": 0.13700491181067204,
+      "pct_of_total_revenue": 0.004773150405549941,
+      "is_loss_making": 0
+    },
+    {
+      "customer": "Stella SR",
+      "invoices": 3,
+      "revenue": 880000.0,
+      "cost": 894085.0,
+      "gross_profit": -14085.0,
+      "margin_pct": -0.016005681818181818,
+      "pct_of_total_revenue": 0.004688962220232137,
+      "is_loss_making": 1
+    },
+    {
+      "customer": "Solomon",
+      "invoices": 7,
+      "revenue": 722835.0,
+      "cost": 677954.0,
+      "gross_profit": 44881.0,
+      "margin_pct": 0.062090241894761596,
+      "pct_of_total_revenue": 0.003851529552797155,
+      "is_loss_making": 0
+    },
+    {
+      "customer": "DESOLA STORE",
+      "invoices": 1,
+      "revenue": 612000.0,
+      "cost": 624000.0,
+      "gross_profit": -12000.0,
+      "margin_pct": -0.0196078431372549,
+      "pct_of_total_revenue": 0.003260960089525077,
+      "is_loss_making": 1
+    },
+    {
+      "customer": "TD Odiolowo",
+      "invoices": 6,
+      "revenue": 566700.0,
+      "cost": 568834.0,
+      "gross_profit": -2134.0,
+      "margin_pct": -0.0037656608434797952,
+      "pct_of_total_revenue": 0.003019585102506309,
+      "is_loss_making": 1
+    },
+    {
+      "customer": "MRS IK.",
+      "invoices": 9,
+      "revenue": 502640.0,
+      "cost": 469281.0,
+      "gross_profit": 33359.0,
+      "margin_pct": 0.06636757918191946,
+      "pct_of_total_revenue": 0.0026782499663380466,
+      "is_loss_making": 0
+    },
+    {
+      "customer": "Amandla",
+      "invoices": 2,
+      "revenue": 416075.0,
+      "cost": 367644.0,
+      "gross_profit": 48431.0,
+      "margin_pct": 0.11639968755632998,
+      "pct_of_total_revenue": 0.002216999949753507,
+      "is_loss_making": 0
+    },
+    {
+      "customer": "Mr Olayinka",
+      "invoices": 7,
+      "revenue": 392530.0,
+      "cost": 365754.0,
+      "gross_profit": 26776.0,
+      "margin_pct": 0.06821389447940285,
+      "pct_of_total_revenue": 0.0020915435685315005,
+      "is_loss_making": 0
+    },
+    {
+      "customer": "Taiwo SR",
+      "invoices": 2,
+      "revenue": 355335.0,
+      "cost": 337765.0,
+      "gross_profit": 17570.0,
+      "margin_pct": 0.04944629715620471,
+      "pct_of_total_revenue": 0.0018933549892343026,
+      "is_loss_making": 0
+    },
+    {
+      "customer": "Ola SR",
+      "invoices": 4,
+      "revenue": 326520.0,
+      "cost": 308642.0,
+      "gross_profit": 17878.0,
+      "margin_pct": 0.05475315447752052,
+      "pct_of_total_revenue": 0.0017398181183524968,
+      "is_loss_making": 0
+    },
+    {
+      "customer": "MAADE HOTEL",
+      "invoices": 4,
+      "revenue": 221540.0,
+      "cost": 209198.0,
+      "gross_profit": 12342.0,
+      "margin_pct": 0.05571002979145978,
+      "pct_of_total_revenue": 0.0011804462389434405,
+      "is_loss_making": 0
+    },
+    {
+      "customer": "tomaco",
+      "invoices": 3,
+      "revenue": 218650.0,
+      "cost": 207124.0,
+      "gross_profit": 11526.0,
+      "margin_pct": 0.05271438371827121,
+      "pct_of_total_revenue": 0.0011650472607429053,
+      "is_loss_making": 0
+    },
+    {
+      "customer": "Remilekun",
+      "invoices": 11,
+      "revenue": 159900.0,
+      "cost": 145925.0,
+      "gross_profit": 13975.0,
+      "margin_pct": 0.08739837398373984,
+      "pct_of_total_revenue": 0.0008520057488808166,
+      "is_loss_making": 0
+    },
+    {
+      "customer": "June Target Achievement Incentive Scheme",
+      "invoices": 2,
+      "revenue": 112020.0,
+      "cost": 103881.0,
+      "gross_profit": 8139.0,
+      "margin_pct": 0.07265666845206213,
+      "pct_of_total_revenue": 0.0005968835771709136,
+      "is_loss_making": 0
+    },
+    {
+      "customer": "Y k BAR",
+      "invoices": 1,
+      "revenue": 110040.0,
+      "cost": 100282.0,
+      "gross_profit": 9758.0,
+      "margin_pct": 0.08867684478371501,
+      "pct_of_total_revenue": 0.0005863334121753912,
+      "is_loss_making": 0
+    },
+    {
+      "customer": "Breakages",
+      "invoices": 1,
+      "revenue": 74120.0,
+      "cost": 70676.0,
+      "gross_profit": 3444.0,
+      "margin_pct": 0.046465191581219645,
+      "pct_of_total_revenue": 0.00039493849973137044,
+      "is_loss_making": 0
+    },
+    {
+      "customer": "Mrs Oladejo",
+      "invoices": 4,
+      "revenue": 54275.0,
+      "cost": 49868.0,
+      "gross_profit": 4407.0,
+      "margin_pct": 0.08119760479041917,
+      "pct_of_total_revenue": 0.00028919707329897636,
+      "is_loss_making": 0
+    },
+    {
+      "customer": "Staff Debit",
+      "invoices": 2,
+      "revenue": 18545.0,
+      "cost": 17627.0,
+      "gross_profit": 918.0,
+      "margin_pct": 0.049501213265031006,
+      "pct_of_total_revenue": 9.881455042523292e-05,
+      "is_loss_making": 0
+    }
+  ],
   "below_floor_pricing": [
     {
       "product_raw": "Maltina Pet 33cl",
@@ -18517,44 +18942,6 @@
   "reconciliation_discrepancies": [],
   "anomalies": [
     {
-      "row": 95,
-      "source_tab": "tmpA1A6",
-      "raw": [
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        -30444,
-        null,
-        null
-      ],
-      "reason": "Non-blank row mid-item-block with no product name (likely a stray subtotal/formula-bug row) \u2014 treated as end of block."
-    },
-    {
-      "row": 216,
-      "source_tab": "tmpA1A6",
-      "raw": [
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        7874270,
-        7904380,
-        -30110,
-        null,
-        null
-      ],
-      "reason": "Non-blank row mid-item-block with no product name (likely a stray subtotal/formula-bug row) \u2014 treated as end of block."
-    },
-    {
       "row": 804,
       "source_tab": "tmpA1A6",
       "raw": [
@@ -18691,222 +19078,6 @@
         null
       ],
       "reason": "Row outside a known block: no date+invoice_no, not blank."
-    },
-    {
-      "row": 5,
-      "source_tab": "tmp3F5D",
-      "type": "zero_or_negative_inventory_rate",
-      "item": "Guiness",
-      "rate": 0.0,
-      "reason": "Negative or zero inventory cost in tmp3F5D: rate=0.0"
-    },
-    {
-      "row": 6,
-      "source_tab": "tmp3F5D",
-      "type": "zero_or_negative_inventory_rate",
-      "item": "Can",
-      "rate": 0.0,
-      "reason": "Negative or zero inventory cost in tmp3F5D: rate=0.0"
-    },
-    {
-      "row": 8,
-      "source_tab": "tmp3F5D",
-      "type": "zero_or_negative_inventory_rate",
-      "item": "RGB",
-      "rate": 0.0,
-      "reason": "Negative or zero inventory cost in tmp3F5D: rate=0.0"
-    },
-    {
-      "row": 11,
-      "source_tab": "tmp3F5D",
-      "type": "negative_or_zero_inventory_units",
-      "item": "ORIJIN BT",
-      "units": 0.0,
-      "reason": "Negative or zero inventory units in tmp3F5D: units=0.0"
-    },
-    {
-      "row": 11,
-      "source_tab": "tmp3F5D",
-      "type": "zero_or_negative_inventory_rate",
-      "item": "ORIJIN BT",
-      "rate": 0.0,
-      "reason": "Negative or zero inventory cost in tmp3F5D: rate=0.0"
-    },
-    {
-      "row": 12,
-      "source_tab": "tmp3F5D",
-      "type": "negative_or_zero_inventory_units",
-      "item": "Small Guinness Stout",
-      "units": 0.0,
-      "reason": "Negative or zero inventory units in tmp3F5D: units=0.0"
-    },
-    {
-      "row": 12,
-      "source_tab": "tmp3F5D",
-      "type": "zero_or_negative_inventory_rate",
-      "item": "Small Guinness Stout",
-      "rate": 0.0,
-      "reason": "Negative or zero inventory cost in tmp3F5D: rate=0.0"
-    },
-    {
-      "row": 14,
-      "source_tab": "tmp3F5D",
-      "type": "zero_or_negative_inventory_rate",
-      "item": "IntlB",
-      "rate": 0.0,
-      "reason": "Negative or zero inventory cost in tmp3F5D: rate=0.0"
-    },
-    {
-      "row": 15,
-      "source_tab": "tmp3F5D",
-      "type": "negative_or_zero_inventory_units",
-      "item": "Can",
-      "units": 0.0,
-      "reason": "Negative or zero inventory units in tmp3F5D: units=0.0"
-    },
-    {
-      "row": 15,
-      "source_tab": "tmp3F5D",
-      "type": "zero_or_negative_inventory_rate",
-      "item": "Can",
-      "rate": 0.0,
-      "reason": "Negative or zero inventory cost in tmp3F5D: rate=0.0"
-    },
-    {
-      "row": 16,
-      "source_tab": "tmp3F5D",
-      "type": "negative_or_zero_inventory_units",
-      "item": "TROPHY CAN",
-      "units": 0.0,
-      "reason": "Negative or zero inventory units in tmp3F5D: units=0.0"
-    },
-    {
-      "row": 16,
-      "source_tab": "tmp3F5D",
-      "type": "zero_or_negative_inventory_rate",
-      "item": "TROPHY CAN",
-      "rate": 0.0,
-      "reason": "Negative or zero inventory cost in tmp3F5D: rate=0.0"
-    },
-    {
-      "row": 17,
-      "source_tab": "tmp3F5D",
-      "type": "zero_or_negative_inventory_rate",
-      "item": "RGB",
-      "rate": 0.0,
-      "reason": "Negative or zero inventory cost in tmp3F5D: rate=0.0"
-    },
-    {
-      "row": 21,
-      "source_tab": "tmp3F5D",
-      "type": "zero_or_negative_inventory_rate",
-      "item": "NB PLC",
-      "rate": 0.0,
-      "reason": "Negative or zero inventory cost in tmp3F5D: rate=0.0"
-    },
-    {
-      "row": 22,
-      "source_tab": "tmp3F5D",
-      "type": "zero_or_negative_inventory_rate",
-      "item": "Can",
-      "rate": 0.0,
-      "reason": "Negative or zero inventory cost in tmp3F5D: rate=0.0"
-    },
-    {
-      "row": 33,
-      "source_tab": "tmp3F5D",
-      "type": "zero_or_negative_inventory_rate",
-      "item": "Pet",
-      "rate": 0.0,
-      "reason": "Negative or zero inventory cost in tmp3F5D: rate=0.0"
-    },
-    {
-      "row": 35,
-      "source_tab": "tmp3F5D",
-      "type": "negative_or_zero_inventory_units",
-      "item": "Fayrouz Pet",
-      "units": 0.0,
-      "reason": "Negative or zero inventory units in tmp3F5D: units=0.0"
-    },
-    {
-      "row": 35,
-      "source_tab": "tmp3F5D",
-      "type": "zero_or_negative_inventory_rate",
-      "item": "Fayrouz Pet",
-      "rate": 0.0,
-      "reason": "Negative or zero inventory cost in tmp3F5D: rate=0.0"
-    },
-    {
-      "row": 36,
-      "source_tab": "tmp3F5D",
-      "type": "negative_or_zero_inventory_units",
-      "item": "Maltina Pet 25cl",
-      "units": 0.0,
-      "reason": "Negative or zero inventory units in tmp3F5D: units=0.0"
-    },
-    {
-      "row": 36,
-      "source_tab": "tmp3F5D",
-      "type": "zero_or_negative_inventory_rate",
-      "item": "Maltina Pet 25cl",
-      "rate": 0.0,
-      "reason": "Negative or zero inventory cost in tmp3F5D: rate=0.0"
-    },
-    {
-      "row": 39,
-      "source_tab": "tmp3F5D",
-      "type": "zero_or_negative_inventory_rate",
-      "item": "RGB",
-      "rate": 0.0,
-      "reason": "Negative or zero inventory cost in tmp3F5D: rate=0.0"
-    },
-    {
-      "row": 45,
-      "source_tab": "tmp3F5D",
-      "type": "zero_or_negative_inventory_rate",
-      "item": "Goldberg Black Promo",
-      "rate": 0.0,
-      "reason": "Negative or zero inventory cost in tmp3F5D: rate=0.0"
-    },
-    {
-      "row": 56,
-      "source_tab": "tmp3F5D",
-      "type": "zero_or_negative_inventory_rate",
-      "item": "RGB Premium",
-      "rate": 0.0,
-      "reason": "Negative or zero inventory cost in tmp3F5D: rate=0.0"
-    },
-    {
-      "row": 60,
-      "source_tab": "tmp3F5D",
-      "type": "zero_or_negative_inventory_rate",
-      "item": "Wines",
-      "rate": 0.0,
-      "reason": "Negative or zero inventory cost in tmp3F5D: rate=0.0"
-    },
-    {
-      "row": 63,
-      "source_tab": "tmp3F5D",
-      "type": "zero_or_negative_inventory_rate",
-      "item": "default",
-      "rate": 0.0,
-      "reason": "Negative or zero inventory cost in tmp3F5D: rate=0.0"
-    },
-    {
-      "row": 64,
-      "source_tab": "tmp3F5D",
-      "type": "zero_or_negative_inventory_rate",
-      "item": "default",
-      "rate": 0.0,
-      "reason": "Negative or zero inventory cost in tmp3F5D: rate=0.0"
-    },
-    {
-      "row": 66,
-      "source_tab": "tmp3F5D",
-      "type": "zero_or_negative_inventory_rate",
-      "item": "GNS EMPTIES",
-      "rate": -7186.0,
-      "reason": "Negative or zero inventory cost in tmp3F5D: rate=-7186.0"
     }
   ],
   "loss_making_invoices": [
@@ -19695,24 +19866,8 @@
   ],
   "match_quality": {
     "total_products": 45,
-    "counts": {
-      "exact": 9,
-      "fuzzy": 22,
-      "manual_override": 5,
-      "fuzzy_no_size_match": 0,
-      "unmatched": 9
-    },
-    "unmatched_products": [
-      "Trophy",
-      "NB Empties",
-      "IB Empties",
-      "GNS EMPTIES",
-      "4th Street wine",
-      "ACE BITTERS",
-      "STK 33cl",
-      "Empties Premium",
-      "NB Loose Crate"
-    ]
+    "counts": {},
+    "unmatched_products": []
   },
   "concentration_metrics": {
     "top_n": 10,
@@ -19730,7 +19885,7 @@
     }
   ],
   "loss_making_invoices_count": 68,
-  "anomalies_count": 36,
+  "anomalies_count": 7,
   "true_cost_products": [
     {
       "product_raw": "Maltina Pet 33cl",
@@ -20221,7 +20376,355 @@
       "total_gross_profit": -475202.0,
       "total_cases_sold": 3977.0,
       "invoices": 31,
-      "gross_profit_pct": -0.0201907619579943
+      "gross_profit_pct": -0.0201907619579943,
+      "is_marketer": 1,
+      "cases_target": 6000.0,
+      "pct_of_target_met": 0.6628333333333334,
+      "attributable_expenses": 448844.0,
+      "net_marketer_profit": -924046.0,
+      "invoices_list": [
+        {
+          "invoice_no": "ann-INV144",
+          "date": "2026-07-01T00:00:00",
+          "cases_sold": 255.0,
+          "revenue": 1533700.0,
+          "total_cost": 1578995.0,
+          "gross_profit": -45295.0,
+          "items_count": 3,
+          "products": "Maltina Pet 33cl, Maltina Pet 50cl, Maltina Can",
+          "margin_pct": -0.029533155115081176
+        },
+        {
+          "invoice_no": "ann-INV362",
+          "date": "2026-07-24T00:00:00",
+          "cases_sold": 270.0,
+          "revenue": 1350000.0,
+          "total_cost": 1404000.0,
+          "gross_profit": -54000.0,
+          "items_count": 1,
+          "products": "Maltina Pet 33cl",
+          "margin_pct": -0.04
+        },
+        {
+          "invoice_no": "ann-INV411",
+          "date": "2026-07-28T00:00:00",
+          "cases_sold": 251.0,
+          "revenue": 1325335.0,
+          "total_cost": 1367390.0,
+          "gross_profit": -42055.0,
+          "items_count": 2,
+          "products": "Maltina Pet 33cl, Chamdor 75cl",
+          "margin_pct": -0.031731599935110745
+        },
+        {
+          "invoice_no": "ann-INV156",
+          "date": "2026-07-02T00:00:00",
+          "cases_sold": 261.0,
+          "revenue": 1324235.0,
+          "total_cost": 1374250.0,
+          "gross_profit": -50015.0,
+          "items_count": 2,
+          "products": "Maltina Pet 33cl, 4th Street wine",
+          "margin_pct": -0.037768976050323394
+        },
+        {
+          "invoice_no": "ann-INV352",
+          "date": "2026-07-23T00:00:00",
+          "cases_sold": 248.0,
+          "revenue": 1240000.0,
+          "total_cost": 1289600.0,
+          "gross_profit": -49600.0,
+          "items_count": 1,
+          "products": "Maltina Pet 33cl",
+          "margin_pct": -0.04
+        },
+        {
+          "invoice_no": "ann-INV333",
+          "date": "2026-07-21T00:00:00",
+          "cases_sold": 240.0,
+          "revenue": 1200000.0,
+          "total_cost": 1248000.0,
+          "gross_profit": -48000.0,
+          "items_count": 1,
+          "products": "Maltina Pet 33cl",
+          "margin_pct": -0.04
+        },
+        {
+          "invoice_no": "ann-INV395",
+          "date": "2026-07-27T00:00:00",
+          "cases_sold": 210.0,
+          "revenue": 1050000.0,
+          "total_cost": 1092000.0,
+          "gross_profit": -42000.0,
+          "items_count": 1,
+          "products": "Maltina Pet 33cl",
+          "margin_pct": -0.04
+        },
+        {
+          "invoice_no": "ann-INV344",
+          "date": "2026-07-22T00:00:00",
+          "cases_sold": 210.0,
+          "revenue": 1050000.0,
+          "total_cost": 1092000.0,
+          "gross_profit": -42000.0,
+          "items_count": 1,
+          "products": "Maltina Pet 33cl",
+          "margin_pct": -0.04
+        },
+        {
+          "invoice_no": "ann-INV301",
+          "date": "2026-07-17T00:00:00",
+          "cases_sold": 200.0,
+          "revenue": 1000000.0,
+          "total_cost": 1040000.0,
+          "gross_profit": -40000.0,
+          "items_count": 1,
+          "products": "Maltina Pet 33cl",
+          "margin_pct": -0.04
+        },
+        {
+          "invoice_no": "ann-INV242",
+          "date": "2026-07-10T00:00:00",
+          "cases_sold": 200.0,
+          "revenue": 1000000.0,
+          "total_cost": 1040000.0,
+          "gross_profit": -40000.0,
+          "items_count": 1,
+          "products": "Maltina Pet 33cl",
+          "margin_pct": -0.04
+        },
+        {
+          "invoice_no": "ann-INV167",
+          "date": "2026-07-03T00:00:00",
+          "cases_sold": 200.0,
+          "revenue": 1000000.0,
+          "total_cost": 1040000.0,
+          "gross_profit": -40000.0,
+          "items_count": 1,
+          "products": "Maltina Pet 33cl",
+          "margin_pct": -0.04
+        },
+        {
+          "invoice_no": "ann-INV305",
+          "date": "2026-07-18T00:00:00",
+          "cases_sold": 65.0,
+          "revenue": 931650.0,
+          "total_cost": 931015.0,
+          "gross_profit": 635.0,
+          "items_count": 3,
+          "products": "Maltina Can, Heineken Sleek Can, Goldberg Can 50cl",
+          "margin_pct": 0.0006815864326732142
+        },
+        {
+          "invoice_no": "ann-INV222",
+          "date": "2026-07-08T00:00:00",
+          "cases_sold": 155.0,
+          "revenue": 839225.0,
+          "total_cost": 865500.0,
+          "gross_profit": -26275.0,
+          "items_count": 2,
+          "products": "Maltina Pet 33cl, Heineken Sleek Can",
+          "margin_pct": -0.0313086478596324
+        },
+        {
+          "invoice_no": "ann-INV273",
+          "date": "2026-07-14T00:00:00",
+          "cases_sold": 118.0,
+          "revenue": 835385.0,
+          "total_cost": 835425.0,
+          "gross_profit": -40.0,
+          "items_count": 5,
+          "products": "Goldberg Can 50cl, Legend Can 44cl, TROPHY CAN, Desperados Can, Maltina Pet 33cl",
+          "margin_pct": -4.7882114234754035e-05
+        },
+        {
+          "invoice_no": "ann-INV186",
+          "date": "2026-07-06T00:00:00",
+          "cases_sold": 92.0,
+          "revenue": 828400.0,
+          "total_cost": 794070.0,
+          "gross_profit": 34330.0,
+          "items_count": 4,
+          "products": "33 Export 60cl, Goldberg 60cl, Trophy, Turbo King Bottle 60cl",
+          "margin_pct": 0.04144133268952197
+        },
+        {
+          "invoice_no": "ann-INV264",
+          "date": "2026-07-13T00:00:00",
+          "cases_sold": 155.0,
+          "revenue": 815750.0,
+          "total_cost": 847505.0,
+          "gross_profit": -31755.0,
+          "items_count": 2,
+          "products": "Maltina Pet 33cl, Maltina Can",
+          "margin_pct": -0.03892736745326387
+        },
+        {
+          "invoice_no": "ann-INV184",
+          "date": "2026-07-06T00:00:00",
+          "cases_sold": 60.0,
+          "revenue": 800100.0,
+          "total_cost": 764760.0,
+          "gross_profit": 35340.0,
+          "items_count": 1,
+          "products": "Heineken Bottle 60cl",
+          "margin_pct": 0.04416947881514811
+        },
+        {
+          "invoice_no": "ann-INV433",
+          "date": "2026-07-31T00:00:00",
+          "cases_sold": 150.0,
+          "revenue": 750000.0,
+          "total_cost": 780000.0,
+          "gross_profit": -30000.0,
+          "items_count": 1,
+          "products": "Maltina Pet 33cl",
+          "margin_pct": -0.04
+        },
+        {
+          "invoice_no": "ann-INV421",
+          "date": "2026-07-29T00:00:00",
+          "cases_sold": 150.0,
+          "revenue": 750000.0,
+          "total_cost": 780000.0,
+          "gross_profit": -30000.0,
+          "items_count": 1,
+          "products": "Maltina Pet 33cl",
+          "margin_pct": -0.04
+        },
+        {
+          "invoice_no": "ann-INV254",
+          "date": "2026-07-11T00:00:00",
+          "cases_sold": 120.0,
+          "revenue": 660400.0,
+          "total_cost": 673700.0,
+          "gross_profit": -13300.0,
+          "items_count": 2,
+          "products": "Maltina Pet 33cl, Maltina Pet 50cl",
+          "margin_pct": -0.020139309509388248
+        },
+        {
+          "invoice_no": "ann-INV281",
+          "date": "2026-07-15T00:00:00",
+          "cases_sold": 90.0,
+          "revenue": 613000.0,
+          "total_cost": 634020.0,
+          "gross_profit": -21020.0,
+          "items_count": 2,
+          "products": "Maltina Pet 33cl, Maltina Can",
+          "margin_pct": -0.034290375203915174
+        },
+        {
+          "invoice_no": "ann-INV200",
+          "date": "2026-07-07T00:00:00",
+          "cases_sold": 52.0,
+          "revenue": 548695.0,
+          "total_cost": 518357.0,
+          "gross_profit": 30338.0,
+          "items_count": 3,
+          "products": "Goldberg 60cl, Heineken Bottle 60cl, Turbo King Bottle 60cl",
+          "margin_pct": 0.05529119091662946
+        },
+        {
+          "invoice_no": "ann-INV288",
+          "date": "2026-07-16T00:00:00",
+          "cases_sold": 55.0,
+          "revenue": 481000.0,
+          "total_cost": 464325.0,
+          "gross_profit": 16675.0,
+          "items_count": 3,
+          "products": "Goldberg 60cl, Trophy, 33 Export 60cl",
+          "margin_pct": 0.03466735966735967
+        },
+        {
+          "invoice_no": "ann-INV178",
+          "date": "2026-07-04T00:00:00",
+          "cases_sold": 50.0,
+          "revenue": 415000.0,
+          "total_cost": 405900.0,
+          "gross_profit": 9100.0,
+          "items_count": 1,
+          "products": "Trophy",
+          "margin_pct": 0.021927710843373496
+        },
+        {
+          "invoice_no": "ann-INV325",
+          "date": "2026-07-20T00:00:00",
+          "cases_sold": 45.0,
+          "revenue": 384000.0,
+          "total_cost": 373395.0,
+          "gross_profit": 10605.0,
+          "items_count": 2,
+          "products": "Trophy, Goldberg 60cl",
+          "margin_pct": 0.0276171875
+        },
+        {
+          "invoice_no": "ann-INV306",
+          "date": "2026-07-18T00:00:00",
+          "cases_sold": 20.0,
+          "revenue": 311600.0,
+          "total_cost": 300050.0,
+          "gross_profit": 11550.0,
+          "items_count": 2,
+          "products": "Fayrouz Can, Medium Stout",
+          "margin_pct": 0.03706675224646983
+        },
+        {
+          "invoice_no": "ann-INV357",
+          "date": "2026-07-23T00:00:00",
+          "cases_sold": 30.0,
+          "revenue": 261000.0,
+          "total_cost": 251625.0,
+          "gross_profit": 9375.0,
+          "items_count": 2,
+          "products": "Goldberg 60cl, Trophy",
+          "margin_pct": 0.035919540229885055
+        },
+        {
+          "invoice_no": "ann-INV158",
+          "date": "2026-07-02T00:00:00",
+          "cases_sold": 10.0,
+          "revenue": 80200.0,
+          "total_cost": 76850.0,
+          "gross_profit": 3350.0,
+          "items_count": 1,
+          "products": "Maltina Pet 50cl",
+          "margin_pct": 0.04177057356608479
+        },
+        {
+          "invoice_no": "ann-INV399",
+          "date": "2026-07-27T00:00:00",
+          "cases_sold": 8.0,
+          "revenue": 64160.0,
+          "total_cost": 61480.0,
+          "gross_profit": 2680.0,
+          "items_count": 1,
+          "products": "Maltina Pet 50cl",
+          "margin_pct": 0.04177057356608479
+        },
+        {
+          "invoice_no": "ann-INV345",
+          "date": "2026-07-22T00:00:00",
+          "cases_sold": 2.0,
+          "revenue": 52680.0,
+          "total_cost": 48180.0,
+          "gross_profit": 4500.0,
+          "items_count": 2,
+          "products": "Chamdor 75cl, 4th Street wine",
+          "margin_pct": 0.08542141230068337
+        },
+        {
+          "invoice_no": "ann-INV157",
+          "date": "2026-07-02T00:00:00",
+          "cases_sold": 5.0,
+          "revenue": 40100.0,
+          "total_cost": 38425.0,
+          "gross_profit": 1675.0,
+          "items_count": 1,
+          "products": "Maltina Pet 50cl",
+          "margin_pct": 0.04177057356608479
+        }
+      ]
     },
     {
       "customer": "Rita SR",
@@ -20230,7 +20733,289 @@
       "total_gross_profit": -221535.0,
       "total_cases_sold": 2533.0,
       "invoices": 25,
-      "gross_profit_pct": -0.010832350507842068
+      "gross_profit_pct": -0.010832350507842068,
+      "is_marketer": 0,
+      "cases_target": null,
+      "pct_of_target_met": null,
+      "attributable_expenses": 0.0,
+      "net_marketer_profit": -221535.0,
+      "invoices_list": [
+        {
+          "invoice_no": "ann-INV350",
+          "date": "2026-07-23T00:00:00",
+          "cases_sold": 496.0,
+          "revenue": 2480000.0,
+          "total_cost": 2579200.0,
+          "gross_profit": -99200.0,
+          "items_count": 1,
+          "products": "Maltina Pet 33cl",
+          "margin_pct": -0.04
+        },
+        {
+          "invoice_no": "ann-INV285",
+          "date": "2026-07-16T00:00:00",
+          "cases_sold": 190.0,
+          "revenue": 1877025.0,
+          "total_cost": 1892805.0,
+          "gross_profit": -15780.0,
+          "items_count": 5,
+          "products": "Maltina Pet 33cl, Goldberg Can 50cl, Heineken Sleek Can, 33 Export Can, Maltina Can",
+          "margin_pct": -0.008406920525832102
+        },
+        {
+          "invoice_no": "ann-INV340",
+          "date": "2026-07-22T00:00:00",
+          "cases_sold": 105.0,
+          "revenue": 1654475.0,
+          "total_cost": 1636455.0,
+          "gross_profit": 18020.0,
+          "items_count": 4,
+          "products": "33 Export Can, Goldberg Can 50cl, Fayrouz Can, Heineken Sleek Can",
+          "margin_pct": 0.010891672584958975
+        },
+        {
+          "invoice_no": "ann-INV152",
+          "date": "2026-07-02T00:00:00",
+          "cases_sold": 95.0,
+          "revenue": 1421000.0,
+          "total_cost": 1426795.0,
+          "gross_profit": -5795.0,
+          "items_count": 4,
+          "products": "33 Export Can, Goldberg Can 50cl, Maltina Can, Desperados Can",
+          "margin_pct": -0.004078114004222378
+        },
+        {
+          "invoice_no": "ann-INV175",
+          "date": "2026-07-04T00:00:00",
+          "cases_sold": 253.0,
+          "revenue": 1326000.0,
+          "total_cost": 1375100.0,
+          "gross_profit": -49100.0,
+          "items_count": 2,
+          "products": "Maltina Pet 33cl, Heineken Sleek Can",
+          "margin_pct": -0.03702865761689291
+        },
+        {
+          "invoice_no": "ann-INV268",
+          "date": "2026-07-14T00:00:00",
+          "cases_sold": 253.0,
+          "revenue": 1265000.0,
+          "total_cost": 1315600.0,
+          "gross_profit": -50600.0,
+          "items_count": 1,
+          "products": "Maltina Pet 33cl",
+          "margin_pct": -0.04
+        },
+        {
+          "invoice_no": "ann-INV321",
+          "date": "2026-07-20T00:00:00",
+          "cases_sold": 248.0,
+          "revenue": 1240000.0,
+          "total_cost": 1289600.0,
+          "gross_profit": -49600.0,
+          "items_count": 1,
+          "products": "Maltina Pet 33cl",
+          "margin_pct": -0.04
+        },
+        {
+          "invoice_no": "ann-INV339",
+          "date": "2026-07-22T00:00:00",
+          "cases_sold": 248.0,
+          "revenue": 1240000.0,
+          "total_cost": 1289600.0,
+          "gross_profit": -49600.0,
+          "items_count": 1,
+          "products": "Maltina Pet 33cl",
+          "margin_pct": -0.04
+        },
+        {
+          "invoice_no": "ann-INV231",
+          "date": "2026-07-09T00:00:00",
+          "cases_sold": 83.0,
+          "revenue": 1191685.0,
+          "total_cost": 1140635.0,
+          "gross_profit": 51050.0,
+          "items_count": 11,
+          "products": "Amstel Bottle, Fayrouz Bottle, Fayrouz Can, ACE BITTERS, Gulder Bottle, Tiger Bottle, 33 Export 60cl, Maltina Pet 50cl, Heineken Can 50cl, Williams Bottle 60cl, Legend Can 44cl",
+          "margin_pct": 0.04283850178528722
+        },
+        {
+          "invoice_no": "ann-INV176",
+          "date": "2026-07-04T00:00:00",
+          "cases_sold": 60.0,
+          "revenue": 842250.0,
+          "total_cost": 857280.0,
+          "gross_profit": -15030.0,
+          "items_count": 4,
+          "products": "Star Bottle 60cl, Heineken Sleek Can, 33 Export Can, Maltina Can",
+          "margin_pct": -0.017845057880676758
+        },
+        {
+          "invoice_no": "ann-INV257",
+          "date": "2026-07-11T00:00:00",
+          "cases_sold": 59.0,
+          "revenue": 824640.0,
+          "total_cost": 795805.0,
+          "gross_profit": 28835.0,
+          "items_count": 5,
+          "products": "33 Export 60cl, Heineken Bottle 60cl, Gulder Bottle, Star Radler 45cl, Desperados Bottle",
+          "margin_pct": 0.034966773379899105
+        },
+        {
+          "invoice_no": "ann-INV293",
+          "date": "2026-07-17T00:00:00",
+          "cases_sold": 60.0,
+          "revenue": 780000.0,
+          "total_cost": 790680.0,
+          "gross_profit": -10680.0,
+          "items_count": 2,
+          "products": "Maltina Can, Fayrouz Can",
+          "margin_pct": -0.013692307692307693
+        },
+        {
+          "invoice_no": "ann-INV171",
+          "date": "2026-07-03T00:00:00",
+          "cases_sold": 40.0,
+          "revenue": 710000.0,
+          "total_cost": 684000.0,
+          "gross_profit": 26000.0,
+          "items_count": 1,
+          "products": "Heineken Sleek Can",
+          "margin_pct": 0.036619718309859155
+        },
+        {
+          "invoice_no": "ann-INV329",
+          "date": "2026-07-21T00:00:00",
+          "cases_sold": 120.0,
+          "revenue": 600000.0,
+          "total_cost": 624000.0,
+          "gross_profit": -24000.0,
+          "items_count": 1,
+          "products": "Maltina Pet 33cl",
+          "margin_pct": -0.04
+        },
+        {
+          "invoice_no": "ann-INV172",
+          "date": "2026-07-03T00:00:00",
+          "cases_sold": 30.0,
+          "revenue": 516000.0,
+          "total_cost": 513000.0,
+          "gross_profit": 3000.0,
+          "items_count": 1,
+          "products": "Heineken Sleek Can",
+          "margin_pct": 0.005813953488372093
+        },
+        {
+          "invoice_no": "ann-INV432",
+          "date": "2026-07-31T00:00:00",
+          "cases_sold": 30.0,
+          "revenue": 500550.0,
+          "total_cost": 497550.0,
+          "gross_profit": 3000.0,
+          "items_count": 2,
+          "products": "Heineken Sleek Can, 33 Export Can",
+          "margin_pct": 0.005993407252022775
+        },
+        {
+          "invoice_no": "ann-INV437",
+          "date": "2026-07-31T00:00:00",
+          "cases_sold": 25.0,
+          "revenue": 452450.0,
+          "total_cost": 449975.0,
+          "gross_profit": 2475.0,
+          "items_count": 2,
+          "products": "Heineken Sleek Can, Desperados Can",
+          "margin_pct": 0.005470217703613659
+        },
+        {
+          "invoice_no": "ann-INV310",
+          "date": "2026-07-18T00:00:00",
+          "cases_sold": 30.0,
+          "revenue": 382700.0,
+          "total_cost": 366220.0,
+          "gross_profit": 16480.0,
+          "items_count": 2,
+          "products": "Star Bottle 60cl, Heineken Bottle 60cl",
+          "margin_pct": 0.04306245100600993
+        },
+        {
+          "invoice_no": "ann-INV296",
+          "date": "2026-07-17T00:00:00",
+          "cases_sold": 25.0,
+          "revenue": 322500.0,
+          "total_cost": 337525.0,
+          "gross_profit": -15025.0,
+          "items_count": 1,
+          "products": "Maltina Can",
+          "margin_pct": -0.0465891472868217
+        },
+        {
+          "invoice_no": "ann-INV330",
+          "date": "2026-07-21T00:00:00",
+          "cases_sold": 23.0,
+          "revenue": 284215.0,
+          "total_cost": 272210.0,
+          "gross_profit": 12005.0,
+          "items_count": 5,
+          "products": "33 Export 60cl, Desperados Bottle, Turbo King Bottle 60cl, Amstel Bottle, Fayrouz Bottle",
+          "margin_pct": 0.04223914993930651
+        },
+        {
+          "invoice_no": "ann-INV311",
+          "date": "2026-07-18T00:00:00",
+          "cases_sold": 20.0,
+          "revenue": 176000.0,
+          "total_cost": 173140.0,
+          "gross_profit": 2860.0,
+          "items_count": 1,
+          "products": "Goldberg 60cl",
+          "margin_pct": 0.01625
+        },
+        {
+          "invoice_no": "ann-INV199",
+          "date": "2026-07-07T00:00:00",
+          "cases_sold": 10.0,
+          "revenue": 172000.0,
+          "total_cost": 171000.0,
+          "gross_profit": 1000.0,
+          "items_count": 1,
+          "products": "Heineken Sleek Can",
+          "margin_pct": 0.005813953488372093
+        },
+        {
+          "invoice_no": "ann-INV412",
+          "date": "2026-07-28T00:00:00",
+          "cases_sold": 15.0,
+          "revenue": 75000.0,
+          "total_cost": 78000.0,
+          "gross_profit": -3000.0,
+          "items_count": 1,
+          "products": "Maltina Pet 33cl",
+          "margin_pct": -0.04
+        },
+        {
+          "invoice_no": "ann-INV351",
+          "date": "2026-07-23T00:00:00",
+          "cases_sold": 5.0,
+          "revenue": 67750.0,
+          "total_cost": 64600.0,
+          "gross_profit": 3150.0,
+          "items_count": 1,
+          "products": "Maltina Bottle",
+          "margin_pct": 0.04649446494464945
+        },
+        {
+          "invoice_no": "ann-INV313",
+          "date": "2026-07-18T00:00:00",
+          "cases_sold": 10.0,
+          "revenue": 50000.0,
+          "total_cost": 52000.0,
+          "gross_profit": -2000.0,
+          "items_count": 1,
+          "products": "Maltina Pet 33cl",
+          "margin_pct": -0.04
+        }
+      ]
     },
     {
       "customer": "Abbey Illisan",
@@ -20239,7 +21024,47 @@
       "total_gross_profit": 105630.0,
       "total_cases_sold": 1534.0,
       "invoices": 3,
-      "gross_profit_pct": 0.0065058086037055336
+      "gross_profit_pct": 0.0065058086037055336,
+      "is_marketer": 0,
+      "cases_target": null,
+      "pct_of_target_met": null,
+      "attributable_expenses": 0.0,
+      "net_marketer_profit": 105630.0,
+      "invoices_list": [
+        {
+          "invoice_no": "ann-INV161",
+          "date": "2026-07-03T00:00:00",
+          "cases_sold": 714.0,
+          "revenue": 7725760.0,
+          "total_cost": 7595910.0,
+          "gross_profit": 129850.0,
+          "items_count": 4,
+          "products": "Heineken Bottle 60cl, Goldberg 60cl, 33 Export 60cl, Gulder Bottle",
+          "margin_pct": 0.01680740794433169
+        },
+        {
+          "invoice_no": "ann-INV304",
+          "date": "2026-07-18T00:00:00",
+          "cases_sold": 400.0,
+          "revenue": 4803300.0,
+          "total_cost": 4805540.0,
+          "gross_profit": -2240.0,
+          "items_count": 4,
+          "products": "Heineken Bottle 60cl, 33 Export 60cl, Tiger Bottle, Star Radler 45cl",
+          "margin_pct": -0.0004663460537547103
+        },
+        {
+          "invoice_no": "ann-INV358",
+          "date": "2026-07-24T00:00:00",
+          "cases_sold": 420.0,
+          "revenue": 3707200.0,
+          "total_cost": 3729180.0,
+          "gross_profit": -21980.0,
+          "items_count": 2,
+          "products": "Goldberg 60cl, 33 Export 60cl",
+          "margin_pct": -0.005929003021148036
+        }
+      ]
     },
     {
       "customer": "WURAOLA",
@@ -20248,7 +21073,58 @@
       "total_gross_profit": 84878.0,
       "total_cases_sold": 1297.0,
       "invoices": 4,
-      "gross_profit_pct": 0.005794317366499891
+      "gross_profit_pct": 0.005794317366499891,
+      "is_marketer": 0,
+      "cases_target": null,
+      "pct_of_target_met": null,
+      "attributable_expenses": 0.0,
+      "net_marketer_profit": 84878.0,
+      "invoices_list": [
+        {
+          "invoice_no": "ann-INV417",
+          "date": "2026-07-29T00:00:00",
+          "cases_sold": 653.0,
+          "revenue": 8126030.0,
+          "total_cost": 8169462.0,
+          "gross_profit": -43432.0,
+          "items_count": 6,
+          "products": "Goldberg 60cl, Trophy, Star Radler 45cl, TROPHY CAN, Goldberg Can 50cl, Heineken Sleek Can",
+          "margin_pct": -0.005344799366972556
+        },
+        {
+          "invoice_no": "ann-INV160",
+          "date": "2026-07-03T00:00:00",
+          "cases_sold": 364.0,
+          "revenue": 4005260.0,
+          "total_cost": 3946880.0,
+          "gross_profit": 58380.0,
+          "items_count": 3,
+          "products": "Goldberg 60cl, Heineken Bottle 60cl, Gulder Bottle",
+          "margin_pct": 0.01457583277989444
+        },
+        {
+          "invoice_no": "ann-INV197",
+          "date": "2026-07-07T00:00:00",
+          "cases_sold": 184.0,
+          "revenue": 1654160.0,
+          "total_cost": 1607540.0,
+          "gross_profit": 46620.0,
+          "items_count": 2,
+          "products": "Goldberg 60cl, 33 Export 60cl",
+          "margin_pct": 0.028183488900710936
+        },
+        {
+          "invoice_no": "ann-INV192",
+          "date": "2026-07-06T00:00:00",
+          "cases_sold": 96.0,
+          "revenue": 863040.0,
+          "total_cost": 839730.0,
+          "gross_profit": 23310.0,
+          "items_count": 2,
+          "products": "Goldberg 60cl, 33 Export 60cl",
+          "margin_pct": 0.027009176863181314
+        }
+      ]
     },
     {
       "customer": "Ameh Mathew",
@@ -20257,7 +21133,476 @@
       "total_gross_profit": 252481.0,
       "total_cases_sold": 1361.0,
       "invoices": 42,
-      "gross_profit_pct": 0.01857453787302226
+      "gross_profit_pct": 0.01857453787302226,
+      "is_marketer": 0,
+      "cases_target": null,
+      "pct_of_target_met": null,
+      "attributable_expenses": 0.0,
+      "net_marketer_profit": 252481.0,
+      "invoices_list": [
+        {
+          "invoice_no": "ann-INV324",
+          "date": "2026-07-20T00:00:00",
+          "cases_sold": 116.0,
+          "revenue": 860195.0,
+          "total_cost": 875319.0,
+          "gross_profit": -15124.0,
+          "items_count": 7,
+          "products": "33 Export 60cl, Goldberg 60cl, Gulder Bottle, Star Radler 45cl, Maltina Pet 33cl, Maltina Can, Heineken Sleek Can",
+          "margin_pct": -0.017582059881770994
+        },
+        {
+          "invoice_no": "ann-INV145",
+          "date": "2026-07-02T00:00:00",
+          "cases_sold": 77.0,
+          "revenue": 809130.0,
+          "total_cost": 799306.0,
+          "gross_profit": 9824.0,
+          "items_count": 9,
+          "products": "Maltina Pet 33cl, Heineken Sleek Can, Goldberg Can 50cl, 33 Export Can, Maltina Can, Desperados Can, Legend Can 44cl, Tiger Bottle, Turbo King Bottle 60cl",
+          "margin_pct": 0.012141435863211104
+        },
+        {
+          "invoice_no": "ann-INV294",
+          "date": "2026-07-17T00:00:00",
+          "cases_sold": 104.0,
+          "revenue": 769610.0,
+          "total_cost": 765000.0,
+          "gross_profit": 4610.0,
+          "items_count": 7,
+          "products": "Goldberg 60cl, Heineken Bottle 60cl, Turbo King Bottle 60cl, 33 Export 60cl, Maltina Pet 33cl, Fayrouz Can, Gulder Bottle",
+          "margin_pct": 0.005990046906874911
+        },
+        {
+          "invoice_no": "ann-INV413",
+          "date": "2026-07-28T00:00:00",
+          "cases_sold": 71.0,
+          "revenue": 748965.0,
+          "total_cost": 723360.0,
+          "gross_profit": 25605.0,
+          "items_count": 8,
+          "products": "33 Export 60cl, Heineken Bottle 60cl, Turbo King Bottle 60cl, Desperados Bottle, Gulder Bottle, Maltina Pet 33cl, Maltina Can, Star Bottle 60cl",
+          "margin_pct": 0.03418717830606237
+        },
+        {
+          "invoice_no": "ann-INV211",
+          "date": "2026-07-08T00:00:00",
+          "cases_sold": 45.0,
+          "revenue": 745625.0,
+          "total_cost": 723175.0,
+          "gross_profit": 22450.0,
+          "items_count": 2,
+          "products": "Heineken Sleek Can, Goldberg Can 50cl",
+          "margin_pct": 0.03010896898575021
+        },
+        {
+          "invoice_no": "ann-INV203",
+          "date": "2026-07-07T00:00:00",
+          "cases_sold": 89.0,
+          "revenue": 693425.0,
+          "total_cost": 687831.0,
+          "gross_profit": 5594.0,
+          "items_count": 9,
+          "products": "Goldberg 60cl, Star Radler 45cl, 33 Export 60cl, Turbo King Bottle 60cl, Maltina Pet 33cl, Maltina Pet 50cl, Gulder Bottle, Heineken Sleek Can, Goldberg Can 50cl",
+          "margin_pct": 0.008067202653495332
+        },
+        {
+          "invoice_no": "ann-INV423",
+          "date": "2026-07-30T00:00:00",
+          "cases_sold": 48.0,
+          "revenue": 640565.0,
+          "total_cost": 625842.0,
+          "gross_profit": 14723.0,
+          "items_count": 8,
+          "products": "Heineken Bottle 60cl, 33 Export 60cl, Turbo King Bottle 60cl, Gulder Bottle, Desperados Bottle, Tiger Bottle, Fayrouz Bottle, 33 Export Can",
+          "margin_pct": 0.022984396587387698
+        },
+        {
+          "invoice_no": "ann-INV262",
+          "date": "2026-07-13T00:00:00",
+          "cases_sold": 58.0,
+          "revenue": 601845.0,
+          "total_cost": 584946.0,
+          "gross_profit": 16899.0,
+          "items_count": 10,
+          "products": "Goldberg 60cl, Heineken Bottle 60cl, Gulder Bottle, Star Radler 45cl, Turbo King Bottle 60cl, Tiger Bottle, Desperados Bottle, Fayrouz Bottle, Star Bottle 60cl, 33 Export 60cl",
+          "margin_pct": 0.028078658126261744
+        },
+        {
+          "invoice_no": "ann-INV415",
+          "date": "2026-07-28T00:00:00",
+          "cases_sold": 49.0,
+          "revenue": 515810.0,
+          "total_cost": 500150.0,
+          "gross_profit": 15660.0,
+          "items_count": 9,
+          "products": "33 Export 60cl, Heineken Bottle 60cl, Turbo King Bottle 60cl, Legend Bottle 60cl, Star Radler 45cl, Gulder Bottle, Maltina Pet 33cl, Fayrouz Can, Star Bottle 60cl",
+          "margin_pct": 0.030360016285066207
+        },
+        {
+          "invoice_no": "ann-INV379",
+          "date": "2026-07-25T00:00:00",
+          "cases_sold": 55.0,
+          "revenue": 511475.0,
+          "total_cost": 498590.0,
+          "gross_profit": 12885.0,
+          "items_count": 4,
+          "products": "Goldberg 60cl, Turbo King Bottle 60cl, 33 Export 60cl, Heineken Bottle 60cl",
+          "margin_pct": 0.02519184710885185
+        },
+        {
+          "invoice_no": "ann-INV162",
+          "date": "2026-07-03T00:00:00",
+          "cases_sold": 39.0,
+          "revenue": 434680.0,
+          "total_cost": 418420.0,
+          "gross_profit": 16260.0,
+          "items_count": 8,
+          "products": "33 Export 60cl, Heineken Bottle 60cl, Amstel Bottle, Fayrouz Can, Turbo King Bottle 60cl, Tiger Bottle, Legend 45cl, Gulder Bottle",
+          "margin_pct": 0.037406828011410695
+        },
+        {
+          "invoice_no": "ann-INV438",
+          "date": "2026-07-31T00:00:00",
+          "cases_sold": 43.0,
+          "revenue": 410315.0,
+          "total_cost": 395969.0,
+          "gross_profit": 14346.0,
+          "items_count": 4,
+          "products": "Goldberg 60cl, Heineken Bottle 60cl, 33 Export 60cl, Turbo King Bottle 60cl",
+          "margin_pct": 0.034963381792037826
+        },
+        {
+          "invoice_no": "ann-INV312",
+          "date": "2026-07-18T00:00:00",
+          "cases_sold": 48.0,
+          "revenue": 407900.0,
+          "total_cost": 402498.0,
+          "gross_profit": 5402.0,
+          "items_count": 11,
+          "products": "33 Export 60cl, Goldberg 60cl, Heineken Bottle 60cl, Star Radler 45cl, Turbo King Bottle 60cl, Williams Bottle 60cl, Desperados Bottle, Tiger Bottle, Gulder Bottle, Legend 45cl, Maltina Pet 33cl",
+          "margin_pct": 0.013243442020102967
+        },
+        {
+          "invoice_no": "ann-INV269",
+          "date": "2026-07-14T00:00:00",
+          "cases_sold": 27.0,
+          "revenue": 394815.0,
+          "total_cost": 391894.0,
+          "gross_profit": 2921.0,
+          "items_count": 6,
+          "products": "Heineken Sleek Can, Amstel Can, ACE BITTERS, Maltina Can, 33 Export 60cl, Goldberg 60cl",
+          "margin_pct": 0.00739840178311361
+        },
+        {
+          "invoice_no": "ann-INV253",
+          "date": "2026-07-11T00:00:00",
+          "cases_sold": 33.0,
+          "revenue": 380190.0,
+          "total_cost": 367437.0,
+          "gross_profit": 12753.0,
+          "items_count": 9,
+          "products": "33 Export 60cl, Gulder Bottle, Goldberg 60cl, Heineken Bottle 60cl, Tiger Bottle, Star Bottle 60cl, Goldberg Can 50cl, Star Radler 45cl, Heineken Bottle 45cl",
+          "margin_pct": 0.03354375443857019
+        },
+        {
+          "invoice_no": "ann-INV332",
+          "date": "2026-07-21T00:00:00",
+          "cases_sold": 35.0,
+          "revenue": 370725.0,
+          "total_cost": 362347.0,
+          "gross_profit": 8378.0,
+          "items_count": 8,
+          "products": "Goldberg 60cl, Heineken Bottle 60cl, Maltina Can, Fayrouz Can, CLIMAX CAN, Goldberg Can 50cl, 33 Export Can, Maltina Pet 33cl",
+          "margin_pct": 0.02259896149436914
+        },
+        {
+          "invoice_no": "ann-INV277",
+          "date": "2026-07-14T00:00:00",
+          "cases_sold": 40.0,
+          "revenue": 367950.0,
+          "total_cost": 358910.0,
+          "gross_profit": 9040.0,
+          "items_count": 3,
+          "products": "Goldberg 60cl, Turbo King Bottle 60cl, Gulder Bottle",
+          "margin_pct": 0.024568555510259545
+        },
+        {
+          "invoice_no": "ann-INV237",
+          "date": "2026-07-09T00:00:00",
+          "cases_sold": 31.0,
+          "revenue": 356800.0,
+          "total_cost": 345388.0,
+          "gross_profit": 11412.0,
+          "items_count": 11,
+          "products": "Goldberg 60cl, 33 Export 60cl, Desperados Bottle, Tiger Bottle, Gulder Bottle, Heineken Bottle 60cl, Turbo King Bottle 60cl, Fayrouz Can, Star Bottle 60cl, Maltina Bottle, Amstel Bottle",
+          "margin_pct": 0.03198430493273543
+        },
+        {
+          "invoice_no": "ann-INV363",
+          "date": "2026-07-24T00:00:00",
+          "cases_sold": 38.0,
+          "revenue": 356480.0,
+          "total_cost": 350816.0,
+          "gross_profit": 5664.0,
+          "items_count": 8,
+          "products": "Goldberg 60cl, Maltina Pet 33cl, Desperados Bottle, Maltina Bottle, 33 Export 60cl, Star Radler 45cl, Gulder Bottle, Heineken Bottle 60cl",
+          "margin_pct": 0.015888689407540395
+        },
+        {
+          "invoice_no": "ann-INV270",
+          "date": "2026-07-14T00:00:00",
+          "cases_sold": 43.0,
+          "revenue": 346275.0,
+          "total_cost": 341630.0,
+          "gross_profit": 4645.0,
+          "items_count": 6,
+          "products": "33 Export 60cl, Heineken Bottle 60cl, Turbo King Bottle 60cl, Goldberg 60cl, Maltina Pet 33cl, Maltina Pet 50cl",
+          "margin_pct": 0.013414193921016533
+        },
+        {
+          "invoice_no": "ann-INV353",
+          "date": "2026-07-23T00:00:00",
+          "cases_sold": 31.0,
+          "revenue": 336405.0,
+          "total_cost": 325925.0,
+          "gross_profit": 10480.0,
+          "items_count": 7,
+          "products": "Heineken Bottle 60cl, 33 Export 60cl, Goldberg 60cl, Desperados Bottle, Tiger Bottle, Fayrouz Can, Gulder Bottle",
+          "margin_pct": 0.031152925788855694
+        },
+        {
+          "invoice_no": "ann-INV391",
+          "date": "2026-07-27T00:00:00",
+          "cases_sold": 20.0,
+          "revenue": 328800.0,
+          "total_cost": 313550.0,
+          "gross_profit": 15250.0,
+          "items_count": 2,
+          "products": "Legend Bottle 60cl, Desperados Bottle",
+          "margin_pct": 0.046380778588807785
+        },
+        {
+          "invoice_no": "ann-INV187",
+          "date": "2026-07-06T00:00:00",
+          "cases_sold": 30.0,
+          "revenue": 313030.0,
+          "total_cost": 303802.0,
+          "gross_profit": 9228.0,
+          "items_count": 4,
+          "products": "33 Export 60cl, Heineken Bottle 60cl, Gulder Bottle, Star Radler 45cl",
+          "margin_pct": 0.029479602594000575
+        },
+        {
+          "invoice_no": "ann-INV355",
+          "date": "2026-07-23T00:00:00",
+          "cases_sold": 60.0,
+          "revenue": 300000.0,
+          "total_cost": 312000.0,
+          "gross_profit": -12000.0,
+          "items_count": 1,
+          "products": "Maltina Pet 33cl",
+          "margin_pct": -0.04
+        },
+        {
+          "invoice_no": "ann-INV146",
+          "date": "2026-07-02T00:00:00",
+          "cases_sold": 15.0,
+          "revenue": 256500.0,
+          "total_cost": 256500.0,
+          "gross_profit": 0.0,
+          "items_count": 1,
+          "products": "Heineken Sleek Can",
+          "margin_pct": 0.0
+        },
+        {
+          "invoice_no": "ann-INV420",
+          "date": "2026-07-29T00:00:00",
+          "cases_sold": 22.0,
+          "revenue": 253455.0,
+          "total_cost": 247558.0,
+          "gross_profit": 5897.0,
+          "items_count": 7,
+          "products": "33 Export 60cl, Heineken Sleek Can, Goldberg Can 50cl, Desperados Can, Amstel Can, Tiger Bottle, Fayrouz Can",
+          "margin_pct": 0.023266457556568226
+        },
+        {
+          "invoice_no": "ann-INV230",
+          "date": "2026-07-09T00:00:00",
+          "cases_sold": 10.0,
+          "revenue": 216950.0,
+          "total_cost": 215950.0,
+          "gross_profit": 1000.0,
+          "items_count": 1,
+          "products": "Desperados Can",
+          "margin_pct": 0.00460935699469924
+        },
+        {
+          "invoice_no": "ann-INV425",
+          "date": "2026-07-30T00:00:00",
+          "cases_sold": 21.0,
+          "revenue": 160220.0,
+          "total_cost": 161374.0,
+          "gross_profit": -1154.0,
+          "items_count": 4,
+          "products": "Maltina Pet 33cl, Goldberg Can 50cl, 33 Export Can, 33 Export 60cl",
+          "margin_pct": -0.007202596429908875
+        },
+        {
+          "invoice_no": "ann-INV243",
+          "date": "2026-07-10T00:00:00",
+          "cases_sold": 9.0,
+          "revenue": 99215.0,
+          "total_cost": 94885.0,
+          "gross_profit": 4330.0,
+          "items_count": 2,
+          "products": "Fayrouz Bottle, Gulder Bottle",
+          "margin_pct": 0.0436425943657713
+        },
+        {
+          "invoice_no": "ann-INV320",
+          "date": "2026-07-20T00:00:00",
+          "cases_sold": 5.0,
+          "revenue": 89140.0,
+          "total_cost": 88142.0,
+          "gross_profit": 998.0,
+          "items_count": 3,
+          "products": "Heineken Sleek Can, Desperados Can, Goldberg Can 50cl",
+          "margin_pct": 0.011195871662553286
+        },
+        {
+          "invoice_no": "ann-INV239",
+          "date": "2026-07-09T00:00:00",
+          "cases_sold": 9.0,
+          "revenue": 87035.0,
+          "total_cost": 84395.0,
+          "gross_profit": 2640.0,
+          "items_count": 6,
+          "products": "Gulder Bottle, Turbo King Bottle 60cl, 33 Export 60cl, Heineken Bottle 60cl, Goldberg 60cl, Maltina Pet 33cl",
+          "margin_pct": 0.030332624806112485
+        },
+        {
+          "invoice_no": "ann-INV212",
+          "date": "2026-07-08T00:00:00",
+          "cases_sold": 6.0,
+          "revenue": 73565.0,
+          "total_cost": 70360.0,
+          "gross_profit": 3205.0,
+          "items_count": 4,
+          "products": "Fayrouz Bottle, Tiger Bottle, Amstel Bottle, Legend Bottle 60cl",
+          "margin_pct": 0.04356691361381092
+        },
+        {
+          "invoice_no": "ann-INV238",
+          "date": "2026-07-09T00:00:00",
+          "cases_sold": 5.0,
+          "revenue": 66675.0,
+          "total_cost": 63730.0,
+          "gross_profit": 2945.0,
+          "items_count": 1,
+          "products": "Heineken Bottle 60cl",
+          "margin_pct": 0.04416947881514811
+        },
+        {
+          "invoice_no": "ann-INV148",
+          "date": "2026-07-02T00:00:00",
+          "cases_sold": 5.0,
+          "revenue": 62070.0,
+          "total_cost": 59750.0,
+          "gross_profit": 2320.0,
+          "items_count": 4,
+          "products": "Medium Stout, Trophy, 33 Export 60cl, Heineken Bottle 60cl",
+          "margin_pct": 0.03737715482519736
+        },
+        {
+          "invoice_no": "ann-INV434",
+          "date": "2026-07-31T00:00:00",
+          "cases_sold": 12.0,
+          "revenue": 60000.0,
+          "total_cost": 62400.0,
+          "gross_profit": -2400.0,
+          "items_count": 1,
+          "products": "Maltina Pet 33cl",
+          "margin_pct": -0.04
+        },
+        {
+          "invoice_no": "ann-INV153",
+          "date": "2026-07-02T00:00:00",
+          "cases_sold": 3.0,
+          "revenue": 56940.0,
+          "total_cost": 55795.0,
+          "gross_profit": 1145.0,
+          "items_count": 2,
+          "products": "Heineken Sleek Can, Desperados Can",
+          "margin_pct": 0.020108886547242712
+        },
+        {
+          "invoice_no": "ann-INV303",
+          "date": "2026-07-17T00:00:00",
+          "cases_sold": 2.0,
+          "revenue": 35680.0,
+          "total_cost": 34530.0,
+          "gross_profit": 1150.0,
+          "items_count": 1,
+          "products": "Heineken Bottle 45cl",
+          "margin_pct": 0.03223094170403588
+        },
+        {
+          "invoice_no": "ann-INV164",
+          "date": "2026-07-03T00:00:00",
+          "cases_sold": 1.0,
+          "revenue": 20655.0,
+          "total_cost": 19305.0,
+          "gross_profit": 1350.0,
+          "items_count": 1,
+          "products": "ACE BITTERS",
+          "margin_pct": 0.06535947712418301
+        },
+        {
+          "invoice_no": "ann-INV309",
+          "date": "2026-07-18T00:00:00",
+          "cases_sold": 2.0,
+          "revenue": 17760.0,
+          "total_cost": 17050.0,
+          "gross_profit": 710.0,
+          "items_count": 1,
+          "products": "Turbo King Bottle 60cl",
+          "margin_pct": 0.03997747747747748
+        },
+        {
+          "invoice_no": "ann-INV207",
+          "date": "2026-07-07T00:00:00",
+          "cases_sold": 2.0,
+          "revenue": 17760.0,
+          "total_cost": 17050.0,
+          "gross_profit": 710.0,
+          "items_count": 1,
+          "products": "Turbo King Bottle 60cl",
+          "margin_pct": 0.03997747747747748
+        },
+        {
+          "invoice_no": "ann-INV263",
+          "date": "2026-07-13T00:00:00",
+          "cases_sold": 1.0,
+          "revenue": 9345.0,
+          "total_cost": 8970.0,
+          "gross_profit": 375.0,
+          "items_count": 1,
+          "products": "Williams Bottle 60cl",
+          "margin_pct": 0.04012841091492777
+        },
+        {
+          "invoice_no": "ann-INV155",
+          "date": "2026-07-02T00:00:00",
+          "cases_sold": 1.0,
+          "revenue": 8880.0,
+          "total_cost": 8525.0,
+          "gross_profit": 355.0,
+          "items_count": 1,
+          "products": "Turbo King Bottle 60cl",
+          "margin_pct": 0.03997747747747748
+        }
+      ]
     },
     {
       "customer": "FINO STORES",
@@ -20266,16 +21611,118 @@
       "total_gross_profit": -620000.0,
       "total_cases_sold": 2480.0,
       "invoices": 2,
-      "gross_profit_pct": -0.050505050505050504
+      "gross_profit_pct": -0.050505050505050504,
+      "is_marketer": 0,
+      "cases_target": null,
+      "pct_of_target_met": null,
+      "attributable_expenses": 0.0,
+      "net_marketer_profit": -620000.0,
+      "invoices_list": [
+        {
+          "invoice_no": "ann-INV260",
+          "date": "2026-07-13T00:00:00",
+          "cases_sold": 1240.0,
+          "revenue": 6138000.0,
+          "total_cost": 6448000.0,
+          "gross_profit": -310000.0,
+          "items_count": 1,
+          "products": "Maltina Pet 33cl",
+          "margin_pct": -0.050505050505050504
+        },
+        {
+          "invoice_no": "ann-INV422",
+          "date": "2026-07-30T00:00:00",
+          "cases_sold": 1240.0,
+          "revenue": 6138000.0,
+          "total_cost": 6448000.0,
+          "gross_profit": -310000.0,
+          "items_count": 1,
+          "products": "Maltina Pet 33cl",
+          "margin_pct": -0.050505050505050504
+        }
+      ]
     },
     {
-      "customer": "Emmycee",
-      "total_revenue": 7086465.0,
-      "total_cost": 7057010.0,
-      "total_gross_profit": 29455.0,
-      "total_cases_sold": 731.0,
-      "invoices": 3,
-      "gross_profit_pct": 0.004156515272424262
+      "customer": "AZ Marketer",
+      "total_revenue": 10728965.0,
+      "total_cost": 10812060.0,
+      "total_gross_profit": -83095.0,
+      "total_cases_sold": 1391.0,
+      "invoices": 6,
+      "gross_profit_pct": -0.0077449222734905,
+      "is_marketer": 1,
+      "cases_target": 6000.0,
+      "pct_of_target_met": 0.23183333333333334,
+      "attributable_expenses": 0.0,
+      "net_marketer_profit": -83095.0,
+      "invoices_list": [
+        {
+          "invoice_no": "ann-INV328",
+          "date": "2026-07-20T00:00:00",
+          "cases_sold": 347.0,
+          "revenue": 3522090.0,
+          "total_cost": 3497615.0,
+          "gross_profit": 24475.0,
+          "items_count": 13,
+          "products": "Heineken Bottle 60cl, Goldberg 60cl, Maltina Bottle, Star Bottle 60cl, Gulder Bottle, Star Radler 45cl, Desperados Bottle, Fayrouz Bottle, Trophy, Maltina Pet 33cl, Maltina Pet 50cl, Turbo King Bottle 60cl, Legend Bottle 60cl",
+          "margin_pct": 0.006948999031824854
+        },
+        {
+          "invoice_no": "ann-INV206",
+          "date": "2026-07-07T00:00:00",
+          "cases_sold": 314.0,
+          "revenue": 2969375.0,
+          "total_cost": 2953405.0,
+          "gross_profit": 15970.0,
+          "items_count": 9,
+          "products": "Goldberg 60cl, Turbo King Bottle 60cl, Desperados Bottle, Legend Bottle 60cl, Gulder Bottle, 33 Export 60cl, Maltina Bottle, Heineken Bottle 60cl, Goldberg Black 45cl",
+          "margin_pct": 0.005378236160808251
+        },
+        {
+          "invoice_no": "ann-INV183",
+          "date": "2026-07-06T00:00:00",
+          "cases_sold": 460.0,
+          "revenue": 2647500.0,
+          "total_cost": 2715050.0,
+          "gross_profit": -67550.0,
+          "items_count": 2,
+          "products": "Maltina Pet 33cl, Maltina Pet 50cl",
+          "margin_pct": -0.02551463644948064
+        },
+        {
+          "invoice_no": "ann-INV398",
+          "date": "2026-07-27T00:00:00",
+          "cases_sold": 70.0,
+          "revenue": 595000.0,
+          "total_cost": 605990.0,
+          "gross_profit": -10990.0,
+          "items_count": 1,
+          "products": "Goldberg 60cl",
+          "margin_pct": -0.018470588235294117
+        },
+        {
+          "invoice_no": "ann-INV255",
+          "date": "2026-07-11T00:00:00",
+          "cases_sold": 100.0,
+          "revenue": 500000.0,
+          "total_cost": 520000.0,
+          "gross_profit": -20000.0,
+          "items_count": 1,
+          "products": "Maltina Pet 33cl",
+          "margin_pct": -0.04
+        },
+        {
+          "invoice_no": "ann-INV189",
+          "date": "2026-07-06T00:00:00",
+          "cases_sold": 100.0,
+          "revenue": 495000.0,
+          "total_cost": 520000.0,
+          "gross_profit": -25000.0,
+          "items_count": 1,
+          "products": "Maltina Pet 33cl",
+          "margin_pct": -0.050505050505050504
+        }
+      ]
     },
     {
       "customer": "ATW",
@@ -20284,7 +21731,157 @@
       "total_gross_profit": 379278.0,
       "total_cases_sold": 606.0,
       "invoices": 13,
-      "gross_profit_pct": 0.05440247400026249
+      "gross_profit_pct": 0.05440247400026249,
+      "is_marketer": 0,
+      "cases_target": null,
+      "pct_of_target_met": null,
+      "attributable_expenses": 0.0,
+      "net_marketer_profit": 379278.0,
+      "invoices_list": [
+        {
+          "invoice_no": "Tayo-INV139",
+          "date": "2026-07-15T00:00:00",
+          "cases_sold": 261.0,
+          "revenue": 3731320.0,
+          "total_cost": 3539272.0,
+          "gross_profit": 192048.0,
+          "items_count": 19,
+          "products": "Desperados Bottle, Heineken Bottle 45cl, Heineken Bottle 60cl, Star Bottle 60cl, Maltina Pet 33cl, Maltina Pet 50cl, Legend 45cl, Legend Can 44cl, Goldberg Can 50cl, Goldberg Black 45cl, Desperados Can, Fayrouz Can, Amstel Can, Maltina Can, Heineken Can 50cl, Heineken Sleek Can, Chamdor 75cl, 4th Street wine, Star Radler 45cl",
+          "margin_pct": 0.051469185167715446
+        },
+        {
+          "invoice_no": "ann-INV414",
+          "date": "2026-07-28T00:00:00",
+          "cases_sold": 110.0,
+          "revenue": 932630.0,
+          "total_cost": 855474.0,
+          "gross_profit": 77156.0,
+          "items_count": 2,
+          "products": "Goldberg 60cl, Maltina Pet 33cl",
+          "margin_pct": 0.08272948543366608
+        },
+        {
+          "invoice_no": "ann-INV370",
+          "date": "2026-07-24T00:00:00",
+          "cases_sold": 60.0,
+          "revenue": 560100.0,
+          "total_cost": 519420.0,
+          "gross_profit": 40680.0,
+          "items_count": 1,
+          "products": "Goldberg 60cl",
+          "margin_pct": 0.0726298875200857
+        },
+        {
+          "invoice_no": "ann-INV347",
+          "date": "2026-07-22T00:00:00",
+          "cases_sold": 60.0,
+          "revenue": 552000.0,
+          "total_cost": 519420.0,
+          "gross_profit": 32580.0,
+          "items_count": 1,
+          "products": "Goldberg 60cl",
+          "margin_pct": 0.059021739130434785
+        },
+        {
+          "invoice_no": "ann-INV165",
+          "date": "2026-07-03T00:00:00",
+          "cases_sold": 24.0,
+          "revenue": 428160.0,
+          "total_cost": 414360.0,
+          "gross_profit": 13800.0,
+          "items_count": 1,
+          "products": "Heineken Bottle 45cl",
+          "margin_pct": 0.03223094170403588
+        },
+        {
+          "invoice_no": "ann-INV256",
+          "date": "2026-07-11T00:00:00",
+          "cases_sold": 28.0,
+          "revenue": 257600.0,
+          "total_cost": 242396.0,
+          "gross_profit": 15204.0,
+          "items_count": 1,
+          "products": "Goldberg 60cl",
+          "margin_pct": 0.059021739130434785
+        },
+        {
+          "invoice_no": "ann-INV342",
+          "date": "2026-07-22T00:00:00",
+          "cases_sold": 40.0,
+          "revenue": 200000.0,
+          "total_cost": 208000.0,
+          "gross_profit": -8000.0,
+          "items_count": 1,
+          "products": "Maltina Pet 33cl",
+          "margin_pct": -0.04
+        },
+        {
+          "invoice_no": "ann-INV418",
+          "date": "2026-07-29T00:00:00",
+          "cases_sold": 11.0,
+          "revenue": 199480.0,
+          "total_cost": 190201.0,
+          "gross_profit": 9279.0,
+          "items_count": 3,
+          "products": "Desperados Bottle, Tiger Bottle, Maltina Can",
+          "margin_pct": 0.046515941447764185
+        },
+        {
+          "invoice_no": "ann-INV404",
+          "date": "2026-07-27T00:00:00",
+          "cases_sold": 4.0,
+          "revenue": 37340.0,
+          "total_cost": 34628.0,
+          "gross_profit": 2712.0,
+          "items_count": 1,
+          "products": "Goldberg 60cl",
+          "margin_pct": 0.0726298875200857
+        },
+        {
+          "invoice_no": "ann-INV381",
+          "date": "2026-07-25T00:00:00",
+          "cases_sold": 3.0,
+          "revenue": 26400.0,
+          "total_cost": 25971.0,
+          "gross_profit": 429.0,
+          "items_count": 1,
+          "products": "Goldberg 60cl",
+          "margin_pct": 0.01625
+        },
+        {
+          "invoice_no": "ann-INV365",
+          "date": "2026-07-24T00:00:00",
+          "cases_sold": 2.0,
+          "revenue": 18670.0,
+          "total_cost": 17314.0,
+          "gross_profit": 1356.0,
+          "items_count": 1,
+          "products": "Goldberg 60cl",
+          "margin_pct": 0.0726298875200857
+        },
+        {
+          "invoice_no": "ann-INV369",
+          "date": "2026-07-24T00:00:00",
+          "cases_sold": 2.0,
+          "revenue": 18670.0,
+          "total_cost": 17314.0,
+          "gross_profit": 1356.0,
+          "items_count": 1,
+          "products": "Goldberg 60cl",
+          "margin_pct": 0.0726298875200857
+        },
+        {
+          "invoice_no": "ann-INV380",
+          "date": "2026-07-25T00:00:00",
+          "cases_sold": 1.0,
+          "revenue": 9335.0,
+          "total_cost": 8657.0,
+          "gross_profit": 678.0,
+          "items_count": 1,
+          "products": "Goldberg 60cl",
+          "margin_pct": 0.0726298875200857
+        }
+      ]
     },
     {
       "customer": "Mama Oyin Mowe",
@@ -20293,7 +21890,36 @@
       "total_gross_profit": 18270.0,
       "total_cases_sold": 700.0,
       "invoices": 2,
-      "gross_profit_pct": 0.002876757624903557
+      "gross_profit_pct": 0.002876757624903557,
+      "is_marketer": 0,
+      "cases_target": null,
+      "pct_of_target_met": null,
+      "attributable_expenses": 0.0,
+      "net_marketer_profit": 18270.0,
+      "invoices_list": [
+        {
+          "invoice_no": "ann-INV397",
+          "date": "2026-07-27T00:00:00",
+          "cases_sold": 350.0,
+          "revenue": 3326900.0,
+          "total_cost": 3309280.0,
+          "gross_profit": 17620.0,
+          "items_count": 4,
+          "products": "Goldberg 60cl, Turbo King Bottle 60cl, Heineken Bottle 60cl, Medium Stout",
+          "margin_pct": 0.00529622170789624
+        },
+        {
+          "invoice_no": "ann-INV223",
+          "date": "2026-07-08T00:00:00",
+          "cases_sold": 350.0,
+          "revenue": 3024000.0,
+          "total_cost": 3023350.0,
+          "gross_profit": 650.0,
+          "items_count": 2,
+          "products": "Goldberg 60cl, Turbo King Bottle 60cl",
+          "margin_pct": 0.00021494708994708995
+        }
+      ]
     },
     {
       "customer": "Delayers",
@@ -20302,7 +21928,58 @@
       "total_gross_profit": -25870.0,
       "total_cases_sold": 540.0,
       "invoices": 4,
-      "gross_profit_pct": -0.005010749772414728
+      "gross_profit_pct": -0.005010749772414728,
+      "is_marketer": 0,
+      "cases_target": null,
+      "pct_of_target_met": null,
+      "attributable_expenses": 0.0,
+      "net_marketer_profit": -25870.0,
+      "invoices_list": [
+        {
+          "invoice_no": "ann-INV319",
+          "date": "2026-07-20T00:00:00",
+          "cases_sold": 420.0,
+          "revenue": 3611300.0,
+          "total_cost": 3659250.0,
+          "gross_profit": -47950.0,
+          "items_count": 2,
+          "products": "Goldberg 60cl, 33 Export 60cl",
+          "margin_pct": -0.013277767009110293
+        },
+        {
+          "invoice_no": "ann-INV229",
+          "date": "2026-07-09T00:00:00",
+          "cases_sold": 60.0,
+          "revenue": 775800.0,
+          "total_cost": 764760.0,
+          "gross_profit": 11040.0,
+          "items_count": 1,
+          "products": "Heineken Bottle 60cl",
+          "margin_pct": 0.01423047177107502
+        },
+        {
+          "invoice_no": "ann-INV394",
+          "date": "2026-07-27T00:00:00",
+          "cases_sold": 50.0,
+          "revenue": 646500.0,
+          "total_cost": 637300.0,
+          "gross_profit": 9200.0,
+          "items_count": 1,
+          "products": "Heineken Bottle 60cl",
+          "margin_pct": 0.01423047177107502
+        },
+        {
+          "invoice_no": "ann-INV213",
+          "date": "2026-07-08T00:00:00",
+          "cases_sold": 10.0,
+          "revenue": 129300.0,
+          "total_cost": 127460.0,
+          "gross_profit": 1840.0,
+          "items_count": 1,
+          "products": "Heineken Bottle 60cl",
+          "margin_pct": 0.01423047177107502
+        }
+      ]
     },
     {
       "customer": "Etigwam Nig Ltd",
@@ -20311,7 +21988,25 @@
       "total_gross_profit": 146890.0,
       "total_cases_sold": 410.0,
       "invoices": 1,
-      "gross_profit_pct": 0.0329487185238687
+      "gross_profit_pct": 0.0329487185238687,
+      "is_marketer": 0,
+      "cases_target": null,
+      "pct_of_target_met": null,
+      "attributable_expenses": 0.0,
+      "net_marketer_profit": 146890.0,
+      "invoices_list": [
+        {
+          "invoice_no": "Tayo-INV138",
+          "date": "2026-07-14T00:00:00",
+          "cases_sold": 410.0,
+          "revenue": 4458140.0,
+          "total_cost": 4311250.0,
+          "gross_profit": 146890.0,
+          "items_count": 5,
+          "products": "Goldberg 60cl, 33 Export 60cl, Heineken Bottle 60cl, Turbo King Bottle 60cl, Smirnoff Ice.",
+          "margin_pct": 0.0329487185238687
+        }
+      ]
     },
     {
       "customer": "Alhaja GRA Road",
@@ -20320,7 +22015,25 @@
       "total_gross_profit": 20630.0,
       "total_cases_sold": 410.0,
       "invoices": 1,
-      "gross_profit_pct": 0.004650953073393979
+      "gross_profit_pct": 0.004650953073393979,
+      "is_marketer": 0,
+      "cases_target": null,
+      "pct_of_target_met": null,
+      "attributable_expenses": 0.0,
+      "net_marketer_profit": 20630.0,
+      "invoices_list": [
+        {
+          "invoice_no": "ann-INV316",
+          "date": "2026-07-18T00:00:00",
+          "cases_sold": 410.0,
+          "revenue": 4435650.0,
+          "total_cost": 4415020.0,
+          "gross_profit": 20630.0,
+          "items_count": 5,
+          "products": "Goldberg 60cl, Heineken Bottle 60cl, Turbo King Bottle 60cl, Star Radler 45cl, Maltina Bottle",
+          "margin_pct": 0.004650953073393979
+        }
+      ]
     },
     {
       "customer": "Looking Good",
@@ -20329,7 +22042,25 @@
       "total_gross_profit": 25200.0,
       "total_cases_sold": 350.0,
       "invoices": 1,
-      "gross_profit_pct": 0.0057080728458820335
+      "gross_profit_pct": 0.0057080728458820335,
+      "is_marketer": 0,
+      "cases_target": null,
+      "pct_of_target_met": null,
+      "attributable_expenses": 0.0,
+      "net_marketer_profit": 25200.0,
+      "invoices_list": [
+        {
+          "invoice_no": "ann-INV177",
+          "date": "2026-07-04T00:00:00",
+          "cases_sold": 350.0,
+          "revenue": 4414800.0,
+          "total_cost": 4389600.0,
+          "gross_profit": 25200.0,
+          "items_count": 3,
+          "products": "Heineken Bottle 60cl, Legend Bottle 60cl, Maltina Bottle",
+          "margin_pct": 0.0057080728458820335
+        }
+      ]
     },
     {
       "customer": "Mr Lekan Ojifini",
@@ -20338,7 +22069,91 @@
       "total_gross_profit": -73075.0,
       "total_cases_sold": 732.0,
       "invoices": 7,
-      "gross_profit_pct": -0.01716431232354171
+      "gross_profit_pct": -0.01716431232354171,
+      "is_marketer": 0,
+      "cases_target": null,
+      "pct_of_target_met": null,
+      "attributable_expenses": 0.0,
+      "net_marketer_profit": -73075.0,
+      "invoices_list": [
+        {
+          "invoice_no": "ann-INV374",
+          "date": "2026-07-25T00:00:00",
+          "cases_sold": 260.0,
+          "revenue": 1300000.0,
+          "total_cost": 1352000.0,
+          "gross_profit": -52000.0,
+          "items_count": 1,
+          "products": "Maltina Pet 33cl",
+          "margin_pct": -0.04
+        },
+        {
+          "invoice_no": "ann-INV204",
+          "date": "2026-07-07T00:00:00",
+          "cases_sold": 222.0,
+          "revenue": 1170400.0,
+          "total_cost": 1204100.0,
+          "gross_profit": -33700.0,
+          "items_count": 2,
+          "products": "Maltina Pet 33cl, Maltina Pet 50cl",
+          "margin_pct": -0.028793574846206427
+        },
+        {
+          "invoice_no": "ann-INV403",
+          "date": "2026-07-27T00:00:00",
+          "cases_sold": 100.0,
+          "revenue": 500000.0,
+          "total_cost": 520000.0,
+          "gross_profit": -20000.0,
+          "items_count": 1,
+          "products": "Maltina Pet 33cl",
+          "margin_pct": -0.04
+        },
+        {
+          "invoice_no": "ann-INV227",
+          "date": "2026-07-08T00:00:00",
+          "cases_sold": 36.0,
+          "revenue": 479700.0,
+          "total_cost": 456375.0,
+          "gross_profit": 23325.0,
+          "items_count": 5,
+          "products": "Gulder Bottle, Williams Bottle 60cl, Goldberg Black 45cl, Tiger Bottle, ACE BITTERS",
+          "margin_pct": 0.048624140087554724
+        },
+        {
+          "invoice_no": "ann-INV406",
+          "date": "2026-07-27T00:00:00",
+          "cases_sold": 70.0,
+          "revenue": 380200.0,
+          "total_cost": 388850.0,
+          "gross_profit": -8650.0,
+          "items_count": 2,
+          "products": "Maltina Pet 33cl, Maltina Pet 50cl",
+          "margin_pct": -0.02275118358758548
+        },
+        {
+          "invoice_no": "ann-INV396",
+          "date": "2026-07-27T00:00:00",
+          "cases_sold": 40.0,
+          "revenue": 360000.0,
+          "total_cost": 346280.0,
+          "gross_profit": 13720.0,
+          "items_count": 1,
+          "products": "Goldberg 60cl",
+          "margin_pct": 0.03811111111111111
+        },
+        {
+          "invoice_no": "ann-INV159",
+          "date": "2026-07-02T00:00:00",
+          "cases_sold": 4.0,
+          "revenue": 67080.0,
+          "total_cost": 62850.0,
+          "gross_profit": 4230.0,
+          "items_count": 2,
+          "products": "CLIMAX CAN, ACE BITTERS",
+          "margin_pct": 0.06305903398926654
+        }
+      ]
     },
     {
       "customer": "Rukky bee",
@@ -20347,16 +22162,25 @@
       "total_gross_profit": 52640.0,
       "total_cases_sold": 350.0,
       "invoices": 1,
-      "gross_profit_pct": 0.013199929787607513
-    },
-    {
-      "customer": "AZ Marketer",
-      "total_revenue": 3642500.0,
-      "total_cost": 3755050.0,
-      "total_gross_profit": -112550.0,
-      "total_cases_sold": 660.0,
-      "invoices": 3,
-      "gross_profit_pct": -0.03089910775566232
+      "gross_profit_pct": 0.013199929787607513,
+      "is_marketer": 0,
+      "cases_target": null,
+      "pct_of_target_met": null,
+      "attributable_expenses": 0.0,
+      "net_marketer_profit": 52640.0,
+      "invoices_list": [
+        {
+          "invoice_no": "ann-INV201",
+          "date": "2026-07-07T00:00:00",
+          "cases_sold": 350.0,
+          "revenue": 3987900.0,
+          "total_cost": 3935260.0,
+          "gross_profit": 52640.0,
+          "items_count": 2,
+          "products": "Heineken Bottle 60cl, 33 Export 60cl",
+          "margin_pct": 0.013199929787607513
+        }
+      ]
     },
     {
       "customer": "OGUNDE SR",
@@ -20365,7 +22189,25 @@
       "total_gross_profit": 24960.0,
       "total_cases_sold": 384.0,
       "invoices": 1,
-      "gross_profit_pct": 0.008387096774193548
+      "gross_profit_pct": 0.008387096774193548,
+      "is_marketer": 0,
+      "cases_target": null,
+      "pct_of_target_met": null,
+      "attributable_expenses": 0.0,
+      "net_marketer_profit": 24960.0,
+      "invoices_list": [
+        {
+          "invoice_no": "ann-INV299",
+          "date": "2026-07-17T00:00:00",
+          "cases_sold": 384.0,
+          "revenue": 2976000.0,
+          "total_cost": 2951040.0,
+          "gross_profit": 24960.0,
+          "items_count": 1,
+          "products": "Maltina Pet 50cl",
+          "margin_pct": 0.008387096774193548
+        }
+      ]
     },
     {
       "customer": "Demola SR",
@@ -20374,7 +22216,36 @@
       "total_gross_profit": -50020.0,
       "total_cases_sold": 442.0,
       "invoices": 2,
-      "gross_profit_pct": -0.018352595853971747
+      "gross_profit_pct": -0.018352595853971747,
+      "is_marketer": 0,
+      "cases_target": null,
+      "pct_of_target_met": null,
+      "attributable_expenses": 0.0,
+      "net_marketer_profit": -50020.0,
+      "invoices_list": [
+        {
+          "invoice_no": "ann-INV266",
+          "date": "2026-07-13T00:00:00",
+          "cases_sold": 192.0,
+          "revenue": 1488000.0,
+          "total_cost": 1475520.0,
+          "gross_profit": 12480.0,
+          "items_count": 1,
+          "products": "Maltina Pet 50cl",
+          "margin_pct": 0.008387096774193548
+        },
+        {
+          "invoice_no": "ann-INV198",
+          "date": "2026-07-07T00:00:00",
+          "cases_sold": 250.0,
+          "revenue": 1237500.0,
+          "total_cost": 1300000.0,
+          "gross_profit": -62500.0,
+          "items_count": 1,
+          "products": "Maltina Pet 33cl",
+          "margin_pct": -0.050505050505050504
+        }
+      ]
     },
     {
       "customer": "Tmoney NB",
@@ -20383,7 +22254,80 @@
       "total_gross_profit": 80198.0,
       "total_cases_sold": 228.0,
       "invoices": 6,
-      "gross_profit_pct": 0.031108792331995726
+      "gross_profit_pct": 0.031108792331995726,
+      "is_marketer": 0,
+      "cases_target": null,
+      "pct_of_target_met": null,
+      "attributable_expenses": 0.0,
+      "net_marketer_profit": 80198.0,
+      "invoices_list": [
+        {
+          "invoice_no": "ann-INV220",
+          "date": "2026-07-08T00:00:00",
+          "cases_sold": 70.0,
+          "revenue": 910720.0,
+          "total_cost": 893330.0,
+          "gross_profit": 17390.0,
+          "items_count": 4,
+          "products": "Heineken Bottle 60cl, Gulder Bottle, Amstel Bottle, Maltina Bottle",
+          "margin_pct": 0.019094782150386506
+        },
+        {
+          "invoice_no": "ann-INV190",
+          "date": "2026-07-06T00:00:00",
+          "cases_sold": 70.0,
+          "revenue": 672505.0,
+          "total_cost": 633997.0,
+          "gross_profit": 38508.0,
+          "items_count": 4,
+          "products": "Goldberg 60cl, Heineken Bottle 60cl, Turbo King Bottle 60cl, Desperados Bottle",
+          "margin_pct": 0.057260540813822945
+        },
+        {
+          "invoice_no": "ann-INV205",
+          "date": "2026-07-07T00:00:00",
+          "cases_sold": 60.0,
+          "revenue": 657900.0,
+          "total_cost": 647430.0,
+          "gross_profit": 10470.0,
+          "items_count": 3,
+          "products": "Heineken Bottle 60cl, Turbo King Bottle 60cl, 33 Export 60cl",
+          "margin_pct": 0.015914272685818513
+        },
+        {
+          "invoice_no": "ann-INV166",
+          "date": "2026-07-03T00:00:00",
+          "cases_sold": 20.0,
+          "revenue": 186900.0,
+          "total_cost": 179400.0,
+          "gross_profit": 7500.0,
+          "items_count": 1,
+          "products": "Williams Bottle 60cl",
+          "margin_pct": 0.04012841091492777
+        },
+        {
+          "invoice_no": "ann-INV439",
+          "date": "2026-07-31T00:00:00",
+          "cases_sold": 7.0,
+          "revenue": 137075.0,
+          "total_cost": 131510.0,
+          "gross_profit": 5565.0,
+          "items_count": 4,
+          "products": "Heineken Sleek Can, Desperados Can, Legend Can 44cl, CLIMAX CAN",
+          "margin_pct": 0.04059821265730439
+        },
+        {
+          "invoice_no": "ann-INV326",
+          "date": "2026-07-20T00:00:00",
+          "cases_sold": 1.0,
+          "revenue": 12885.0,
+          "total_cost": 12120.0,
+          "gross_profit": 765.0,
+          "items_count": 1,
+          "products": "CLIMAX CAN",
+          "margin_pct": 0.059371362048894066
+        }
+      ]
     },
     {
       "customer": "Jeff SR",
@@ -20392,7 +22336,135 @@
       "total_gross_profit": -49714.0,
       "total_cases_sold": 418.0,
       "invoices": 11,
-      "gross_profit_pct": -0.020511656788498554
+      "gross_profit_pct": -0.020511656788498554,
+      "is_marketer": 0,
+      "cases_target": null,
+      "pct_of_target_met": null,
+      "attributable_expenses": 0.0,
+      "net_marketer_profit": -49714.0,
+      "invoices_list": [
+        {
+          "invoice_no": "ann-INV410",
+          "date": "2026-07-28T00:00:00",
+          "cases_sold": 258.0,
+          "revenue": 1307800.0,
+          "total_cost": 1366450.0,
+          "gross_profit": -58650.0,
+          "items_count": 2,
+          "products": "Maltina Pet 33cl, Maltina Pet 50cl",
+          "margin_pct": -0.0448463067747362
+        },
+        {
+          "invoice_no": "ann-INV274",
+          "date": "2026-07-14T00:00:00",
+          "cases_sold": 50.0,
+          "revenue": 250000.0,
+          "total_cost": 260000.0,
+          "gross_profit": -10000.0,
+          "items_count": 1,
+          "products": "Maltina Pet 33cl",
+          "margin_pct": -0.04
+        },
+        {
+          "invoice_no": "ann-INV208",
+          "date": "2026-07-07T00:00:00",
+          "cases_sold": 20.0,
+          "revenue": 160400.0,
+          "total_cost": 153700.0,
+          "gross_profit": 6700.0,
+          "items_count": 1,
+          "products": "Maltina Pet 50cl",
+          "margin_pct": 0.04177057356608479
+        },
+        {
+          "invoice_no": "ann-INV249",
+          "date": "2026-07-11T00:00:00",
+          "cases_sold": 30.0,
+          "revenue": 150000.0,
+          "total_cost": 156000.0,
+          "gross_profit": -6000.0,
+          "items_count": 1,
+          "products": "Maltina Pet 33cl",
+          "margin_pct": -0.04
+        },
+        {
+          "invoice_no": "ann-INV338",
+          "date": "2026-07-21T00:00:00",
+          "cases_sold": 20.0,
+          "revenue": 115100.0,
+          "total_cost": 116425.0,
+          "gross_profit": -1325.0,
+          "items_count": 2,
+          "products": "Maltina Pet 33cl, Maltina Pet 50cl",
+          "margin_pct": -0.011511728931364032
+        },
+        {
+          "invoice_no": "ann-INV191",
+          "date": "2026-07-06T00:00:00",
+          "cases_sold": 10.0,
+          "revenue": 104620.0,
+          "total_cost": 100010.0,
+          "gross_profit": 4610.0,
+          "items_count": 4,
+          "products": "Goldberg 60cl, Heineken Bottle 60cl, 33 Export 60cl, Maltina Bottle",
+          "margin_pct": 0.044064232460332635
+        },
+        {
+          "invoice_no": "ann-INV280",
+          "date": "2026-07-15T00:00:00",
+          "cases_sold": 8.0,
+          "revenue": 87120.0,
+          "total_cost": 83091.0,
+          "gross_profit": 4029.0,
+          "items_count": 5,
+          "products": "Amstel Bottle, Goldberg 60cl, 33 Export 60cl, Turbo King Bottle 60cl, Heineken Bottle 60cl",
+          "margin_pct": 0.0462465564738292
+        },
+        {
+          "invoice_no": "ann-INV236",
+          "date": "2026-07-09T00:00:00",
+          "cases_sold": 7.0,
+          "revenue": 85470.0,
+          "total_cost": 81685.0,
+          "gross_profit": 3785.0,
+          "items_count": 3,
+          "products": "Williams Bottle 60cl, Gulder Bottle, Tiger Bottle",
+          "margin_pct": 0.044284544284544286
+        },
+        {
+          "invoice_no": "ann-INV419",
+          "date": "2026-07-29T00:00:00",
+          "cases_sold": 6.0,
+          "revenue": 63470.0,
+          "total_cost": 60786.0,
+          "gross_profit": 2684.0,
+          "items_count": 3,
+          "products": "Goldberg 60cl, 33 Export 60cl, Heineken Bottle 60cl",
+          "margin_pct": 0.04228769497400347
+        },
+        {
+          "invoice_no": "ann-INV386",
+          "date": "2026-07-25T00:00:00",
+          "cases_sold": 6.0,
+          "revenue": 59335.0,
+          "total_cost": 56697.0,
+          "gross_profit": 2638.0,
+          "items_count": 3,
+          "products": "Goldberg 60cl, 33 Export 60cl, Heineken Bottle 60cl",
+          "margin_pct": 0.04445942529704222
+        },
+        {
+          "invoice_no": "ann-INV179",
+          "date": "2026-07-04T00:00:00",
+          "cases_sold": 3.0,
+          "revenue": 40380.0,
+          "total_cost": 38565.0,
+          "gross_profit": 1815.0,
+          "items_count": 1,
+          "products": "Fayrouz Can",
+          "margin_pct": 0.044947994056463596
+        }
+      ]
     },
     {
       "customer": "XXIII LOUNGE",
@@ -20401,7 +22473,69 @@
       "total_gross_profit": 175683.0,
       "total_cases_sold": 82.0,
       "invoices": 5,
-      "gross_profit_pct": 0.12810812584541678
+      "gross_profit_pct": 0.12810812584541678,
+      "is_marketer": 0,
+      "cases_target": null,
+      "pct_of_target_met": null,
+      "attributable_expenses": 0.0,
+      "net_marketer_profit": 175683.0,
+      "invoices_list": [
+        {
+          "invoice_no": "ann-INV265",
+          "date": "2026-07-13T00:00:00",
+          "cases_sold": 24.0,
+          "revenue": 468440.0,
+          "total_cost": 371425.0,
+          "gross_profit": 97015.0,
+          "items_count": 4,
+          "products": "Heineken Bottle 60cl, Maltina Bottle, Fayrouz Bottle, Chamdor 75cl",
+          "margin_pct": 0.2071022969857399
+        },
+        {
+          "invoice_no": "ann-INV402",
+          "date": "2026-07-27T00:00:00",
+          "cases_sold": 23.0,
+          "revenue": 342190.0,
+          "total_cost": 311705.0,
+          "gross_profit": 30485.0,
+          "items_count": 4,
+          "products": "Heineken Bottle 60cl, Goldberg 60cl, Maltina Bottle, Desperados Bottle",
+          "margin_pct": 0.08908793360413805
+        },
+        {
+          "invoice_no": "ann-INV252",
+          "date": "2026-07-11T00:00:00",
+          "cases_sold": 20.0,
+          "revenue": 298825.0,
+          "total_cost": 272945.0,
+          "gross_profit": 25880.0,
+          "items_count": 3,
+          "products": "Heineken Bottle 60cl, Desperados Bottle, Goldberg 60cl",
+          "margin_pct": 0.0866058730025935
+        },
+        {
+          "invoice_no": "ann-INV337",
+          "date": "2026-07-21T00:00:00",
+          "cases_sold": 10.0,
+          "revenue": 179580.0,
+          "total_cost": 164578.0,
+          "gross_profit": 15002.0,
+          "items_count": 4,
+          "products": "Desperados Can, Desperados Bottle, Star Radler 45cl, Heineken Bottle 60cl",
+          "margin_pct": 0.08353936964027174
+        },
+        {
+          "invoice_no": "ann-INV168",
+          "date": "2026-07-03T00:00:00",
+          "cases_sold": 5.0,
+          "revenue": 82330.0,
+          "total_cost": 75029.0,
+          "gross_profit": 7301.0,
+          "items_count": 3,
+          "products": "Desperados Bottle, Heineken Bottle 60cl, Goldberg 60cl",
+          "margin_pct": 0.08867970363172598
+        }
+      ]
     },
     {
       "customer": "Ahmed SR",
@@ -20410,7 +22544,69 @@
       "total_gross_profit": 13081.0,
       "total_cases_sold": 175.0,
       "invoices": 5,
-      "gross_profit_pct": 0.010654492586001164
+      "gross_profit_pct": 0.010654492586001164,
+      "is_marketer": 0,
+      "cases_target": null,
+      "pct_of_target_met": null,
+      "attributable_expenses": 0.0,
+      "net_marketer_profit": 13081.0,
+      "invoices_list": [
+        {
+          "invoice_no": "ann-INV276",
+          "date": "2026-07-14T00:00:00",
+          "cases_sold": 75.0,
+          "revenue": 447500.0,
+          "total_cost": 453125.0,
+          "gross_profit": -5625.0,
+          "items_count": 3,
+          "products": "Maltina Pet 33cl, Maltina Pet 50cl, Fayrouz Can",
+          "margin_pct": -0.012569832402234637
+        },
+        {
+          "invoice_no": "ann-INV354",
+          "date": "2026-07-23T00:00:00",
+          "cases_sold": 39.0,
+          "revenue": 378590.0,
+          "total_cost": 360459.0,
+          "gross_profit": 18131.0,
+          "items_count": 6,
+          "products": "Goldberg 60cl, 33 Export 60cl, Turbo King Bottle 60cl, Legend Bottle 60cl, Williams Bottle 60cl, Heineken Bottle 60cl",
+          "margin_pct": 0.04789085818431549
+        },
+        {
+          "invoice_no": "ann-INV216",
+          "date": "2026-07-08T00:00:00",
+          "cases_sold": 40.0,
+          "revenue": 230200.0,
+          "total_cost": 232850.0,
+          "gross_profit": -2650.0,
+          "items_count": 2,
+          "products": "Maltina Pet 33cl, Maltina Pet 50cl",
+          "margin_pct": -0.011511728931364032
+        },
+        {
+          "invoice_no": "ann-INV232",
+          "date": "2026-07-09T00:00:00",
+          "cases_sold": 11.0,
+          "revenue": 121455.0,
+          "total_cost": 116230.0,
+          "gross_profit": 5225.0,
+          "items_count": 4,
+          "products": "Gulder Bottle, Williams Bottle 60cl, Tiger Bottle, Turbo King Bottle 60cl",
+          "margin_pct": 0.043020048577662506
+        },
+        {
+          "invoice_no": "ann-INV228",
+          "date": "2026-07-08T00:00:00",
+          "cases_sold": 10.0,
+          "revenue": 50000.0,
+          "total_cost": 52000.0,
+          "gross_profit": -2000.0,
+          "items_count": 1,
+          "products": "Maltina Pet 33cl",
+          "margin_pct": -0.04
+        }
+      ]
     },
     {
       "customer": "Mr Godswill",
@@ -20419,7 +22615,168 @@
       "total_gross_profit": 55483.0,
       "total_cases_sold": 109.0,
       "invoices": 14,
-      "gross_profit_pct": 0.04804014096092404
+      "gross_profit_pct": 0.04804014096092404,
+      "is_marketer": 0,
+      "cases_target": null,
+      "pct_of_target_met": null,
+      "attributable_expenses": 0.0,
+      "net_marketer_profit": 55483.0,
+      "invoices_list": [
+        {
+          "invoice_no": "ann-INV364",
+          "date": "2026-07-24T00:00:00",
+          "cases_sold": 40.0,
+          "revenue": 337075.0,
+          "total_cost": 327825.0,
+          "gross_profit": 9250.0,
+          "items_count": 5,
+          "products": "Maltina Pet 33cl, Goldberg 60cl, 33 Export 60cl, Heineken Bottle 60cl, Legend Bottle 60cl",
+          "margin_pct": 0.02744196395460951
+        },
+        {
+          "invoice_no": "ann-INV241",
+          "date": "2026-07-10T00:00:00",
+          "cases_sold": 10.0,
+          "revenue": 284450.0,
+          "total_cost": 259300.0,
+          "gross_profit": 25150.0,
+          "items_count": 1,
+          "products": "Chamdor 75cl",
+          "margin_pct": 0.08841624187027597
+        },
+        {
+          "invoice_no": "ann-INV375",
+          "date": "2026-07-25T00:00:00",
+          "cases_sold": 15.0,
+          "revenue": 117000.0,
+          "total_cost": 112570.0,
+          "gross_profit": 4430.0,
+          "items_count": 2,
+          "products": "Goldberg 60cl, Maltina Pet 33cl",
+          "margin_pct": 0.037863247863247865
+        },
+        {
+          "invoice_no": "ann-INV272",
+          "date": "2026-07-14T00:00:00",
+          "cases_sold": 20.0,
+          "revenue": 106000.0,
+          "total_cost": 104000.0,
+          "gross_profit": 2000.0,
+          "items_count": 1,
+          "products": "Maltina Pet 33cl",
+          "margin_pct": 0.018867924528301886
+        },
+        {
+          "invoice_no": "ann-INV383",
+          "date": "2026-07-25T00:00:00",
+          "cases_sold": 5.0,
+          "revenue": 80725.0,
+          "total_cost": 76235.0,
+          "gross_profit": 4490.0,
+          "items_count": 1,
+          "products": "Goldberg Can 50cl",
+          "margin_pct": 0.05562093527407866
+        },
+        {
+          "invoice_no": "ann-INV372",
+          "date": "2026-07-25T00:00:00",
+          "cases_sold": 3.0,
+          "revenue": 49775.0,
+          "total_cost": 47480.0,
+          "gross_profit": 2295.0,
+          "items_count": 2,
+          "products": "Desperados Bottle, Goldberg Black 45cl",
+          "margin_pct": 0.04610748367654445
+        },
+        {
+          "invoice_no": "ann-INV181",
+          "date": "2026-07-04T00:00:00",
+          "cases_sold": 6.0,
+          "revenue": 44340.0,
+          "total_cost": 43100.0,
+          "gross_profit": 1240.0,
+          "items_count": 2,
+          "products": "Maltina Pet 33cl, Heineken Sleek Can",
+          "margin_pct": 0.02796571944068561
+        },
+        {
+          "invoice_no": "ann-INV416",
+          "date": "2026-07-28T00:00:00",
+          "cases_sold": 2.0,
+          "revenue": 35630.0,
+          "total_cost": 33960.0,
+          "gross_profit": 1670.0,
+          "items_count": 2,
+          "products": "Desperados Bottle, Goldberg Black 45cl",
+          "margin_pct": 0.046870614650575355
+        },
+        {
+          "invoice_no": "ann-INV193",
+          "date": "2026-07-06T00:00:00",
+          "cases_sold": 3.0,
+          "revenue": 31550.0,
+          "total_cost": 29980.0,
+          "gross_profit": 1570.0,
+          "items_count": 2,
+          "products": "STK 33cl, Maltina Pet 33cl",
+          "margin_pct": 0.04976228209191759
+        },
+        {
+          "invoice_no": "ann-INV279",
+          "date": "2026-07-15T00:00:00",
+          "cases_sold": 1.0,
+          "revenue": 20655.0,
+          "total_cost": 19305.0,
+          "gross_profit": 1350.0,
+          "items_count": 1,
+          "products": "ACE BITTERS",
+          "margin_pct": 0.06535947712418301
+        },
+        {
+          "invoice_no": "ann-INV390",
+          "date": "2026-07-27T00:00:00",
+          "cases_sold": 1.0,
+          "revenue": 16145.0,
+          "total_cost": 15247.0,
+          "gross_profit": 898.0,
+          "items_count": 1,
+          "products": "Goldberg Can 50cl",
+          "margin_pct": 0.05562093527407866
+        },
+        {
+          "invoice_no": "ann-INV297",
+          "date": "2026-07-17T00:00:00",
+          "cases_sold": 1.0,
+          "revenue": 13460.0,
+          "total_cost": 12855.0,
+          "gross_profit": 605.0,
+          "items_count": 1,
+          "products": "Fayrouz Can",
+          "margin_pct": 0.044947994056463596
+        },
+        {
+          "invoice_no": "ann-INV219",
+          "date": "2026-07-08T00:00:00",
+          "cases_sold": 1.0,
+          "revenue": 13125.0,
+          "total_cost": 12390.0,
+          "gross_profit": 735.0,
+          "items_count": 1,
+          "products": "STK 33cl",
+          "margin_pct": 0.056
+        },
+        {
+          "invoice_no": "ann-INV440",
+          "date": "2026-07-31T00:00:00",
+          "cases_sold": 1.0,
+          "revenue": 5000.0,
+          "total_cost": 5200.0,
+          "gross_profit": -200.0,
+          "items_count": 1,
+          "products": "Maltina Pet 33cl",
+          "margin_pct": -0.04
+        }
+      ]
     },
     {
       "customer": "Walk in Customer",
@@ -20428,7 +22785,388 @@
       "total_gross_profit": 49569.0,
       "total_cases_sold": 126.0,
       "invoices": 34,
-      "gross_profit_pct": 0.04601673791653322
+      "gross_profit_pct": 0.04601673791653322,
+      "is_marketer": 0,
+      "cases_target": null,
+      "pct_of_target_met": null,
+      "attributable_expenses": 0.0,
+      "net_marketer_profit": 49569.0,
+      "invoices_list": [
+        {
+          "invoice_no": "ann-INV275",
+          "date": "2026-07-14T00:00:00",
+          "cases_sold": 29.0,
+          "revenue": 314600.0,
+          "total_cost": 299399.0,
+          "gross_profit": 15201.0,
+          "items_count": 8,
+          "products": "Trophy, Castle Lite, Turbo King Bottle 60cl, Goldberg 60cl, Heineken Bottle 60cl, Tiger Bottle, Medium Stout, 33 Export 60cl",
+          "margin_pct": 0.04831849968213604
+        },
+        {
+          "invoice_no": "ann-INV174",
+          "date": "2026-07-04T00:00:00",
+          "cases_sold": 30.0,
+          "revenue": 150000.0,
+          "total_cost": 156000.0,
+          "gross_profit": -6000.0,
+          "items_count": 1,
+          "products": "Maltina Pet 33cl",
+          "margin_pct": -0.04
+        },
+        {
+          "invoice_no": "ann-INV367",
+          "date": "2026-07-24T00:00:00",
+          "cases_sold": 6.0,
+          "revenue": 50925.0,
+          "total_cost": 47480.0,
+          "gross_profit": 3445.0,
+          "items_count": 5,
+          "products": "Trophy, Goldberg 60cl, 33 Export 60cl, Gulder Bottle, Maltina Pet 33cl",
+          "margin_pct": 0.06764850270004909
+        },
+        {
+          "invoice_no": "ann-INV295",
+          "date": "2026-07-17T00:00:00",
+          "cases_sold": 4.0,
+          "revenue": 48720.0,
+          "total_cost": 44892.0,
+          "gross_profit": 3828.0,
+          "items_count": 3,
+          "products": "Budweiser, Heineken Bottle 60cl, 33 Export 60cl",
+          "margin_pct": 0.07857142857142857
+        },
+        {
+          "invoice_no": "ann-INV218",
+          "date": "2026-07-08T00:00:00",
+          "cases_sold": 5.0,
+          "revenue": 46000.0,
+          "total_cost": 43153.0,
+          "gross_profit": 2847.0,
+          "items_count": 2,
+          "products": "Goldberg 60cl, Turbo King Bottle 60cl",
+          "margin_pct": 0.06189130434782609
+        },
+        {
+          "invoice_no": "ann-INV346",
+          "date": "2026-07-22T00:00:00",
+          "cases_sold": 4.0,
+          "revenue": 41950.0,
+          "total_cost": 38511.0,
+          "gross_profit": 3439.0,
+          "items_count": 4,
+          "products": "Trophy, Goldberg 60cl, 33 Export 60cl, Heineken Bottle 60cl",
+          "margin_pct": 0.08197854588796186
+        },
+        {
+          "invoice_no": "ann-INV282",
+          "date": "2026-07-15T00:00:00",
+          "cases_sold": 4.0,
+          "revenue": 40750.0,
+          "total_cost": 38511.0,
+          "gross_profit": 2239.0,
+          "items_count": 4,
+          "products": "Heineken Bottle 60cl, Goldberg 60cl, 33 Export 60cl, Trophy",
+          "margin_pct": 0.05494478527607362
+        },
+        {
+          "invoice_no": "ann-INV194",
+          "date": "2026-07-06T00:00:00",
+          "cases_sold": 3.0,
+          "revenue": 28500.0,
+          "total_cost": 26172.0,
+          "gross_profit": 2328.0,
+          "items_count": 3,
+          "products": "Goldberg 60cl, 33 Export 60cl, Turbo King Bottle 60cl",
+          "margin_pct": 0.08168421052631579
+        },
+        {
+          "invoice_no": "ann-INV407",
+          "date": "2026-07-27T00:00:00",
+          "cases_sold": 3.0,
+          "revenue": 28000.0,
+          "total_cost": 25633.0,
+          "gross_profit": 2367.0,
+          "items_count": 3,
+          "products": "33 Export 60cl, Turbo King Bottle 60cl, Trophy",
+          "margin_pct": 0.08453571428571428
+        },
+        {
+          "invoice_no": "ann-INV173",
+          "date": "2026-07-04T00:00:00",
+          "cases_sold": 3.0,
+          "revenue": 27000.0,
+          "total_cost": 24354.0,
+          "gross_profit": 2646.0,
+          "items_count": 1,
+          "products": "Trophy",
+          "margin_pct": 0.098
+        },
+        {
+          "invoice_no": "ann-INV290",
+          "date": "2026-07-16T00:00:00",
+          "cases_sold": 2.0,
+          "revenue": 24950.0,
+          "total_cost": 23876.0,
+          "gross_profit": 1074.0,
+          "items_count": 2,
+          "products": "Heineken Bottle 60cl, Star Bottle 60cl",
+          "margin_pct": 0.04304609218436874
+        },
+        {
+          "invoice_no": "ann-INV286",
+          "date": "2026-07-16T00:00:00",
+          "cases_sold": 3.0,
+          "revenue": 24060.0,
+          "total_cost": 23255.0,
+          "gross_profit": 805.0,
+          "items_count": 2,
+          "products": "Maltina Pet 33cl, Fayrouz Can",
+          "margin_pct": 0.03345802161263508
+        },
+        {
+          "invoice_no": "ann-INV349",
+          "date": "2026-07-22T00:00:00",
+          "cases_sold": 2.0,
+          "revenue": 23100.0,
+          "total_cost": 20915.0,
+          "gross_profit": 2185.0,
+          "items_count": 2,
+          "products": "STK 33cl, Turbo King Bottle 60cl",
+          "margin_pct": 0.09458874458874458
+        },
+        {
+          "invoice_no": "ann-INV247",
+          "date": "2026-07-10T00:00:00",
+          "cases_sold": 2.0,
+          "revenue": 19000.0,
+          "total_cost": 17314.0,
+          "gross_profit": 1686.0,
+          "items_count": 1,
+          "products": "Goldberg 60cl",
+          "margin_pct": 0.08873684210526316
+        },
+        {
+          "invoice_no": "ann-INV343",
+          "date": "2026-07-22T00:00:00",
+          "cases_sold": 2.0,
+          "revenue": 19000.0,
+          "total_cost": 17314.0,
+          "gross_profit": 1686.0,
+          "items_count": 1,
+          "products": "Goldberg 60cl",
+          "margin_pct": 0.08873684210526316
+        },
+        {
+          "invoice_no": "ann-INV361",
+          "date": "2026-07-24T00:00:00",
+          "cases_sold": 2.0,
+          "revenue": 19000.0,
+          "total_cost": 17515.0,
+          "gross_profit": 1485.0,
+          "items_count": 2,
+          "products": "33 Export 60cl, Turbo King Bottle 60cl",
+          "margin_pct": 0.0781578947368421
+        },
+        {
+          "invoice_no": "ann-INV142",
+          "date": "2026-07-01T00:00:00",
+          "cases_sold": 2.0,
+          "revenue": 18500.0,
+          "total_cost": 16775.0,
+          "gross_profit": 1725.0,
+          "items_count": 2,
+          "products": "Trophy, Goldberg 60cl",
+          "margin_pct": 0.09324324324324325
+        },
+        {
+          "invoice_no": "ann-INV235",
+          "date": "2026-07-09T00:00:00",
+          "cases_sold": 2.0,
+          "revenue": 18400.0,
+          "total_cost": 17647.0,
+          "gross_profit": 753.0,
+          "items_count": 2,
+          "products": "33 Export 60cl, Goldberg 60cl",
+          "margin_pct": 0.04092391304347826
+        },
+        {
+          "invoice_no": "ann-INV388",
+          "date": "2026-07-25T00:00:00",
+          "cases_sold": 1.0,
+          "revenue": 16950.0,
+          "total_cost": 16350.0,
+          "gross_profit": 600.0,
+          "items_count": 1,
+          "products": "Smirnoff Ice.",
+          "margin_pct": 0.035398230088495575
+        },
+        {
+          "invoice_no": "ann-INV251",
+          "date": "2026-07-11T00:00:00",
+          "cases_sold": 1.0,
+          "revenue": 16140.0,
+          "total_cost": 14900.0,
+          "gross_profit": 1240.0,
+          "items_count": 1,
+          "products": "Tiger Bottle",
+          "margin_pct": 0.0768277571251549
+        },
+        {
+          "invoice_no": "ann-INV250",
+          "date": "2026-07-11T00:00:00",
+          "cases_sold": 1.0,
+          "revenue": 13950.0,
+          "total_cost": 12746.0,
+          "gross_profit": 1204.0,
+          "items_count": 1,
+          "products": "Heineken Bottle 60cl",
+          "margin_pct": 0.08630824372759857
+        },
+        {
+          "invoice_no": "ann-INV389",
+          "date": "2026-07-27T00:00:00",
+          "cases_sold": 2.0,
+          "revenue": 10600.0,
+          "total_cost": 10400.0,
+          "gross_profit": 200.0,
+          "items_count": 1,
+          "products": "Maltina Pet 33cl",
+          "margin_pct": 0.018867924528301886
+        },
+        {
+          "invoice_no": "ann-INV327",
+          "date": "2026-07-20T00:00:00",
+          "cases_sold": 2.0,
+          "revenue": 10600.0,
+          "total_cost": 10400.0,
+          "gross_profit": 200.0,
+          "items_count": 1,
+          "products": "Maltina Pet 33cl",
+          "margin_pct": 0.018867924528301886
+        },
+        {
+          "invoice_no": "ann-INV246",
+          "date": "2026-07-10T00:00:00",
+          "cases_sold": 1.0,
+          "revenue": 9500.0,
+          "total_cost": 8657.0,
+          "gross_profit": 843.0,
+          "items_count": 1,
+          "products": "Goldberg 60cl",
+          "margin_pct": 0.08873684210526316
+        },
+        {
+          "invoice_no": "ann-INV291",
+          "date": "2026-07-16T00:00:00",
+          "cases_sold": 1.0,
+          "revenue": 9200.0,
+          "total_cost": 8657.0,
+          "gross_profit": 543.0,
+          "items_count": 1,
+          "products": "Goldberg 60cl",
+          "margin_pct": 0.059021739130434785
+        },
+        {
+          "invoice_no": "ann-INV143",
+          "date": "2026-07-01T00:00:00",
+          "cases_sold": 1.0,
+          "revenue": 5400.0,
+          "total_cost": 5200.0,
+          "gross_profit": 200.0,
+          "items_count": 1,
+          "products": "Maltina Pet 33cl",
+          "margin_pct": 0.037037037037037035
+        },
+        {
+          "invoice_no": "ann-INV287",
+          "date": "2026-07-16T00:00:00",
+          "cases_sold": 1.0,
+          "revenue": 5300.0,
+          "total_cost": 5200.0,
+          "gross_profit": 100.0,
+          "items_count": 1,
+          "products": "Maltina Pet 33cl",
+          "margin_pct": 0.018867924528301886
+        },
+        {
+          "invoice_no": "ann-INV284",
+          "date": "2026-07-16T00:00:00",
+          "cases_sold": 1.0,
+          "revenue": 5300.0,
+          "total_cost": 5200.0,
+          "gross_profit": 100.0,
+          "items_count": 1,
+          "products": "Maltina Pet 33cl",
+          "margin_pct": 0.018867924528301886
+        },
+        {
+          "invoice_no": "ann-INV209",
+          "date": "2026-07-07T00:00:00",
+          "cases_sold": 1.0,
+          "revenue": 5300.0,
+          "total_cost": 5200.0,
+          "gross_profit": 100.0,
+          "items_count": 1,
+          "products": "Maltina Pet 33cl",
+          "margin_pct": 0.018867924528301886
+        },
+        {
+          "invoice_no": "ann-INV382",
+          "date": "2026-07-25T00:00:00",
+          "cases_sold": 1.0,
+          "revenue": 5300.0,
+          "total_cost": 5200.0,
+          "gross_profit": 100.0,
+          "items_count": 1,
+          "products": "Maltina Pet 33cl",
+          "margin_pct": 0.018867924528301886
+        },
+        {
+          "invoice_no": "ann-INV373",
+          "date": "2026-07-25T00:00:00",
+          "cases_sold": 1.0,
+          "revenue": 5300.0,
+          "total_cost": 5200.0,
+          "gross_profit": 100.0,
+          "items_count": 1,
+          "products": "Maltina Pet 33cl",
+          "margin_pct": 0.018867924528301886
+        },
+        {
+          "invoice_no": "ann-INV401",
+          "date": "2026-07-27T00:00:00",
+          "cases_sold": 1.0,
+          "revenue": 5300.0,
+          "total_cost": 5200.0,
+          "gross_profit": 100.0,
+          "items_count": 1,
+          "products": "Maltina Pet 33cl",
+          "margin_pct": 0.018867924528301886
+        },
+        {
+          "invoice_no": "ann-INV409",
+          "date": "2026-07-28T00:00:00",
+          "cases_sold": 1.0,
+          "revenue": 5300.0,
+          "total_cost": 5200.0,
+          "gross_profit": 100.0,
+          "items_count": 1,
+          "products": "Maltina Pet 33cl",
+          "margin_pct": 0.018867924528301886
+        },
+        {
+          "invoice_no": "ann-INV430",
+          "date": "2026-07-30T00:00:00",
+          "cases_sold": 1.0,
+          "revenue": 5300.0,
+          "total_cost": 5200.0,
+          "gross_profit": 100.0,
+          "items_count": 1,
+          "products": "Maltina Pet 33cl",
+          "margin_pct": 0.018867924528301886
+        }
+      ]
     },
     {
       "customer": "LAKE AND RIVER FOODS",
@@ -20437,7 +23175,36 @@
       "total_gross_profit": 12740.0,
       "total_cases_sold": 100.0,
       "invoices": 2,
-      "gross_profit_pct": 0.012565341749679456
+      "gross_profit_pct": 0.012565341749679456,
+      "is_marketer": 0,
+      "cases_target": null,
+      "pct_of_target_met": null,
+      "attributable_expenses": 0.0,
+      "net_marketer_profit": 12740.0,
+      "invoices_list": [
+        {
+          "invoice_no": "ann-INV307",
+          "date": "2026-07-18T00:00:00",
+          "cases_sold": 70.0,
+          "revenue": 567000.0,
+          "total_cost": 568260.0,
+          "gross_profit": -1260.0,
+          "items_count": 1,
+          "products": "Trophy",
+          "margin_pct": -0.0022222222222222222
+        },
+        {
+          "invoice_no": "ann-INV314",
+          "date": "2026-07-18T00:00:00",
+          "cases_sold": 30.0,
+          "revenue": 446900.0,
+          "total_cost": 432900.0,
+          "gross_profit": 14000.0,
+          "items_count": 2,
+          "products": "Medium Stout, 33 Export 60cl",
+          "margin_pct": 0.031326918773774894
+        }
+      ]
     },
     {
       "customer": "Stella SR",
@@ -20446,7 +23213,47 @@
       "total_gross_profit": -14090.0,
       "total_cases_sold": 155.0,
       "invoices": 3,
-      "gross_profit_pct": -0.016011363636363636
+      "gross_profit_pct": -0.016011363636363636,
+      "is_marketer": 0,
+      "cases_target": null,
+      "pct_of_target_met": null,
+      "attributable_expenses": 0.0,
+      "net_marketer_profit": -14090.0,
+      "invoices_list": [
+        {
+          "invoice_no": "ann-INV341",
+          "date": "2026-07-22T00:00:00",
+          "cases_sold": 100.0,
+          "revenue": 500000.0,
+          "total_cost": 520000.0,
+          "gross_profit": -20000.0,
+          "items_count": 1,
+          "products": "Maltina Pet 33cl",
+          "margin_pct": -0.04
+        },
+        {
+          "invoice_no": "ann-INV368",
+          "date": "2026-07-24T00:00:00",
+          "cases_sold": 25.0,
+          "revenue": 230000.0,
+          "total_cost": 218090.0,
+          "gross_profit": 11910.0,
+          "items_count": 2,
+          "products": "Goldberg 60cl, 33 Export 60cl",
+          "margin_pct": 0.051782608695652176
+        },
+        {
+          "invoice_no": "ann-INV435",
+          "date": "2026-07-31T00:00:00",
+          "cases_sold": 30.0,
+          "revenue": 150000.0,
+          "total_cost": 156000.0,
+          "gross_profit": -6000.0,
+          "items_count": 1,
+          "products": "Maltina Pet 33cl",
+          "margin_pct": -0.04
+        }
+      ]
     },
     {
       "customer": "Mr Musefiu",
@@ -20455,7 +23262,25 @@
       "total_gross_profit": 11040.0,
       "total_cases_sold": 60.0,
       "invoices": 1,
-      "gross_profit_pct": 0.01423047177107502
+      "gross_profit_pct": 0.01423047177107502,
+      "is_marketer": 0,
+      "cases_target": null,
+      "pct_of_target_met": null,
+      "attributable_expenses": 0.0,
+      "net_marketer_profit": 11040.0,
+      "invoices_list": [
+        {
+          "invoice_no": "ann-INV224",
+          "date": "2026-07-08T00:00:00",
+          "cases_sold": 60.0,
+          "revenue": 775800.0,
+          "total_cost": 764760.0,
+          "gross_profit": 11040.0,
+          "items_count": 1,
+          "products": "Heineken Bottle 60cl",
+          "margin_pct": 0.01423047177107502
+        }
+      ]
     },
     {
       "customer": "Solomon",
@@ -20464,7 +23289,91 @@
       "total_gross_profit": 20222.0,
       "total_cases_sold": 72.0,
       "invoices": 7,
-      "gross_profit_pct": 0.03123402349270583
+      "gross_profit_pct": 0.03123402349270583,
+      "is_marketer": 0,
+      "cases_target": null,
+      "pct_of_target_met": null,
+      "attributable_expenses": 0.0,
+      "net_marketer_profit": 20222.0,
+      "invoices_list": [
+        {
+          "invoice_no": "ann-INV214",
+          "date": "2026-07-08T00:00:00",
+          "cases_sold": 22.0,
+          "revenue": 204290.0,
+          "total_cost": 195032.0,
+          "gross_profit": 9258.0,
+          "items_count": 5,
+          "products": "33 Export 60cl, Gulder Bottle, Turbo King Bottle 60cl, Heineken Bottle 60cl, Maltina Pet 50cl",
+          "margin_pct": 0.045317930393068674
+        },
+        {
+          "invoice_no": "ann-INV323",
+          "date": "2026-07-20T00:00:00",
+          "cases_sold": 10.0,
+          "revenue": 135340.0,
+          "total_cost": 129361.0,
+          "gross_profit": 5979.0,
+          "items_count": 5,
+          "products": "Heineken Bottle 60cl, Fayrouz Bottle, Desperados Bottle, Goldberg 60cl, 33 Export 60cl",
+          "margin_pct": 0.04417762671789567
+        },
+        {
+          "invoice_no": "ann-INV271",
+          "date": "2026-07-14T00:00:00",
+          "cases_sold": 20.0,
+          "revenue": 100000.0,
+          "total_cost": 104000.0,
+          "gross_profit": -4000.0,
+          "items_count": 1,
+          "products": "Maltina Pet 33cl",
+          "margin_pct": -0.04
+        },
+        {
+          "invoice_no": "ann-INV377",
+          "date": "2026-07-25T00:00:00",
+          "cases_sold": 10.0,
+          "revenue": 92000.0,
+          "total_cost": 86570.0,
+          "gross_profit": 5430.0,
+          "items_count": 1,
+          "products": "Goldberg 60cl",
+          "margin_pct": 0.059021739130434785
+        },
+        {
+          "invoice_no": "ann-INV234",
+          "date": "2026-07-09T00:00:00",
+          "cases_sold": 7.0,
+          "revenue": 81855.0,
+          "total_cost": 78100.0,
+          "gross_profit": 3755.0,
+          "items_count": 3,
+          "products": "Gulder Bottle, Williams Bottle 60cl, Tiger Bottle",
+          "margin_pct": 0.04587380123388919
+        },
+        {
+          "invoice_no": "ann-INV331",
+          "date": "2026-07-21T00:00:00",
+          "cases_sold": 2.0,
+          "revenue": 28950.0,
+          "total_cost": 28950.0,
+          "gross_profit": 0.0,
+          "items_count": 1,
+          "products": "Star Radler 45cl",
+          "margin_pct": 0.0
+        },
+        {
+          "invoice_no": "ann-INV336",
+          "date": "2026-07-21T00:00:00",
+          "cases_sold": 1.0,
+          "revenue": 5000.0,
+          "total_cost": 5200.0,
+          "gross_profit": -200.0,
+          "items_count": 1,
+          "products": "Maltina Pet 33cl",
+          "margin_pct": -0.04
+        }
+      ]
     },
     {
       "customer": "DESOLA STORE",
@@ -20473,7 +23382,25 @@
       "total_gross_profit": -12000.0,
       "total_cases_sold": 120.0,
       "invoices": 1,
-      "gross_profit_pct": -0.0196078431372549
+      "gross_profit_pct": -0.0196078431372549,
+      "is_marketer": 0,
+      "cases_target": null,
+      "pct_of_target_met": null,
+      "attributable_expenses": 0.0,
+      "net_marketer_profit": -12000.0,
+      "invoices_list": [
+        {
+          "invoice_no": "ann-INV196",
+          "date": "2026-07-07T00:00:00",
+          "cases_sold": 120.0,
+          "revenue": 612000.0,
+          "total_cost": 624000.0,
+          "gross_profit": -12000.0,
+          "items_count": 1,
+          "products": "Maltina Pet 33cl",
+          "margin_pct": -0.0196078431372549
+        }
+      ]
     },
     {
       "customer": "MRS IK.",
@@ -20482,7 +23409,113 @@
       "total_gross_profit": 31126.0,
       "total_cases_sold": 47.0,
       "invoices": 9,
-      "gross_profit_pct": 0.06239676048432363
+      "gross_profit_pct": 0.06239676048432363,
+      "is_marketer": 0,
+      "cases_target": null,
+      "pct_of_target_met": null,
+      "attributable_expenses": 0.0,
+      "net_marketer_profit": 31126.0,
+      "invoices_list": [
+        {
+          "invoice_no": "ann-INV258",
+          "date": "2026-07-11T00:00:00",
+          "cases_sold": 11.0,
+          "revenue": 136420.0,
+          "total_cost": 128583.0,
+          "gross_profit": 7837.0,
+          "items_count": 10,
+          "products": "Goldberg 60cl, Trophy, 33 Export 60cl, Turbo King Bottle 60cl, Gulder Bottle, Heineken Bottle 60cl, Star Bottle 60cl, Medium Stout, Desperados Bottle, Fayrouz Can",
+          "margin_pct": 0.05744758833015687
+        },
+        {
+          "invoice_no": "ann-INV298",
+          "date": "2026-07-17T00:00:00",
+          "cases_sold": 11.0,
+          "revenue": 130660.0,
+          "total_cost": 123401.0,
+          "gross_profit": 7259.0,
+          "items_count": 10,
+          "products": "Goldberg 60cl, 33 Export 60cl, Turbo King Bottle 60cl, Trophy, Medium Stout, Heineken Bottle 60cl, Gulder Bottle, Desperados Bottle, Star Bottle 60cl, Maltina Pet 33cl",
+          "margin_pct": 0.055556405939078526
+        },
+        {
+          "invoice_no": "ann-INV348",
+          "date": "2026-07-22T00:00:00",
+          "cases_sold": 5.0,
+          "revenue": 54810.0,
+          "total_cost": 51366.0,
+          "gross_profit": 3444.0,
+          "items_count": 5,
+          "products": "Fayrouz Can, Heineken Bottle 60cl, 33 Export 60cl, Goldberg 60cl, Trophy",
+          "margin_pct": 0.06283524904214559
+        },
+        {
+          "invoice_no": "ann-INV335",
+          "date": "2026-07-21T00:00:00",
+          "cases_sold": 5.0,
+          "revenue": 46650.0,
+          "total_cost": 43711.0,
+          "gross_profit": 2939.0,
+          "items_count": 5,
+          "products": "Trophy, Heineken Bottle 60cl, 33 Export 60cl, Goldberg 60cl, Maltina Pet 33cl",
+          "margin_pct": 0.0630010718113612
+        },
+        {
+          "invoice_no": "ann-INV384",
+          "date": "2026-07-25T00:00:00",
+          "cases_sold": 4.0,
+          "revenue": 36600.0,
+          "total_cost": 33957.0,
+          "gross_profit": 2643.0,
+          "items_count": 3,
+          "products": "Goldberg 60cl, Turbo King Bottle 60cl, Trophy",
+          "margin_pct": 0.07221311475409836
+        },
+        {
+          "invoice_no": "ann-INV289",
+          "date": "2026-07-16T00:00:00",
+          "cases_sold": 3.0,
+          "revenue": 27400.0,
+          "total_cost": 25432.0,
+          "gross_profit": 1968.0,
+          "items_count": 2,
+          "products": "Goldberg 60cl, Trophy",
+          "margin_pct": 0.07182481751824818
+        },
+        {
+          "invoice_no": "ann-INV240",
+          "date": "2026-07-09T00:00:00",
+          "cases_sold": 3.0,
+          "revenue": 23800.0,
+          "total_cost": 21975.0,
+          "gross_profit": 1825.0,
+          "items_count": 3,
+          "products": "Goldberg 60cl, Trophy, Maltina Pet 33cl",
+          "margin_pct": 0.07668067226890757
+        },
+        {
+          "invoice_no": "ann-INV436",
+          "date": "2026-07-31T00:00:00",
+          "cases_sold": 3.0,
+          "revenue": 23500.0,
+          "total_cost": 21975.0,
+          "gross_profit": 1525.0,
+          "items_count": 3,
+          "products": "Maltina Pet 33cl, Goldberg 60cl, Trophy",
+          "margin_pct": 0.06489361702127659
+        },
+        {
+          "invoice_no": "ann-INV195",
+          "date": "2026-07-06T00:00:00",
+          "cases_sold": 2.0,
+          "revenue": 19000.0,
+          "total_cost": 17314.0,
+          "gross_profit": 1686.0,
+          "items_count": 1,
+          "products": "Goldberg 60cl",
+          "margin_pct": 0.08873684210526316
+        }
+      ]
     },
     {
       "customer": "TD Odiolowo",
@@ -20491,7 +23524,69 @@
       "total_gross_profit": -3249.0,
       "total_cases_sold": 57.0,
       "invoices": 5,
-      "gross_profit_pct": -0.006627906976744186
+      "gross_profit_pct": -0.006627906976744186,
+      "is_marketer": 0,
+      "cases_target": null,
+      "pct_of_target_met": null,
+      "attributable_expenses": 0.0,
+      "net_marketer_profit": -3249.0,
+      "invoices_list": [
+        {
+          "invoice_no": "ann-INV163",
+          "date": "2026-07-03T00:00:00",
+          "cases_sold": 30.0,
+          "revenue": 258000.0,
+          "total_cost": 259710.0,
+          "gross_profit": -1710.0,
+          "items_count": 1,
+          "products": "Goldberg 60cl",
+          "margin_pct": -0.006627906976744186
+        },
+        {
+          "invoice_no": "ann-INV202",
+          "date": "2026-07-07T00:00:00",
+          "cases_sold": 11.0,
+          "revenue": 94600.0,
+          "total_cost": 95227.0,
+          "gross_profit": -627.0,
+          "items_count": 1,
+          "products": "Goldberg 60cl",
+          "margin_pct": -0.006627906976744186
+        },
+        {
+          "invoice_no": "ann-INV147",
+          "date": "2026-07-02T00:00:00",
+          "cases_sold": 10.0,
+          "revenue": 86000.0,
+          "total_cost": 86570.0,
+          "gross_profit": -570.0,
+          "items_count": 1,
+          "products": "Goldberg 60cl",
+          "margin_pct": -0.006627906976744186
+        },
+        {
+          "invoice_no": "ann-INV188",
+          "date": "2026-07-06T00:00:00",
+          "cases_sold": 4.0,
+          "revenue": 34400.0,
+          "total_cost": 34628.0,
+          "gross_profit": -228.0,
+          "items_count": 1,
+          "products": "Goldberg 60cl",
+          "margin_pct": -0.006627906976744186
+        },
+        {
+          "invoice_no": "ann-INV154",
+          "date": "2026-07-02T00:00:00",
+          "cases_sold": 2.0,
+          "revenue": 17200.0,
+          "total_cost": 17314.0,
+          "gross_profit": -114.0,
+          "items_count": 1,
+          "products": "Goldberg 60cl",
+          "margin_pct": -0.006627906976744186
+        }
+      ]
     },
     {
       "customer": "Mr Olayinka",
@@ -20500,7 +23595,91 @@
       "total_gross_profit": 26493.0,
       "total_cases_sold": 37.0,
       "invoices": 7,
-      "gross_profit_pct": 0.06782121188848783
+      "gross_profit_pct": 0.06782121188848783,
+      "is_marketer": 0,
+      "cases_target": null,
+      "pct_of_target_met": null,
+      "attributable_expenses": 0.0,
+      "net_marketer_profit": 26493.0,
+      "invoices_list": [
+        {
+          "invoice_no": "ann-INV366",
+          "date": "2026-07-24T00:00:00",
+          "cases_sold": 13.0,
+          "revenue": 152830.0,
+          "total_cost": 142284.0,
+          "gross_profit": 10546.0,
+          "items_count": 6,
+          "products": "Gulder Bottle, Maltina Bottle, Heineken Bottle 60cl, Goldberg 60cl, Trophy, Castle Lite",
+          "margin_pct": 0.06900477654910685
+        },
+        {
+          "invoice_no": "ann-INV318",
+          "date": "2026-07-20T00:00:00",
+          "cases_sold": 6.0,
+          "revenue": 54600.0,
+          "total_cost": 50325.0,
+          "gross_profit": 4275.0,
+          "items_count": 2,
+          "products": "Goldberg 60cl, Trophy",
+          "margin_pct": 0.0782967032967033
+        },
+        {
+          "invoice_no": "ann-INV261",
+          "date": "2026-07-13T00:00:00",
+          "cases_sold": 5.0,
+          "revenue": 46000.0,
+          "total_cost": 43285.0,
+          "gross_profit": 2715.0,
+          "items_count": 1,
+          "products": "Goldberg 60cl",
+          "margin_pct": 0.059021739130434785
+        },
+        {
+          "invoice_no": "ann-INV408",
+          "date": "2026-07-28T00:00:00",
+          "cases_sold": 5.0,
+          "revenue": 46000.0,
+          "total_cost": 43618.0,
+          "gross_profit": 2382.0,
+          "items_count": 2,
+          "products": "Goldberg 60cl, 33 Export 60cl",
+          "margin_pct": 0.051782608695652176
+        },
+        {
+          "invoice_no": "ann-INV392",
+          "date": "2026-07-27T00:00:00",
+          "cases_sold": 4.0,
+          "revenue": 45300.0,
+          "total_cost": 41504.0,
+          "gross_profit": 3796.0,
+          "items_count": 2,
+          "products": "Trophy, Medium Stout",
+          "margin_pct": 0.08379690949227372
+        },
+        {
+          "invoice_no": "ann-INV378",
+          "date": "2026-07-25T00:00:00",
+          "cases_sold": 3.0,
+          "revenue": 27600.0,
+          "total_cost": 25971.0,
+          "gross_profit": 1629.0,
+          "items_count": 1,
+          "products": "Goldberg 60cl",
+          "margin_pct": 0.059021739130434785
+        },
+        {
+          "invoice_no": "ann-INV429",
+          "date": "2026-07-30T00:00:00",
+          "cases_sold": 1.0,
+          "revenue": 18300.0,
+          "total_cost": 17150.0,
+          "gross_profit": 1150.0,
+          "items_count": 1,
+          "products": "Medium Stout",
+          "margin_pct": 0.06284153005464481
+        }
+      ]
     },
     {
       "customer": "Amandla",
@@ -20509,7 +23688,36 @@
       "total_gross_profit": 17240.0,
       "total_cases_sold": 25.0,
       "invoices": 2,
-      "gross_profit_pct": 0.04683828024179855
+      "gross_profit_pct": 0.04683828024179855,
+      "is_marketer": 0,
+      "cases_target": null,
+      "pct_of_target_met": null,
+      "attributable_expenses": 0.0,
+      "net_marketer_profit": 17240.0,
+      "invoices_list": [
+        {
+          "invoice_no": "ann-INV210",
+          "date": "2026-07-08T00:00:00",
+          "cases_sold": 20.0,
+          "revenue": 301400.0,
+          "total_cost": 287105.0,
+          "gross_profit": 14295.0,
+          "items_count": 4,
+          "products": "Heineken Bottle 60cl, Desperados Bottle, Gulder Bottle, Maltina Bottle",
+          "margin_pct": 0.04742866622428666
+        },
+        {
+          "invoice_no": "ann-INV400",
+          "date": "2026-07-27T00:00:00",
+          "cases_sold": 5.0,
+          "revenue": 66675.0,
+          "total_cost": 63730.0,
+          "gross_profit": 2945.0,
+          "items_count": 1,
+          "products": "Heineken Bottle 60cl",
+          "margin_pct": 0.04416947881514811
+        }
+      ]
     },
     {
       "customer": "Taiwo SR",
@@ -20518,7 +23726,36 @@
       "total_gross_profit": 17570.0,
       "total_cases_sold": 18.0,
       "invoices": 2,
-      "gross_profit_pct": 0.04944629715620471
+      "gross_profit_pct": 0.04944629715620471,
+      "is_marketer": 0,
+      "cases_target": null,
+      "pct_of_target_met": null,
+      "attributable_expenses": 0.0,
+      "net_marketer_profit": 17570.0,
+      "invoices_list": [
+        {
+          "invoice_no": "ann-INV283",
+          "date": "2026-07-16T00:00:00",
+          "cases_sold": 10.0,
+          "revenue": 178125.0,
+          "total_cost": 168575.0,
+          "gross_profit": 9550.0,
+          "items_count": 2,
+          "products": "Desperados Can, CLIMAX CAN",
+          "margin_pct": 0.0536140350877193
+        },
+        {
+          "invoice_no": "ann-INV376",
+          "date": "2026-07-25T00:00:00",
+          "cases_sold": 8.0,
+          "revenue": 177210.0,
+          "total_cost": 169190.0,
+          "gross_profit": 8020.0,
+          "items_count": 2,
+          "products": "Desperados Can, Legend Can 44cl",
+          "margin_pct": 0.045257039670447495
+        }
+      ]
     },
     {
       "customer": "Ola SR",
@@ -20527,7 +23764,58 @@
       "total_gross_profit": 12164.0,
       "total_cases_sold": 25.0,
       "invoices": 4,
-      "gross_profit_pct": 0.04161193212917351
+      "gross_profit_pct": 0.04161193212917351,
+      "is_marketer": 0,
+      "cases_target": null,
+      "pct_of_target_met": null,
+      "attributable_expenses": 0.0,
+      "net_marketer_profit": 12164.0,
+      "invoices_list": [
+        {
+          "invoice_no": "ann-INV221",
+          "date": "2026-07-08T00:00:00",
+          "cases_sold": 13.0,
+          "revenue": 144170.0,
+          "total_cost": 137345.0,
+          "gross_profit": 6825.0,
+          "items_count": 5,
+          "products": "Goldberg 60cl, Fayrouz Bottle, Star Bottle 60cl, Goldberg Black 45cl, Amstel Bottle",
+          "margin_pct": 0.04733994589720469
+        },
+        {
+          "invoice_no": "ann-INV302",
+          "date": "2026-07-17T00:00:00",
+          "cases_sold": 6.0,
+          "revenue": 73825.0,
+          "total_cost": 70810.0,
+          "gross_profit": 3015.0,
+          "items_count": 3,
+          "products": "Star Bottle 60cl, Legend Bottle 60cl, Legend 45cl",
+          "margin_pct": 0.04083982390789028
+        },
+        {
+          "invoice_no": "ann-INV245",
+          "date": "2026-07-10T00:00:00",
+          "cases_sold": 5.0,
+          "revenue": 61125.0,
+          "total_cost": 58500.0,
+          "gross_profit": 2625.0,
+          "items_count": 2,
+          "products": "Goldberg Black 45cl, Williams Bottle 60cl",
+          "margin_pct": 0.04294478527607362
+        },
+        {
+          "invoice_no": "ann-INV300",
+          "date": "2026-07-17T00:00:00",
+          "cases_sold": 1.0,
+          "revenue": 13200.0,
+          "total_cost": 13501.0,
+          "gross_profit": -301.0,
+          "items_count": 1,
+          "products": "Maltina Can",
+          "margin_pct": -0.022803030303030304
+        }
+      ]
     },
     {
       "customer": "MAADE HOTEL",
@@ -20536,7 +23824,58 @@
       "total_gross_profit": 12352.0,
       "total_cases_sold": 21.0,
       "invoices": 4,
-      "gross_profit_pct": 0.05575516836688634
+      "gross_profit_pct": 0.05575516836688634,
+      "is_marketer": 0,
+      "cases_target": null,
+      "pct_of_target_met": null,
+      "attributable_expenses": 0.0,
+      "net_marketer_profit": 12352.0,
+      "invoices_list": [
+        {
+          "invoice_no": "ann-INV405",
+          "date": "2026-07-27T00:00:00",
+          "cases_sold": 10.0,
+          "revenue": 105070.0,
+          "total_cost": 98907.0,
+          "gross_profit": 6163.0,
+          "items_count": 7,
+          "products": "Heineken Bottle 60cl, Trophy, Goldberg 60cl, 33 Export 60cl, Turbo King Bottle 60cl, Medium Stout, Maltina Pet 33cl",
+          "margin_pct": 0.05865613400590083
+        },
+        {
+          "invoice_no": "ann-INV334",
+          "date": "2026-07-21T00:00:00",
+          "cases_sold": 5.0,
+          "revenue": 48735.0,
+          "total_cost": 46296.0,
+          "gross_profit": 2439.0,
+          "items_count": 3,
+          "products": "Trophy, Heineken Bottle 60cl, Goldberg 60cl",
+          "margin_pct": 0.050046168051708216
+        },
+        {
+          "invoice_no": "ann-INV308",
+          "date": "2026-07-18T00:00:00",
+          "cases_sold": 3.0,
+          "revenue": 40835.0,
+          "total_cost": 38553.0,
+          "gross_profit": 2282.0,
+          "items_count": 3,
+          "products": "Medium Stout, Heineken Bottle 60cl, Goldberg 60cl",
+          "margin_pct": 0.055883433329251865
+        },
+        {
+          "invoice_no": "ann-INV356",
+          "date": "2026-07-23T00:00:00",
+          "cases_sold": 3.0,
+          "revenue": 26900.0,
+          "total_cost": 25432.0,
+          "gross_profit": 1468.0,
+          "items_count": 2,
+          "products": "Goldberg 60cl, Trophy",
+          "margin_pct": 0.054572490706319705
+        }
+      ]
     },
     {
       "customer": "tomaco",
@@ -20545,7 +23884,47 @@
       "total_gross_profit": 11464.0,
       "total_cases_sold": 19.0,
       "invoices": 3,
-      "gross_profit_pct": 0.052430825520237825
+      "gross_profit_pct": 0.052430825520237825,
+      "is_marketer": 0,
+      "cases_target": null,
+      "pct_of_target_met": null,
+      "attributable_expenses": 0.0,
+      "net_marketer_profit": 11464.0,
+      "invoices_list": [
+        {
+          "invoice_no": "ann-INV233",
+          "date": "2026-07-09T00:00:00",
+          "cases_sold": 8.0,
+          "revenue": 87700.0,
+          "total_cost": 83286.0,
+          "gross_profit": 4414.0,
+          "items_count": 4,
+          "products": "Trophy, Goldberg 60cl, Smirnoff Ice., Medium Stout",
+          "margin_pct": 0.05033067274800456
+        },
+        {
+          "invoice_no": "ann-INV169",
+          "date": "2026-07-03T00:00:00",
+          "cases_sold": 7.0,
+          "revenue": 75000.0,
+          "total_cost": 70872.0,
+          "gross_profit": 4128.0,
+          "items_count": 5,
+          "products": "Maltina Pet 33cl, Medium Stout, 33 Export 60cl, Turbo King Bottle 60cl, Goldberg 60cl",
+          "margin_pct": 0.05504
+        },
+        {
+          "invoice_no": "ann-INV244",
+          "date": "2026-07-10T00:00:00",
+          "cases_sold": 4.0,
+          "revenue": 55950.0,
+          "total_cost": 53028.0,
+          "gross_profit": 2922.0,
+          "items_count": 4,
+          "products": "Heineken Bottle 60cl, Goldberg 60cl, Medium Stout, Star Radler 45cl",
+          "margin_pct": 0.05222520107238606
+        }
+      ]
     },
     {
       "customer": "Remilekun",
@@ -20554,7 +23933,135 @@
       "total_gross_profit": 13886.0,
       "total_cases_sold": 16.0,
       "invoices": 11,
-      "gross_profit_pct": 0.0868417761100688
+      "gross_profit_pct": 0.0868417761100688,
+      "is_marketer": 0,
+      "cases_target": null,
+      "pct_of_target_met": null,
+      "attributable_expenses": 0.0,
+      "net_marketer_profit": 13886.0,
+      "invoices_list": [
+        {
+          "invoice_no": "ann-INV248",
+          "date": "2026-07-11T00:00:00",
+          "cases_sold": 6.0,
+          "revenue": 56000.0,
+          "total_cost": 51197.0,
+          "gross_profit": 4803.0,
+          "items_count": 3,
+          "products": "Trophy, Goldberg 60cl, 33 Export 60cl",
+          "margin_pct": 0.08576785714285715
+        },
+        {
+          "invoice_no": "ann-INV360",
+          "date": "2026-07-24T00:00:00",
+          "cases_sold": 1.0,
+          "revenue": 13950.0,
+          "total_cost": 12746.0,
+          "gross_profit": 1204.0,
+          "items_count": 1,
+          "products": "Heineken Bottle 60cl",
+          "margin_pct": 0.08630824372759857
+        },
+        {
+          "invoice_no": "ann-INV387",
+          "date": "2026-07-25T00:00:00",
+          "cases_sold": 1.0,
+          "revenue": 13950.0,
+          "total_cost": 12746.0,
+          "gross_profit": 1204.0,
+          "items_count": 1,
+          "products": "Heineken Bottle 60cl",
+          "margin_pct": 0.08630824372759857
+        },
+        {
+          "invoice_no": "ann-INV215",
+          "date": "2026-07-08T00:00:00",
+          "cases_sold": 1.0,
+          "revenue": 9500.0,
+          "total_cost": 8657.0,
+          "gross_profit": 843.0,
+          "items_count": 1,
+          "products": "Goldberg 60cl",
+          "margin_pct": 0.08873684210526316
+        },
+        {
+          "invoice_no": "ann-INV180",
+          "date": "2026-07-04T00:00:00",
+          "cases_sold": 1.0,
+          "revenue": 9500.0,
+          "total_cost": 8657.0,
+          "gross_profit": 843.0,
+          "items_count": 1,
+          "products": "Goldberg 60cl",
+          "margin_pct": 0.08873684210526316
+        },
+        {
+          "invoice_no": "ann-INV259",
+          "date": "2026-07-11T00:00:00",
+          "cases_sold": 1.0,
+          "revenue": 9500.0,
+          "total_cost": 8525.0,
+          "gross_profit": 975.0,
+          "items_count": 1,
+          "products": "Turbo King Bottle 60cl",
+          "margin_pct": 0.10263157894736842
+        },
+        {
+          "invoice_no": "ann-INV292",
+          "date": "2026-07-16T00:00:00",
+          "cases_sold": 1.0,
+          "revenue": 9500.0,
+          "total_cost": 8990.0,
+          "gross_profit": 510.0,
+          "items_count": 1,
+          "products": "33 Export 60cl",
+          "margin_pct": 0.05368421052631579
+        },
+        {
+          "invoice_no": "ann-INV359",
+          "date": "2026-07-24T00:00:00",
+          "cases_sold": 1.0,
+          "revenue": 9500.0,
+          "total_cost": 8657.0,
+          "gross_profit": 843.0,
+          "items_count": 1,
+          "products": "Goldberg 60cl",
+          "margin_pct": 0.08873684210526316
+        },
+        {
+          "invoice_no": "ann-INV315",
+          "date": "2026-07-18T00:00:00",
+          "cases_sold": 1.0,
+          "revenue": 9500.0,
+          "total_cost": 8525.0,
+          "gross_profit": 975.0,
+          "items_count": 1,
+          "products": "Turbo King Bottle 60cl",
+          "margin_pct": 0.10263157894736842
+        },
+        {
+          "invoice_no": "ann-INV385",
+          "date": "2026-07-25T00:00:00",
+          "cases_sold": 1.0,
+          "revenue": 9500.0,
+          "total_cost": 8657.0,
+          "gross_profit": 843.0,
+          "items_count": 1,
+          "products": "Goldberg 60cl",
+          "margin_pct": 0.08873684210526316
+        },
+        {
+          "invoice_no": "ann-INV431",
+          "date": "2026-07-31T00:00:00",
+          "cases_sold": 1.0,
+          "revenue": 9500.0,
+          "total_cost": 8657.0,
+          "gross_profit": 843.0,
+          "items_count": 1,
+          "products": "Goldberg 60cl",
+          "margin_pct": 0.08873684210526316
+        }
+      ]
     },
     {
       "customer": "June Target Achievement Incentive Scheme",
@@ -20563,7 +24070,36 @@
       "total_gross_profit": 8136.0,
       "total_cases_sold": 12.0,
       "invoices": 2,
-      "gross_profit_pct": 0.0726298875200857
+      "gross_profit_pct": 0.0726298875200857,
+      "is_marketer": 0,
+      "cases_target": null,
+      "pct_of_target_met": null,
+      "attributable_expenses": 0.0,
+      "net_marketer_profit": 8136.0,
+      "invoices_list": [
+        {
+          "invoice_no": "ann-INV317",
+          "date": "2026-07-18T00:00:00",
+          "cases_sold": 8.0,
+          "revenue": 74680.0,
+          "total_cost": 69256.0,
+          "gross_profit": 5424.0,
+          "items_count": 1,
+          "products": "Goldberg 60cl",
+          "margin_pct": 0.0726298875200857
+        },
+        {
+          "invoice_no": "Tayo-INV141",
+          "date": "2026-07-23T00:00:00",
+          "cases_sold": 4.0,
+          "revenue": 37340.0,
+          "total_cost": 34628.0,
+          "gross_profit": 2712.0,
+          "items_count": 1,
+          "products": "Goldberg 60cl",
+          "margin_pct": 0.0726298875200857
+        }
+      ]
     },
     {
       "customer": "Y k BAR",
@@ -20572,7 +24108,25 @@
       "total_gross_profit": 4023.0,
       "total_cases_sold": 7.0,
       "invoices": 1,
-      "gross_profit_pct": 0.041034271725826195
+      "gross_profit_pct": 0.041034271725826195,
+      "is_marketer": 0,
+      "cases_target": null,
+      "pct_of_target_met": null,
+      "attributable_expenses": 0.0,
+      "net_marketer_profit": 4023.0,
+      "invoices_list": [
+        {
+          "invoice_no": "ann-INV278",
+          "date": "2026-07-14T00:00:00",
+          "cases_sold": 7.0,
+          "revenue": 98040.0,
+          "total_cost": 94017.0,
+          "gross_profit": 4023.0,
+          "items_count": 4,
+          "products": "Desperados Can, Star Radler 45cl, 33 Export 60cl, Heineken Bottle 60cl",
+          "margin_pct": 0.041034271725826195
+        }
+      ]
     },
     {
       "customer": "Breakages",
@@ -20581,7 +24135,25 @@
       "total_gross_profit": 3449.0,
       "total_cases_sold": 6.0,
       "invoices": 1,
-      "gross_profit_pct": 0.04653264975715057
+      "gross_profit_pct": 0.04653264975715057,
+      "is_marketer": 0,
+      "cases_target": null,
+      "pct_of_target_met": null,
+      "attributable_expenses": 0.0,
+      "net_marketer_profit": 3449.0,
+      "invoices_list": [
+        {
+          "invoice_no": "Tayo-INV142",
+          "date": "2026-07-25T00:00:00",
+          "cases_sold": 6.0,
+          "revenue": 74120.0,
+          "total_cost": 70671.0,
+          "gross_profit": 3449.0,
+          "items_count": 6,
+          "products": "Heineken Bottle 60cl, Trophy, Goldberg 60cl, Desperados Can, Maltina Pet 25cl, 33 Export Can",
+          "margin_pct": 0.04653264975715057
+        }
+      ]
     },
     {
       "customer": "Mrs Oladejo",
@@ -20590,7 +24162,58 @@
       "total_gross_profit": 4407.0,
       "total_cases_sold": 4.0,
       "invoices": 4,
-      "gross_profit_pct": 0.08119760479041917
+      "gross_profit_pct": 0.08119760479041917,
+      "is_marketer": 0,
+      "cases_target": null,
+      "pct_of_target_met": null,
+      "attributable_expenses": 0.0,
+      "net_marketer_profit": 4407.0,
+      "invoices_list": [
+        {
+          "invoice_no": "ann-INV185",
+          "date": "2026-07-06T00:00:00",
+          "cases_sold": 1.0,
+          "revenue": 18300.0,
+          "total_cost": 17150.0,
+          "gross_profit": 1150.0,
+          "items_count": 1,
+          "products": "Medium Stout",
+          "margin_pct": 0.06284153005464481
+        },
+        {
+          "invoice_no": "ann-INV427",
+          "date": "2026-07-30T00:00:00",
+          "cases_sold": 1.0,
+          "revenue": 13950.0,
+          "total_cost": 12746.0,
+          "gross_profit": 1204.0,
+          "items_count": 1,
+          "products": "Heineken Bottle 60cl",
+          "margin_pct": 0.08630824372759857
+        },
+        {
+          "invoice_no": "ann-INV428",
+          "date": "2026-07-30T00:00:00",
+          "cases_sold": 1.0,
+          "revenue": 12525.0,
+          "total_cost": 11315.0,
+          "gross_profit": 1210.0,
+          "items_count": 1,
+          "products": "Gulder Bottle",
+          "margin_pct": 0.09660678642714571
+        },
+        {
+          "invoice_no": "ann-INV424",
+          "date": "2026-07-30T00:00:00",
+          "cases_sold": 1.0,
+          "revenue": 9500.0,
+          "total_cost": 8657.0,
+          "gross_profit": 843.0,
+          "items_count": 1,
+          "products": "Goldberg 60cl",
+          "margin_pct": 0.08873684210526316
+        }
+      ]
     },
     {
       "customer": "Staff Debit",
@@ -20599,7 +24222,36 @@
       "total_gross_profit": 918.0,
       "total_cases_sold": 2.0,
       "invoices": 2,
-      "gross_profit_pct": 0.049501213265031006
+      "gross_profit_pct": 0.049501213265031006,
+      "is_marketer": 0,
+      "cases_target": null,
+      "pct_of_target_met": null,
+      "attributable_expenses": 0.0,
+      "net_marketer_profit": 918.0,
+      "invoices_list": [
+        {
+          "invoice_no": "ann-INV426",
+          "date": "2026-07-30T00:00:00",
+          "cases_sold": 1.0,
+          "revenue": 9345.0,
+          "total_cost": 8970.0,
+          "gross_profit": 375.0,
+          "items_count": 1,
+          "products": "Williams Bottle 60cl",
+          "margin_pct": 0.04012841091492777
+        },
+        {
+          "invoice_no": "ann-INV267",
+          "date": "2026-07-14T00:00:00",
+          "cases_sold": 1.0,
+          "revenue": 9200.0,
+          "total_cost": 8657.0,
+          "gross_profit": 543.0,
+          "items_count": 1,
+          "products": "Goldberg 60cl",
+          "margin_pct": 0.059021739130434785
+        }
+      ]
     }
   ],
   "returns_analysis": {
@@ -21150,25 +24802,100 @@
     ],
     "anomalies": []
   },
+  "expenses_analysis": {
+    "total_expenses": 2095229.0,
+    "categories": [
+      {
+        "category": "Advance Salary",
+        "amount": 10000.0,
+        "source_row": 2
+      },
+      {
+        "category": "Building project",
+        "amount": 100000.0,
+        "source_row": 3
+      },
+      {
+        "category": "Driver tips",
+        "amount": 4000.0,
+        "source_row": 4
+      },
+      {
+        "category": "Eniola Van BDG301XX",
+        "amount": 448844.0,
+        "source_row": 5
+      },
+      {
+        "category": "Forklift",
+        "amount": 93270.0,
+        "source_row": 6
+      },
+      {
+        "category": "Generator Expenses",
+        "amount": 19425.0,
+        "source_row": 7
+      },
+      {
+        "category": "Ola VAN KRD882YK",
+        "amount": 168910.0,
+        "source_row": 8
+      },
+      {
+        "category": "Printing cost",
+        "amount": 255000.0,
+        "source_row": 9
+      },
+      {
+        "category": "Transportation",
+        "amount": 3000.0,
+        "source_row": 10
+      },
+      {
+        "category": "Warehouse Expenses",
+        "amount": 872000.0,
+        "source_row": 11
+      },
+      {
+        "category": "Warehouse party",
+        "amount": 40000.0,
+        "source_row": 12
+      },
+      {
+        "category": "Journal",
+        "amount": 35630.0,
+        "source_row": 13
+      },
+      {
+        "category": "Bank charges",
+        "amount": 45150.0,
+        "source_row": 14
+      }
+    ]
+  },
   "net_profit_bridge": {
     "gross_sales_revenue": 187674790.0,
     "total_sales_returns": 13955850.0,
     "net_sales_revenue": 173718940.0,
     "gross_product_cost": 183957167.0,
     "gross_embedded_cost": 183957167.0,
+    "total_cost": 183957167.0,
+    "purchase_returns": 0.0,
     "cost_of_returns": 10792837.307262534,
-    "total_cost": 173164329.69273746,
+    "net_cost": 173164329.69273746,
     "total_cost_embedded": 173164329.69273746,
+    "gross_profit": 554610.3072625399,
     "net_gross_profit_loss": 554610.3072625399,
     "net_gross_margin_pct": 0.003192572480942722,
-    "total_operating_expenses": 0.0,
-    "net_operating_profit_loss": 554610.3072625399,
-    "net_operating_margin_pct": 0.003192572480942722,
+    "total_operating_expenses": 2095229.0,
+    "net_profit": -1540618.6927374601,
+    "net_operating_profit_loss": -1540618.6927374601,
+    "net_operating_margin_pct": -0.008868455522106342,
     "product_returns_value": 1460600.0,
     "product_returns_qty": 191.0,
     "empties_returns_value": 12495250.0,
     "empties_returns_qty": 7039.0,
     "return_rate": 0.0743618788650303,
     "missing_cost_anomalies": []
-  }
+  },
+  "sheet_classification": {}
 }

@@ -16,16 +16,10 @@
       "end": "2026-06-30"
     },
     "total_invoices": 259,
-    "total_anomalies": 28,
+    "total_anomalies": 1,
     "total_recoverable_leakage": 6291605.000000002,
-    "has_price_list": true,
-    "price_list_source": "carried_forward",
-    "price_list_source_period": "2026-07",
-    "price_list_status": "Using price list carried over from 2026-07 (no updated price list found for 2026-06)",
-    "price_list_message": "Using price list carried over from 2026-07 (no updated price list found for 2026-06)",
     "below_floor_items_count": 3,
     "reconciled_invoices_count": 238,
-    "reconciliation_discrepancies_count": 21,
     "loss_making_invoices_count": 24,
     "loss_making_customers_count": 6,
     "dominant_products_count": 2,
@@ -17029,222 +17023,6 @@
         null
       ],
       "reason": "Row outside a known block: no date+invoice_no, not blank."
-    },
-    {
-      "row": 5,
-      "source_tab": "tmp3F5D",
-      "type": "zero_or_negative_inventory_rate",
-      "item": "Guiness",
-      "rate": 0.0,
-      "reason": "Negative or zero inventory cost in tmp3F5D: rate=0.0"
-    },
-    {
-      "row": 6,
-      "source_tab": "tmp3F5D",
-      "type": "zero_or_negative_inventory_rate",
-      "item": "Can",
-      "rate": 0.0,
-      "reason": "Negative or zero inventory cost in tmp3F5D: rate=0.0"
-    },
-    {
-      "row": 8,
-      "source_tab": "tmp3F5D",
-      "type": "zero_or_negative_inventory_rate",
-      "item": "RGB",
-      "rate": 0.0,
-      "reason": "Negative or zero inventory cost in tmp3F5D: rate=0.0"
-    },
-    {
-      "row": 11,
-      "source_tab": "tmp3F5D",
-      "type": "negative_or_zero_inventory_units",
-      "item": "ORIJIN BT",
-      "units": 0.0,
-      "reason": "Negative or zero inventory units in tmp3F5D: units=0.0"
-    },
-    {
-      "row": 11,
-      "source_tab": "tmp3F5D",
-      "type": "zero_or_negative_inventory_rate",
-      "item": "ORIJIN BT",
-      "rate": 0.0,
-      "reason": "Negative or zero inventory cost in tmp3F5D: rate=0.0"
-    },
-    {
-      "row": 12,
-      "source_tab": "tmp3F5D",
-      "type": "negative_or_zero_inventory_units",
-      "item": "Small Guinness Stout",
-      "units": 0.0,
-      "reason": "Negative or zero inventory units in tmp3F5D: units=0.0"
-    },
-    {
-      "row": 12,
-      "source_tab": "tmp3F5D",
-      "type": "zero_or_negative_inventory_rate",
-      "item": "Small Guinness Stout",
-      "rate": 0.0,
-      "reason": "Negative or zero inventory cost in tmp3F5D: rate=0.0"
-    },
-    {
-      "row": 14,
-      "source_tab": "tmp3F5D",
-      "type": "zero_or_negative_inventory_rate",
-      "item": "IntlB",
-      "rate": 0.0,
-      "reason": "Negative or zero inventory cost in tmp3F5D: rate=0.0"
-    },
-    {
-      "row": 15,
-      "source_tab": "tmp3F5D",
-      "type": "negative_or_zero_inventory_units",
-      "item": "Can",
-      "units": 0.0,
-      "reason": "Negative or zero inventory units in tmp3F5D: units=0.0"
-    },
-    {
-      "row": 15,
-      "source_tab": "tmp3F5D",
-      "type": "zero_or_negative_inventory_rate",
-      "item": "Can",
-      "rate": 0.0,
-      "reason": "Negative or zero inventory cost in tmp3F5D: rate=0.0"
-    },
-    {
-      "row": 16,
-      "source_tab": "tmp3F5D",
-      "type": "negative_or_zero_inventory_units",
-      "item": "TROPHY CAN",
-      "units": 0.0,
-      "reason": "Negative or zero inventory units in tmp3F5D: units=0.0"
-    },
-    {
-      "row": 16,
-      "source_tab": "tmp3F5D",
-      "type": "zero_or_negative_inventory_rate",
-      "item": "TROPHY CAN",
-      "rate": 0.0,
-      "reason": "Negative or zero inventory cost in tmp3F5D: rate=0.0"
-    },
-    {
-      "row": 17,
-      "source_tab": "tmp3F5D",
-      "type": "zero_or_negative_inventory_rate",
-      "item": "RGB",
-      "rate": 0.0,
-      "reason": "Negative or zero inventory cost in tmp3F5D: rate=0.0"
-    },
-    {
-      "row": 21,
-      "source_tab": "tmp3F5D",
-      "type": "zero_or_negative_inventory_rate",
-      "item": "NB PLC",
-      "rate": 0.0,
-      "reason": "Negative or zero inventory cost in tmp3F5D: rate=0.0"
-    },
-    {
-      "row": 22,
-      "source_tab": "tmp3F5D",
-      "type": "zero_or_negative_inventory_rate",
-      "item": "Can",
-      "rate": 0.0,
-      "reason": "Negative or zero inventory cost in tmp3F5D: rate=0.0"
-    },
-    {
-      "row": 33,
-      "source_tab": "tmp3F5D",
-      "type": "zero_or_negative_inventory_rate",
-      "item": "Pet",
-      "rate": 0.0,
-      "reason": "Negative or zero inventory cost in tmp3F5D: rate=0.0"
-    },
-    {
-      "row": 35,
-      "source_tab": "tmp3F5D",
-      "type": "negative_or_zero_inventory_units",
-      "item": "Fayrouz Pet",
-      "units": 0.0,
-      "reason": "Negative or zero inventory units in tmp3F5D: units=0.0"
-    },
-    {
-      "row": 35,
-      "source_tab": "tmp3F5D",
-      "type": "zero_or_negative_inventory_rate",
-      "item": "Fayrouz Pet",
-      "rate": 0.0,
-      "reason": "Negative or zero inventory cost in tmp3F5D: rate=0.0"
-    },
-    {
-      "row": 36,
-      "source_tab": "tmp3F5D",
-      "type": "negative_or_zero_inventory_units",
-      "item": "Maltina Pet 25cl",
-      "units": 0.0,
-      "reason": "Negative or zero inventory units in tmp3F5D: units=0.0"
-    },
-    {
-      "row": 36,
-      "source_tab": "tmp3F5D",
-      "type": "zero_or_negative_inventory_rate",
-      "item": "Maltina Pet 25cl",
-      "rate": 0.0,
-      "reason": "Negative or zero inventory cost in tmp3F5D: rate=0.0"
-    },
-    {
-      "row": 39,
-      "source_tab": "tmp3F5D",
-      "type": "zero_or_negative_inventory_rate",
-      "item": "RGB",
-      "rate": 0.0,
-      "reason": "Negative or zero inventory cost in tmp3F5D: rate=0.0"
-    },
-    {
-      "row": 45,
-      "source_tab": "tmp3F5D",
-      "type": "zero_or_negative_inventory_rate",
-      "item": "Goldberg Black Promo",
-      "rate": 0.0,
-      "reason": "Negative or zero inventory cost in tmp3F5D: rate=0.0"
-    },
-    {
-      "row": 56,
-      "source_tab": "tmp3F5D",
-      "type": "zero_or_negative_inventory_rate",
-      "item": "RGB Premium",
-      "rate": 0.0,
-      "reason": "Negative or zero inventory cost in tmp3F5D: rate=0.0"
-    },
-    {
-      "row": 60,
-      "source_tab": "tmp3F5D",
-      "type": "zero_or_negative_inventory_rate",
-      "item": "Wines",
-      "rate": 0.0,
-      "reason": "Negative or zero inventory cost in tmp3F5D: rate=0.0"
-    },
-    {
-      "row": 63,
-      "source_tab": "tmp3F5D",
-      "type": "zero_or_negative_inventory_rate",
-      "item": "default",
-      "rate": 0.0,
-      "reason": "Negative or zero inventory cost in tmp3F5D: rate=0.0"
-    },
-    {
-      "row": 64,
-      "source_tab": "tmp3F5D",
-      "type": "zero_or_negative_inventory_rate",
-      "item": "default",
-      "rate": 0.0,
-      "reason": "Negative or zero inventory cost in tmp3F5D: rate=0.0"
-    },
-    {
-      "row": 66,
-      "source_tab": "tmp3F5D",
-      "type": "zero_or_negative_inventory_rate",
-      "item": "GNS EMPTIES",
-      "rate": -7186.0,
-      "reason": "Negative or zero inventory cost in tmp3F5D: rate=-7186.0"
     }
   ],
   "loss_making_invoices": [
@@ -17553,20 +17331,8 @@
   ],
   "match_quality": {
     "total_products": 38,
-    "counts": {
-      "exact": 7,
-      "fuzzy": 21,
-      "manual_override": 5,
-      "fuzzy_no_size_match": 0,
-      "unmatched": 5
-    },
-    "unmatched_products": [
-      "Trophy",
-      "ACE BITTERS",
-      "Goldberg Black Promo",
-      "STK 33cl",
-      "NB Empties"
-    ]
+    "counts": {},
+    "unmatched_products": []
   },
   "concentration_metrics": {
     "top_n": 10,
@@ -17591,7 +17357,7 @@
     }
   ],
   "loss_making_invoices_count": 24,
-  "anomalies_count": 28,
+  "anomalies_count": 1,
   "true_cost_products": [
     {
       "product_raw": "Goldberg 60cl",
@@ -18046,7 +17812,388 @@
       "total_gross_profit": 311242.0,
       "total_cases_sold": 1649.0,
       "invoices": 34,
-      "gross_profit_pct": 0.01963514595360498
+      "gross_profit_pct": 0.01963514595360498,
+      "is_marketer": 0,
+      "cases_target": null,
+      "pct_of_target_met": null,
+      "attributable_expenses": 0.0,
+      "net_marketer_profit": 311242.0,
+      "invoices_list": [
+        {
+          "invoice_no": "ann-INV59",
+          "date": "2026-06-18T00:00:00",
+          "cases_sold": 110.0,
+          "revenue": 1862750.0,
+          "total_cost": 1793065.0,
+          "gross_profit": 69685.0,
+          "items_count": 5,
+          "products": "Heineken Sleek Can, 33 Export Can, Goldberg Can 50cl, Fayrouz Can, Desperados Can",
+          "margin_pct": 0.03740974365856932
+        },
+        {
+          "invoice_no": "ann-INV42",
+          "date": "2026-06-12T00:00:00",
+          "cases_sold": 55.0,
+          "revenue": 932500.0,
+          "total_cost": 894175.0,
+          "gross_profit": 38325.0,
+          "items_count": 2,
+          "products": "Goldberg Can 50cl, Heineken Sleek Can",
+          "margin_pct": 0.04109919571045576
+        },
+        {
+          "invoice_no": "ann-INV100",
+          "date": "2026-06-25T00:00:00",
+          "cases_sold": 60.0,
+          "revenue": 796500.0,
+          "total_cost": 790680.0,
+          "gross_profit": 5820.0,
+          "items_count": 2,
+          "products": "Maltina Can, Fayrouz Can",
+          "margin_pct": 0.007306967984934087
+        },
+        {
+          "invoice_no": "ann-INV35",
+          "date": "2026-06-09T00:00:00",
+          "cases_sold": 150.0,
+          "revenue": 780000.0,
+          "total_cost": 780000.0,
+          "gross_profit": 0.0,
+          "items_count": 1,
+          "products": "Maltina Pet 33cl",
+          "margin_pct": 0.0
+        },
+        {
+          "invoice_no": "Tayo-INV55",
+          "date": "2026-06-06T00:00:00",
+          "cases_sold": 55.0,
+          "revenue": 730500.0,
+          "total_cost": 723175.0,
+          "gross_profit": 7325.0,
+          "items_count": 2,
+          "products": "Fayrouz Can, Maltina Can",
+          "margin_pct": 0.010027378507871321
+        },
+        {
+          "invoice_no": "ann-INV81",
+          "date": "2026-06-23T00:00:00",
+          "cases_sold": 50.0,
+          "revenue": 684450.0,
+          "total_cost": 656520.0,
+          "gross_profit": 27930.0,
+          "items_count": 3,
+          "products": "Amstel Can, CLIMAX CAN, Fayrouz Can",
+          "margin_pct": 0.040806486960333115
+        },
+        {
+          "invoice_no": "Tayo-INV94",
+          "date": "2026-06-11T00:00:00",
+          "cases_sold": 40.0,
+          "revenue": 677900.0,
+          "total_cost": 646940.0,
+          "gross_profit": 30960.0,
+          "items_count": 2,
+          "products": "Heineken Sleek Can, Goldberg Can 50cl",
+          "margin_pct": 0.04567045286915474
+        },
+        {
+          "invoice_no": "Tayo-INV100",
+          "date": "2026-06-13T00:00:00",
+          "cases_sold": 45.0,
+          "revenue": 664000.0,
+          "total_cost": 651195.0,
+          "gross_profit": 12805.0,
+          "items_count": 2,
+          "products": "Maltina Can, Goldberg Can 50cl",
+          "margin_pct": 0.019284638554216867
+        },
+        {
+          "invoice_no": "ann-INV10",
+          "date": "2026-06-01T00:00:00",
+          "cases_sold": 124.0,
+          "revenue": 644800.0,
+          "total_cost": 644800.0,
+          "gross_profit": 0.0,
+          "items_count": 1,
+          "products": "Maltina Pet 33cl",
+          "margin_pct": 0.0
+        },
+        {
+          "invoice_no": "Tayo-INV38",
+          "date": "2026-06-04T00:00:00",
+          "cases_sold": 124.0,
+          "revenue": 644800.0,
+          "total_cost": 644800.0,
+          "gross_profit": 0.0,
+          "items_count": 1,
+          "products": "Maltina Pet 33cl",
+          "margin_pct": 0.0
+        },
+        {
+          "invoice_no": "ann-INV58",
+          "date": "2026-06-18T00:00:00",
+          "cases_sold": 124.0,
+          "revenue": 644800.0,
+          "total_cost": 644800.0,
+          "gross_profit": 0.0,
+          "items_count": 1,
+          "products": "Maltina Pet 33cl",
+          "margin_pct": 0.0
+        },
+        {
+          "invoice_no": "Tayo-INV104",
+          "date": "2026-06-13T00:00:00",
+          "cases_sold": 40.0,
+          "revenue": 613500.0,
+          "total_cost": 595200.0,
+          "gross_profit": 18300.0,
+          "items_count": 2,
+          "products": "33 Export Can, Fayrouz Can",
+          "margin_pct": 0.02982885085574572
+        },
+        {
+          "invoice_no": "Tayo-INV44",
+          "date": "2026-06-05T00:00:00",
+          "cases_sold": 45.0,
+          "revenue": 565050.0,
+          "total_cost": 544326.0,
+          "gross_profit": 20724.0,
+          "items_count": 14,
+          "products": "Goldberg 60cl, 33 Export 60cl, Maltina Bottle, Heineken Bottle 60cl, Desperados Bottle, Fayrouz Bottle, Amstel Bottle, Legend 45cl, Legend Bottle 60cl, Tiger Bottle, ACE BITTERS, Fayrouz Can, Maltina Pet 33cl, Star Radler 45cl",
+          "margin_pct": 0.03667640031855588
+        },
+        {
+          "invoice_no": "ann-INV24",
+          "date": "2026-06-06T00:00:00",
+          "cases_sold": 100.0,
+          "revenue": 520000.0,
+          "total_cost": 520000.0,
+          "gross_profit": 0.0,
+          "items_count": 1,
+          "products": "Maltina Pet 33cl",
+          "margin_pct": 0.0
+        },
+        {
+          "invoice_no": "ann-INV101",
+          "date": "2026-06-25T00:00:00",
+          "cases_sold": 100.0,
+          "revenue": 490000.0,
+          "total_cost": 520000.0,
+          "gross_profit": -30000.0,
+          "items_count": 1,
+          "products": "Maltina Pet 33cl",
+          "margin_pct": -0.061224489795918366
+        },
+        {
+          "invoice_no": "INV341",
+          "date": "2026-06-02T00:00:00",
+          "cases_sold": 30.0,
+          "revenue": 480000.0,
+          "total_cost": 466650.0,
+          "gross_profit": 13350.0,
+          "items_count": 1,
+          "products": "33 Export Can",
+          "margin_pct": 0.0278125
+        },
+        {
+          "invoice_no": "Tayo-INV54",
+          "date": "2026-06-06T00:00:00",
+          "cases_sold": 30.0,
+          "revenue": 469500.0,
+          "total_cost": 461560.0,
+          "gross_profit": 7940.0,
+          "items_count": 3,
+          "products": "Heineken Sleek Can, Maltina Can, 33 Export Can",
+          "margin_pct": 0.01691160809371672
+        },
+        {
+          "invoice_no": "Tayo-INV79",
+          "date": "2026-06-10T00:00:00",
+          "cases_sold": 28.0,
+          "revenue": 407255.0,
+          "total_cost": 389080.0,
+          "gross_profit": 18175.0,
+          "items_count": 7,
+          "products": "Tiger Bottle, Amstel Bottle, Fayrouz Bottle, Legend Bottle 60cl, ACE BITTERS, Goldberg Black 45cl, Heineken Bottle 45cl",
+          "margin_pct": 0.044628058587371545
+        },
+        {
+          "invoice_no": "ann-INV82",
+          "date": "2026-06-23T00:00:00",
+          "cases_sold": 27.0,
+          "revenue": 325235.0,
+          "total_cost": 311225.0,
+          "gross_profit": 14010.0,
+          "items_count": 8,
+          "products": "Heineken Bottle 45cl, Goldberg 60cl, 33 Export 60cl, Amstel Bottle, Maltina Bottle, STK 33cl, Fayrouz Bottle, Heineken Bottle 60cl",
+          "margin_pct": 0.04307654465232832
+        },
+        {
+          "invoice_no": "INV340",
+          "date": "2026-06-02T00:00:00",
+          "cases_sold": 23.0,
+          "revenue": 315880.0,
+          "total_cost": 301285.0,
+          "gross_profit": 14595.0,
+          "items_count": 8,
+          "products": "Amstel Bottle, Heineken Bottle 60cl, Goldberg 60cl, Legend 45cl, Desperados Bottle, Fayrouz Bottle, Maltina Bottle, Star Radler 45cl",
+          "margin_pct": 0.046204254780296314
+        },
+        {
+          "invoice_no": "ann-INV84",
+          "date": "2026-06-23T00:00:00",
+          "cases_sold": 60.0,
+          "revenue": 312000.0,
+          "total_cost": 312000.0,
+          "gross_profit": 0.0,
+          "items_count": 1,
+          "products": "Maltina Pet 33cl",
+          "margin_pct": 0.0
+        },
+        {
+          "invoice_no": "ann-INV43",
+          "date": "2026-06-12T00:00:00",
+          "cases_sold": 60.0,
+          "revenue": 312000.0,
+          "total_cost": 312000.0,
+          "gross_profit": 0.0,
+          "items_count": 1,
+          "products": "Maltina Pet 33cl",
+          "margin_pct": 0.0
+        },
+        {
+          "invoice_no": "Tayo-INV107",
+          "date": "2026-06-13T00:00:00",
+          "cases_sold": 20.0,
+          "revenue": 264000.0,
+          "total_cost": 270020.0,
+          "gross_profit": -6020.0,
+          "items_count": 1,
+          "products": "Maltina Can",
+          "margin_pct": -0.022803030303030304
+        },
+        {
+          "invoice_no": "ann-INV91",
+          "date": "2026-06-24T00:00:00",
+          "cases_sold": 14.0,
+          "revenue": 261020.0,
+          "total_cost": 249870.0,
+          "gross_profit": 11150.0,
+          "items_count": 2,
+          "products": "Heineken Bottle 45cl, ACE BITTERS",
+          "margin_pct": 0.04271703317753429
+        },
+        {
+          "invoice_no": "Tayo-INV106",
+          "date": "2026-06-13T00:00:00",
+          "cases_sold": 10.0,
+          "revenue": 226000.0,
+          "total_cost": 215950.0,
+          "gross_profit": 10050.0,
+          "items_count": 1,
+          "products": "Desperados Can",
+          "margin_pct": 0.04446902654867257
+        },
+        {
+          "invoice_no": "ann-INV66",
+          "date": "2026-06-20T00:00:00",
+          "cases_sold": 20.0,
+          "revenue": 225750.0,
+          "total_cost": 222005.0,
+          "gross_profit": 3745.0,
+          "items_count": 3,
+          "products": "33 Export 60cl, Maltina Bottle, Maltina Can",
+          "margin_pct": 0.016589147286821704
+        },
+        {
+          "invoice_no": "ann-INV78",
+          "date": "2026-06-23T00:00:00",
+          "cases_sold": 17.0,
+          "revenue": 207665.0,
+          "total_cost": 198734.0,
+          "gross_profit": 8931.0,
+          "items_count": 5,
+          "products": "Legend Bottle 60cl, Amstel Can, Williams Bottle 60cl, STK 33cl, Tiger Bottle",
+          "margin_pct": 0.04300676570437965
+        },
+        {
+          "invoice_no": "ann-INV102",
+          "date": "2026-06-25T00:00:00",
+          "cases_sold": 40.0,
+          "revenue": 196000.0,
+          "total_cost": 208000.0,
+          "gross_profit": -12000.0,
+          "items_count": 1,
+          "products": "Maltina Pet 33cl",
+          "margin_pct": -0.061224489795918366
+        },
+        {
+          "invoice_no": "Tayo-INV97",
+          "date": "2026-06-12T00:00:00",
+          "cases_sold": 10.0,
+          "revenue": 177500.0,
+          "total_cost": 171000.0,
+          "gross_profit": 6500.0,
+          "items_count": 1,
+          "products": "Heineken Sleek Can",
+          "margin_pct": 0.036619718309859155
+        },
+        {
+          "invoice_no": "Tayo-INV80",
+          "date": "2026-06-10T00:00:00",
+          "cases_sold": 17.0,
+          "revenue": 175770.0,
+          "total_cost": 166460.0,
+          "gross_profit": 9310.0,
+          "items_count": 3,
+          "products": "Goldberg 60cl, Star Bottle 60cl, CLIMAX CAN",
+          "margin_pct": 0.05296694544006372
+        },
+        {
+          "invoice_no": "Tayo-INV108",
+          "date": "2026-06-13T00:00:00",
+          "cases_sold": 15.0,
+          "revenue": 169900.0,
+          "total_cost": 163525.0,
+          "gross_profit": 6375.0,
+          "items_count": 2,
+          "products": "Fayrouz Bottle, Fayrouz Can",
+          "margin_pct": 0.037522071806945265
+        },
+        {
+          "invoice_no": "Tayo-INV133",
+          "date": "2026-06-19T00:00:00",
+          "cases_sold": 3.0,
+          "revenue": 32830.0,
+          "total_cost": 31558.0,
+          "gross_profit": 1272.0,
+          "items_count": 3,
+          "products": "Goldberg 60cl, 33 Export 60cl, Amstel Can",
+          "margin_pct": 0.038745050258909536
+        },
+        {
+          "invoice_no": "ann-INV99",
+          "date": "2026-06-24T00:00:00",
+          "cases_sold": 2.0,
+          "revenue": 28290.0,
+          "total_cost": 27040.0,
+          "gross_profit": 1250.0,
+          "items_count": 1,
+          "products": "Goldberg Black 45cl",
+          "margin_pct": 0.04418522446094026
+        },
+        {
+          "invoice_no": "Tayo-INV134",
+          "date": "2026-06-19T00:00:00",
+          "cases_sold": 1.0,
+          "revenue": 13125.0,
+          "total_cost": 12390.0,
+          "gross_profit": 735.0,
+          "items_count": 1,
+          "products": "STK 33cl",
+          "margin_pct": 0.056
+        }
+      ]
     },
     {
       "customer": "WURAOLA",
@@ -18055,7 +18202,58 @@
       "total_gross_profit": 184110.0,
       "total_cases_sold": 1448.0,
       "invoices": 4,
-      "gross_profit_pct": 0.012243554361487767
+      "gross_profit_pct": 0.012243554361487767,
+      "is_marketer": 0,
+      "cases_target": null,
+      "pct_of_target_met": null,
+      "attributable_expenses": 0.0,
+      "net_marketer_profit": 184110.0,
+      "invoices_list": [
+        {
+          "invoice_no": "INV334",
+          "date": "2026-06-02T00:00:00",
+          "cases_sold": 404.0,
+          "revenue": 4312630.0,
+          "total_cost": 4242700.0,
+          "gross_profit": 69930.0,
+          "items_count": 3,
+          "products": "Goldberg 60cl, Desperados Can, 33 Export 60cl",
+          "margin_pct": 0.016215163368988296
+        },
+        {
+          "invoice_no": "Tayo-INV52",
+          "date": "2026-06-05T00:00:00",
+          "cases_sold": 370.0,
+          "revenue": 4304060.0,
+          "total_cost": 4307930.0,
+          "gross_profit": -3870.0,
+          "items_count": 5,
+          "products": "Heineken Bottle 60cl, Desperados Bottle, Gulder Bottle, Trophy, 33 Export Can",
+          "margin_pct": -0.0008991510341398586
+        },
+        {
+          "invoice_no": "ann-INV90",
+          "date": "2026-06-24T00:00:00",
+          "cases_sold": 364.0,
+          "revenue": 3467660.0,
+          "total_cost": 3397730.0,
+          "gross_profit": 69930.0,
+          "items_count": 3,
+          "products": "Goldberg 60cl, 33 Export 60cl, Gulder Bottle",
+          "margin_pct": 0.020166336953449878
+        },
+        {
+          "invoice_no": "Tayo-INV77",
+          "date": "2026-06-09T00:00:00",
+          "cases_sold": 310.0,
+          "revenue": 2952950.0,
+          "total_cost": 2904830.0,
+          "gross_profit": 48120.0,
+          "items_count": 3,
+          "products": "33 Export 60cl, Goldberg 60cl, Star Radler 45cl",
+          "margin_pct": 0.01629556883794172
+        }
+      ]
     },
     {
       "customer": "FINO STORES",
@@ -18064,7 +18262,36 @@
       "total_gross_profit": 4040.0,
       "total_cases_sold": 2500.0,
       "invoices": 2,
-      "gross_profit_pct": 0.0003069069251572518
+      "gross_profit_pct": 0.0003069069251572518,
+      "is_marketer": 0,
+      "cases_target": null,
+      "pct_of_target_met": null,
+      "attributable_expenses": 0.0,
+      "net_marketer_profit": 4040.0,
+      "invoices_list": [
+        {
+          "invoice_no": "Tayo-INV136",
+          "date": "2026-06-20T00:00:00",
+          "cases_sold": 1260.0,
+          "revenue": 6715600.0,
+          "total_cost": 6711560.0,
+          "gross_profit": 4040.0,
+          "items_count": 3,
+          "products": "Maltina Pet 33cl, Maltina Can, Fayrouz Can",
+          "margin_pct": 0.0006015843707189231
+        },
+        {
+          "invoice_no": "ann-INV28",
+          "date": "2026-06-06T00:00:00",
+          "cases_sold": 1240.0,
+          "revenue": 6448000.0,
+          "total_cost": 6448000.0,
+          "gross_profit": 0.0,
+          "items_count": 1,
+          "products": "Maltina Pet 33cl",
+          "margin_pct": 0.0
+        }
+      ]
     },
     {
       "customer": "Alhaja Ijebu Ode.",
@@ -18073,7 +18300,36 @@
       "total_gross_profit": 37621.0,
       "total_cases_sold": 1216.0,
       "invoices": 2,
-      "gross_profit_pct": 0.003093005570057345
+      "gross_profit_pct": 0.003093005570057345,
+      "is_marketer": 0,
+      "cases_target": null,
+      "pct_of_target_met": null,
+      "attributable_expenses": 0.0,
+      "net_marketer_profit": 37621.0,
+      "invoices_list": [
+        {
+          "invoice_no": "Tayo-INV118",
+          "date": "2026-06-16T00:00:00",
+          "cases_sold": 837.0,
+          "revenue": 7198200.0,
+          "total_cost": 7245909.0,
+          "gross_profit": -47709.0,
+          "items_count": 1,
+          "products": "Goldberg 60cl",
+          "margin_pct": -0.006627906976744186
+        },
+        {
+          "invoice_no": "Tayo-INV130",
+          "date": "2026-06-20T00:00:00",
+          "cases_sold": 379.0,
+          "revenue": 4965050.0,
+          "total_cost": 4879720.0,
+          "gross_profit": 85330.0,
+          "items_count": 5,
+          "products": "Heineken Bottle 60cl, Gulder Bottle, Legend Bottle 60cl, Desperados Bottle, Goldberg Black 45cl",
+          "margin_pct": 0.017186131056082014
+        }
+      ]
     },
     {
       "customer": "Ameh Mathew",
@@ -18082,7 +18338,410 @@
       "total_gross_profit": 222043.0,
       "total_cases_sold": 1205.0,
       "invoices": 36,
-      "gross_profit_pct": 0.019887745564973535
+      "gross_profit_pct": 0.019887745564973535,
+      "is_marketer": 0,
+      "cases_target": null,
+      "pct_of_target_met": null,
+      "attributable_expenses": 0.0,
+      "net_marketer_profit": 222043.0,
+      "invoices_list": [
+        {
+          "invoice_no": "ann-INV21",
+          "date": "2026-06-03T00:00:00",
+          "cases_sold": 320.0,
+          "revenue": 3403300.0,
+          "total_cost": 3371300.0,
+          "gross_profit": 32000.0,
+          "items_count": 3,
+          "products": "33 Export 60cl, Star Radler 45cl, Maltina Bottle",
+          "margin_pct": 0.009402638615461464
+        },
+        {
+          "invoice_no": "ann-INV14",
+          "date": "2026-06-01T00:00:00",
+          "cases_sold": 171.0,
+          "revenue": 1059315.0,
+          "total_cost": 1049497.0,
+          "gross_profit": 9818.0,
+          "items_count": 11,
+          "products": "Maltina Pet 33cl, 33 Export Can, Amstel Bottle, Amstel Can, Maltina Can, Fayrouz Can, Star Radler 45cl, Desperados Bottle, Goldberg 60cl, 33 Export 60cl, Heineken Bottle 60cl",
+          "margin_pct": 0.009268253541203513
+        },
+        {
+          "invoice_no": "ann-INV46",
+          "date": "2026-06-13T00:00:00",
+          "cases_sold": 50.0,
+          "revenue": 769255.0,
+          "total_cost": 740265.0,
+          "gross_profit": 28990.0,
+          "items_count": 10,
+          "products": "33 Export 60cl, 33 Export Can, Desperados Can, Maltina Can, Fayrouz Can, Turbo King Bottle 60cl, Heineken Sleek Can, Heineken Bottle 60cl, Goldberg Can 50cl, Goldberg 60cl",
+          "margin_pct": 0.037685812896893746
+        },
+        {
+          "invoice_no": "ann-INV31",
+          "date": "2026-06-09T00:00:00",
+          "cases_sold": 55.0,
+          "revenue": 559625.0,
+          "total_cost": 537175.0,
+          "gross_profit": 22450.0,
+          "items_count": 2,
+          "products": "Maltina Pet 33cl, Goldberg Can 50cl",
+          "margin_pct": 0.0401161492070583
+        },
+        {
+          "invoice_no": "INV337",
+          "date": "2026-06-02T00:00:00",
+          "cases_sold": 51.0,
+          "revenue": 513085.0,
+          "total_cost": 490098.0,
+          "gross_profit": 22987.0,
+          "items_count": 10,
+          "products": "33 Export 60cl, Goldberg 60cl, Heineken Bottle 60cl, Desperados Bottle, Amstel Bottle, Fayrouz Can, Gulder Bottle, Tiger Bottle, Star Radler 45cl, Maltina Pet 33cl",
+          "margin_pct": 0.044801543603886294
+        },
+        {
+          "invoice_no": "ann-INV139",
+          "date": "2026-06-30T00:00:00",
+          "cases_sold": 33.0,
+          "revenue": 373075.0,
+          "total_cost": 361351.0,
+          "gross_profit": 11724.0,
+          "items_count": 6,
+          "products": "Turbo King Bottle 60cl, Star Radler 45cl, Heineken Bottle 60cl, 33 Export 60cl, Gulder Bottle, Desperados Bottle",
+          "margin_pct": 0.03142531662534343
+        },
+        {
+          "invoice_no": "ann-INV50",
+          "date": "2026-06-13T00:00:00",
+          "cases_sold": 70.0,
+          "revenue": 364000.0,
+          "total_cost": 364000.0,
+          "gross_profit": 0.0,
+          "items_count": 1,
+          "products": "Maltina Pet 33cl",
+          "margin_pct": 0.0
+        },
+        {
+          "invoice_no": "Tayo-INV61",
+          "date": "2026-06-06T00:00:00",
+          "cases_sold": 38.0,
+          "revenue": 345420.0,
+          "total_cost": 341620.0,
+          "gross_profit": 3800.0,
+          "items_count": 1,
+          "products": "33 Export 60cl",
+          "margin_pct": 0.011001100110011002
+        },
+        {
+          "invoice_no": "ann-INV61",
+          "date": "2026-06-20T00:00:00",
+          "cases_sold": 25.0,
+          "revenue": 340500.0,
+          "total_cost": 325824.0,
+          "gross_profit": 14676.0,
+          "items_count": 6,
+          "products": "Turbo King Bottle 60cl, Legend Bottle 60cl, Desperados Bottle, Heineken Sleek Can, Goldberg Can 50cl, 33 Export Can",
+          "margin_pct": 0.04310132158590308
+        },
+        {
+          "invoice_no": "Tayo-INV40",
+          "date": "2026-06-04T00:00:00",
+          "cases_sold": 30.0,
+          "revenue": 317350.0,
+          "total_cost": 303930.0,
+          "gross_profit": 13420.0,
+          "items_count": 3,
+          "products": "Heineken Bottle 60cl, 33 Export 60cl, Goldberg 60cl",
+          "margin_pct": 0.04228769497400347
+        },
+        {
+          "invoice_no": "ann-INV111",
+          "date": "2026-06-26T00:00:00",
+          "cases_sold": 53.0,
+          "revenue": 296835.0,
+          "total_cost": 309447.0,
+          "gross_profit": -12612.0,
+          "items_count": 3,
+          "products": "Maltina Pet 33cl, Heineken Sleek Can, Goldberg Can 50cl",
+          "margin_pct": -0.04248825104856233
+        },
+        {
+          "invoice_no": "Tayo-INV114",
+          "date": "2026-06-16T00:00:00",
+          "cases_sold": 27.0,
+          "revenue": 283430.0,
+          "total_cost": 272313.0,
+          "gross_profit": 11117.0,
+          "items_count": 7,
+          "products": "33 Export 60cl, Gulder Bottle, Turbo King Bottle 60cl, Heineken Bottle 60cl, Goldberg 60cl, Maltina Can, 33 Export Can",
+          "margin_pct": 0.03922308859330346
+        },
+        {
+          "invoice_no": "ann-INV94",
+          "date": "2026-06-24T00:00:00",
+          "cases_sold": 50.0,
+          "revenue": 250000.0,
+          "total_cost": 260000.0,
+          "gross_profit": -10000.0,
+          "items_count": 1,
+          "products": "Maltina Pet 33cl",
+          "margin_pct": -0.04
+        },
+        {
+          "invoice_no": "INV338",
+          "date": "2026-06-02T00:00:00",
+          "cases_sold": 35.0,
+          "revenue": 242000.0,
+          "total_cost": 233855.0,
+          "gross_profit": 8145.0,
+          "items_count": 2,
+          "products": "Maltina Pet 33cl, Goldberg 60cl",
+          "margin_pct": 0.03365702479338843
+        },
+        {
+          "invoice_no": "ann-INV34",
+          "date": "2026-06-09T00:00:00",
+          "cases_sold": 20.0,
+          "revenue": 203600.0,
+          "total_cost": 194400.0,
+          "gross_profit": 9200.0,
+          "items_count": 2,
+          "products": "Turbo King Bottle 60cl, Legend Bottle 60cl",
+          "margin_pct": 0.04518664047151277
+        },
+        {
+          "invoice_no": "ann-INV63",
+          "date": "2026-06-20T00:00:00",
+          "cases_sold": 14.0,
+          "revenue": 188520.0,
+          "total_cost": 181250.0,
+          "gross_profit": 7270.0,
+          "items_count": 3,
+          "products": "Turbo King Bottle 60cl, 33 Export 60cl, Desperados Bottle",
+          "margin_pct": 0.03856354763420327
+        },
+        {
+          "invoice_no": "Tayo-INV110",
+          "date": "2026-06-15T00:00:00",
+          "cases_sold": 17.0,
+          "revenue": 167140.0,
+          "total_cost": 164265.0,
+          "gross_profit": 2875.0,
+          "items_count": 5,
+          "products": "Turbo King Bottle 60cl, Maltina Bottle, Desperados Bottle, Fayrouz Can, Maltina Pet 33cl",
+          "margin_pct": 0.017201148737585256
+        },
+        {
+          "invoice_no": "Tayo-INV54",
+          "date": "2026-06-05T00:00:00",
+          "cases_sold": 11.0,
+          "revenue": 152090.0,
+          "total_cost": 145940.0,
+          "gross_profit": 6150.0,
+          "items_count": 6,
+          "products": "Fayrouz Can, Tiger Bottle, 33 Export Can, Turbo King Bottle 60cl, Desperados Bottle, Legend Bottle 60cl",
+          "margin_pct": 0.040436583601814714
+        },
+        {
+          "invoice_no": "ann-INV112",
+          "date": "2026-06-26T00:00:00",
+          "cases_sold": 30.0,
+          "revenue": 147000.0,
+          "total_cost": 156000.0,
+          "gross_profit": -9000.0,
+          "items_count": 1,
+          "products": "Maltina Pet 33cl",
+          "margin_pct": -0.061224489795918366
+        },
+        {
+          "invoice_no": "ann-INV73",
+          "date": "2026-06-22T00:00:00",
+          "cases_sold": 13.0,
+          "revenue": 141750.0,
+          "total_cost": 135710.0,
+          "gross_profit": 6040.0,
+          "items_count": 4,
+          "products": "Amstel Bottle, Desperados Bottle, Maltina Pet 50cl, Turbo King Bottle 60cl",
+          "margin_pct": 0.04261022927689594
+        },
+        {
+          "invoice_no": "ann-INV115",
+          "date": "2026-06-26T00:00:00",
+          "cases_sold": 12.0,
+          "revenue": 138680.0,
+          "total_cost": 133301.0,
+          "gross_profit": 5379.0,
+          "items_count": 4,
+          "products": "Heineken Bottle 60cl, Turbo King Bottle 60cl, Star Bottle 60cl, 33 Export 60cl",
+          "margin_pct": 0.038787135852321894
+        },
+        {
+          "invoice_no": "ann-INV103",
+          "date": "2026-06-25T00:00:00",
+          "cases_sold": 15.0,
+          "revenue": 137360.0,
+          "total_cost": 131922.0,
+          "gross_profit": 5438.0,
+          "items_count": 3,
+          "products": "33 Export 60cl, Turbo King Bottle 60cl, Goldberg 60cl",
+          "margin_pct": 0.03958940011648224
+        },
+        {
+          "invoice_no": "ann-INV26",
+          "date": "2026-06-06T00:00:00",
+          "cases_sold": 8.0,
+          "revenue": 127345.0,
+          "total_cost": 124578.0,
+          "gross_profit": 2767.0,
+          "items_count": 5,
+          "products": "Maltina Can, 33 Export Can, CLIMAX CAN, Legend Can 44cl, Desperados Bottle",
+          "margin_pct": 0.021728375672386037
+        },
+        {
+          "invoice_no": "Tayo-INV126",
+          "date": "2026-06-19T00:00:00",
+          "cases_sold": 11.0,
+          "revenue": 106715.0,
+          "total_cost": 101910.0,
+          "gross_profit": 4805.0,
+          "items_count": 6,
+          "products": "Heineken Bottle 60cl, Gulder Bottle, Goldberg 60cl, 33 Export 60cl, Maltina Pet 33cl, Turbo King Bottle 60cl",
+          "margin_pct": 0.04502647237970295
+        },
+        {
+          "invoice_no": "ann-INV22",
+          "date": "2026-06-03T00:00:00",
+          "cases_sold": 10.0,
+          "revenue": 96270.0,
+          "total_cost": 91693.0,
+          "gross_profit": 4577.0,
+          "items_count": 5,
+          "products": "33 Export 60cl, Goldberg 60cl, Heineken Bottle 60cl, Turbo King Bottle 60cl, Maltina Pet 33cl",
+          "margin_pct": 0.04754336761192479
+        },
+        {
+          "invoice_no": "ann-INV69",
+          "date": "2026-06-22T00:00:00",
+          "cases_sold": 7.0,
+          "revenue": 94585.0,
+          "total_cost": 91355.0,
+          "gross_profit": 3230.0,
+          "items_count": 4,
+          "products": "Maltina Bottle, Desperados Bottle, Gulder Bottle, Star Bottle 60cl",
+          "margin_pct": 0.03414917798805307
+        },
+        {
+          "invoice_no": "Tayo-INV83",
+          "date": "2026-06-10T00:00:00",
+          "cases_sold": 5.0,
+          "revenue": 56245.0,
+          "total_cost": 53780.0,
+          "gross_profit": 2465.0,
+          "items_count": 3,
+          "products": "Turbo King Bottle 60cl, Legend Bottle 60cl, Tiger Bottle",
+          "margin_pct": 0.04382611787714463
+        },
+        {
+          "invoice_no": "ann-INV123",
+          "date": "2026-06-27T00:00:00",
+          "cases_sold": 4.0,
+          "revenue": 53610.0,
+          "total_cost": 51270.0,
+          "gross_profit": 2340.0,
+          "items_count": 3,
+          "products": "Turbo King Bottle 60cl, Desperados Bottle, Amstel Bottle",
+          "margin_pct": 0.04364857302742026
+        },
+        {
+          "invoice_no": "ann-INV45",
+          "date": "2026-06-13T00:00:00",
+          "cases_sold": 4.0,
+          "revenue": 46270.0,
+          "total_cost": 42806.0,
+          "gross_profit": 3464.0,
+          "items_count": 2,
+          "products": "Heineken Bottle 60cl, Goldberg 60cl",
+          "margin_pct": 0.07486492327642101
+        },
+        {
+          "invoice_no": "ann-INV41",
+          "date": "2026-06-12T00:00:00",
+          "cases_sold": 2.0,
+          "revenue": 42800.0,
+          "total_cost": 40880.0,
+          "gross_profit": 1920.0,
+          "items_count": 1,
+          "products": "Desperados Bottle",
+          "margin_pct": 0.044859813084112146
+        },
+        {
+          "invoice_no": "ann-INV83",
+          "date": "2026-06-23T00:00:00",
+          "cases_sold": 3.0,
+          "revenue": 42015.0,
+          "total_cost": 39012.0,
+          "gross_profit": 3003.0,
+          "items_count": 2,
+          "products": "Heineken Bottle 60cl, Goldberg Black 45cl",
+          "margin_pct": 0.0714744734023563
+        },
+        {
+          "invoice_no": "ann-INV40",
+          "date": "2026-06-11T00:00:00",
+          "cases_sold": 2.0,
+          "revenue": 35690.0,
+          "total_cost": 34200.0,
+          "gross_profit": 1490.0,
+          "items_count": 1,
+          "products": "Heineken Sleek Can",
+          "margin_pct": 0.04174838890445503
+        },
+        {
+          "invoice_no": "ann-INV17",
+          "date": "2026-06-03T00:00:00",
+          "cases_sold": 5.0,
+          "revenue": 26000.0,
+          "total_cost": 26000.0,
+          "gross_profit": 0.0,
+          "items_count": 1,
+          "products": "Maltina Pet 33cl",
+          "margin_pct": 0.0
+        },
+        {
+          "invoice_no": "ann-INV95",
+          "date": "2026-06-24T00:00:00",
+          "cases_sold": 1.0,
+          "revenue": 20655.0,
+          "total_cost": 19305.0,
+          "gross_profit": 1350.0,
+          "items_count": 1,
+          "products": "ACE BITTERS",
+          "margin_pct": 0.06535947712418301
+        },
+        {
+          "invoice_no": "INV339",
+          "date": "2026-06-02T00:00:00",
+          "cases_sold": 1.0,
+          "revenue": 12885.0,
+          "total_cost": 12120.0,
+          "gross_profit": 765.0,
+          "items_count": 1,
+          "products": "CLIMAX CAN",
+          "margin_pct": 0.059371362048894066
+        },
+        {
+          "invoice_no": "PC1-INV2",
+          "date": "2026-06-17T00:00:00",
+          "cases_sold": 2.0,
+          "revenue": 10400.0,
+          "total_cost": 10400.0,
+          "gross_profit": 0.0,
+          "items_count": 1,
+          "products": "Maltina Pet 33cl",
+          "margin_pct": 0.0
+        }
+      ]
     },
     {
       "customer": "Mama Oyin Mowe",
@@ -18091,7 +18750,47 @@
       "total_gross_profit": 161220.0,
       "total_cases_sold": 838.0,
       "invoices": 3,
-      "gross_profit_pct": 0.01843367501529279
+      "gross_profit_pct": 0.01843367501529279,
+      "is_marketer": 0,
+      "cases_target": null,
+      "pct_of_target_met": null,
+      "attributable_expenses": 0.0,
+      "net_marketer_profit": 161220.0,
+      "invoices_list": [
+        {
+          "invoice_no": "Tayo-INV122",
+          "date": "2026-06-18T00:00:00",
+          "cases_sold": 430.0,
+          "revenue": 4694250.0,
+          "total_cost": 4583000.0,
+          "gross_profit": 111250.0,
+          "items_count": 5,
+          "products": "Goldberg 60cl, 33 Export 60cl, Heineken Bottle 60cl, Goldberg Black 45cl, Maltina Bottle",
+          "margin_pct": 0.023699206476007883
+        },
+        {
+          "invoice_no": "Tayo-INV109",
+          "date": "2026-06-15T00:00:00",
+          "cases_sold": 400.0,
+          "revenue": 4051700.0,
+          "total_cost": 4001730.0,
+          "gross_profit": 49970.0,
+          "items_count": 8,
+          "products": "Fayrouz Bottle, Legend Bottle 60cl, 33 Export 60cl, Desperados Bottle, Gulder Bottle, Turbo King Bottle 60cl, Goldberg 60cl, Star Radler 45cl",
+          "margin_pct": 0.012333094750351704
+        },
+        {
+          "invoice_no": "Tayo-INV137",
+          "date": "2026-06-23T00:00:00",
+          "cases_sold": 8.0,
+          "revenue": 0.0,
+          "total_cost": 0.0,
+          "gross_profit": 0.0,
+          "items_count": 1,
+          "products": "Goldberg Black Promo",
+          "margin_pct": 0.0
+        }
+      ]
     },
     {
       "customer": "Abbey Illisan",
@@ -18100,16 +18799,85 @@
       "total_gross_profit": 116550.0,
       "total_cases_sold": 830.0,
       "invoices": 2,
-      "gross_profit_pct": 0.01444972042797456
+      "gross_profit_pct": 0.01444972042797456,
+      "is_marketer": 0,
+      "cases_target": null,
+      "pct_of_target_met": null,
+      "attributable_expenses": 0.0,
+      "net_marketer_profit": 116550.0,
+      "invoices_list": [
+        {
+          "invoice_no": "ann-INV71",
+          "date": "2026-06-22T00:00:00",
+          "cases_sold": 420.0,
+          "revenue": 4050900.0,
+          "total_cost": 3980970.0,
+          "gross_profit": 69930.0,
+          "items_count": 3,
+          "products": "Goldberg 60cl, 33 Export 60cl, Maltina Bottle",
+          "margin_pct": 0.017262830482115084
+        },
+        {
+          "invoice_no": "Tayo-INV91",
+          "date": "2026-06-11T00:00:00",
+          "cases_sold": 410.0,
+          "revenue": 4015000.0,
+          "total_cost": 3968380.0,
+          "gross_profit": 46620.0,
+          "items_count": 3,
+          "products": "Goldberg 60cl, 33 Export 60cl, Star Radler 45cl",
+          "margin_pct": 0.01161145703611457
+        }
+      ]
     },
     {
-      "customer": "Emmycee",
+      "customer": "AZ Marketer",
       "total_revenue": 6595450.0,
       "total_cost": 6547030.0,
       "total_gross_profit": 48420.0,
       "total_cases_sold": 665.0,
       "invoices": 3,
-      "gross_profit_pct": 0.007341424770106664
+      "gross_profit_pct": 0.007341424770106664,
+      "is_marketer": 1,
+      "cases_target": 6000.0,
+      "pct_of_target_met": 0.11083333333333334,
+      "attributable_expenses": 0.0,
+      "net_marketer_profit": 48420.0,
+      "invoices_list": [
+        {
+          "invoice_no": "ann-INV128",
+          "date": "2026-06-29T00:00:00",
+          "cases_sold": 285.0,
+          "revenue": 3032350.0,
+          "total_cost": 3001665.0,
+          "gross_profit": 30685.0,
+          "items_count": 10,
+          "products": "Goldberg 60cl, Legend Bottle 60cl, Amstel Bottle, Gulder Bottle, Maltina Bottle, Desperados Bottle, 33 Export 60cl, Turbo King Bottle 60cl, Heineken Bottle 60cl, Heineken Bottle 45cl",
+          "margin_pct": 0.010119214470625092
+        },
+        {
+          "invoice_no": "ann-INV55",
+          "date": "2026-06-17T00:00:00",
+          "cases_sold": 310.0,
+          "revenue": 2957100.0,
+          "total_cost": 2942015.0,
+          "gross_profit": 15085.0,
+          "items_count": 10,
+          "products": "Goldberg 60cl, 33 Export 60cl, Legend Bottle 60cl, Turbo King Bottle 60cl, Maltina Bottle, Fayrouz Bottle, Maltina Pet 33cl, Gulder Bottle, Desperados Bottle, Heineken Bottle 45cl",
+          "margin_pct": 0.005101281661086875
+        },
+        {
+          "invoice_no": "ann-INV129",
+          "date": "2026-06-29T00:00:00",
+          "cases_sold": 70.0,
+          "revenue": 606000.0,
+          "total_cost": 603350.0,
+          "gross_profit": 2650.0,
+          "items_count": 2,
+          "products": "Goldberg 60cl, Turbo King Bottle 60cl",
+          "margin_pct": 0.004372937293729373
+        }
+      ]
     },
     {
       "customer": "Delayers",
@@ -18118,7 +18886,47 @@
       "total_gross_profit": 45130.0,
       "total_cases_sold": 788.0,
       "invoices": 3,
-      "gross_profit_pct": 0.007868963364770828
+      "gross_profit_pct": 0.007868963364770828,
+      "is_marketer": 0,
+      "cases_target": null,
+      "pct_of_target_met": null,
+      "attributable_expenses": 0.0,
+      "net_marketer_profit": 45130.0,
+      "invoices_list": [
+        {
+          "invoice_no": "Tayo-INV68",
+          "date": "2026-06-08T00:00:00",
+          "cases_sold": 666.0,
+          "revenue": 4385800.0,
+          "total_cost": 4350800.0,
+          "gross_profit": 35000.0,
+          "items_count": 3,
+          "products": "Maltina Pet 33cl, 33 Export 60cl, Heineken Sleek Can",
+          "margin_pct": 0.00798030005928223
+        },
+        {
+          "invoice_no": "ann-INV72",
+          "date": "2026-06-22T00:00:00",
+          "cases_sold": 70.0,
+          "revenue": 905100.0,
+          "total_cost": 892220.0,
+          "gross_profit": 12880.0,
+          "items_count": 1,
+          "products": "Heineken Bottle 60cl",
+          "margin_pct": 0.01423047177107502
+        },
+        {
+          "invoice_no": "Tayo-INV111",
+          "date": "2026-06-15T00:00:00",
+          "cases_sold": 52.0,
+          "revenue": 444290.0,
+          "total_cost": 447040.0,
+          "gross_profit": -2750.0,
+          "items_count": 3,
+          "products": "Goldberg 60cl, 33 Export 60cl, Maltina Pet 33cl",
+          "margin_pct": -0.006189650903689032
+        }
+      ]
     },
     {
       "customer": "TD Odiolowo",
@@ -18127,7 +18935,102 @@
       "total_gross_profit": 37257.0,
       "total_cases_sold": 578.0,
       "invoices": 8,
-      "gross_profit_pct": 0.007131652366163079
+      "gross_profit_pct": 0.007131652366163079,
+      "is_marketer": 0,
+      "cases_target": null,
+      "pct_of_target_met": null,
+      "attributable_expenses": 0.0,
+      "net_marketer_profit": 37257.0,
+      "invoices_list": [
+        {
+          "invoice_no": "Tayo-INV86",
+          "date": "2026-06-10T00:00:00",
+          "cases_sold": 425.0,
+          "revenue": 3908375.0,
+          "total_cost": 3862397.0,
+          "gross_profit": 45978.0,
+          "items_count": 5,
+          "products": "33 Export 60cl, Heineken Sleek Can, Goldberg Can 50cl, Desperados Can, 33 Export Can",
+          "margin_pct": 0.011763968401189753
+        },
+        {
+          "invoice_no": "ann-INV85",
+          "date": "2026-06-23T00:00:00",
+          "cases_sold": 70.0,
+          "revenue": 602000.0,
+          "total_cost": 605990.0,
+          "gross_profit": -3990.0,
+          "items_count": 1,
+          "products": "Goldberg 60cl",
+          "margin_pct": -0.006627906976744186
+        },
+        {
+          "invoice_no": "ann-INV62",
+          "date": "2026-06-20T00:00:00",
+          "cases_sold": 30.0,
+          "revenue": 258000.0,
+          "total_cost": 259710.0,
+          "gross_profit": -1710.0,
+          "items_count": 1,
+          "products": "Goldberg 60cl",
+          "margin_pct": -0.006627906976744186
+        },
+        {
+          "invoice_no": "ann-INV116",
+          "date": "2026-06-26T00:00:00",
+          "cases_sold": 15.0,
+          "revenue": 129000.0,
+          "total_cost": 129855.0,
+          "gross_profit": -855.0,
+          "items_count": 1,
+          "products": "Goldberg 60cl",
+          "margin_pct": -0.006627906976744186
+        },
+        {
+          "invoice_no": "ann-INV140",
+          "date": "2026-06-30T00:00:00",
+          "cases_sold": 13.0,
+          "revenue": 111800.0,
+          "total_cost": 112541.0,
+          "gross_profit": -741.0,
+          "items_count": 1,
+          "products": "Goldberg 60cl",
+          "margin_pct": -0.006627906976744186
+        },
+        {
+          "invoice_no": "Tayo-INV129",
+          "date": "2026-06-19T00:00:00",
+          "cases_sold": 10.0,
+          "revenue": 86000.0,
+          "total_cost": 86570.0,
+          "gross_profit": -570.0,
+          "items_count": 1,
+          "products": "Goldberg 60cl",
+          "margin_pct": -0.006627906976744186
+        },
+        {
+          "invoice_no": "ann-INV70",
+          "date": "2026-06-22T00:00:00",
+          "cases_sold": 10.0,
+          "revenue": 86000.0,
+          "total_cost": 86570.0,
+          "gross_profit": -570.0,
+          "items_count": 1,
+          "products": "Goldberg 60cl",
+          "margin_pct": -0.006627906976744186
+        },
+        {
+          "invoice_no": "ann-INV124",
+          "date": "2026-06-27T00:00:00",
+          "cases_sold": 5.0,
+          "revenue": 43000.0,
+          "total_cost": 43285.0,
+          "gross_profit": -285.0,
+          "items_count": 1,
+          "products": "Goldberg 60cl",
+          "margin_pct": -0.006627906976744186
+        }
+      ]
     },
     {
       "customer": "Ola Etigwam",
@@ -18136,7 +19039,36 @@
       "total_gross_profit": 65900.0,
       "total_cases_sold": 417.0,
       "invoices": 2,
-      "gross_profit_pct": 0.01459062126378249
+      "gross_profit_pct": 0.01459062126378249,
+      "is_marketer": 0,
+      "cases_target": null,
+      "pct_of_target_met": null,
+      "attributable_expenses": 0.0,
+      "net_marketer_profit": 65900.0,
+      "invoices_list": [
+        {
+          "invoice_no": "Tayo-INV113",
+          "date": "2026-06-16T00:00:00",
+          "cases_sold": 415.0,
+          "revenue": 4506000.0,
+          "total_cost": 4440300.0,
+          "gross_profit": 65700.0,
+          "items_count": 4,
+          "products": "Maltina Bottle, 33 Export 60cl, Goldberg Black 45cl, Goldberg Black Promo",
+          "margin_pct": 0.014580559254327564
+        },
+        {
+          "invoice_no": "ann-INV125",
+          "date": "2026-06-27T00:00:00",
+          "cases_sold": 2.0,
+          "revenue": 10600.0,
+          "total_cost": 10400.0,
+          "gross_profit": 200.0,
+          "items_count": 1,
+          "products": "Maltina Pet 33cl",
+          "margin_pct": 0.018867924528301886
+        }
+      ]
     },
     {
       "customer": "Stella SR",
@@ -18145,7 +19077,91 @@
       "total_gross_profit": -48959.0,
       "total_cases_sold": 800.0,
       "invoices": 7,
-      "gross_profit_pct": -0.01095062834315801
+      "gross_profit_pct": -0.01095062834315801,
+      "is_marketer": 0,
+      "cases_target": null,
+      "pct_of_target_met": null,
+      "attributable_expenses": 0.0,
+      "net_marketer_profit": -48959.0,
+      "invoices_list": [
+        {
+          "invoice_no": "ann-INV106",
+          "date": "2026-06-25T00:00:00",
+          "cases_sold": 248.0,
+          "revenue": 1215200.0,
+          "total_cost": 1289600.0,
+          "gross_profit": -74400.0,
+          "items_count": 1,
+          "products": "Maltina Pet 33cl",
+          "margin_pct": -0.061224489795918366
+        },
+        {
+          "invoice_no": "Tayo-INV58",
+          "date": "2026-06-06T00:00:00",
+          "cases_sold": 200.0,
+          "revenue": 1040000.0,
+          "total_cost": 1040000.0,
+          "gross_profit": 0.0,
+          "items_count": 1,
+          "products": "Maltina Pet 33cl",
+          "margin_pct": 0.0
+        },
+        {
+          "invoice_no": "Tayo-INV78",
+          "date": "2026-06-09T00:00:00",
+          "cases_sold": 200.0,
+          "revenue": 1040000.0,
+          "total_cost": 1040000.0,
+          "gross_profit": 0.0,
+          "items_count": 1,
+          "products": "Maltina Pet 33cl",
+          "margin_pct": 0.0
+        },
+        {
+          "invoice_no": "Tayo-INV116",
+          "date": "2026-06-16T00:00:00",
+          "cases_sold": 120.0,
+          "revenue": 624000.0,
+          "total_cost": 624000.0,
+          "gross_profit": 0.0,
+          "items_count": 1,
+          "products": "Maltina Pet 33cl",
+          "margin_pct": 0.0
+        },
+        {
+          "invoice_no": "Tayo-INV42",
+          "date": "2026-06-04T00:00:00",
+          "cases_sold": 18.0,
+          "revenue": 370340.0,
+          "total_cost": 351890.0,
+          "gross_profit": 18450.0,
+          "items_count": 3,
+          "products": "Desperados Can, Turbo King Bottle 60cl, Legend Bottle 60cl",
+          "margin_pct": 0.049819085164983526
+        },
+        {
+          "invoice_no": "ann-INV117",
+          "date": "2026-06-26T00:00:00",
+          "cases_sold": 11.0,
+          "revenue": 137920.0,
+          "total_cost": 130929.0,
+          "gross_profit": 6991.0,
+          "items_count": 4,
+          "products": "STK 33cl, Legend 45cl, Turbo King Bottle 60cl, Goldberg 60cl",
+          "margin_pct": 0.05068880510440835
+        },
+        {
+          "invoice_no": "Tayo-INV43",
+          "date": "2026-06-04T00:00:00",
+          "cases_sold": 3.0,
+          "revenue": 43425.0,
+          "total_cost": 43425.0,
+          "gross_profit": 0.0,
+          "items_count": 1,
+          "products": "Star Radler 45cl",
+          "margin_pct": 0.0
+        }
+      ]
     },
     {
       "customer": "Alhaja GRA Road",
@@ -18154,7 +19170,25 @@
       "total_gross_profit": 109810.0,
       "total_cases_sold": 410.0,
       "invoices": 1,
-      "gross_profit_pct": 0.025184335760564187
+      "gross_profit_pct": 0.025184335760564187,
+      "is_marketer": 0,
+      "cases_target": null,
+      "pct_of_target_met": null,
+      "attributable_expenses": 0.0,
+      "net_marketer_profit": 109810.0,
+      "invoices_list": [
+        {
+          "invoice_no": "ann-INV13",
+          "date": "2026-06-01T00:00:00",
+          "cases_sold": 410.0,
+          "revenue": 4360250.0,
+          "total_cost": 4250440.0,
+          "gross_profit": 109810.0,
+          "items_count": 5,
+          "products": "Goldberg 60cl, 33 Export 60cl, Heineken Bottle 60cl, Desperados Bottle, Fayrouz Bottle",
+          "margin_pct": 0.025184335760564187
+        }
+      ]
     },
     {
       "customer": "Rukky bee",
@@ -18163,7 +19197,25 @@
       "total_gross_profit": 62210.0,
       "total_cases_sold": 284.0,
       "invoices": 1,
-      "gross_profit_pct": 0.015414960019228435
+      "gross_profit_pct": 0.015414960019228435,
+      "is_marketer": 0,
+      "cases_target": null,
+      "pct_of_target_met": null,
+      "attributable_expenses": 0.0,
+      "net_marketer_profit": 62210.0,
+      "invoices_list": [
+        {
+          "invoice_no": "PC1-INV4",
+          "date": "2026-06-23T00:00:00",
+          "cases_sold": 284.0,
+          "revenue": 4035690.0,
+          "total_cost": 3973480.0,
+          "gross_profit": 62210.0,
+          "items_count": 4,
+          "products": "Desperados Bottle, Gulder Bottle, Heineken Bottle 60cl, Maltina Bottle",
+          "margin_pct": 0.015414960019228435
+        }
+      ]
     },
     {
       "customer": "Damnoch",
@@ -18172,7 +19224,25 @@
       "total_gross_profit": 111510.0,
       "total_cases_sold": 420.0,
       "invoices": 1,
-      "gross_profit_pct": 0.028858695652173912
+      "gross_profit_pct": 0.028858695652173912,
+      "is_marketer": 0,
+      "cases_target": null,
+      "pct_of_target_met": null,
+      "attributable_expenses": 0.0,
+      "net_marketer_profit": 111510.0,
+      "invoices_list": [
+        {
+          "invoice_no": "ann-INV23",
+          "date": "2026-06-03T00:00:00",
+          "cases_sold": 420.0,
+          "revenue": 3864000.0,
+          "total_cost": 3752490.0,
+          "gross_profit": 111510.0,
+          "items_count": 2,
+          "products": "Goldberg 60cl, 33 Export 60cl",
+          "margin_pct": 0.028858695652173912
+        }
+      ]
     },
     {
       "customer": "Eniola Marketer",
@@ -18181,7 +19251,80 @@
       "total_gross_profit": -4985.0,
       "total_cases_sold": 595.0,
       "invoices": 6,
-      "gross_profit_pct": -0.0013188354035213038
+      "gross_profit_pct": -0.0013188354035213038,
+      "is_marketer": 1,
+      "cases_target": 6000.0,
+      "pct_of_target_met": 0.09916666666666667,
+      "attributable_expenses": 244500.0,
+      "net_marketer_profit": -249485.0,
+      "invoices_list": [
+        {
+          "invoice_no": "ann-INV135",
+          "date": "2026-06-30T00:00:00",
+          "cases_sold": 310.0,
+          "revenue": 1624450.0,
+          "total_cost": 1693830.0,
+          "gross_profit": -69380.0,
+          "items_count": 3,
+          "products": "Maltina Pet 33cl, Amstel Can, Fayrouz Can",
+          "margin_pct": -0.0427098402536243
+        },
+        {
+          "invoice_no": "Tayo-INV76",
+          "date": "2026-06-08T00:00:00",
+          "cases_sold": 150.0,
+          "revenue": 780000.0,
+          "total_cost": 780000.0,
+          "gross_profit": 0.0,
+          "items_count": 1,
+          "products": "Maltina Pet 33cl",
+          "margin_pct": 0.0
+        },
+        {
+          "invoice_no": "INV333",
+          "date": "2026-06-01T00:00:00",
+          "cases_sold": 50.0,
+          "revenue": 460000.0,
+          "total_cost": 432850.0,
+          "gross_profit": 27150.0,
+          "items_count": 1,
+          "products": "Goldberg 60cl",
+          "margin_pct": 0.059021739130434785
+        },
+        {
+          "invoice_no": "Tayo-INV35",
+          "date": "2026-06-04T00:00:00",
+          "cases_sold": 40.0,
+          "revenue": 350000.0,
+          "total_cost": 335500.0,
+          "gross_profit": 14500.0,
+          "items_count": 2,
+          "products": "Goldberg 60cl, Trophy",
+          "margin_pct": 0.041428571428571426
+        },
+        {
+          "invoice_no": "Tayo-INV88",
+          "date": "2026-06-10T00:00:00",
+          "cases_sold": 15.0,
+          "revenue": 307400.0,
+          "total_cost": 293725.0,
+          "gross_profit": 13675.0,
+          "items_count": 2,
+          "products": "Desperados Can, 33 Export Can",
+          "margin_pct": 0.04448601171112557
+        },
+        {
+          "invoice_no": "Tayo-INV57",
+          "date": "2026-06-06T00:00:00",
+          "cases_sold": 30.0,
+          "revenue": 258000.0,
+          "total_cost": 248930.0,
+          "gross_profit": 9070.0,
+          "items_count": 2,
+          "products": "Goldberg 60cl, Trophy",
+          "margin_pct": 0.03515503875968992
+        }
+      ]
     },
     {
       "customer": "Seun Ijebu",
@@ -18190,7 +19333,25 @@
       "total_gross_profit": -23940.0,
       "total_cases_sold": 420.0,
       "invoices": 1,
-      "gross_profit_pct": -0.006627906976744186
+      "gross_profit_pct": -0.006627906976744186,
+      "is_marketer": 0,
+      "cases_target": null,
+      "pct_of_target_met": null,
+      "attributable_expenses": 0.0,
+      "net_marketer_profit": -23940.0,
+      "invoices_list": [
+        {
+          "invoice_no": "PC1-INV1",
+          "date": "2026-06-13T00:00:00",
+          "cases_sold": 420.0,
+          "revenue": 3612000.0,
+          "total_cost": 3635940.0,
+          "gross_profit": -23940.0,
+          "items_count": 1,
+          "products": "Goldberg 60cl",
+          "margin_pct": -0.006627906976744186
+        }
+      ]
     },
     {
       "customer": "M J STORE",
@@ -18199,7 +19360,25 @@
       "total_gross_profit": -3320.0,
       "total_cases_sold": 324.0,
       "invoices": 1,
-      "gross_profit_pct": -0.0011603725774601123
+      "gross_profit_pct": -0.0011603725774601123,
+      "is_marketer": 0,
+      "cases_target": null,
+      "pct_of_target_met": null,
+      "attributable_expenses": 0.0,
+      "net_marketer_profit": -3320.0,
+      "invoices_list": [
+        {
+          "invoice_no": "Tayo-INV46",
+          "date": "2026-06-05T00:00:00",
+          "cases_sold": 324.0,
+          "revenue": 2861150.0,
+          "total_cost": 2864470.0,
+          "gross_profit": -3320.0,
+          "items_count": 5,
+          "products": "Goldberg 60cl, 33 Export 60cl, Goldberg Black 45cl, Goldberg Black Promo, Star Radler 45cl",
+          "margin_pct": -0.0011603725774601123
+        }
+      ]
     },
     {
       "customer": "Mr Lekan Ojifini",
@@ -18208,7 +19387,80 @@
       "total_gross_profit": 1390.0,
       "total_cases_sold": 331.0,
       "invoices": 6,
-      "gross_profit_pct": 0.0006662624355007633
+      "gross_profit_pct": 0.0006662624355007633,
+      "is_marketer": 0,
+      "cases_target": null,
+      "pct_of_target_met": null,
+      "attributable_expenses": 0.0,
+      "net_marketer_profit": 1390.0,
+      "invoices_list": [
+        {
+          "invoice_no": "Tayo-INV115",
+          "date": "2026-06-16T00:00:00",
+          "cases_sold": 130.0,
+          "revenue": 704200.0,
+          "total_cost": 700850.0,
+          "gross_profit": 3350.0,
+          "items_count": 2,
+          "products": "Maltina Pet 33cl, Maltina Pet 50cl",
+          "margin_pct": 0.004757171258165294
+        },
+        {
+          "invoice_no": "ann-INV79",
+          "date": "2026-06-23T00:00:00",
+          "cases_sold": 82.0,
+          "revenue": 603835.0,
+          "total_cost": 590610.0,
+          "gross_profit": 13225.0,
+          "items_count": 10,
+          "products": "Maltina Pet 33cl, Goldberg 60cl, Turbo King Bottle 60cl, Tiger Bottle, Legend 45cl, Heineken Bottle 45cl, Fayrouz Bottle, CLIMAX CAN, ACE BITTERS, Amstel Bottle",
+          "margin_pct": 0.021901678438646318
+        },
+        {
+          "invoice_no": "ann-INV122",
+          "date": "2026-06-27T00:00:00",
+          "cases_sold": 100.0,
+          "revenue": 490000.0,
+          "total_cost": 520000.0,
+          "gross_profit": -30000.0,
+          "items_count": 1,
+          "products": "Maltina Pet 33cl",
+          "margin_pct": -0.061224489795918366
+        },
+        {
+          "invoice_no": "Tayo-INV132",
+          "date": "2026-06-19T00:00:00",
+          "cases_sold": 15.0,
+          "revenue": 233325.0,
+          "total_cost": 219075.0,
+          "gross_profit": 14250.0,
+          "items_count": 3,
+          "products": "ACE BITTERS, CLIMAX CAN, STK 33cl",
+          "margin_pct": 0.061073609771777566
+        },
+        {
+          "invoice_no": "Tayo-INV53",
+          "date": "2026-06-06T00:00:00",
+          "cases_sold": 3.0,
+          "revenue": 43425.0,
+          "total_cost": 43425.0,
+          "gross_profit": 0.0,
+          "items_count": 1,
+          "products": "Star Radler 45cl",
+          "margin_pct": 0.0
+        },
+        {
+          "invoice_no": "ann-INV88",
+          "date": "2026-06-23T00:00:00",
+          "cases_sold": 1.0,
+          "revenue": 11480.0,
+          "total_cost": 10915.0,
+          "gross_profit": 565.0,
+          "items_count": 1,
+          "products": "Legend Bottle 60cl",
+          "margin_pct": 0.04921602787456446
+        }
+      ]
     },
     {
       "customer": "Walk in Customer",
@@ -18217,7 +19469,542 @@
       "total_gross_profit": 127377.0,
       "total_cases_sold": 170.0,
       "invoices": 48,
-      "gross_profit_pct": 0.07131312056836854
+      "gross_profit_pct": 0.07131312056836854,
+      "is_marketer": 0,
+      "cases_target": null,
+      "pct_of_target_met": null,
+      "attributable_expenses": 0.0,
+      "net_marketer_profit": 127377.0,
+      "invoices_list": [
+        {
+          "invoice_no": "ann-INV98",
+          "date": "2026-06-24T00:00:00",
+          "cases_sold": 10.0,
+          "revenue": 136700.0,
+          "total_cost": 126375.0,
+          "gross_profit": 10325.0,
+          "items_count": 6,
+          "products": "Goldberg 60cl, Trophy, Heineken Bottle 60cl, 33 Export 60cl, Medium Stout, Smirnoff Ice.",
+          "margin_pct": 0.07553035844915874
+        },
+        {
+          "invoice_no": "ann-INV20",
+          "date": "2026-06-03T00:00:00",
+          "cases_sold": 10.0,
+          "revenue": 132000.0,
+          "total_cost": 135010.0,
+          "gross_profit": -3010.0,
+          "items_count": 1,
+          "products": "Maltina Can",
+          "margin_pct": -0.022803030303030304
+        },
+        {
+          "invoice_no": "ann-INV119",
+          "date": "2026-06-26T00:00:00",
+          "cases_sold": 11.0,
+          "revenue": 124070.0,
+          "total_cost": 117555.0,
+          "gross_profit": 6515.0,
+          "items_count": 6,
+          "products": "Goldberg Can 50cl, Heineken Can 50cl, Heineken Sleek Can, Maltina Pet 33cl, Maltina Pet 50cl, Maltina Can",
+          "margin_pct": 0.052510679455146286
+        },
+        {
+          "invoice_no": "ann-INV121",
+          "date": "2026-06-27T00:00:00",
+          "cases_sold": 11.0,
+          "revenue": 112400.0,
+          "total_cost": 102993.0,
+          "gross_profit": 9407.0,
+          "items_count": 4,
+          "products": "Goldberg 60cl, 33 Export 60cl, Heineken Bottle 60cl, Trophy",
+          "margin_pct": 0.08369217081850534
+        },
+        {
+          "invoice_no": "ann-INV57",
+          "date": "2026-06-18T00:00:00",
+          "cases_sold": 12.0,
+          "revenue": 106800.0,
+          "total_cost": 97416.0,
+          "gross_profit": 9384.0,
+          "items_count": 1,
+          "products": "Trophy",
+          "margin_pct": 0.08786516853932584
+        },
+        {
+          "invoice_no": "ann-INV44",
+          "date": "2026-06-12T00:00:00",
+          "cases_sold": 7.0,
+          "revenue": 88550.0,
+          "total_cost": 79620.0,
+          "gross_profit": 8930.0,
+          "items_count": 3,
+          "products": "STK 33cl, Goldberg 60cl, Heineken Bottle 60cl",
+          "margin_pct": 0.10084697910784868
+        },
+        {
+          "invoice_no": "Tayo-INV69",
+          "date": "2026-06-08T00:00:00",
+          "cases_sold": 8.0,
+          "revenue": 83800.0,
+          "total_cost": 75977.0,
+          "gross_profit": 7823.0,
+          "items_count": 4,
+          "products": "Goldberg 60cl, Trophy, STK 33cl, 33 Export 60cl",
+          "margin_pct": 0.09335322195704057
+        },
+        {
+          "invoice_no": "ann-INV131",
+          "date": "2026-06-29T00:00:00",
+          "cases_sold": 8.0,
+          "revenue": 82475.0,
+          "total_cost": 75591.0,
+          "gross_profit": 6884.0,
+          "items_count": 5,
+          "products": "Trophy, Goldberg 60cl, 33 Export 60cl, Gulder Bottle, Heineken Bottle 60cl",
+          "margin_pct": 0.08346771749014853
+        },
+        {
+          "invoice_no": "Tayo-INV56",
+          "date": "2026-06-06T00:00:00",
+          "cases_sold": 6.0,
+          "revenue": 74260.0,
+          "total_cost": 67394.0,
+          "gross_profit": 6866.0,
+          "items_count": 3,
+          "products": "Trophy, Maltina Bottle, Heineken Bottle 60cl",
+          "margin_pct": 0.09245892809049286
+        },
+        {
+          "invoice_no": "ann-INV77",
+          "date": "2026-06-23T00:00:00",
+          "cases_sold": 6.0,
+          "revenue": 74200.0,
+          "total_cost": 68074.0,
+          "gross_profit": 6126.0,
+          "items_count": 4,
+          "products": "Heineken Bottle 60cl, Goldberg 60cl, Medium Stout, Trophy",
+          "margin_pct": 0.08256064690026954
+        },
+        {
+          "invoice_no": "ann-INV38",
+          "date": "2026-06-11T00:00:00",
+          "cases_sold": 6.0,
+          "revenue": 65400.0,
+          "total_cost": 59581.0,
+          "gross_profit": 5819.0,
+          "items_count": 3,
+          "products": "Goldberg 60cl, Heineken Bottle 60cl, Trophy",
+          "margin_pct": 0.08897553516819572
+        },
+        {
+          "invoice_no": "ann-INV92",
+          "date": "2026-06-24T00:00:00",
+          "cases_sold": 6.0,
+          "revenue": 57250.0,
+          "total_cost": 53108.0,
+          "gross_profit": 4142.0,
+          "items_count": 5,
+          "products": "Goldberg 60cl, Heineken Bottle 60cl, 33 Export 60cl, Turbo King Bottle 60cl, Maltina Pet 33cl",
+          "margin_pct": 0.07234934497816593
+        },
+        {
+          "invoice_no": "Tayo-INV102",
+          "date": "2026-06-13T00:00:00",
+          "cases_sold": 3.0,
+          "revenue": 44760.0,
+          "total_cost": 42810.0,
+          "gross_profit": 1950.0,
+          "items_count": 2,
+          "products": "Fayrouz Can, Heineken Sleek Can",
+          "margin_pct": 0.0435656836461126
+        },
+        {
+          "invoice_no": "ann-INV97",
+          "date": "2026-06-24T00:00:00",
+          "cases_sold": 4.0,
+          "revenue": 43150.0,
+          "total_cost": 39208.0,
+          "gross_profit": 3942.0,
+          "items_count": 4,
+          "products": "Goldberg 60cl, Turbo King Bottle 60cl, Heineken Bottle 60cl, Castle Lite",
+          "margin_pct": 0.09135573580533024
+        },
+        {
+          "invoice_no": "Tayo-INV60",
+          "date": "2026-06-06T00:00:00",
+          "cases_sold": 5.0,
+          "revenue": 42300.0,
+          "total_cost": 38750.0,
+          "gross_profit": 3550.0,
+          "items_count": 3,
+          "products": "Maltina Pet 33cl, Goldberg 60cl, Trophy",
+          "margin_pct": 0.08392434988179669
+        },
+        {
+          "invoice_no": "ann-INV54",
+          "date": "2026-06-15T00:00:00",
+          "cases_sold": 2.0,
+          "revenue": 32250.0,
+          "total_cost": 29896.0,
+          "gross_profit": 2354.0,
+          "items_count": 2,
+          "products": "Heineken Bottle 60cl, Medium Stout",
+          "margin_pct": 0.0729922480620155
+        },
+        {
+          "invoice_no": "ann-INV25",
+          "date": "2026-06-06T00:00:00",
+          "cases_sold": 3.0,
+          "revenue": 28750.0,
+          "total_cost": 26603.0,
+          "gross_profit": 2147.0,
+          "items_count": 3,
+          "products": "Heineken Bottle 60cl, Goldberg 60cl, Maltina Pet 33cl",
+          "margin_pct": 0.07467826086956522
+        },
+        {
+          "invoice_no": "ann-INV86",
+          "date": "2026-06-23T00:00:00",
+          "cases_sold": 3.0,
+          "revenue": 28500.0,
+          "total_cost": 26172.0,
+          "gross_profit": 2328.0,
+          "items_count": 3,
+          "products": "Turbo King Bottle 60cl, 33 Export 60cl, Goldberg 60cl",
+          "margin_pct": 0.08168421052631579
+        },
+        {
+          "invoice_no": "ann-INV76",
+          "date": "2026-06-22T00:00:00",
+          "cases_sold": 3.0,
+          "revenue": 28500.0,
+          "total_cost": 26172.0,
+          "gross_profit": 2328.0,
+          "items_count": 3,
+          "products": "Goldberg 60cl, Turbo King Bottle 60cl, 33 Export 60cl",
+          "margin_pct": 0.08168421052631579
+        },
+        {
+          "invoice_no": "Tayo-INV49",
+          "date": "2026-06-05T00:00:00",
+          "cases_sold": 3.0,
+          "revenue": 28000.0,
+          "total_cost": 25300.0,
+          "gross_profit": 2700.0,
+          "items_count": 3,
+          "products": "Trophy, Goldberg 60cl, Turbo King Bottle 60cl",
+          "margin_pct": 0.09642857142857143
+        },
+        {
+          "invoice_no": "Tayo-INV131",
+          "date": "2026-06-19T00:00:00",
+          "cases_sold": 2.0,
+          "revenue": 27800.0,
+          "total_cost": 24780.0,
+          "gross_profit": 3020.0,
+          "items_count": 1,
+          "products": "STK 33cl",
+          "margin_pct": 0.10863309352517986
+        },
+        {
+          "invoice_no": "ann-INV52",
+          "date": "2026-06-15T00:00:00",
+          "cases_sold": 3.0,
+          "revenue": 24400.0,
+          "total_cost": 22514.0,
+          "gross_profit": 1886.0,
+          "items_count": 2,
+          "products": "Goldberg 60cl, Maltina Pet 33cl",
+          "margin_pct": 0.07729508196721312
+        },
+        {
+          "invoice_no": "ann-INV107",
+          "date": "2026-06-25T00:00:00",
+          "cases_sold": 2.0,
+          "revenue": 23450.0,
+          "total_cost": 21736.0,
+          "gross_profit": 1714.0,
+          "items_count": 2,
+          "products": "Heineken Bottle 60cl, 33 Export 60cl",
+          "margin_pct": 0.07309168443496802
+        },
+        {
+          "invoice_no": "INV346",
+          "date": "2026-06-02T00:00:00",
+          "cases_sold": 2.0,
+          "revenue": 23450.0,
+          "total_cost": 21403.0,
+          "gross_profit": 2047.0,
+          "items_count": 2,
+          "products": "Goldberg 60cl, Heineken Bottle 60cl",
+          "margin_pct": 0.08729211087420043
+        },
+        {
+          "invoice_no": "Tayo-INV106",
+          "date": "2026-06-13T00:00:00",
+          "cases_sold": 2.0,
+          "revenue": 19000.0,
+          "total_cost": 17647.0,
+          "gross_profit": 1353.0,
+          "items_count": 2,
+          "products": "Goldberg 60cl, 33 Export 60cl",
+          "margin_pct": 0.07121052631578947
+        },
+        {
+          "invoice_no": "ann-INV12",
+          "date": "2026-06-01T00:00:00",
+          "cases_sold": 2.0,
+          "revenue": 19000.0,
+          "total_cost": 17980.0,
+          "gross_profit": 1020.0,
+          "items_count": 1,
+          "products": "33 Export 60cl",
+          "margin_pct": 0.05368421052631579
+        },
+        {
+          "invoice_no": "Tayo-INV82",
+          "date": "2026-06-10T00:00:00",
+          "cases_sold": 2.0,
+          "revenue": 19000.0,
+          "total_cost": 17182.0,
+          "gross_profit": 1818.0,
+          "items_count": 2,
+          "products": "Turbo King Bottle 60cl, Goldberg 60cl",
+          "margin_pct": 0.09568421052631579
+        },
+        {
+          "invoice_no": "ann-INV16",
+          "date": "2026-06-03T00:00:00",
+          "cases_sold": 2.0,
+          "revenue": 19000.0,
+          "total_cost": 17182.0,
+          "gross_profit": 1818.0,
+          "items_count": 2,
+          "products": "Goldberg 60cl, Turbo King Bottle 60cl",
+          "margin_pct": 0.09568421052631579
+        },
+        {
+          "invoice_no": "ann-INV133",
+          "date": "2026-06-29T00:00:00",
+          "cases_sold": 2.0,
+          "revenue": 19000.0,
+          "total_cost": 17647.0,
+          "gross_profit": 1353.0,
+          "items_count": 2,
+          "products": "Goldberg 60cl, 33 Export 60cl",
+          "margin_pct": 0.07121052631578947
+        },
+        {
+          "invoice_no": "Tayo-INV130",
+          "date": "2026-06-19T00:00:00",
+          "cases_sold": 2.0,
+          "revenue": 19000.0,
+          "total_cost": 17050.0,
+          "gross_profit": 1950.0,
+          "items_count": 1,
+          "products": "Turbo King Bottle 60cl",
+          "margin_pct": 0.10263157894736842
+        },
+        {
+          "invoice_no": "Tayo-INV120",
+          "date": "2026-06-16T00:00:00",
+          "cases_sold": 2.0,
+          "revenue": 18500.0,
+          "total_cost": 17108.0,
+          "gross_profit": 1392.0,
+          "items_count": 2,
+          "products": "33 Export 60cl, Trophy",
+          "margin_pct": 0.07524324324324325
+        },
+        {
+          "invoice_no": "Tayo-INV117",
+          "date": "2026-06-16T00:00:00",
+          "cases_sold": 2.0,
+          "revenue": 14800.0,
+          "total_cost": 13857.0,
+          "gross_profit": 943.0,
+          "items_count": 2,
+          "products": "Goldberg 60cl, Maltina Pet 33cl",
+          "margin_pct": 0.06371621621621622
+        },
+        {
+          "invoice_no": "ann-INV127",
+          "date": "2026-06-27T00:00:00",
+          "cases_sold": 2.0,
+          "revenue": 14800.0,
+          "total_cost": 14190.0,
+          "gross_profit": 610.0,
+          "items_count": 2,
+          "products": "33 Export 60cl, Maltina Pet 33cl",
+          "margin_pct": 0.04121621621621622
+        },
+        {
+          "invoice_no": "ann-INV15",
+          "date": "2026-06-01T00:00:00",
+          "cases_sold": 1.0,
+          "revenue": 13950.0,
+          "total_cost": 12746.0,
+          "gross_profit": 1204.0,
+          "items_count": 1,
+          "products": "Heineken Bottle 60cl",
+          "margin_pct": 0.08630824372759857
+        },
+        {
+          "invoice_no": "ann-INV53",
+          "date": "2026-06-15T00:00:00",
+          "cases_sold": 2.0,
+          "revenue": 10800.0,
+          "total_cost": 10400.0,
+          "gross_profit": 400.0,
+          "items_count": 1,
+          "products": "Maltina Pet 33cl",
+          "margin_pct": 0.037037037037037035
+        },
+        {
+          "invoice_no": "ann-INV30",
+          "date": "2026-06-06T00:00:00",
+          "cases_sold": 1.0,
+          "revenue": 9500.0,
+          "total_cost": 8657.0,
+          "gross_profit": 843.0,
+          "items_count": 1,
+          "products": "Goldberg 60cl",
+          "margin_pct": 0.08873684210526316
+        },
+        {
+          "invoice_no": "Tayo-INV67",
+          "date": "2026-06-08T00:00:00",
+          "cases_sold": 1.0,
+          "revenue": 9500.0,
+          "total_cost": 8990.0,
+          "gross_profit": 510.0,
+          "items_count": 1,
+          "products": "33 Export 60cl",
+          "margin_pct": 0.05368421052631579
+        },
+        {
+          "invoice_no": "ann-INV18",
+          "date": "2026-06-03T00:00:00",
+          "cases_sold": 1.0,
+          "revenue": 9500.0,
+          "total_cost": 8657.0,
+          "gross_profit": 843.0,
+          "items_count": 1,
+          "products": "Goldberg 60cl",
+          "margin_pct": 0.08873684210526316
+        },
+        {
+          "invoice_no": "Tayo-INV84",
+          "date": "2026-06-10T00:00:00",
+          "cases_sold": 1.0,
+          "revenue": 9500.0,
+          "total_cost": 8657.0,
+          "gross_profit": 843.0,
+          "items_count": 1,
+          "products": "Goldberg 60cl",
+          "margin_pct": 0.08873684210526316
+        },
+        {
+          "invoice_no": "Tayo-INV119",
+          "date": "2026-06-16T00:00:00",
+          "cases_sold": 1.0,
+          "revenue": 5400.0,
+          "total_cost": 5200.0,
+          "gross_profit": 200.0,
+          "items_count": 1,
+          "products": "Maltina Pet 33cl",
+          "margin_pct": 0.037037037037037035
+        },
+        {
+          "invoice_no": "ann-INV141",
+          "date": "2026-06-30T00:00:00",
+          "cases_sold": 1.0,
+          "revenue": 5400.0,
+          "total_cost": 5200.0,
+          "gross_profit": 200.0,
+          "items_count": 1,
+          "products": "Maltina Pet 33cl",
+          "margin_pct": 0.037037037037037035
+        },
+        {
+          "invoice_no": "Tayo-INV71",
+          "date": "2026-06-08T00:00:00",
+          "cases_sold": 1.0,
+          "revenue": 5400.0,
+          "total_cost": 5200.0,
+          "gross_profit": 200.0,
+          "items_count": 1,
+          "products": "Maltina Pet 33cl",
+          "margin_pct": 0.037037037037037035
+        },
+        {
+          "invoice_no": "Tayo-INV124",
+          "date": "2026-06-18T00:00:00",
+          "cases_sold": 1.0,
+          "revenue": 5400.0,
+          "total_cost": 5200.0,
+          "gross_profit": 200.0,
+          "items_count": 1,
+          "products": "Maltina Pet 33cl",
+          "margin_pct": 0.037037037037037035
+        },
+        {
+          "invoice_no": "INV349",
+          "date": "2026-06-02T00:00:00",
+          "cases_sold": 1.0,
+          "revenue": 5300.0,
+          "total_cost": 5200.0,
+          "gross_profit": 100.0,
+          "items_count": 1,
+          "products": "Maltina Pet 33cl",
+          "margin_pct": 0.018867924528301886
+        },
+        {
+          "invoice_no": "Tayo-INV45",
+          "date": "2026-06-05T00:00:00",
+          "cases_sold": 1.0,
+          "revenue": 5300.0,
+          "total_cost": 5200.0,
+          "gross_profit": 100.0,
+          "items_count": 1,
+          "products": "Maltina Pet 33cl",
+          "margin_pct": 0.018867924528301886
+        },
+        {
+          "invoice_no": "ann-INV27",
+          "date": "2026-06-06T00:00:00",
+          "cases_sold": 1.0,
+          "revenue": 5300.0,
+          "total_cost": 5200.0,
+          "gross_profit": 100.0,
+          "items_count": 1,
+          "products": "Maltina Pet 33cl",
+          "margin_pct": 0.018867924528301886
+        },
+        {
+          "invoice_no": "ann-INV29",
+          "date": "2026-06-06T00:00:00",
+          "cases_sold": 1.0,
+          "revenue": 5300.0,
+          "total_cost": 5200.0,
+          "gross_profit": 100.0,
+          "items_count": 1,
+          "products": "Maltina Pet 33cl",
+          "margin_pct": 0.018867924528301886
+        },
+        {
+          "invoice_no": "ann-INV93",
+          "date": "2026-06-24T00:00:00",
+          "cases_sold": 1.0,
+          "revenue": 5300.0,
+          "total_cost": 5200.0,
+          "gross_profit": 100.0,
+          "items_count": 1,
+          "products": "Maltina Pet 33cl",
+          "margin_pct": 0.018867924528301886
+        }
+      ]
     },
     {
       "customer": "Tmoney NB",
@@ -18226,7 +20013,69 @@
       "total_gross_profit": 57351.0,
       "total_cases_sold": 140.0,
       "invoices": 5,
-      "gross_profit_pct": 0.033164765580951557
+      "gross_profit_pct": 0.033164765580951557,
+      "is_marketer": 0,
+      "cases_target": null,
+      "pct_of_target_met": null,
+      "attributable_expenses": 0.0,
+      "net_marketer_profit": 57351.0,
+      "invoices_list": [
+        {
+          "invoice_no": "Tayo-INV51",
+          "date": "2026-06-05T00:00:00",
+          "cases_sold": 107.0,
+          "revenue": 1239420.0,
+          "total_cost": 1207380.0,
+          "gross_profit": 32040.0,
+          "items_count": 15,
+          "products": "Heineken Bottle 45cl, Legend 45cl, STK 33cl, ACE BITTERS, CLIMAX CAN, Amstel Bottle, Maltina Bottle, Legend Bottle 60cl, Star Bottle 60cl, Goldberg Black 45cl, Goldberg Black Promo, Heineken Bottle 60cl, Maltina Can, Maltina Pet 33cl, Heineken Sleek Can",
+          "margin_pct": 0.025850801181197657
+        },
+        {
+          "invoice_no": "Tayo-INV85",
+          "date": "2026-06-10T00:00:00",
+          "cases_sold": 18.0,
+          "revenue": 273380.0,
+          "total_cost": 260830.0,
+          "gross_profit": 12550.0,
+          "items_count": 8,
+          "products": "Maltina Bottle, Amstel Bottle, ACE BITTERS, Heineken Bottle 45cl, Legend 45cl, Tiger Bottle, Star Bottle 60cl, STK 33cl",
+          "margin_pct": 0.04590679640061453
+        },
+        {
+          "invoice_no": "ann-INV74",
+          "date": "2026-06-22T00:00:00",
+          "cases_sold": 10.0,
+          "revenue": 119205.0,
+          "total_cost": 113289.0,
+          "gross_profit": 5916.0,
+          "items_count": 4,
+          "products": "Fayrouz Bottle, Goldberg 60cl, Heineken Bottle 60cl, ACE BITTERS",
+          "margin_pct": 0.04962879073864351
+        },
+        {
+          "invoice_no": "ann-INV68",
+          "date": "2026-06-22T00:00:00",
+          "cases_sold": 2.0,
+          "revenue": 56890.0,
+          "total_cost": 51860.0,
+          "gross_profit": 5030.0,
+          "items_count": 1,
+          "products": "Chamdor 75cl",
+          "margin_pct": 0.08841624187027597
+        },
+        {
+          "invoice_no": "ann-INV75",
+          "date": "2026-06-22T00:00:00",
+          "cases_sold": 3.0,
+          "revenue": 40380.0,
+          "total_cost": 38565.0,
+          "gross_profit": 1815.0,
+          "items_count": 1,
+          "products": "Fayrouz Can",
+          "margin_pct": 0.044947994056463596
+        }
+      ]
     },
     {
       "customer": "Solomon",
@@ -18235,7 +20084,124 @@
       "total_gross_profit": -1100.0,
       "total_cases_sold": 265.0,
       "invoices": 10,
-      "gross_profit_pct": -0.0006443638664175126
+      "gross_profit_pct": -0.0006443638664175126,
+      "is_marketer": 0,
+      "cases_target": null,
+      "pct_of_target_met": null,
+      "attributable_expenses": 0.0,
+      "net_marketer_profit": -1100.0,
+      "invoices_list": [
+        {
+          "invoice_no": "ann-INV96",
+          "date": "2026-06-24T00:00:00",
+          "cases_sold": 150.0,
+          "revenue": 750000.0,
+          "total_cost": 780000.0,
+          "gross_profit": -30000.0,
+          "items_count": 1,
+          "products": "Maltina Pet 33cl",
+          "margin_pct": -0.04
+        },
+        {
+          "invoice_no": "Tayo-INV48",
+          "date": "2026-06-05T00:00:00",
+          "cases_sold": 40.0,
+          "revenue": 208000.0,
+          "total_cost": 208000.0,
+          "gross_profit": 0.0,
+          "items_count": 1,
+          "products": "Maltina Pet 33cl",
+          "margin_pct": 0.0
+        },
+        {
+          "invoice_no": "INV345",
+          "date": "2026-06-02T00:00:00",
+          "cases_sold": 28.0,
+          "revenue": 185730.0,
+          "total_cost": 180834.0,
+          "gross_profit": 4896.0,
+          "items_count": 4,
+          "products": "Goldberg 60cl, Gulder Bottle, Turbo King Bottle 60cl, Maltina Pet 33cl",
+          "margin_pct": 0.026360846389920853
+        },
+        {
+          "invoice_no": "ann-INV77",
+          "date": "2026-06-23T00:00:00",
+          "cases_sold": 17.0,
+          "revenue": 163720.0,
+          "total_cost": 154899.0,
+          "gross_profit": 8821.0,
+          "items_count": 6,
+          "products": "Fayrouz Bottle, Legend Bottle 60cl, STK 33cl, Turbo King Bottle 60cl, Goldberg 60cl, 33 Export 60cl",
+          "margin_pct": 0.05387857317371121
+        },
+        {
+          "invoice_no": "ann-INV33",
+          "date": "2026-06-09T00:00:00",
+          "cases_sold": 13.0,
+          "revenue": 129070.0,
+          "total_cost": 121787.0,
+          "gross_profit": 7283.0,
+          "items_count": 4,
+          "products": "33 Export 60cl, Goldberg 60cl, Heineken Bottle 60cl, Turbo King Bottle 60cl",
+          "margin_pct": 0.05642674517703572
+        },
+        {
+          "invoice_no": "Tayo-INV128",
+          "date": "2026-06-19T00:00:00",
+          "cases_sold": 5.0,
+          "revenue": 89200.0,
+          "total_cost": 85500.0,
+          "gross_profit": 3700.0,
+          "items_count": 1,
+          "products": "Heineken Sleek Can",
+          "margin_pct": 0.04147982062780269
+        },
+        {
+          "invoice_no": "ann-INV32",
+          "date": "2026-06-09T00:00:00",
+          "cases_sold": 5.0,
+          "revenue": 80725.0,
+          "total_cost": 77775.0,
+          "gross_profit": 2950.0,
+          "items_count": 1,
+          "products": "33 Export Can",
+          "margin_pct": 0.03654382161659957
+        },
+        {
+          "invoice_no": "Tayo-INV53",
+          "date": "2026-06-05T00:00:00",
+          "cases_sold": 3.0,
+          "revenue": 43425.0,
+          "total_cost": 43425.0,
+          "gross_profit": 0.0,
+          "items_count": 1,
+          "products": "Star Radler 45cl",
+          "margin_pct": 0.0
+        },
+        {
+          "invoice_no": "INV343",
+          "date": "2026-06-02T00:00:00",
+          "cases_sold": 2.0,
+          "revenue": 28950.0,
+          "total_cost": 28950.0,
+          "gross_profit": 0.0,
+          "items_count": 1,
+          "products": "Star Radler 45cl",
+          "margin_pct": 0.0
+        },
+        {
+          "invoice_no": "ann-INV113",
+          "date": "2026-06-26T00:00:00",
+          "cases_sold": 2.0,
+          "revenue": 28290.0,
+          "total_cost": 27040.0,
+          "gross_profit": 1250.0,
+          "items_count": 1,
+          "products": "Goldberg Black 45cl",
+          "margin_pct": 0.04418522446094026
+        }
+      ]
     },
     {
       "customer": "DESOLA STORE",
@@ -18244,7 +20210,25 @@
       "total_gross_profit": -18100.0,
       "total_cases_sold": 268.0,
       "invoices": 1,
-      "gross_profit_pct": -0.012699971933763682
+      "gross_profit_pct": -0.012699971933763682,
+      "is_marketer": 0,
+      "cases_target": null,
+      "pct_of_target_met": null,
+      "attributable_expenses": 0.0,
+      "net_marketer_profit": -18100.0,
+      "invoices_list": [
+        {
+          "invoice_no": "ann-INV137",
+          "date": "2026-06-30T00:00:00",
+          "cases_sold": 268.0,
+          "revenue": 1425200.0,
+          "total_cost": 1443300.0,
+          "gross_profit": -18100.0,
+          "items_count": 2,
+          "products": "Maltina Pet 33cl, Maltina Pet 50cl",
+          "margin_pct": -0.012699971933763682
+        }
+      ]
     },
     {
       "customer": "Ola SR",
@@ -18253,7 +20237,58 @@
       "total_gross_profit": 46682.0,
       "total_cases_sold": 131.0,
       "invoices": 4,
-      "gross_profit_pct": 0.03333095333295253
+      "gross_profit_pct": 0.03333095333295253,
+      "is_marketer": 0,
+      "cases_target": null,
+      "pct_of_target_met": null,
+      "attributable_expenses": 0.0,
+      "net_marketer_profit": 46682.0,
+      "invoices_list": [
+        {
+          "invoice_no": "Tayo-INV75",
+          "date": "2026-06-08T00:00:00",
+          "cases_sold": 30.0,
+          "revenue": 535350.0,
+          "total_cost": 513000.0,
+          "gross_profit": 22350.0,
+          "items_count": 1,
+          "products": "Heineken Sleek Can",
+          "margin_pct": 0.04174838890445503
+        },
+        {
+          "invoice_no": "ann-INV114",
+          "date": "2026-06-26T00:00:00",
+          "cases_sold": 19.0,
+          "revenue": 324280.0,
+          "total_cost": 310933.0,
+          "gross_profit": 13347.0,
+          "items_count": 3,
+          "products": "Heineken Bottle 45cl, Heineken Bottle 60cl, Desperados Bottle",
+          "margin_pct": 0.04115887504625632
+        },
+        {
+          "invoice_no": "Tayo-INV125",
+          "date": "2026-06-19T00:00:00",
+          "cases_sold": 60.0,
+          "revenue": 312000.0,
+          "total_cost": 312000.0,
+          "gross_profit": 0.0,
+          "items_count": 1,
+          "products": "Maltina Pet 33cl",
+          "margin_pct": 0.0
+        },
+        {
+          "invoice_no": "Tayo-INV74",
+          "date": "2026-06-08T00:00:00",
+          "cases_sold": 22.0,
+          "revenue": 228930.0,
+          "total_cost": 217945.0,
+          "gross_profit": 10985.0,
+          "items_count": 7,
+          "products": "Goldberg 60cl, Gulder Bottle, Maltina Bottle, 33 Export 60cl, Fayrouz Bottle, Amstel Bottle, Turbo King Bottle 60cl",
+          "margin_pct": 0.047984099943214086
+        }
+      ]
     },
     {
       "customer": "Ahmed SR",
@@ -18262,7 +20297,80 @@
       "total_gross_profit": 44085.0,
       "total_cases_sold": 137.0,
       "invoices": 6,
-      "gross_profit_pct": 0.03260483692034613
+      "gross_profit_pct": 0.03260483692034613,
+      "is_marketer": 0,
+      "cases_target": null,
+      "pct_of_target_met": null,
+      "attributable_expenses": 0.0,
+      "net_marketer_profit": 44085.0,
+      "invoices_list": [
+        {
+          "invoice_no": "ann-INV104",
+          "date": "2026-06-25T00:00:00",
+          "cases_sold": 57.0,
+          "revenue": 531040.0,
+          "total_cost": 513750.0,
+          "gross_profit": 17290.0,
+          "items_count": 7,
+          "products": "Maltina Pet 33cl, Maltina Pet 50cl, Goldberg Can 50cl, 33 Export Can, Star Radler 45cl, Desperados Bottle, Amstel Bottle",
+          "margin_pct": 0.032558752636336244
+        },
+        {
+          "invoice_no": "ann-INV110",
+          "date": "2026-06-25T00:00:00",
+          "cases_sold": 17.0,
+          "revenue": 305645.0,
+          "total_cost": 292080.0,
+          "gross_profit": 13565.0,
+          "items_count": 2,
+          "products": "Tiger Bottle, Desperados Bottle",
+          "margin_pct": 0.04438155376335291
+        },
+        {
+          "invoice_no": "INV342",
+          "date": "2026-06-02T00:00:00",
+          "cases_sold": 40.0,
+          "revenue": 236200.0,
+          "total_cost": 232850.0,
+          "gross_profit": 3350.0,
+          "items_count": 2,
+          "products": "Maltina Pet 33cl, Maltina Pet 50cl",
+          "margin_pct": 0.01418289585097375
+        },
+        {
+          "invoice_no": "ann-INV64",
+          "date": "2026-06-20T00:00:00",
+          "cases_sold": 17.0,
+          "revenue": 182270.0,
+          "total_cost": 174115.0,
+          "gross_profit": 8155.0,
+          "items_count": 4,
+          "products": "Turbo King Bottle 60cl, Legend Bottle 60cl, Desperados Bottle, Maltina Pet 50cl",
+          "margin_pct": 0.044741317825204366
+        },
+        {
+          "invoice_no": "ann-INV105",
+          "date": "2026-06-25T00:00:00",
+          "cases_sold": 3.0,
+          "revenue": 53520.0,
+          "total_cost": 51795.0,
+          "gross_profit": 1725.0,
+          "items_count": 1,
+          "products": "Heineken Bottle 45cl",
+          "margin_pct": 0.03223094170403588
+        },
+        {
+          "invoice_no": "Tayo-INV47",
+          "date": "2026-06-05T00:00:00",
+          "cases_sold": 3.0,
+          "revenue": 43425.0,
+          "total_cost": 43425.0,
+          "gross_profit": 0.0,
+          "items_count": 1,
+          "products": "Star Radler 45cl",
+          "margin_pct": 0.0
+        }
+      ]
     },
     {
       "customer": "XXIII LOUNGE",
@@ -18271,7 +20379,36 @@
       "total_gross_profit": 61665.0,
       "total_cases_sold": 53.0,
       "invoices": 2,
-      "gross_profit_pct": 0.08461169045005489
+      "gross_profit_pct": 0.08461169045005489,
+      "is_marketer": 0,
+      "cases_target": null,
+      "pct_of_target_met": null,
+      "attributable_expenses": 0.0,
+      "net_marketer_profit": 61665.0,
+      "invoices_list": [
+        {
+          "invoice_no": "ann-INV56",
+          "date": "2026-06-17T00:00:00",
+          "cases_sold": 29.0,
+          "revenue": 415735.0,
+          "total_cost": 381154.0,
+          "gross_profit": 34581.0,
+          "items_count": 6,
+          "products": "Heineken Bottle 60cl, Desperados Bottle, Maltina Bottle, Heineken Sleek Can, Fayrouz Bottle, Star Radler 45cl",
+          "margin_pct": 0.08318039135506994
+        },
+        {
+          "invoice_no": "ann-INV132",
+          "date": "2026-06-29T00:00:00",
+          "cases_sold": 24.0,
+          "revenue": 313065.0,
+          "total_cost": 285981.0,
+          "gross_profit": 27084.0,
+          "items_count": 3,
+          "products": "Heineken Bottle 60cl, Goldberg 60cl, Maltina Bottle",
+          "margin_pct": 0.08651238560682287
+        }
+      ]
     },
     {
       "customer": "Jeff SR",
@@ -18280,7 +20417,80 @@
       "total_gross_profit": 20671.0,
       "total_cases_sold": 66.0,
       "invoices": 6,
-      "gross_profit_pct": 0.030589941472004972
+      "gross_profit_pct": 0.030589941472004972,
+      "is_marketer": 0,
+      "cases_target": null,
+      "pct_of_target_met": null,
+      "attributable_expenses": 0.0,
+      "net_marketer_profit": 20671.0,
+      "invoices_list": [
+        {
+          "invoice_no": "ann-INV109",
+          "date": "2026-06-25T00:00:00",
+          "cases_sold": 18.0,
+          "revenue": 327130.0,
+          "total_cost": 312520.0,
+          "gross_profit": 14610.0,
+          "items_count": 2,
+          "products": "Tiger Bottle, Desperados Bottle",
+          "margin_pct": 0.04466114388775105
+        },
+        {
+          "invoice_no": "ann-INV108",
+          "date": "2026-06-25T00:00:00",
+          "cases_sold": 36.0,
+          "revenue": 233410.0,
+          "total_cost": 229564.0,
+          "gross_profit": 3846.0,
+          "items_count": 4,
+          "products": "Maltina Pet 33cl, Maltina Pet 50cl, Desperados Bottle, Goldberg 60cl",
+          "margin_pct": 0.016477443125830084
+        },
+        {
+          "invoice_no": "Tayo-INV39",
+          "date": "2026-06-04T00:00:00",
+          "cases_sold": 3.0,
+          "revenue": 43425.0,
+          "total_cost": 43425.0,
+          "gross_profit": 0.0,
+          "items_count": 1,
+          "products": "Star Radler 45cl",
+          "margin_pct": 0.0
+        },
+        {
+          "invoice_no": "ann-INV80",
+          "date": "2026-06-23T00:00:00",
+          "cases_sold": 2.0,
+          "revenue": 26920.0,
+          "total_cost": 25710.0,
+          "gross_profit": 1210.0,
+          "items_count": 1,
+          "products": "Fayrouz Can",
+          "margin_pct": 0.044947994056463596
+        },
+        {
+          "invoice_no": "Tayo-INV95",
+          "date": "2026-06-11T00:00:00",
+          "cases_sold": 3.0,
+          "revenue": 24060.0,
+          "total_cost": 23055.0,
+          "gross_profit": 1005.0,
+          "items_count": 1,
+          "products": "Maltina Pet 50cl",
+          "margin_pct": 0.04177057356608479
+        },
+        {
+          "invoice_no": "Tayo-INV123",
+          "date": "2026-06-18T00:00:00",
+          "cases_sold": 4.0,
+          "revenue": 20800.0,
+          "total_cost": 20800.0,
+          "gross_profit": 0.0,
+          "items_count": 1,
+          "products": "Maltina Pet 33cl",
+          "margin_pct": 0.0
+        }
+      ]
     },
     {
       "customer": "Mr Godswill",
@@ -18289,7 +20499,146 @@
       "total_gross_profit": 23615.0,
       "total_cases_sold": 59.0,
       "invoices": 12,
-      "gross_profit_pct": 0.038784962307224856
+      "gross_profit_pct": 0.038784962307224856,
+      "is_marketer": 0,
+      "cases_target": null,
+      "pct_of_target_met": null,
+      "attributable_expenses": 0.0,
+      "net_marketer_profit": 23615.0,
+      "invoices_list": [
+        {
+          "invoice_no": "Tayo-INV73",
+          "date": "2026-06-08T00:00:00",
+          "cases_sold": 37.0,
+          "revenue": 329470.0,
+          "total_cost": 320326.0,
+          "gross_profit": 9144.0,
+          "items_count": 6,
+          "products": "Gulder Bottle, STK 33cl, Star Radler 45cl, Fayrouz Can, Maltina Pet 33cl, Maltina Can",
+          "margin_pct": 0.027753664977084407
+        },
+        {
+          "invoice_no": "Tayo-INV112",
+          "date": "2026-06-15T00:00:00",
+          "cases_sold": 5.0,
+          "revenue": 80725.0,
+          "total_cost": 76235.0,
+          "gross_profit": 4490.0,
+          "items_count": 1,
+          "products": "Goldberg Can 50cl",
+          "margin_pct": 0.05562093527407866
+        },
+        {
+          "invoice_no": "ann-INV47",
+          "date": "2026-06-13T00:00:00",
+          "cases_sold": 5.0,
+          "revenue": 46000.0,
+          "total_cost": 43285.0,
+          "gross_profit": 2715.0,
+          "items_count": 1,
+          "products": "Goldberg 60cl",
+          "margin_pct": 0.059021739130434785
+        },
+        {
+          "invoice_no": "Tayo-INV99",
+          "date": "2026-06-12T00:00:00",
+          "cases_sold": 2.0,
+          "revenue": 35680.0,
+          "total_cost": 34200.0,
+          "gross_profit": 1480.0,
+          "items_count": 1,
+          "products": "Heineken Sleek Can",
+          "margin_pct": 0.04147982062780269
+        },
+        {
+          "invoice_no": "ann-INV120",
+          "date": "2026-06-26T00:00:00",
+          "cases_sold": 1.0,
+          "revenue": 20655.0,
+          "total_cost": 19305.0,
+          "gross_profit": 1350.0,
+          "items_count": 1,
+          "products": "ACE BITTERS",
+          "margin_pct": 0.06535947712418301
+        },
+        {
+          "invoice_no": "Tayo-INV98",
+          "date": "2026-06-12T00:00:00",
+          "cases_sold": 1.0,
+          "revenue": 20655.0,
+          "total_cost": 19305.0,
+          "gross_profit": 1350.0,
+          "items_count": 1,
+          "products": "ACE BITTERS",
+          "margin_pct": 0.06535947712418301
+        },
+        {
+          "invoice_no": "Tayo-INV135",
+          "date": "2026-06-19T00:00:00",
+          "cases_sold": 2.0,
+          "revenue": 18400.0,
+          "total_cost": 17314.0,
+          "gross_profit": 1086.0,
+          "items_count": 1,
+          "products": "Goldberg 60cl",
+          "margin_pct": 0.059021739130434785
+        },
+        {
+          "invoice_no": "ann-INV49",
+          "date": "2026-06-13T00:00:00",
+          "cases_sold": 1.0,
+          "revenue": 17840.0,
+          "total_cost": 17100.0,
+          "gross_profit": 740.0,
+          "items_count": 1,
+          "products": "Heineken Sleek Can",
+          "margin_pct": 0.04147982062780269
+        },
+        {
+          "invoice_no": "Tayo-INV55",
+          "date": "2026-06-05T00:00:00",
+          "cases_sold": 1.0,
+          "revenue": 15525.0,
+          "total_cost": 14900.0,
+          "gross_profit": 625.0,
+          "items_count": 1,
+          "products": "Tiger Bottle",
+          "margin_pct": 0.040257648953301126
+        },
+        {
+          "invoice_no": "INV347",
+          "date": "2026-06-02T00:00:00",
+          "cases_sold": 2.0,
+          "revenue": 10600.0,
+          "total_cost": 10400.0,
+          "gross_profit": 200.0,
+          "items_count": 1,
+          "products": "Maltina Pet 33cl",
+          "margin_pct": 0.018867924528301886
+        },
+        {
+          "invoice_no": "Tayo-INV90",
+          "date": "2026-06-10T00:00:00",
+          "cases_sold": 1.0,
+          "revenue": 8020.0,
+          "total_cost": 7685.0,
+          "gross_profit": 335.0,
+          "items_count": 1,
+          "products": "Maltina Pet 50cl",
+          "margin_pct": 0.04177057356608479
+        },
+        {
+          "invoice_no": "ann-INV130",
+          "date": "2026-06-29T00:00:00",
+          "cases_sold": 1.0,
+          "revenue": 5300.0,
+          "total_cost": 5200.0,
+          "gross_profit": 100.0,
+          "items_count": 1,
+          "products": "Maltina Pet 33cl",
+          "margin_pct": 0.018867924528301886
+        }
+      ]
     },
     {
       "customer": "MRS IK.",
@@ -18298,7 +20647,113 @@
       "total_gross_profit": 46776.0,
       "total_cases_sold": 54.0,
       "invoices": 9,
-      "gross_profit_pct": 0.08202502345400822
+      "gross_profit_pct": 0.08202502345400822,
+      "is_marketer": 0,
+      "cases_target": null,
+      "pct_of_target_met": null,
+      "attributable_expenses": 0.0,
+      "net_marketer_profit": 46776.0,
+      "invoices_list": [
+        {
+          "invoice_no": "ann-INV19",
+          "date": "2026-06-03T00:00:00",
+          "cases_sold": 9.0,
+          "revenue": 101840.0,
+          "total_cost": 92241.0,
+          "gross_profit": 9599.0,
+          "items_count": 7,
+          "products": "Goldberg 60cl, Trophy, 33 Export 60cl, Heineken Bottle 60cl, Gulder Bottle, Desperados Bottle, Maltina Pet 33cl",
+          "margin_pct": 0.09425569520816968
+        },
+        {
+          "invoice_no": "ann-INV48",
+          "date": "2026-06-13T00:00:00",
+          "cases_sold": 8.0,
+          "revenue": 92515.0,
+          "total_cost": 84383.0,
+          "gross_profit": 8132.0,
+          "items_count": 5,
+          "products": "Goldberg 60cl, Trophy, 33 Export 60cl, Desperados Bottle, Heineken Bottle 60cl",
+          "margin_pct": 0.08789925957952764
+        },
+        {
+          "invoice_no": "ann-INV87",
+          "date": "2026-06-23T00:00:00",
+          "cases_sold": 8.0,
+          "revenue": 85520.0,
+          "total_cost": 77923.0,
+          "gross_profit": 7597.0,
+          "items_count": 7,
+          "products": "Goldberg 60cl, 33 Export 60cl, Trophy, Heineken Bottle 60cl, Gulder Bottle, Turbo King Bottle 60cl, Legend Bottle 60cl",
+          "margin_pct": 0.08883302151543498
+        },
+        {
+          "invoice_no": "ann-INV126",
+          "date": "2026-06-27T00:00:00",
+          "cases_sold": 6.0,
+          "revenue": 72340.0,
+          "total_cost": 66791.0,
+          "gross_profit": 5549.0,
+          "items_count": 6,
+          "products": "Goldberg 60cl, 33 Export 60cl, Trophy, Heineken Bottle 60cl, Medium Stout, Star Bottle 60cl",
+          "margin_pct": 0.07670721592479955
+        },
+        {
+          "invoice_no": "Tayo-INV96",
+          "date": "2026-06-12T00:00:00",
+          "cases_sold": 8.0,
+          "revenue": 71050.0,
+          "total_cost": 65686.0,
+          "gross_profit": 5364.0,
+          "items_count": 5,
+          "products": "Trophy, Goldberg 60cl, 33 Export 60cl, Heineken Bottle 60cl, Maltina Pet 33cl",
+          "margin_pct": 0.07549612948627726
+        },
+        {
+          "invoice_no": "Tayo-INV59",
+          "date": "2026-06-06T00:00:00",
+          "cases_sold": 4.0,
+          "revenue": 46800.0,
+          "total_cost": 43322.0,
+          "gross_profit": 3478.0,
+          "items_count": 4,
+          "products": "Goldberg 60cl, 33 Export 60cl, Turbo King Bottle 60cl, Medium Stout",
+          "margin_pct": 0.07431623931623932
+        },
+        {
+          "invoice_no": "Tayo-INV127",
+          "date": "2026-06-19T00:00:00",
+          "cases_sold": 4.0,
+          "revenue": 42100.0,
+          "total_cost": 39125.0,
+          "gross_profit": 2975.0,
+          "items_count": 4,
+          "products": "Trophy, Medium Stout, Goldberg 60cl, Maltina Pet 33cl",
+          "margin_pct": 0.07066508313539192
+        },
+        {
+          "invoice_no": "ann-INV11",
+          "date": "2026-06-01T00:00:00",
+          "cases_sold": 5.0,
+          "revenue": 39100.0,
+          "total_cost": 36371.0,
+          "gross_profit": 2729.0,
+          "items_count": 2,
+          "products": "Goldberg 60cl, Maltina Pet 33cl",
+          "margin_pct": 0.06979539641943734
+        },
+        {
+          "invoice_no": "ann-INV118",
+          "date": "2026-06-26T00:00:00",
+          "cases_sold": 2.0,
+          "revenue": 19000.0,
+          "total_cost": 17647.0,
+          "gross_profit": 1353.0,
+          "items_count": 2,
+          "products": "Goldberg 60cl, 33 Export 60cl",
+          "margin_pct": 0.07121052631578947
+        }
+      ]
     },
     {
       "customer": "Damilola",
@@ -18307,7 +20762,146 @@
       "total_gross_profit": 20170.0,
       "total_cases_sold": 29.0,
       "invoices": 12,
-      "gross_profit_pct": 0.07701412752959144
+      "gross_profit_pct": 0.07701412752959144,
+      "is_marketer": 0,
+      "cases_target": null,
+      "pct_of_target_met": null,
+      "attributable_expenses": 0.0,
+      "net_marketer_profit": 20170.0,
+      "invoices_list": [
+        {
+          "invoice_no": "ann-INV51",
+          "date": "2026-06-15T00:00:00",
+          "cases_sold": 4.0,
+          "revenue": 42450.0,
+          "total_cost": 39050.0,
+          "gross_profit": 3400.0,
+          "items_count": 3,
+          "products": "Heineken Bottle 60cl, Goldberg 60cl, 33 Export 60cl",
+          "margin_pct": 0.0800942285041225
+        },
+        {
+          "invoice_no": "ann-INV45",
+          "date": "2026-06-13T00:00:00",
+          "cases_sold": 4.0,
+          "revenue": 42450.0,
+          "total_cost": 39050.0,
+          "gross_profit": 3400.0,
+          "items_count": 3,
+          "products": "Goldberg 60cl, 33 Export 60cl, Heineken Bottle 60cl",
+          "margin_pct": 0.0800942285041225
+        },
+        {
+          "invoice_no": "ann-INV37",
+          "date": "2026-06-11T00:00:00",
+          "cases_sold": 4.0,
+          "revenue": 38000.0,
+          "total_cost": 34829.0,
+          "gross_profit": 3171.0,
+          "items_count": 3,
+          "products": "33 Export 60cl, Goldberg 60cl, Turbo King Bottle 60cl",
+          "margin_pct": 0.08344736842105263
+        },
+        {
+          "invoice_no": "ann-INV89",
+          "date": "2026-06-24T00:00:00",
+          "cases_sold": 4.0,
+          "revenue": 33400.0,
+          "total_cost": 30965.0,
+          "gross_profit": 2435.0,
+          "items_count": 4,
+          "products": "33 Export 60cl, Goldberg 60cl, Trophy, Maltina Pet 33cl",
+          "margin_pct": 0.07290419161676646
+        },
+        {
+          "invoice_no": "Tayo-INV66",
+          "date": "2026-06-08T00:00:00",
+          "cases_sold": 3.0,
+          "revenue": 28000.0,
+          "total_cost": 25300.0,
+          "gross_profit": 2700.0,
+          "items_count": 3,
+          "products": "Goldberg 60cl, Trophy, Turbo King Bottle 60cl",
+          "margin_pct": 0.09642857142857143
+        },
+        {
+          "invoice_no": "Tayo-INV50",
+          "date": "2026-06-05T00:00:00",
+          "cases_sold": 2.0,
+          "revenue": 18500.0,
+          "total_cost": 16775.0,
+          "gross_profit": 1725.0,
+          "items_count": 2,
+          "products": "Goldberg 60cl, Trophy",
+          "margin_pct": 0.09324324324324325
+        },
+        {
+          "invoice_no": "Tayo-INV81",
+          "date": "2026-06-10T00:00:00",
+          "cases_sold": 2.0,
+          "revenue": 14800.0,
+          "total_cost": 13857.0,
+          "gross_profit": 943.0,
+          "items_count": 2,
+          "products": "Goldberg 60cl, Maltina Pet 33cl",
+          "margin_pct": 0.06371621621621622
+        },
+        {
+          "invoice_no": "INV335",
+          "date": "2026-06-02T00:00:00",
+          "cases_sold": 2.0,
+          "revenue": 14800.0,
+          "total_cost": 14190.0,
+          "gross_profit": 610.0,
+          "items_count": 2,
+          "products": "33 Export 60cl, Maltina Pet 33cl",
+          "margin_pct": 0.04121621621621622
+        },
+        {
+          "invoice_no": "ann-INV60",
+          "date": "2026-06-20T00:00:00",
+          "cases_sold": 1.0,
+          "revenue": 9500.0,
+          "total_cost": 8657.0,
+          "gross_profit": 843.0,
+          "items_count": 1,
+          "products": "Goldberg 60cl",
+          "margin_pct": 0.08873684210526316
+        },
+        {
+          "invoice_no": "Tayo-INV89",
+          "date": "2026-06-10T00:00:00",
+          "cases_sold": 1.0,
+          "revenue": 9500.0,
+          "total_cost": 8657.0,
+          "gross_profit": 843.0,
+          "items_count": 1,
+          "products": "Goldberg 60cl",
+          "margin_pct": 0.08873684210526316
+        },
+        {
+          "invoice_no": "ann-INV47",
+          "date": "2026-06-13T00:00:00",
+          "cases_sold": 1.0,
+          "revenue": 5300.0,
+          "total_cost": 5200.0,
+          "gross_profit": 100.0,
+          "items_count": 1,
+          "products": "Maltina Pet 33cl",
+          "margin_pct": 0.018867924528301886
+        },
+        {
+          "invoice_no": "ann-INV65",
+          "date": "2026-06-20T00:00:00",
+          "cases_sold": 1.0,
+          "revenue": 5200.0,
+          "total_cost": 5200.0,
+          "gross_profit": 0.0,
+          "items_count": 1,
+          "products": "Maltina Pet 33cl",
+          "margin_pct": 0.0
+        }
+      ]
     },
     {
       "customer": "Amandla",
@@ -18316,7 +20910,25 @@
       "total_gross_profit": 21149.0,
       "total_cases_sold": 21.0,
       "invoices": 1,
-      "gross_profit_pct": 0.081085018690693
+      "gross_profit_pct": 0.081085018690693,
+      "is_marketer": 0,
+      "cases_target": null,
+      "pct_of_target_met": null,
+      "attributable_expenses": 0.0,
+      "net_marketer_profit": 21149.0,
+      "invoices_list": [
+        {
+          "invoice_no": "PC1-INV3",
+          "date": "2026-06-13T00:00:00",
+          "cases_sold": 21.0,
+          "revenue": 260825.0,
+          "total_cost": 239676.0,
+          "gross_profit": 21149.0,
+          "items_count": 5,
+          "products": "Heineken Bottle 60cl, Star Radler 45cl, Amstel Bottle, Goldberg 60cl, Fayrouz Bottle",
+          "margin_pct": 0.081085018690693
+        }
+      ]
     },
     {
       "customer": "Mr Olayinka",
@@ -18325,7 +20937,25 @@
       "total_gross_profit": 9152.0,
       "total_cases_sold": 18.0,
       "invoices": 1,
-      "gross_profit_pct": 0.05134361851332398
+      "gross_profit_pct": 0.05134361851332398,
+      "is_marketer": 0,
+      "cases_target": null,
+      "pct_of_target_met": null,
+      "attributable_expenses": 0.0,
+      "net_marketer_profit": 9152.0,
+      "invoices_list": [
+        {
+          "invoice_no": "ann-INV39",
+          "date": "2026-06-11T00:00:00",
+          "cases_sold": 18.0,
+          "revenue": 178250.0,
+          "total_cost": 169098.0,
+          "gross_profit": 9152.0,
+          "items_count": 4,
+          "products": "33 Export 60cl, Goldberg 60cl, Turbo King Bottle 60cl, Heineken Bottle 60cl",
+          "margin_pct": 0.05134361851332398
+        }
+      ]
     },
     {
       "customer": "Uche rep",
@@ -18334,7 +20964,25 @@
       "total_gross_profit": 9049.0,
       "total_cases_sold": 11.0,
       "invoices": 1,
-      "gross_profit_pct": 0.05945271180316021
+      "gross_profit_pct": 0.05945271180316021,
+      "is_marketer": 0,
+      "cases_target": null,
+      "pct_of_target_met": null,
+      "attributable_expenses": 0.0,
+      "net_marketer_profit": 9049.0,
+      "invoices_list": [
+        {
+          "invoice_no": "Tayo-INV70",
+          "date": "2026-06-08T00:00:00",
+          "cases_sold": 11.0,
+          "revenue": 152205.0,
+          "total_cost": 143156.0,
+          "gross_profit": 9049.0,
+          "items_count": 8,
+          "products": "STK 33cl, Amstel Bottle, ACE BITTERS, Heineken Bottle 60cl, Fayrouz Bottle, Goldberg 60cl, CLIMAX CAN, Desperados Bottle",
+          "margin_pct": 0.05945271180316021
+        }
+      ]
     },
     {
       "customer": "ACCESS Bar",
@@ -18343,7 +20991,25 @@
       "total_gross_profit": 10142.0,
       "total_cases_sold": 11.0,
       "invoices": 1,
-      "gross_profit_pct": 0.07900292112950341
+      "gross_profit_pct": 0.07900292112950341,
+      "is_marketer": 0,
+      "cases_target": null,
+      "pct_of_target_met": null,
+      "attributable_expenses": 0.0,
+      "net_marketer_profit": 10142.0,
+      "invoices_list": [
+        {
+          "invoice_no": "INV336",
+          "date": "2026-06-02T00:00:00",
+          "cases_sold": 11.0,
+          "revenue": 128375.0,
+          "total_cost": 118233.0,
+          "gross_profit": 10142.0,
+          "items_count": 6,
+          "products": "Trophy, Goldberg 60cl, 33 Export 60cl, Heineken Bottle 60cl, Gulder Bottle, Medium Stout",
+          "margin_pct": 0.07900292112950341
+        }
+      ]
     },
     {
       "customer": "Remilekun",
@@ -18352,7 +21018,91 @@
       "total_gross_profit": 9868.0,
       "total_cases_sold": 11.0,
       "invoices": 7,
-      "gross_profit_pct": 0.09099124020285845
+      "gross_profit_pct": 0.09099124020285845,
+      "is_marketer": 0,
+      "cases_target": null,
+      "pct_of_target_met": null,
+      "attributable_expenses": 0.0,
+      "net_marketer_profit": 9868.0,
+      "invoices_list": [
+        {
+          "invoice_no": "Tayo-INV105",
+          "date": "2026-06-13T00:00:00",
+          "cases_sold": 3.0,
+          "revenue": 28500.0,
+          "total_cost": 26172.0,
+          "gross_profit": 2328.0,
+          "items_count": 3,
+          "products": "Goldberg 60cl, 33 Export 60cl, Turbo King Bottle 60cl",
+          "margin_pct": 0.08168421052631579
+        },
+        {
+          "invoice_no": "ann-INV67",
+          "date": "2026-06-20T00:00:00",
+          "cases_sold": 2.0,
+          "revenue": 19000.0,
+          "total_cost": 17182.0,
+          "gross_profit": 1818.0,
+          "items_count": 2,
+          "products": "Goldberg 60cl, Turbo King Bottle 60cl",
+          "margin_pct": 0.09568421052631579
+        },
+        {
+          "invoice_no": "ann-INV138",
+          "date": "2026-06-30T00:00:00",
+          "cases_sold": 2.0,
+          "revenue": 18500.0,
+          "total_cost": 16643.0,
+          "gross_profit": 1857.0,
+          "items_count": 2,
+          "products": "Turbo King Bottle 60cl, Trophy",
+          "margin_pct": 0.10037837837837837
+        },
+        {
+          "invoice_no": "INV348",
+          "date": "2026-06-02T00:00:00",
+          "cases_sold": 1.0,
+          "revenue": 13950.0,
+          "total_cost": 12746.0,
+          "gross_profit": 1204.0,
+          "items_count": 1,
+          "products": "Heineken Bottle 60cl",
+          "margin_pct": 0.08630824372759857
+        },
+        {
+          "invoice_no": "INV344",
+          "date": "2026-06-02T00:00:00",
+          "cases_sold": 1.0,
+          "revenue": 9500.0,
+          "total_cost": 8657.0,
+          "gross_profit": 843.0,
+          "items_count": 1,
+          "products": "Goldberg 60cl",
+          "margin_pct": 0.08873684210526316
+        },
+        {
+          "invoice_no": "ann-INV121",
+          "date": "2026-06-27T00:00:00",
+          "cases_sold": 1.0,
+          "revenue": 9500.0,
+          "total_cost": 8657.0,
+          "gross_profit": 843.0,
+          "items_count": 1,
+          "products": "Goldberg 60cl",
+          "margin_pct": 0.08873684210526316
+        },
+        {
+          "invoice_no": "Tayo-INV41",
+          "date": "2026-06-04T00:00:00",
+          "cases_sold": 1.0,
+          "revenue": 9500.0,
+          "total_cost": 8525.0,
+          "gross_profit": 975.0,
+          "items_count": 1,
+          "products": "Turbo King Bottle 60cl",
+          "margin_pct": 0.10263157894736842
+        }
+      ]
     },
     {
       "customer": "ATW PROMO",
@@ -18361,7 +21111,25 @@
       "total_gross_profit": 2300.0,
       "total_cases_sold": 4.0,
       "invoices": 1,
-      "gross_profit_pct": 0.03223094170403588
+      "gross_profit_pct": 0.03223094170403588,
+      "is_marketer": 0,
+      "cases_target": null,
+      "pct_of_target_met": null,
+      "attributable_expenses": 0.0,
+      "net_marketer_profit": 2300.0,
+      "invoices_list": [
+        {
+          "invoice_no": "Tayo-INV65",
+          "date": "2026-06-08T00:00:00",
+          "cases_sold": 4.0,
+          "revenue": 71360.0,
+          "total_cost": 69060.0,
+          "gross_profit": 2300.0,
+          "items_count": 1,
+          "products": "Heineken Bottle 45cl",
+          "margin_pct": 0.03223094170403588
+        }
+      ]
     },
     {
       "customer": "Y k BAR",
@@ -18370,7 +21138,25 @@
       "total_gross_profit": 2290.0,
       "total_cases_sold": 2.0,
       "invoices": 1,
-      "gross_profit_pct": 0.05035180299032542
+      "gross_profit_pct": 0.05035180299032542,
+      "is_marketer": 0,
+      "cases_target": null,
+      "pct_of_target_met": null,
+      "attributable_expenses": 0.0,
+      "net_marketer_profit": 2290.0,
+      "invoices_list": [
+        {
+          "invoice_no": "Tayo-INV87",
+          "date": "2026-06-10T00:00:00",
+          "cases_sold": 2.0,
+          "revenue": 45480.0,
+          "total_cost": 43190.0,
+          "gross_profit": 2290.0,
+          "items_count": 1,
+          "products": "Desperados Can",
+          "margin_pct": 0.05035180299032542
+        }
+      ]
     },
     {
       "customer": "Staff Debit",
@@ -18379,7 +21165,47 @@
       "total_gross_profit": 1453.0,
       "total_cases_sold": 3.0,
       "invoices": 3,
-      "gross_profit_pct": 0.04013812154696133
+      "gross_profit_pct": 0.04013812154696133,
+      "is_marketer": 0,
+      "cases_target": null,
+      "pct_of_target_met": null,
+      "attributable_expenses": 0.0,
+      "net_marketer_profit": 1453.0,
+      "invoices_list": [
+        {
+          "invoice_no": "Tayo-INV36",
+          "date": "2026-06-04T00:00:00",
+          "cases_sold": 1.0,
+          "revenue": 17800.0,
+          "total_cost": 17100.0,
+          "gross_profit": 700.0,
+          "items_count": 1,
+          "products": "Heineken Sleek Can",
+          "margin_pct": 0.03932584269662921
+        },
+        {
+          "invoice_no": "Tayo-INV37",
+          "date": "2026-06-04T00:00:00",
+          "cases_sold": 1.0,
+          "revenue": 9200.0,
+          "total_cost": 8990.0,
+          "gross_profit": 210.0,
+          "items_count": 1,
+          "products": "33 Export 60cl",
+          "margin_pct": 0.02282608695652174
+        },
+        {
+          "invoice_no": "ann-INV36",
+          "date": "2026-06-09T00:00:00",
+          "cases_sold": 1.0,
+          "revenue": 9200.0,
+          "total_cost": 8657.0,
+          "gross_profit": 543.0,
+          "items_count": 1,
+          "products": "Goldberg 60cl",
+          "margin_pct": 0.059021739130434785
+        }
+      ]
     },
     {
       "customer": "Breakages",
@@ -18388,7 +21214,36 @@
       "total_gross_profit": 210.0,
       "total_cases_sold": 1.0,
       "invoices": 2,
-      "gross_profit_pct": 0.02282608695652174
+      "gross_profit_pct": 0.02282608695652174,
+      "is_marketer": 0,
+      "cases_target": null,
+      "pct_of_target_met": null,
+      "attributable_expenses": 0.0,
+      "net_marketer_profit": 210.0,
+      "invoices_list": [
+        {
+          "invoice_no": "Tayo-INV93",
+          "date": "2026-06-11T00:00:00",
+          "cases_sold": 1.0,
+          "revenue": 9200.0,
+          "total_cost": 8990.0,
+          "gross_profit": 210.0,
+          "items_count": 1,
+          "products": "33 Export 60cl",
+          "margin_pct": 0.02282608695652174
+        },
+        {
+          "invoice_no": "Tayo-INV92",
+          "date": "2026-06-11T00:00:00",
+          "cases_sold": 0.0,
+          "revenue": 0.0,
+          "total_cost": 0.0,
+          "gross_profit": 0.0,
+          "items_count": 1,
+          "products": "33 Export 60cl",
+          "margin_pct": 0.0
+        }
+      ]
     }
   ],
   "returns_analysis": {
@@ -18755,18 +21610,75 @@
     ],
     "anomalies": []
   },
+  "expenses_analysis": {
+    "total_expenses": 1934440.0,
+    "categories": [
+      {
+        "category": "Basic Salary",
+        "amount": 1200000.0,
+        "voucher_count": 1,
+        "source_row": 52
+      },
+      {
+        "category": "Eniola Van BDG301XX",
+        "amount": 244500.0,
+        "voucher_count": 4,
+        "source_row": 9
+      },
+      {
+        "category": "Forklift",
+        "amount": 203050.0,
+        "voucher_count": 6,
+        "source_row": 6
+      },
+      {
+        "category": "Ola VAN KRD882YK",
+        "amount": 127220.0,
+        "voucher_count": 5,
+        "source_row": 10
+      },
+      {
+        "category": "Office fuel",
+        "amount": 84870.0,
+        "voucher_count": 1,
+        "source_row": 5
+      },
+      {
+        "category": "Warehouse Expenses",
+        "amount": 45700.0,
+        "voucher_count": 8,
+        "source_row": 7
+      },
+      {
+        "category": "Generator Expenses",
+        "amount": 24100.0,
+        "voucher_count": 1,
+        "source_row": 43
+      },
+      {
+        "category": "Transportation",
+        "amount": 5000.0,
+        "voucher_count": 3,
+        "source_row": 31
+      }
+    ]
+  },
   "net_profit_bridge": {
     "gross_sales_revenue": 149300425.0,
     "total_sales_returns": 2320485.0,
     "net_sales_revenue": 146979940.0,
     "gross_product_cost": 147382471.0,
     "gross_embedded_cost": 147382471.0,
+    "total_cost": 147382471.0,
+    "purchase_returns": 0.0,
     "cost_of_returns": 2282889.8986201333,
-    "total_cost": 145099581.10137987,
+    "net_cost": 145099581.10137987,
     "total_cost_embedded": 145099581.10137987,
+    "gross_profit": 1880358.8986201286,
     "net_gross_profit_loss": 1880358.8986201286,
     "net_gross_margin_pct": 0.012793302940660669,
     "total_operating_expenses": 1934440.0,
+    "net_profit": -54081.10137987137,
     "net_operating_profit_loss": -54081.10137987137,
     "net_operating_margin_pct": -0.0003679488600952713,
     "product_returns_value": 1631985.0,
@@ -18775,5 +21687,6 @@
     "empties_returns_qty": 467.0,
     "return_rate": 0.015542387103050778,
     "missing_cost_anomalies": []
-  }
+  },
+  "sheet_classification": {}
 }
