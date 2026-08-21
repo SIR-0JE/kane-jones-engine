@@ -584,49 +584,76 @@ export function CustomersScreen({ data }: CustomersScreenProps) {
               </span>
             </div>
 
+            {/* Exact Invoice-Level Records & Audit Trail */}
+            <div className="px-5 pb-5 space-y-2">
 
-            {/* Invoice Margin Detail */}
-            {drillInvoices.length > 0 && (
-              <div className="px-5 pb-5">
-                <h3 className="text-[11px] font-bold text-slate-700 mb-2 font-sora uppercase tracking-wide">Invoice-Level Margins</h3>
-                <div className="bg-slate-50 rounded-xl border border-slate-200 overflow-hidden">
-                  <table className="w-full text-xs">
-                    <thead>
-                      <tr className="border-b border-slate-200 text-slate-600 font-bold font-sora">
-                        <th className="py-2 px-3 text-left">Customer</th>
-                        <th className="py-2 px-3 text-right">Invoices</th>
-                        <th className="py-2 px-3 text-right">Revenue</th>
-                        <th className="py-2 px-3 text-right">Cost</th>
-                        <th className="py-2 px-3 text-right">Gross Profit</th>
-                        <th className="py-2 px-3 text-right">Margin %</th>
+              <h3 className="text-[11px] font-bold text-slate-700 font-sora uppercase tracking-wide">
+                Invoice Breakdown ({drillCustomer.invoices_list?.length || drillCustomer.invoices || 0} Invoices)
+              </h3>
+              <div className="bg-slate-50 rounded-xl border border-slate-200 overflow-hidden">
+                <div className="overflow-x-auto max-h-72 overflow-y-auto">
+                  <table className="w-full text-left text-xs">
+                    <thead className="bg-slate-100/80 sticky top-0 border-b border-slate-200 text-slate-600 font-bold font-sora">
+                      <tr>
+                        <th className="py-2.5 px-3">Invoice No</th>
+                        <th className="py-2.5 px-3">Date</th>
+                        <th className="py-2.5 px-3 text-right">Cases</th>
+                        <th className="py-2.5 px-3 text-right">Revenue</th>
+                        <th className="py-2.5 px-3 text-right">True Cost</th>
+                        <th className="py-2.5 px-3 text-right">Gross Profit</th>
+                        <th className="py-2.5 px-3 text-right">Margin %</th>
+                        <th className="py-2.5 px-3">Products</th>
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-slate-100 font-inter">
-                      {drillInvoices.map((inv, i) => {
-                        const loss = inv.gross_profit < 0;
-                        return (
-                          <tr key={i} className={loss ? "bg-rose-50/40" : ""}>
-                            <td className="py-2 px-3 font-semibold text-slate-900">{inv.customer}</td>
-                            <td className="py-2 px-3 text-right text-slate-500">{inv.invoices}</td>
-                            <td className="py-2 px-3 text-right">{formatCurrency(inv.revenue, currency, true)}</td>
-                            <td className="py-2 px-3 text-right text-slate-500">{formatCurrency(inv.cost, currency, true)}</td>
-                            <td className={`py-2 px-3 text-right font-bold ${loss ? "text-rose-700" : "text-emerald-700"}`}>
-                              {formatCurrency(inv.gross_profit, currency, true)}
-                            </td>
-                            <td className={`py-2 px-3 text-right font-bold ${loss ? "text-rose-700" : "text-slate-700"}`}>
-                              {formatPercent(inv.margin_pct)}
-                            </td>
-                          </tr>
-                        );
-                      })}
+                    <tbody className="divide-y divide-slate-200/60 font-inter">
+                      {drillCustomer.invoices_list && drillCustomer.invoices_list.length > 0 ? (
+                        drillCustomer.invoices_list.map((inv, i) => {
+                          const loss = inv.gross_profit < 0;
+                          return (
+                            <tr key={i} className={`hover:bg-slate-100/50 transition-colors ${loss ? "bg-rose-50/40" : ""}`}>
+                              <td className="py-2.5 px-3 font-bold font-sora text-slate-900">
+                                {inv.invoice_no}
+                              </td>
+                              <td className="py-2.5 px-3 text-slate-500 font-medium text-[11px]">
+                                {inv.date || "N/A"}
+                              </td>
+                              <td className="py-2.5 px-3 text-right text-slate-700 font-semibold">
+                                {formatNumber(inv.cases_sold)} cs
+                              </td>
+                              <td className="py-2.5 px-3 text-right font-semibold text-slate-900">
+                                {formatCurrency(inv.revenue, currency, true)}
+                              </td>
+                              <td className="py-2.5 px-3 text-right text-slate-500 font-medium">
+                                {formatCurrency(inv.total_cost, currency, true)}
+                              </td>
+                              <td className={`py-2.5 px-3 text-right font-bold ${loss ? "text-rose-700" : "text-emerald-700"}`}>
+                                {formatCurrency(inv.gross_profit, currency, true)}
+                              </td>
+                              <td className={`py-2.5 px-3 text-right font-extrabold ${loss ? "text-rose-700" : "text-slate-700"}`}>
+                                {formatPercent(inv.margin_pct)}
+                              </td>
+                              <td className="py-2.5 px-3 text-slate-500 text-[11px] max-w-[200px] truncate" title={inv.products || ""}>
+                                {inv.products || "—"}
+                              </td>
+                            </tr>
+                          );
+                        })
+                      ) : (
+                        <tr>
+                          <td colSpan={8} className="py-4 text-center text-slate-400">
+                            No individual invoice lines available.
+                          </td>
+                        </tr>
+                      )}
                     </tbody>
                   </table>
                 </div>
               </div>
-            )}
+            </div>
           </div>
         </div>
       )}
+
     </div>
   );
 }

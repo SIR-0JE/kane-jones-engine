@@ -159,6 +159,18 @@ export interface TrueCostProductItem {
   gross_profit_pct: number;
 }
 
+export interface CustomerInvoiceRecord {
+  invoice_no: string;
+  date?: string;
+  cases_sold: number;
+  revenue: number;
+  total_cost: number;
+  gross_profit: number;
+  margin_pct: number;
+  items_count?: number;
+  products?: string;
+}
+
 export interface TrueCostMarketerItem {
   customer: string;
   total_revenue: number;
@@ -172,7 +184,9 @@ export interface TrueCostMarketerItem {
   pct_of_target_met?: number;
   attributable_expenses?: number;
   net_marketer_profit?: number;
+  invoices_list?: CustomerInvoiceRecord[];
 }
+
 
 
 

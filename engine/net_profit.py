@@ -196,12 +196,20 @@ def parse_expenses_sheet(
                             })
 
             if daybook_expenses:
-                df_daybook = pd.DataFrame(daybook_expenses)
+                df_daybook_raw = pd.DataFrame(daybook_expenses)
+                # Aggregate by unique category name to prevent duplication in category tables
+                df_daybook = df_daybook_raw.groupby("category", as_index=False).agg(
+                    amount=("amount", "sum"),
+                    voucher_count=("voucher_no", "count"),
+                    source_row=("source_row", "first")
+                ).sort_values(by="amount", ascending=False).reset_index(drop=True)
+                
                 if daybook_total == 0.0 and not df_daybook.empty:
                     daybook_total = float(df_daybook["amount"].sum())
                 return daybook_total, df_daybook, anomalies
 
     return 0.0, pd.DataFrame(), anomalies
+
 
 
 def compute_net_profit_bridge(

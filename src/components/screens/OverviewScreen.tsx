@@ -421,41 +421,42 @@ export function OverviewScreen({ data, onNavigate, onDeleteAudit, onRenameAudit 
                 </div>
               </div>
 
-              {/* Step 4: Net Cost (Total Cost − Purchase Returns - RED DEDUCTION) */}
+              {/* Step 4: Total Product Cost (COGS - RED DEDUCTION) */}
               <div
                 onClick={() =>
                   setSelectedMetric({
                     step: "Step 4",
-                    title: "Net Cost (Total Cost − Purchase Returns)",
+                    title: "Total Product Cost (COGS)",
                     value: netCost,
                     formattedExact: `−${formatCurrency(netCost, currency, false)}`,
                     formattedCompact: `−${formatCurrency(netCost, currency, true)}`,
                     isDeduction: true,
-                    description: "Net cost of goods sold computed as Total Invoiced Embedded Cost minus Purchase Returns (goods returned to suppliers).",
-                    formula: "Total Invoiced Cost − Purchase Returns",
-                    sourceSheet: "Invoice Product Line Items (tmp3F5D) & Purchase Returns",
+                    description: "Net cost of goods sold computed as Gross Invoiced Product Cost minus the Cost Basis of Sales Returns credited back to customers.",
+                    formula: "Gross Product Cost − Cost of Sales Returns",
+                    sourceSheet: "Invoice Product Line Items (tmp3F5D) & Sales Returns (tmpCEF3)",
                     targetTab: "products",
                     details: [
-                      { label: "Total Invoiced Cost", value: formatCurrency(grossCost, currency, false) },
-                      { label: "Purchase Returns", value: purchaseReturns > 0 ? `−${formatCurrency(purchaseReturns, currency, false)}` : "₦0.00 (None recorded)" },
-                      { label: "Net Cost Basis", value: formatCurrency(netCost, currency, false) },
+                      { label: "Gross Product Cost", value: formatCurrency(grossCost, currency, false) },
+                      { label: "Less Cost of Returns", value: `−${formatCurrency(bridge?.cost_of_returns || (grossCost - netCost), currency, false)}` },
+                      { label: "Net Invoiced COGS", value: formatCurrency(netCost, currency, false) },
                     ],
                   })
                 }
                 className="bg-rose-50/60 hover:bg-rose-100/50 hover:border-rose-300 hover:shadow-sm cursor-pointer p-3.5 sm:p-4 rounded-xl border border-rose-200 shadow-xs flex flex-col justify-between transition-all"
               >
                 <span className="text-[10px] font-bold text-rose-700 uppercase tracking-wider font-sora">
-                  4. Net Cost
+                  4. Total Product Cost
                 </span>
                 <div className="mt-2">
                   <div className="text-base sm:text-lg lg:text-xl font-bold text-rose-700 tracking-tight font-sora truncate">
                     {displayMoney(netCost, true)}
                   </div>
                   <span className="text-[11px] text-rose-600 font-medium block mt-1">
-                    Total Cost − Returns
+                    Net Invoiced COGS
                   </span>
                 </div>
               </div>
+
 
               {/* Step 5: Gross Profit (Green if positive, Red if negative) */}
               <div

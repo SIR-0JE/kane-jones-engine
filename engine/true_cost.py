@@ -356,10 +356,14 @@ def compute_marketer_profitability(
 
     cust_summary = cust_summary.sort_values(by="total_revenue", ascending=False).reset_index(drop=True)
 
-    # 4. Detailed Per-Customer Product Breakdown
+    # 4. Detailed Per-Customer Product & Invoice Breakdowns
     customer_product_details = {}
+    customer_invoice_details = {}
+
     for cust in cust_summary["customer"]:
         c_items = prod_items[prod_items["customer"] == cust]
+        
+        # Product breakdown
         cp_grouped = c_items.groupby("product_raw", as_index=False).agg(
             cases_sold=("quantity", "sum"),
             revenue=("revenue", "sum"),
@@ -376,6 +380,28 @@ def compute_marketer_profitability(
         )
         customer_product_details[cust] = cp_grouped.sort_values(by="revenue", ascending=False).reset_index(drop=True)
 
+        # Invoice-level breakdown for audit tracing
+        if "invoice_no" in c_items.columns:
+            cinv_grouped = c_items.groupby("invoice_no", as_index=False).agg(
+                date=("date", "first"),
+                cases_sold=("quantity", "sum"),
+                revenue=("revenue", "sum"),
+                total_cost=("total_cost", "sum"),
+                gross_profit=("gross_profit", "sum"),
+                items_count=("product_raw", "count"),
+                products=("product_raw", lambda p: ", ".join(list(dict.fromkeys(str(x) for x in p if pd.notna(x) and str(x)))))
+            )
+            cinv_grouped["margin_pct"] = np.where(
+                cinv_grouped["revenue"] > 0,
+                cinv_grouped["gross_profit"] / cinv_grouped["revenue"],
+                0.0
+            )
+            customer_invoice_details[cust] = cinv_grouped.sort_values(by="revenue", ascending=False).to_dict(orient="records")
+        else:
+            customer_invoice_details[cust] = []
+
+    cust_summary["invoices_list"] = cust_summary["customer"].map(customer_invoice_details)
+
     overall_summary = {
         "total_revenue": float(cust_summary["total_revenue"].sum()),
         "total_cost": float(cust_summary["total_cost"].sum()),
@@ -385,6 +411,7 @@ def compute_marketer_profitability(
     }
 
     return cust_summary, customer_product_details, overall_summary
+
 
 
 def compute_returns_analysis(
