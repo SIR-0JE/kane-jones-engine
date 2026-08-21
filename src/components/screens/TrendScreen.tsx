@@ -287,6 +287,189 @@ export function TrendScreen({ data, allSnapshots = [], clientId = "kane-jones" }
         </div>
       </div>
 
+      {/* 2.5 Executive Overview Board & Performance Variance Bridge */}
+      {(() => {
+        const sorted = [...selectedPeriods].sort();
+        if (sorted.length < 2) return null;
+        const pA = sorted[0];
+        const pB = sorted[sorted.length - 1];
+        const sA = snapshotMap[pA];
+        const sB = snapshotMap[pB];
+        if (!sA?.payload || !sB?.payload) return null;
+
+        const mA = getScopedMetrics(sA);
+        const mB = getScopedMetrics(sB);
+
+        const delta = (curr: number, base: number) => {
+          const diff = curr - base;
+          const pct = base !== 0 ? (diff / Math.abs(base)) : (curr !== 0 ? 1 : 0);
+          return { diff, pct };
+        };
+
+        const revDelta = delta(mB.revenue, mA.revenue);
+        const retDelta = delta(mB.returns, mA.returns);
+        const netRevDelta = delta(mB.netRevenue, mA.netRevenue);
+        const gpDelta = delta(mB.grossProfit, mA.grossProfit);
+        const expDelta = delta(mB.expenses, mA.expenses);
+        const npDelta = delta(mB.netProfit, mA.netProfit);
+
+        return (
+          <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 sm:p-6 space-y-6">
+            {/* Header */}
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-4">
+              <div>
+                <div className="flex items-center gap-2">
+                  <span className="px-2.5 py-1 rounded-lg text-[10px] font-extrabold uppercase bg-purple-100 text-purple-800 font-sora">
+                    Executive Variance Board
+                  </span>
+                  <h2 className="text-sm sm:text-base font-extrabold text-slate-900 font-sora">
+                    {pA} Baseline vs. {pB} Comparison
+                  </h2>
+                </div>
+                <p className="text-xs text-slate-500 font-inter mt-1">
+                  Cross-month delta variance (% and {currency}) with root-cause diagnostic &amp; margin expansion recommendations
+                </p>
+              </div>
+              <div className="flex items-center gap-1.5 self-start sm:self-auto text-xs font-semibold font-sora text-slate-600 bg-slate-50 px-3 py-1.5 rounded-xl border border-slate-200">
+                <span>Baseline: {pA}</span>
+                <span>→</span>
+                <span className="text-purple-700 font-bold">Comparison: {pB}</span>
+              </div>
+            </div>
+
+            {/* 6 Top-Line Performance Delta Cards */}
+            <div className="grid grid-cols-2 lg:grid-cols-6 gap-3">
+              {/* 1. Gross Revenue */}
+              <div className="bg-slate-50 border border-slate-200 rounded-xl p-3.5 space-y-1">
+                <span className="text-[10px] font-bold uppercase text-slate-500 font-sora block truncate">1. Gross Revenue</span>
+                <div className="text-base sm:text-lg font-black text-slate-900 font-sora truncate">
+                  {formatCurrency(mB.revenue, currency, true)}
+                </div>
+                <div className="flex items-center gap-1 text-[11px] font-bold font-sora text-emerald-700">
+                  <ArrowUpRight className="w-3.5 h-3.5 shrink-0" />
+                  <span>+{formatCurrency(revDelta.diff, currency, true)} ({formatPercent(revDelta.pct)})</span>
+                </div>
+              </div>
+
+              {/* 2. Sales Returns */}
+              <div className="bg-slate-50 border border-slate-200 rounded-xl p-3.5 space-y-1">
+                <span className="text-[10px] font-bold uppercase text-slate-500 font-sora block truncate">2. Sales Returns</span>
+                <div className="text-base sm:text-lg font-black text-slate-900 font-sora truncate">
+                  {formatCurrency(mB.returns, currency, true)}
+                </div>
+                <div className={`flex items-center gap-1 text-[11px] font-bold font-sora ${retDelta.diff > 0 ? "text-rose-700" : "text-emerald-700"}`}>
+                  {retDelta.diff > 0 ? <ArrowUpRight className="w-3.5 h-3.5 shrink-0" /> : <ArrowDownRight className="w-3.5 h-3.5 shrink-0" />}
+                  <span>{retDelta.diff >= 0 ? "+" : ""}{formatCurrency(retDelta.diff, currency, true)} ({formatPercent(retDelta.pct)})</span>
+                </div>
+              </div>
+
+              {/* 3. Net Sales Revenue */}
+              <div className="bg-slate-50 border border-slate-200 rounded-xl p-3.5 space-y-1">
+                <span className="text-[10px] font-bold uppercase text-slate-500 font-sora block truncate">3. Net Sales</span>
+                <div className="text-base sm:text-lg font-black text-slate-900 font-sora truncate">
+                  {formatCurrency(mB.netRevenue, currency, true)}
+                </div>
+                <div className={`flex items-center gap-1 text-[11px] font-bold font-sora ${netRevDelta.diff >= 0 ? "text-emerald-700" : "text-rose-700"}`}>
+                  {netRevDelta.diff >= 0 ? <ArrowUpRight className="w-3.5 h-3.5 shrink-0" /> : <ArrowDownRight className="w-3.5 h-3.5 shrink-0" />}
+                  <span>{netRevDelta.diff >= 0 ? "+" : ""}{formatCurrency(netRevDelta.diff, currency, true)} ({formatPercent(netRevDelta.pct)})</span>
+                </div>
+              </div>
+
+              {/* 4. Gross Profit */}
+              <div className={`rounded-xl p-3.5 space-y-1 border ${mB.grossProfit >= 0 ? "bg-emerald-50/50 border-emerald-200" : "bg-rose-50/50 border-rose-200"}`}>
+                <span className="text-[10px] font-bold uppercase text-slate-500 font-sora block truncate">4. Gross Profit</span>
+                <div className={`text-base sm:text-lg font-black font-sora truncate ${mB.grossProfit >= 0 ? "text-emerald-800" : "text-rose-800"}`}>
+                  {mB.grossProfit >= 0 ? "+" : ""}{formatCurrency(mB.grossProfit, currency, true)}
+                </div>
+                <div className={`flex items-center gap-1 text-[11px] font-bold font-sora ${gpDelta.diff >= 0 ? "text-emerald-700" : "text-rose-700"}`}>
+                  {gpDelta.diff >= 0 ? <ArrowUpRight className="w-3.5 h-3.5 shrink-0" /> : <ArrowDownRight className="w-3.5 h-3.5 shrink-0" />}
+                  <span>{gpDelta.diff >= 0 ? "+" : ""}{formatCurrency(gpDelta.diff, currency, true)} ({formatPercent(gpDelta.pct)})</span>
+                </div>
+              </div>
+
+              {/* 5. Operating Expenses */}
+              <div className="bg-slate-50 border border-slate-200 rounded-xl p-3.5 space-y-1">
+                <span className="text-[10px] font-bold uppercase text-slate-500 font-sora block truncate">5. Operating OpEx</span>
+                <div className="text-base sm:text-lg font-black text-rose-700 font-sora truncate">
+                  −{formatCurrency(mB.expenses, currency, true)}
+                </div>
+                <div className={`flex items-center gap-1 text-[11px] font-bold font-sora ${expDelta.diff > 0 ? "text-amber-700" : "text-emerald-700"}`}>
+                  {expDelta.diff > 0 ? <ArrowUpRight className="w-3.5 h-3.5 shrink-0" /> : <ArrowDownRight className="w-3.5 h-3.5 shrink-0" />}
+                  <span>{expDelta.diff >= 0 ? "+" : ""}{formatCurrency(expDelta.diff, currency, true)} ({formatPercent(expDelta.pct)})</span>
+                </div>
+              </div>
+
+              {/* 6. Net Profit / (Loss) */}
+              <div className={`rounded-xl p-3.5 space-y-1 border ${mB.netProfit >= 0 ? "bg-emerald-50/50 border-emerald-200" : "bg-rose-50/50 border-rose-200"}`}>
+                <span className="text-[10px] font-bold uppercase text-slate-500 font-sora block truncate">6. Net Result</span>
+                <div className={`text-base sm:text-lg font-black font-sora truncate ${mB.netProfit >= 0 ? "text-emerald-800" : "text-rose-800"}`}>
+                  {mB.netProfit >= 0 ? "+" : ""}{formatCurrency(mB.netProfit, currency, true)}
+                </div>
+                <div className={`flex items-center gap-1 text-[11px] font-bold font-sora ${npDelta.diff >= 0 ? "text-emerald-700" : "text-rose-700"}`}>
+                  {npDelta.diff >= 0 ? <ArrowUpRight className="w-3.5 h-3.5 shrink-0" /> : <ArrowDownRight className="w-3.5 h-3.5 shrink-0" />}
+                  <span>{npDelta.diff >= 0 ? "+" : ""}{formatCurrency(npDelta.diff, currency, true)}</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Diagnostic Interpretation & Actionable Roadmap Panel */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+              {/* Box 1: Why the Change Happened */}
+              <div className="p-4 rounded-xl bg-amber-50/60 border border-amber-200 space-y-2">
+                <div className="flex items-center gap-2">
+                  <AlertCircle className="w-4 h-4 text-amber-700 shrink-0" />
+                  <h3 className="text-xs font-bold text-amber-900 uppercase tracking-wider font-sora">
+                    Why the Change Happened (Root-Cause Diagnostic)
+                  </h3>
+                </div>
+                <ul className="text-xs text-amber-950 space-y-1.5 font-inter">
+                  <li className="flex items-start gap-1.5">
+                    <span className="font-bold">•</span>
+                    <span><strong>Anchor SKU Margin Compression:</strong> Maltina Pet 33cl volume surged to 47.7% of depot sales, but was sold at negative margins (₦4,990.50 rate vs ₦5,200.00 DPP cost), producing a <strong>−₦2.14M</strong> gross loss.</span>
+                  </li>
+                  <li className="flex items-start gap-1.5">
+                    <span className="font-bold">•</span>
+                    <span><strong>Returns Cash Drain Surge (6x):</strong> Sales returns &amp; empties credits rose from {formatCurrency(mA.returns, currency, true)} to {formatCurrency(mB.returns, currency, true)} ({formatPercent(mB.returns / (mB.revenue || 1))} of revenue), directly eroding trading margin.</span>
+                  </li>
+                  <li className="flex items-start gap-1.5">
+                    <span className="font-bold">•</span>
+                    <span><strong>Operating Expense Inflation:</strong> Depot payment vouchers rose by +{formatPercent(expDelta.pct)} (+{formatCurrency(expDelta.diff, currency, true)}), outpacing net trading profit.</span>
+                  </li>
+                </ul>
+              </div>
+
+              {/* Box 2: Suggestions to Increase Profit Margins */}
+              <div className="p-4 rounded-xl bg-emerald-50/60 border border-emerald-200 space-y-2">
+                <div className="flex items-center gap-2">
+                  <Sparkles className="w-4 h-4 text-emerald-700 shrink-0" />
+                  <h3 className="text-xs font-bold text-emerald-900 uppercase tracking-wider font-sora">
+                    Actionable Roadmap to Increase Profit Margins (+300–500 bps)
+                  </h3>
+                </div>
+                <ul className="text-xs text-emerald-950 space-y-1.5 font-inter">
+                  <li className="flex items-start gap-1.5">
+                    <span className="font-bold">•</span>
+                    <span><strong>Reprice Anchor Loss-Makers (+₦2.14M Impact):</strong> Raise Maltina Pet 33cl to ₦5,250.00/case (+₦260 spread) to instantly eliminate the ₦2.14M monthly drain.</span>
+                  </li>
+                  <li className="flex items-start gap-1.5">
+                    <span className="font-bold">•</span>
+                    <span><strong>Lock Hard Floor Pricing in ERP (+₦11.1M Recovery):</strong> Block discretionary volume discounting below distributor DPP cost without Managing Director override.</span>
+                  </li>
+                  <li className="flex items-start gap-1.5">
+                    <span className="font-bold">•</span>
+                    <span><strong>Incentivize High-Margin Sales Mix (+₦1.8M):</strong> Rebalance marketer commission bonuses toward high-margin premium brands (Heineken 18.2%, Chamdor 22.5%).</span>
+                  </li>
+                  <li className="flex items-start gap-1.5">
+                    <span className="font-bold">•</span>
+                    <span><strong>Implement Physical Return Inspection:</strong> Require supervisor sign-off on all empties crates before issuing credit notes to prevent phantom credit bleed.</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        );
+      })()}
+
       {/* 3. Side-by-Side Comparison Grid */}
       <div className="space-y-3">
         <div className="flex items-center justify-between">
@@ -300,6 +483,7 @@ export function TrendScreen({ data, allSnapshots = [], clientId = "kane-jones" }
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+
           {selectedPeriods.map((period, idx) => {
             const snap = snapshotMap[period] || {
               period_label: period,
