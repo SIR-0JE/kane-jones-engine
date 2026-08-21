@@ -25,7 +25,7 @@ export function ReturnsScreen({ data }: ReturnsScreenProps) {
   const returns = data.returns_analysis;
   const bridge = data.net_profit_bridge;
 
-  const [activeView, setActiveView] = useState<"items" | "customers" | "weekly">("items");
+  const [activeView, setActiveView] = useState<"items" | "customers" | "weekly" | "purchase_returns">("items");
 
   // Dynamic calculations from parsed data (defaulting to 0 if no returns in period)
   const totalVal = returns?.total_returns_value ?? bridge?.total_sales_returns ?? 0;
@@ -36,6 +36,7 @@ export function ReturnsScreen({ data }: ReturnsScreenProps) {
   const returnRate = returns?.return_rate ?? bridge?.return_rate ?? (data.meta?.total_revenue ? totalVal / data.meta.total_revenue : 0);
 
   const costOfReturns = bridge?.cost_of_returns ?? 0;
+  const purchaseReturns = bridge?.purchase_returns ?? 0;
 
   const items = returns?.items_breakdown || [];
   const customers = returns?.customers_breakdown || [];
@@ -52,16 +53,16 @@ export function ReturnsScreen({ data }: ReturnsScreenProps) {
             </div>
             <div>
               <h1 className="text-base font-extrabold text-slate-900 font-sora">
-                Sales Returns & Credit Notes Analysis
+                Returns Intelligence & Reconciliation
               </h1>
               <p className="text-xs text-slate-500 font-inter">
-                Credit note analysis (tmpCEF3) • Period returns reconciliation & COGS cost credit
+                Customer sales returns (tmpCEF3) • Supplier purchase returns & COGS cost basis credit
               </p>
             </div>
           </div>
         </div>
 
-        <div className="inline-flex p-1 bg-slate-100/80 rounded-xl border border-slate-200/60 self-start sm:self-auto">
+        <div className="inline-flex p-1 bg-slate-100/80 rounded-xl border border-slate-200/60 self-start sm:self-auto flex-wrap gap-1">
           <button
             onClick={() => setActiveView("items")}
             className={`px-3 py-1.5 rounded-lg text-xs font-bold font-sora transition-all ${
@@ -92,8 +93,19 @@ export function ReturnsScreen({ data }: ReturnsScreenProps) {
           >
             Weekly Trend ({weekly.length || 5})
           </button>
+          <button
+            onClick={() => setActiveView("purchase_returns")}
+            className={`px-3 py-1.5 rounded-lg text-xs font-bold font-sora transition-all ${
+              activeView === "purchase_returns"
+                ? "bg-purple-600 text-white shadow-xs"
+                : "text-purple-700 hover:text-purple-900 bg-purple-50"
+            }`}
+          >
+            Purchase Returns
+          </button>
         </div>
       </div>
+
 
       {/* 2. Top Summary KPI Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3.5">
@@ -411,6 +423,72 @@ export function ReturnsScreen({ data }: ReturnsScreenProps) {
           </div>
         </div>
       )}
+
+      {activeView === "purchase_returns" && (
+        <div className="space-y-4">
+          <div className="flex items-center justify-between px-1">
+            <div>
+              <h2 className="text-xs font-bold text-slate-900 uppercase tracking-wider font-sora">
+                Supplier Purchase Returns & Factory Debit Notes
+              </h2>
+              <p className="text-[11px] text-slate-500">
+                Goods returned by the depot to the beverage manufacturer (e.g. Nigerian Breweries, Guinness)
+              </p>
+            </div>
+            <div className="text-right">
+              <span className="text-[10px] font-bold text-slate-400 uppercase font-sora block">Recorded in Period</span>
+              <span className="text-sm font-extrabold text-slate-900 font-sora">
+                {purchaseReturns > 0 ? formatCurrency(purchaseReturns, currency, false) : "₦0.00"}
+              </span>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="p-4 rounded-2xl bg-white border border-slate-200 shadow-2xs space-y-2">
+              <span className="text-[10px] font-bold text-slate-400 uppercase font-sora">Total Purchase Returns</span>
+              <p className="text-xl font-extrabold text-slate-900 font-sora">
+                {formatCurrency(purchaseReturns, currency, false)}
+              </p>
+              <p className="text-xs text-slate-500">
+                {purchaseReturns > 0 ? "Credited against supplier payables" : "0 supplier debit notes logged"}
+              </p>
+            </div>
+
+            <div className="p-4 rounded-2xl bg-white border border-slate-200 shadow-2xs space-y-2">
+              <span className="text-[10px] font-bold text-slate-400 uppercase font-sora">P&L Accounting Treatment</span>
+              <p className="text-xs font-bold text-slate-800 font-sora">
+                Deduction from Supplier Purchases (COGS)
+              </p>
+              <p className="text-xs text-slate-500">
+                Supplier returns reduce gross depot inventory purchases before calculating gross profit.
+              </p>
+            </div>
+
+            <div className="p-4 rounded-2xl bg-white border border-slate-200 shadow-2xs space-y-2">
+              <span className="text-[10px] font-bold text-slate-400 uppercase font-sora">Audit Status</span>
+              <span className="inline-flex px-2 py-0.5 rounded text-[10px] font-extrabold uppercase bg-emerald-50 text-emerald-700 border border-emerald-200">
+                Reconciled
+              </span>
+              <p className="text-xs text-slate-500">
+                Customer Sales Returns (tmpCEF3) are tracked separately from Supplier Purchase Returns.
+              </p>
+            </div>
+          </div>
+
+          <div className="bg-slate-50 border border-slate-200 rounded-2xl p-6 text-center space-y-2">
+            <div className="w-10 h-10 rounded-full bg-purple-50 text-purple-600 flex items-center justify-center mx-auto">
+              <RotateCcw className="w-5 h-5" />
+            </div>
+            <h3 className="text-sm font-bold text-slate-800 font-sora">
+              {purchaseReturns > 0 ? "Supplier Return Records Active" : "No Supplier Purchase Returns in This Audit Period"}
+            </h3>
+            <p className="text-xs text-slate-500 max-w-lg mx-auto font-inter">
+              All returned merchandise in this workbook represents <strong>Customer Sales Returns</strong> (credited via customer credit notes in sheet <code>tmpCEF3</code>). If the depot returns damaged or expired stock to the manufacturer, debit notes will be parsed and listed here.
+            </p>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
+

@@ -92,8 +92,9 @@ export function TrendScreen({ data, allSnapshots = [], clientId = "kane-jones" }
       }));
 
       try {
-        const snap = await fetchSnapshot(clientId, period);
+        const snap = await fetchSnapshot(period, clientId);
         setSnapshotMap((prev) => ({
+
           ...prev,
           [period]: {
             period_label: period,
