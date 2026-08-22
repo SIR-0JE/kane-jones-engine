@@ -115,36 +115,65 @@ class PresentationBuilder:
         if not self.prior_payload:
             client_id = self.meta.get("client_id", "kane-jones")
             try:
-                from engine.snapshots import load_snapshot
+                from engine.snapshots import load_snapshot, list_snapshots
+                all_snaps = list_snapshots(client_id)
+                other_snaps = [s for s in all_snaps if s != self.period_label]
+
                 parts = self.period_label.split("-")
+                target_peer = None
                 if len(parts) == 2:
                     y, m = int(parts[0]), int(parts[1])
                     prior_lbl = f"{y-1}-12" if m == 1 else f"{y}-{m-1:02d}"
-                    self.prior_payload = load_snapshot(client_id, prior_lbl)
+                    next_lbl = f"{y+1}-01" if m == 12 else f"{y}-{m+1:02d}"
+                    if prior_lbl in other_snaps:
+                        target_peer = prior_lbl
+                    elif next_lbl in other_snaps:
+                        target_peer = next_lbl
+
+                if not target_peer and other_snaps:
+                    target_peer = other_snaps[0]
+
+                if target_peer:
+                    self.prior_payload = load_snapshot(client_id, target_peer)
             except Exception:
                 self.prior_payload = None
 
         self.variance = None
         if self.prior_payload:
-            p_bridge = self.prior_payload.get("net_profit_bridge", {})
-            c_bridge = self.payload.get("net_profit_bridge", {})
+            p_label = self.prior_payload.get("meta", {}).get("period_label", "2026-06")
+            c_label = self.period_label
 
-            p_rev = p_bridge.get("gross_sales_revenue", self.prior_payload.get("meta", {}).get("total_revenue", 0.0))
-            c_rev = c_bridge.get("gross_sales_revenue", self.meta.get("total_revenue", 0.0))
+            # Sort chronologically so Baseline is always the earlier period
+            if p_label <= c_label:
+                base_snap = self.prior_payload
+                comp_snap = self.payload
+                base_lbl = p_label
+                comp_lbl = c_label
+            else:
+                base_snap = self.payload
+                comp_snap = self.prior_payload
+                base_lbl = c_label
+                comp_lbl = p_label
 
-            p_ret = p_bridge.get("total_sales_returns", 0.0)
+            b_bridge = base_snap.get("net_profit_bridge", {})
+            c_bridge = comp_snap.get("net_profit_bridge", {})
+
+            b_rev = b_bridge.get("gross_sales_revenue", base_snap.get("meta", {}).get("total_revenue", 0.0))
+            c_rev = c_bridge.get("gross_sales_revenue", comp_snap.get("meta", {}).get("total_revenue", 0.0))
+
+            b_ret = b_bridge.get("total_sales_returns", 0.0)
             c_ret = c_bridge.get("total_sales_returns", 0.0)
 
-            p_net_rev = p_bridge.get("net_sales_revenue", p_rev - p_ret)
+            b_net_rev = b_bridge.get("net_sales_revenue", b_rev - b_ret)
             c_net_rev = c_bridge.get("net_sales_revenue", c_rev - c_ret)
 
-            p_gp = p_bridge.get("net_gross_profit_loss", p_bridge.get("gross_profit", self.prior_payload.get("meta", {}).get("total_gross_profit", 0.0)))
-            c_gp = c_bridge.get("net_gross_profit_loss", c_bridge.get("gross_profit", self.meta.get("total_gross_profit", 0.0)))
+            b_gp = b_bridge.get("net_gross_profit_loss", b_bridge.get("gross_profit", base_snap.get("meta", {}).get("total_gross_profit", 0.0)))
+            c_gp = c_bridge.get("net_gross_profit_loss", c_bridge.get("gross_profit", comp_snap.get("meta", {}).get("total_gross_profit", 0.0)))
 
-            p_exp = p_bridge.get("total_operating_expenses", self.prior_payload.get("expenses_analysis", {}).get("total_expenses", 0.0))
-            c_exp = c_bridge.get("total_operating_expenses", self.payload.get("expenses_analysis", {}).get("total_expenses", 0.0))
+            b_exp = b_bridge.get("total_operating_expenses", base_snap.get("expenses_analysis", {}).get("total_expenses", 0.0))
+            c_exp = c_bridge.get("total_operating_expenses", comp_snap.get("expenses_analysis", {}).get("total_expenses", 0.0))
 
-            p_np = p_bridge.get("net_operating_profit_loss", p_bridge.get("net_profit", p_gp - p_exp))
+            b_np = b_bridge.get("net_operating_profit_loss", b_bridge.get("net_profit", b_gp - b_exp))
             c_np = c_bridge.get("net_operating_profit_loss", c_bridge.get("net_profit", c_gp - c_exp))
 
             def calc_var(curr: float, prev: float) -> Dict[str, Any]:
@@ -153,15 +182,18 @@ class PresentationBuilder:
                 return {"curr": curr, "prev": prev, "diff": diff, "pct": pct}
 
             self.variance = {
-                "prior_label": self.prior_payload.get("meta", {}).get("period_label", "Prior Month"),
-                "curr_label": self.period_label,
-                "gross_revenue": calc_var(c_rev, p_rev),
-                "returns": calc_var(c_ret, p_ret),
-                "net_revenue": calc_var(c_net_rev, p_net_rev),
-                "gross_profit": calc_var(c_gp, p_gp),
-                "expenses": calc_var(c_exp, p_exp),
-                "net_profit": calc_var(c_np, p_np),
+                "base_label": self._derive_month_year(base_lbl),
+                "comp_label": self._derive_month_year(comp_lbl),
+                "prior_label": self._derive_month_year(base_lbl),
+                "curr_label": self._derive_month_year(comp_lbl),
+                "gross_revenue": calc_var(c_rev, b_rev),
+                "returns": calc_var(c_ret, b_ret),
+                "net_revenue": calc_var(c_net_rev, b_net_rev),
+                "gross_profit": calc_var(c_gp, b_gp),
+                "expenses": calc_var(c_exp, b_exp),
+                "net_profit": calc_var(c_np, b_np),
             }
+
 
 
     def _derive_month_year(self, label: str) -> str:
@@ -556,23 +588,16 @@ class PresentationBuilder:
 
     def build_slide_cross_month_trends(self) -> None:
         """Slide: 02B • CROSS-MONTH TREND & VARIANCE ANALYSIS"""
-        p_lbl = self.variance.get("prior_label", "June 2026") if self.variance else "June 2026"
-        c_lbl = self.variance.get("curr_label", self.period_label) if self.variance else self.period_label
+        if not self.variance:
+            return
+
+        base_lbl = self.variance.get("base_label", "JUNE 2026")
+        comp_lbl = self.variance.get("comp_label", "JULY 2026")
 
         slide = self._add_slide(
-            "02B", "Cross-Month Variance Analysis", f"{p_lbl} Baseline vs. {c_lbl} Comparison",
+            "02B", "Cross-Month Variance Analysis", f"{base_lbl} Baseline vs. {comp_lbl} Comparison",
             subtitle="Quantifying Month-over-Month % shifts, root-cause diagnostic ('Why'), and margin recovery roadmap."
         )
-
-        if not self.variance:
-            self._add_card(slide, 0.8, 1.8, 11.733, 4.8, bg_color=COLOR_CARD_DARK, border_color=COLOR_CARD_BORDER)
-            tb = slide.shapes.add_textbox(Inches(1.2), Inches(2.5), Inches(11.0), Inches(3.0))
-            p = tb.text_frame.paragraphs[0]
-            p.text = "Cross-month comparison active. Baseline vs comparison performance metrics are synchronized."
-            p.font.name = FONT_BODY
-            p.font.size = Pt(14)
-            p.font.color.rgb = COLOR_TEXT_MUTED
-            return
 
         # 6 KPI Variance Cards Grid (2 rows of 3)
         w = 3.75
@@ -592,7 +617,7 @@ class PresentationBuilder:
             (
                 "1. GROSS REVENUE",
                 fmt_curr_m(v_rev["curr"], self.currency),
-                f"{fmt_pct(v_rev['pct'])} (+{fmt_curr_m(v_rev['diff'], self.currency)}) vs {p_lbl}",
+                f"{fmt_pct(v_rev['pct'])} (+{fmt_curr_m(v_rev['diff'], self.currency)}) vs {base_lbl}",
                 COLOR_METRIC_GREEN if v_rev["diff"] >= 0 else COLOR_METRIC_RED,
             ),
             (
@@ -604,7 +629,7 @@ class PresentationBuilder:
             (
                 "3. NET SALES",
                 fmt_curr_m(v_net["curr"], self.currency),
-                f"{fmt_pct(v_net['pct'])} (+{fmt_curr_m(v_net['diff'], self.currency)}) vs {p_lbl}",
+                f"{fmt_pct(v_net['pct'])} (+{fmt_curr_m(v_net['diff'], self.currency)}) vs {base_lbl}",
                 COLOR_METRIC_CYAN,
             ),
             (
@@ -616,16 +641,17 @@ class PresentationBuilder:
             (
                 "5. OPERATING OPEX",
                 fmt_curr_m(v_exp["curr"], self.currency),
-                f"{fmt_pct(v_exp['pct'])} (+{fmt_curr_m(v_exp['diff'], self.currency)}) vs {p_lbl}",
+                f"{fmt_pct(v_exp['pct'])} (+{fmt_curr_m(v_exp['diff'], self.currency)}) vs {base_lbl}",
                 COLOR_METRIC_GOLD,
             ),
             (
                 "6. NET RESULT",
                 fmt_curr_m(v_np["curr"], self.currency),
-                f"Net shift: {fmt_curr_m(v_np['diff'], self.currency)} vs {p_lbl}",
+                f"Net shift: {fmt_curr_m(v_np['diff'], self.currency)} vs {base_lbl}",
                 COLOR_METRIC_RED if v_np["curr"] < 0 else COLOR_METRIC_GREEN,
             ),
         ]
+
 
         for idx, (title, val, sub, val_c) in enumerate(cards):
             col = idx % 3
