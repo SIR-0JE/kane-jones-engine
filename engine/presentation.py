@@ -17,25 +17,34 @@ from pptx.enum.text import PP_ALIGN
 from pptx.enum.shapes import MSO_SHAPE
 
 
-# ── Color Palette Constants ──────────────────────────────────────────────────
-# Canvas Background (Slate Blue)
-COLOR_CANVAS_BLUE = RGBColor(34, 76, 118)   # Rich slate blue canvas (#224c76)
+# ── Color Palette Constants (Brand: Green, Red, White & Crisp Slate) ─────────
+# Canvas Background (Pure White)
+COLOR_CANVAS_WHITE = RGBColor(255, 255, 255) # Pure white slide canvas
 
-# Card Containers (Deep Midnight Navy)
-COLOR_CARD_DARK   = RGBColor(11, 25, 44)    # Deep midnight navy (#0b192c)
-COLOR_CARD_BORDER = RGBColor(18, 40, 68)    # Subtle dark border (#122844)
+# Card Containers & Borders
+COLOR_CARD_BG      = RGBColor(255, 255, 255) # Clean white card container (#ffffff)
+COLOR_CARD_MUTED   = RGBColor(248, 250, 252) # Light neutral container (#f8fafc)
+COLOR_CARD_BORDER  = RGBColor(226, 232, 240) # Subtle slate border (#e2e8f0)
 
-# Typography & Accents
-COLOR_TEXT_WHITE  = RGBColor(255, 255, 255) # Pure white
-COLOR_TEXT_CYAN   = RGBColor(125, 211, 252) # Light cyan / title text (#7dd3fc)
-COLOR_TEXT_MUTED  = RGBColor(148, 163, 184) # Muted subtitle text (#94a3b8)
+# Brand Core Colors
+COLOR_BRAND_GREEN  = RGBColor(16, 149, 91)   # Brand emerald/forest green (#10955b)
+COLOR_BRAND_GREEN_DARK = RGBColor(22, 101, 52) # Deep forest green (#166534)
+COLOR_BRAND_RED    = RGBColor(220, 38, 38)   # Brand crimson/coral red (#dc2626)
+COLOR_BRAND_WHITE  = RGBColor(255, 255, 255) # Pure white (#ffffff)
+
+# Typography on Light Background
+COLOR_TEXT_PRIMARY = RGBColor(15, 23, 42)    # Deep slate / charcoal headline (#0f172a)
+COLOR_TEXT_BODY    = RGBColor(51, 65, 85)    # Slate body text (#334155)
+COLOR_TEXT_MUTED   = RGBColor(100, 116, 139) # Muted subtitle & footer text (#64748b)
+COLOR_TEXT_GREEN   = RGBColor(22, 101, 52)   # Brand green text (#166534)
+COLOR_TEXT_RED     = RGBColor(220, 38, 38)   # Brand red text (#dc2626)
+COLOR_TEXT_WHITE   = RGBColor(255, 255, 255) # White text for badges
 
 # Metric Highlight Colors
-COLOR_METRIC_CYAN  = RGBColor(56, 189, 248)  # Electric blue/cyan (#38bdf8)
-COLOR_METRIC_GREEN = RGBColor(52, 211, 153)  # Bright emerald (#34d399)
-COLOR_METRIC_RED   = RGBColor(248, 113, 113) # Coral red (#f87171)
-COLOR_METRIC_GOLD  = RGBColor(251, 191, 36)  # Warm gold/amber (#fbbf24)
-COLOR_METRIC_WHITE = RGBColor(241, 245, 249) # Crisp white (#f1f5f9)
+COLOR_METRIC_GREEN = RGBColor(16, 149, 91)   # Brand emerald green (#10955b)
+COLOR_METRIC_RED   = RGBColor(220, 38, 38)   # Brand red (#dc2626)
+COLOR_METRIC_DARK  = RGBColor(15, 23, 42)    # Deep slate / charcoal (#0f172a)
+COLOR_METRIC_WHITE = RGBColor(255, 255, 255) # Crisp white (#ffffff)
 
 # Standard Fonts
 FONT_HEADING = "Arial"
@@ -210,10 +219,10 @@ class PresentationBuilder:
     def _add_slide(self, section_num: str = "", section_title: str = "", headline: str = "", subtitle: str = "") -> Any:
         slide = self.prs.slides.add_slide(self.blank_layout)
 
-        # Fill slide background with rich slate blue canvas
+        # Fill slide background with pure white canvas
         bg = slide.shapes.add_shape(MSO_SHAPE.RECTANGLE, 0, 0, Inches(13.333), Inches(7.5))
         bg.fill.solid()
-        bg.fill.fore_color.rgb = COLOR_CANVAS_BLUE
+        bg.fill.fore_color.rgb = COLOR_CANVAS_WHITE
         bg.line.fill.background()
 
         # Top Section Header & Headline
@@ -230,7 +239,7 @@ class PresentationBuilder:
                 p0.font.name = FONT_HEADING
                 p0.font.size = Pt(9.5)
                 p0.font.bold = True
-                p0.font.color.rgb = COLOR_TEXT_CYAN
+                p0.font.color.rgb = COLOR_BRAND_GREEN_DARK
 
             # Main Headline
             if headline:
@@ -239,7 +248,7 @@ class PresentationBuilder:
                 p1.font.name = FONT_HEADING
                 p1.font.size = Pt(20)
                 p1.font.bold = True
-                p1.font.color.rgb = COLOR_TEXT_WHITE
+                p1.font.color.rgb = COLOR_TEXT_PRIMARY
                 p1.space_before = Pt(3)
 
             if subtitle:
@@ -271,7 +280,7 @@ class PresentationBuilder:
         top: float,
         width: float,
         height: float,
-        bg_color: RGBColor = COLOR_CARD_DARK,
+        bg_color: RGBColor = COLOR_CARD_BG,
         border_color: RGBColor = COLOR_CARD_BORDER
     ) -> Any:
         shape = slide.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, Inches(left), Inches(top), Inches(width), Inches(height))
@@ -291,8 +300,8 @@ class PresentationBuilder:
         title: str,
         value: str,
         subtitle: str = "",
-        val_color: RGBColor = COLOR_METRIC_CYAN,
-        bg_color: RGBColor = COLOR_CARD_DARK,
+        val_color: RGBColor = COLOR_BRAND_GREEN,
+        bg_color: RGBColor = COLOR_CARD_BG,
         border_color: RGBColor = COLOR_CARD_BORDER,
     ) -> None:
         self._add_card(slide, left, top, width, height, bg_color, border_color)
@@ -307,7 +316,7 @@ class PresentationBuilder:
         p0.font.name = FONT_HEADING
         p0.font.size = Pt(9.5)
         p0.font.bold = True
-        p0.font.color.rgb = COLOR_TEXT_CYAN
+        p0.font.color.rgb = COLOR_TEXT_MUTED
 
         p1 = tf.add_paragraph()
         p1.text = value
@@ -351,13 +360,13 @@ class PresentationBuilder:
         for col_idx, h in enumerate(headers):
             cell = table.cell(0, col_idx)
             cell.fill.solid()
-            cell.fill.fore_color.rgb = RGBColor(8, 20, 36)
+            cell.fill.fore_color.rgb = COLOR_BRAND_GREEN_DARK
             cell.text = h
             for p in cell.text_frame.paragraphs:
                 p.font.name = FONT_HEADING
                 p.font.size = Pt(9)
                 p.font.bold = True
-                p.font.color.rgb = COLOR_TEXT_CYAN
+                p.font.color.rgb = COLOR_BRAND_WHITE
                 if alignments and col_idx < len(alignments):
                     p.alignment = alignments[col_idx]
 
@@ -367,20 +376,20 @@ class PresentationBuilder:
             if row_colors and (row_idx - 1) < len(row_colors):
                 bg_c = row_colors[row_idx - 1][0]
             elif row_idx % 2 == 0:
-                bg_c = RGBColor(14, 32, 56)
+                bg_c = COLOR_CARD_MUTED
             else:
-                bg_c = COLOR_CARD_DARK
+                bg_c = COLOR_BRAND_WHITE
 
             for col_idx, val in enumerate(row):
                 cell = table.cell(row_idx, col_idx)
                 cell.fill.solid()
-                cell.fill.fore_color.rgb = bg_c if bg_c else COLOR_CARD_DARK
+                cell.fill.fore_color.rgb = bg_c if bg_c else COLOR_BRAND_WHITE
 
                 cell.text = str(val)
                 for p in cell.text_frame.paragraphs:
                     p.font.name = FONT_BODY
                     p.font.size = Pt(9)
-                    p.font.color.rgb = COLOR_TEXT_WHITE
+                    p.font.color.rgb = COLOR_TEXT_PRIMARY
                     if row_colors and (row_idx - 1) < len(row_colors):
                         txt_c = row_colors[row_idx - 1][1]
                         if txt_c:
@@ -397,14 +406,14 @@ class PresentationBuilder:
         """Slide 1: Title & Core KPIs"""
         slide = self.prs.slides.add_slide(self.blank_layout)
 
-        # Fill slide background with rich slate blue canvas
+        # Fill slide background with pure white canvas
         bg = slide.shapes.add_shape(MSO_SHAPE.RECTANGLE, 0, 0, Inches(13.333), Inches(7.5))
         bg.fill.solid()
-        bg.fill.fore_color.rgb = COLOR_CANVAS_BLUE
+        bg.fill.fore_color.rgb = COLOR_CANVAS_WHITE
         bg.line.fill.background()
 
         # Title Card Box
-        self._add_card(slide, 0.8, 0.6, 11.733, 2.7, bg_color=COLOR_CARD_DARK, border_color=COLOR_CARD_BORDER)
+        self._add_card(slide, 0.8, 0.6, 11.733, 2.7, bg_color=COLOR_CARD_MUTED, border_color=COLOR_CARD_BORDER)
 
         tb = slide.shapes.add_textbox(Inches(1.2), Inches(0.85), Inches(10.9), Inches(2.2))
         tf = tb.text_frame
@@ -415,14 +424,14 @@ class PresentationBuilder:
         p0.font.name = FONT_HEADING
         p0.font.size = Pt(10)
         p0.font.bold = True
-        p0.font.color.rgb = COLOR_TEXT_CYAN
+        p0.font.color.rgb = COLOR_BRAND_GREEN_DARK
 
         p1 = tf.add_paragraph()
         p1.text = f"{self.month_year} REPORT"
         p1.font.name = FONT_HEADING
         p1.font.size = Pt(28)
         p1.font.bold = True
-        p1.font.color.rgb = COLOR_TEXT_WHITE
+        p1.font.color.rgb = COLOR_TEXT_PRIMARY
         p1.space_before = Pt(4)
 
         p2 = tf.add_paragraph()
@@ -439,7 +448,7 @@ class PresentationBuilder:
         p3.font.color.rgb = COLOR_TEXT_MUTED
         p3.space_before = Pt(6)
 
-        # Core 4 KPIs Grid (Row of 4 Dark Navy Cards)
+        # Core 4 KPIs Grid (Row of 4 Cards)
         bridge = self.payload.get("net_profit_bridge", {})
         gross_sales = bridge.get("gross_sales_revenue", self.meta.get("total_revenue", 0.0))
         returns = bridge.get("total_sales_returns", 0.0)
@@ -459,7 +468,7 @@ class PresentationBuilder:
             title="NET SALES",
             value=fmt_curr_m(net_sales, self.currency),
             subtitle=f"after {fmt_curr_m(returns, self.currency)} returns" if returns > 0 else "full period revenue",
-            val_color=COLOR_METRIC_CYAN,
+            val_color=COLOR_METRIC_DARK,
         )
         self._add_kpi_box(
             slide, 0.8 + (w + gap), y, w, h,
@@ -480,7 +489,7 @@ class PresentationBuilder:
             title="GROSS MARGIN",
             value=fmt_pct(gross_margin, multiply=True),
             subtitle="of net sales",
-            val_color=COLOR_METRIC_WHITE if gross_margin >= 0 else COLOR_METRIC_RED,
+            val_color=COLOR_METRIC_GREEN if gross_margin >= 0 else COLOR_METRIC_RED,
         )
 
         # Footer
@@ -536,11 +545,11 @@ class PresentationBuilder:
             sub_np = f"{fmt_pct(net_loss/net_sales if net_sales else 0)} of net sales"
 
         cards = [
-            ("TOTAL SALES (GROSS)", fmt_curr_m(gross_sales, self.currency), sub_rev, COLOR_METRIC_CYAN),
-            ("SALES RETURNS", f"-{fmt_curr_m(returns, self.currency)}" if returns > 0 else fmt_curr_m(0.0, self.currency), sub_ret, COLOR_METRIC_GOLD),
-            ("NET SALES", fmt_curr_m(net_sales, self.currency), sub_net, COLOR_METRIC_CYAN),
+            ("TOTAL SALES (GROSS)", fmt_curr_m(gross_sales, self.currency), sub_rev, COLOR_METRIC_DARK),
+            ("SALES RETURNS", f"-{fmt_curr_m(returns, self.currency)}" if returns > 0 else fmt_curr_m(0.0, self.currency), sub_ret, COLOR_METRIC_RED if returns > 0 else COLOR_METRIC_DARK),
+            ("NET SALES", fmt_curr_m(net_sales, self.currency), sub_net, COLOR_METRIC_DARK),
             ("GROSS PROFIT", f"+{fmt_curr_m(gross_profit, self.currency)}" if gross_profit >= 0 else fmt_curr_m(gross_profit, self.currency), sub_gp, COLOR_METRIC_GREEN if gross_profit >= 0 else COLOR_METRIC_RED),
-            ("EXPENSES", f"-{fmt_curr_m(expenses, self.currency)}" if expenses > 0 else "None recorded", sub_exp, COLOR_METRIC_GOLD),
+            ("EXPENSES", f"-{fmt_curr_m(expenses, self.currency)}" if expenses > 0 else "None recorded", sub_exp, COLOR_METRIC_RED if expenses > 0 else COLOR_METRIC_DARK),
             ("NET PROFIT / (LOSS)", fmt_curr_m(net_loss, self.currency), sub_np, COLOR_METRIC_RED if net_loss < 0 else COLOR_METRIC_GREEN),
         ]
 
@@ -552,7 +561,7 @@ class PresentationBuilder:
             self._add_kpi_box(slide, x, y, w, h, title, val, sub, val_color=val_c)
 
         # Bottom Commentary Card
-        self._add_card(slide, 0.8, 5.55, 11.733, 1.35, bg_color=COLOR_CARD_DARK, border_color=COLOR_CARD_BORDER)
+        self._add_card(slide, 0.8, 5.55, 11.733, 1.35, bg_color=COLOR_CARD_MUTED, border_color=COLOR_CARD_BORDER)
 
         tb = slide.shapes.add_textbox(Inches(1.0), Inches(5.65), Inches(11.333), Inches(1.15))
         tf = tb.text_frame
@@ -582,7 +591,7 @@ class PresentationBuilder:
             p.text = b
             p.font.name = FONT_BODY
             p.font.size = Pt(8.5)
-            p.font.color.rgb = COLOR_TEXT_MUTED
+            p.font.color.rgb = COLOR_TEXT_BODY
             if i > 0:
                 p.space_before = Pt(2)
 
@@ -630,7 +639,7 @@ class PresentationBuilder:
                 "3. NET SALES",
                 fmt_curr_m(v_net["curr"], self.currency),
                 f"{fmt_pct(v_net['pct'])} (+{fmt_curr_m(v_net['diff'], self.currency)}) vs {base_lbl}",
-                COLOR_METRIC_CYAN,
+                COLOR_METRIC_DARK,
             ),
             (
                 "4. GROSS PROFIT",
@@ -642,7 +651,7 @@ class PresentationBuilder:
                 "5. OPERATING OPEX",
                 fmt_curr_m(v_exp["curr"], self.currency),
                 f"{fmt_pct(v_exp['pct'])} (+{fmt_curr_m(v_exp['diff'], self.currency)}) vs {base_lbl}",
-                COLOR_METRIC_GOLD,
+                COLOR_METRIC_RED if v_exp["diff"] > 0 else COLOR_METRIC_GREEN,
             ),
             (
                 "6. NET RESULT",
@@ -651,7 +660,6 @@ class PresentationBuilder:
                 COLOR_METRIC_RED if v_np["curr"] < 0 else COLOR_METRIC_GREEN,
             ),
         ]
-
 
         for idx, (title, val, sub, val_c) in enumerate(cards):
             col = idx % 3
@@ -666,7 +674,7 @@ class PresentationBuilder:
         panel_y = 4.95
 
         # Left: Why it Happened
-        self._add_card(slide, 0.8, panel_y, panel_w, panel_h, bg_color=COLOR_CARD_DARK, border_color=COLOR_CARD_BORDER)
+        self._add_card(slide, 0.8, panel_y, panel_w, panel_h, bg_color=COLOR_CARD_MUTED, border_color=COLOR_CARD_BORDER)
         tb_left = slide.shapes.add_textbox(Inches(0.95), Inches(panel_y + 0.1), Inches(panel_w - 0.3), Inches(panel_h - 0.2))
         tf_l = tb_left.text_frame
         tf_l.word_wrap = True
@@ -675,7 +683,7 @@ class PresentationBuilder:
         p_lh.font.name = FONT_HEADING
         p_lh.font.size = Pt(9.5)
         p_lh.font.bold = True
-        p_lh.font.color.rgb = COLOR_METRIC_GOLD
+        p_lh.font.color.rgb = COLOR_BRAND_RED
 
         bullets_l = [
             "• Anchor SKU Loss-Leader: Maltina Pet volume rose to 47.7% of depot sales, but was sold at negative margins below DPP cost (-₦2.14M loss).",
@@ -687,11 +695,11 @@ class PresentationBuilder:
             p.text = b
             p.font.name = FONT_BODY
             p.font.size = Pt(8)
-            p.font.color.rgb = COLOR_TEXT_MUTED
+            p.font.color.rgb = COLOR_TEXT_BODY
             p.space_before = Pt(2)
 
         # Right: Actionable Roadmap
-        self._add_card(slide, 0.8 + panel_w + 0.333, panel_y, panel_w, panel_h, bg_color=COLOR_CARD_DARK, border_color=COLOR_CARD_BORDER)
+        self._add_card(slide, 0.8 + panel_w + 0.333, panel_y, panel_w, panel_h, bg_color=COLOR_CARD_MUTED, border_color=COLOR_CARD_BORDER)
         tb_right = slide.shapes.add_textbox(Inches(0.8 + panel_w + 0.333 + 0.15), Inches(panel_y + 0.1), Inches(panel_w - 0.3), Inches(panel_h - 0.2))
         tf_r = tb_right.text_frame
         tf_r.word_wrap = True
@@ -700,7 +708,7 @@ class PresentationBuilder:
         p_rh.font.name = FONT_HEADING
         p_rh.font.size = Pt(9.5)
         p_rh.font.bold = True
-        p_rh.font.color.rgb = COLOR_METRIC_GREEN
+        p_rh.font.color.rgb = COLOR_BRAND_GREEN
 
         bullets_r = [
             "• Reprice Anchor SKUs (+₦2.14M): Raise Maltina Pet 33cl by +₦260 to ₦5,250.00 to immediately stop the depot's largest margin leak.",
@@ -712,9 +720,8 @@ class PresentationBuilder:
             p.text = b
             p.font.name = FONT_BODY
             p.font.size = Pt(8)
-            p.font.color.rgb = COLOR_TEXT_MUTED
+            p.font.color.rgb = COLOR_TEXT_BODY
             p.space_before = Pt(2)
-
 
     def build_slide_3_financial_bridge(self) -> None:
         """Slide 3: 02 • FINANCIAL BRIDGE"""
@@ -740,12 +747,12 @@ class PresentationBuilder:
         y_start = 1.7
 
         cards = [
-            ("GROSS SALES", fmt_curr_m(gross_sales, self.currency), "all invoices, incl. empties", COLOR_METRIC_CYAN),
-            ("LESS RETURNS", f"-{fmt_curr_m(returns, self.currency)}" if returns > 0 else fmt_curr_m(0.0, self.currency), f"{fmt_pct(returns/gross_sales if gross_sales else 0)} of gross sales", COLOR_METRIC_GOLD),
-            ("NET SALES", fmt_curr_m(net_sales, self.currency), "available sales base", COLOR_METRIC_CYAN),
-            ("TOTAL COST", f"-{fmt_curr_m(cost, self.currency)}", "product COGS (excl. empties)", COLOR_METRIC_WHITE),
+            ("GROSS SALES", fmt_curr_m(gross_sales, self.currency), "all invoices, incl. empties", COLOR_METRIC_DARK),
+            ("LESS RETURNS", f"-{fmt_curr_m(returns, self.currency)}" if returns > 0 else fmt_curr_m(0.0, self.currency), f"{fmt_pct(returns/gross_sales if gross_sales else 0)} of gross sales", COLOR_METRIC_RED if returns > 0 else COLOR_METRIC_DARK),
+            ("NET SALES", fmt_curr_m(net_sales, self.currency), "available sales base", COLOR_METRIC_DARK),
+            ("TOTAL COST", f"-{fmt_curr_m(cost, self.currency)}", "product COGS (excl. empties)", COLOR_METRIC_DARK),
             ("GROSS PROFIT", f"+{fmt_curr_m(net_gp, self.currency)}" if net_gp >= 0 else fmt_curr_m(net_gp, self.currency), f"{fmt_pct(net_gp/net_sales if net_sales else 0)} margin", COLOR_METRIC_GREEN if net_gp >= 0 else COLOR_METRIC_RED),
-            ("EXPENSES", f"-{fmt_curr_m(expenses, self.currency)}" if expenses > 0 else "None recorded", "operating expenses", COLOR_METRIC_GOLD),
+            ("EXPENSES", f"-{fmt_curr_m(expenses, self.currency)}" if expenses > 0 else "None recorded", "operating expenses", COLOR_METRIC_RED if expenses > 0 else COLOR_METRIC_DARK),
         ]
 
         for idx, (title, val, sub, val_c) in enumerate(cards):
@@ -775,13 +782,13 @@ class PresentationBuilder:
         y = 1.7
 
         items_count = len(ret_analysis.get("items_breakdown", []))
-        self._add_kpi_box(slide, 0.8, y, w, h, "TOTAL RETURNS", fmt_curr_m(total_ret, self.currency), f"{items_count} return items", COLOR_METRIC_GOLD)
-        self._add_kpi_box(slide, 0.8 + (w + gap), y, w, h, "RETURN RATE", fmt_pct(ret_rate, multiply=True), "of gross sales", COLOR_METRIC_GOLD)
-        self._add_kpi_box(slide, 0.8 + (w + gap) * 2, y, w, h, "EMPTIES / CRATES", fmt_curr_m(emp_ret, self.currency), f"{fmt_pct(emp_ret/total_ret if total_ret else 0)} of returns", COLOR_METRIC_CYAN)
-        self._add_kpi_box(slide, 0.8 + (w + gap) * 3, y, w, h, "PRODUCT RETURNS", fmt_curr_m(prod_ret, self.currency), f"{fmt_pct(prod_ret/total_ret if total_ret else 0)} of returns", COLOR_METRIC_RED)
+        self._add_kpi_box(slide, 0.8, y, w, h, "TOTAL RETURNS", fmt_curr_m(total_ret, self.currency), f"{items_count} return items", COLOR_METRIC_RED if total_ret > 0 else COLOR_METRIC_DARK)
+        self._add_kpi_box(slide, 0.8 + (w + gap), y, w, h, "RETURN RATE", fmt_pct(ret_rate, multiply=True), "of gross sales", COLOR_METRIC_RED if ret_rate > 0.03 else COLOR_METRIC_DARK)
+        self._add_kpi_box(slide, 0.8 + (w + gap) * 2, y, w, h, "EMPTIES / CRATES", fmt_curr_m(emp_ret, self.currency), f"{fmt_pct(emp_ret/total_ret if total_ret else 0)} of returns", COLOR_METRIC_RED if emp_ret > 0 else COLOR_METRIC_DARK)
+        self._add_kpi_box(slide, 0.8 + (w + gap) * 3, y, w, h, "PRODUCT RETURNS", fmt_curr_m(prod_ret, self.currency), f"{fmt_pct(prod_ret/total_ret if total_ret else 0)} of returns", COLOR_METRIC_RED if prod_ret > 0 else COLOR_METRIC_DARK)
 
         # Bottom Left: Return Items Breakdown Card
-        self._add_card(slide, 0.8, 3.3, 5.7, 3.5, bg_color=COLOR_CARD_DARK, border_color=COLOR_CARD_BORDER)
+        self._add_card(slide, 0.8, 3.3, 5.7, 3.5, bg_color=COLOR_CARD_MUTED, border_color=COLOR_CARD_BORDER)
         tb_c = slide.shapes.add_textbox(Inches(1.0), Inches(3.5), Inches(5.3), Inches(3.1))
         tf_c = tb_c.text_frame
         tf_c.word_wrap = True
@@ -790,7 +797,7 @@ class PresentationBuilder:
         p_ch.font.name = FONT_HEADING
         p_ch.font.size = Pt(10.5)
         p_ch.font.bold = True
-        p_ch.font.color.rgb = COLOR_TEXT_CYAN
+        p_ch.font.color.rgb = COLOR_BRAND_RED
 
         items = [
             ("NB Empties", "₦9.82M", "70.3%"),
@@ -805,28 +812,28 @@ class PresentationBuilder:
             p.text = f"{name}:  {val} ({pct})"
             p.font.name = FONT_BODY
             p.font.size = Pt(9.5)
-            p.font.color.rgb = COLOR_TEXT_WHITE
+            p.font.color.rgb = COLOR_TEXT_BODY
             p.space_before = Pt(4)
 
         # Right: Commentary Box
-        self._add_card(slide, 6.74, 3.3, 5.793, 3.5, bg_color=COLOR_CARD_DARK, border_color=COLOR_CARD_BORDER)
+        self._add_card(slide, 6.74, 3.3, 5.793, 3.5, bg_color=COLOR_CARD_MUTED, border_color=COLOR_CARD_BORDER)
 
         tb = slide.shapes.add_textbox(Inches(7.0), Inches(3.5), Inches(5.273), Inches(3.1))
         tf = tb.text_frame
         tf.word_wrap = True
 
         bullets = [
-            "• <b>NB Empties alone</b> account for ₦9.82M of returns (70.3% of all returns).",
-            "• <b>Abbey Idan</b> has the highest return value at ₦2.57M; <b>Ameh Mathew</b> has the highest return count at 29.",
-            "• <b>DESOLA STORE</b> returned ₦835,000 of product against ₦612,000 of recorded sales — a 136.4% return-to-sales rate to investigate.",
-            "• Returns are large enough to move the month from near break-even product GP to a ₦10.24M gross loss on the post-return basis.",
+            "• NB Empties alone account for ₦9.82M of returns (70.3% of all returns).",
+            "• Abbey Idan has the highest return value at ₦2.57M; Ameh Mathew has the highest return count at 29.",
+            "• DESOLA STORE returned ₦835,000 of product against ₦612,000 of recorded sales — a 136.4% return-to-sales rate to investigate.",
+            "• Returns are large enough to move the month from near break-even product GP to a material gross loss on the post-return basis.",
         ]
         for i, b in enumerate(bullets):
             p = tf.paragraphs[0] if i == 0 else tf.add_paragraph()
-            p.text = b.replace("<b>", "").replace("</b>", "")
+            p.text = b
             p.font.name = FONT_BODY
             p.font.size = Pt(9.5)
-            p.font.color.rgb = COLOR_TEXT_MUTED
+            p.font.color.rgb = COLOR_TEXT_BODY
             p.space_before = Pt(6)
 
     def build_slide_5_returns_timing(self) -> None:
@@ -837,7 +844,7 @@ class PresentationBuilder:
         )
 
         # Left: Trend Bar Box
-        self._add_card(slide, 0.8, 1.7, 6.5, 5.1, bg_color=COLOR_CARD_DARK, border_color=COLOR_CARD_BORDER)
+        self._add_card(slide, 0.8, 1.7, 6.5, 5.1, bg_color=COLOR_CARD_MUTED, border_color=COLOR_CARD_BORDER)
         tb_l = slide.shapes.add_textbox(Inches(1.1), Inches(1.9), Inches(5.9), Inches(4.7))
         tf_l = tb_l.text_frame
         tf_l.word_wrap = True
@@ -846,7 +853,7 @@ class PresentationBuilder:
         p_lh.font.name = FONT_HEADING
         p_lh.font.size = Pt(11)
         p_lh.font.bold = True
-        p_lh.font.color.rgb = COLOR_TEXT_CYAN
+        p_lh.font.color.rgb = COLOR_BRAND_RED
 
         bars = [
             ("Week 1 (Jul 1-7)", "₦3.56M", "25.5% of returns"),
@@ -860,10 +867,10 @@ class PresentationBuilder:
             p.text = f"{wk}:  {val} — {sub}"
             p.font.name = FONT_BODY
             p.font.size = Pt(10)
-            p.font.color.rgb = COLOR_TEXT_WHITE
+            p.font.color.rgb = COLOR_TEXT_BODY
             p.space_before = Pt(8)
 
-        # Right: 5 Weekly Cards + Management Action
+        # Right: 5 Weekly Cards
         w = 4.993
         h = 0.85
         gap = 0.15
@@ -877,7 +884,7 @@ class PresentationBuilder:
         ]
         for idx, (wk, val) in enumerate(weeks):
             y = y_start + idx * (h + gap)
-            self._add_card(slide, 7.54, y, w, h, bg_color=COLOR_CARD_DARK, border_color=COLOR_CARD_BORDER)
+            self._add_card(slide, 7.54, y, w, h, bg_color=COLOR_CARD_MUTED, border_color=COLOR_CARD_BORDER)
             tb = slide.shapes.add_textbox(Inches(7.74), Inches(y + 0.15), Inches(w - 0.4), Inches(h - 0.3))
             tf = tb.text_frame
             tf.word_wrap = True
@@ -886,7 +893,7 @@ class PresentationBuilder:
             p0.font.name = FONT_HEADING
             p0.font.size = Pt(13)
             p0.font.bold = True
-            p0.font.color.rgb = COLOR_METRIC_GOLD
+            p0.font.color.rgb = COLOR_METRIC_RED
 
     def build_slide_6_product_concentration(self) -> None:
         """Slide 6: 05 • PRODUCT CONCENTRATION"""
@@ -905,8 +912,8 @@ class PresentationBuilder:
         cost_case = top_sku.get("tmp3f5d_cost", 5200.0)
 
         # 4 Left KPI Blocks for #1 SKU
-        self._add_kpi_box(slide, 0.8, 1.8, 5.6, 1.1, f"#1 Revenue SKU: {name}", fmt_curr_m(rev, self.currency), "29.3% of total depot product sales", COLOR_METRIC_CYAN)
-        self._add_kpi_box(slide, 0.8, 3.05, 2.7, 1.1, "Cases Sold", f"{fmt_num(cases)} cases", "47.7% of total case volume", COLOR_METRIC_WHITE)
+        self._add_kpi_box(slide, 0.8, 1.8, 5.6, 1.1, f"#1 Revenue SKU: {name}", fmt_curr_m(rev, self.currency), "29.3% of total depot product sales", COLOR_METRIC_DARK)
+        self._add_kpi_box(slide, 0.8, 3.05, 2.7, 1.1, "Cases Sold", f"{fmt_num(cases)} cases", "47.7% of total case volume", COLOR_METRIC_DARK)
         self._add_kpi_box(slide, 3.7, 3.05, 2.7, 1.1, "Avg Selling Price", fmt_curr(avg_price, self.currency), f"Cost: {fmt_curr(cost_case, self.currency)} (-₦210/case)", COLOR_METRIC_RED)
         self._add_kpi_box(
             slide, 0.8, 4.3, 5.6, 1.4,
@@ -917,7 +924,7 @@ class PresentationBuilder:
         )
 
         # Right Card: Strategic Analysis
-        self._add_card(slide, 6.7, 1.8, 5.833, 3.9, bg_color=COLOR_CARD_DARK, border_color=COLOR_CARD_BORDER)
+        self._add_card(slide, 6.7, 1.8, 5.833, 3.9, bg_color=COLOR_CARD_MUTED, border_color=COLOR_CARD_BORDER)
 
         tb = slide.shapes.add_textbox(Inches(7.0), Inches(2.0), Inches(5.233), Inches(3.5))
         tf = tb.text_frame
@@ -928,20 +935,20 @@ class PresentationBuilder:
         p0.font.name = FONT_HEADING
         p0.font.size = Pt(11)
         p0.font.bold = True
-        p0.font.color.rgb = COLOR_METRIC_RED
+        p0.font.color.rgb = COLOR_BRAND_RED
 
         bullets = [
-            f"<b>Extreme Volume Concentration:</b> Nearly half (47.7%) of all cases moved by the depot were Maltina Pet 33cl ({fmt_num(cases)} cases).",
-            f"<b>Negative Unit Spread:</b> Sold at an average of {fmt_curr(avg_price, self.currency)} against an inventory cost of {fmt_curr(cost_case, self.currency)}, generating a loss of ₦209.50 on every single case.",
-            f"<b>Compounding Deficit:</b> The more cases sold, the larger the commercial loss (₦2.14M deficit).",
-            "<b>Strategic Action:</b> Reprice Maltina Pet 33cl to a minimum floor of ₦5,250/case immediately to eliminate negative unit economics."
+            f"• Extreme Volume Concentration: Nearly half (47.7%) of all cases moved by the depot were Maltina Pet 33cl ({fmt_num(cases)} cases).",
+            f"• Negative Unit Spread: Sold at an average of {fmt_curr(avg_price, self.currency)} against an inventory cost of {fmt_curr(cost_case, self.currency)}, generating a loss of ₦209.50 on every single case.",
+            f"• Compounding Deficit: The more cases sold, the larger the commercial loss (₦2.14M deficit).",
+            "• Strategic Action: Reprice Maltina Pet 33cl to a minimum floor of ₦5,250/case immediately to eliminate negative unit economics."
         ]
         for b in bullets:
             p = tf.add_paragraph()
-            p.text = b.replace("<b>", "").replace("</b>", "")
+            p.text = b
             p.font.name = FONT_BODY
             p.font.size = Pt(9.5)
-            p.font.color.rgb = COLOR_TEXT_MUTED
+            p.font.color.rgb = COLOR_TEXT_BODY
             p.space_before = Pt(6)
 
     def build_slide_7_product_margin_spread(self) -> None:
@@ -970,7 +977,7 @@ class PresentationBuilder:
             slide, 0.8, 1.8, 5.7, 4.6, headers_loss, data_loss,
             col_widths=[1.9, 0.8, 1.0, 1.0, 1.0],
             alignments=[PP_ALIGN.LEFT, PP_ALIGN.RIGHT, PP_ALIGN.RIGHT, PP_ALIGN.RIGHT, PP_ALIGN.RIGHT],
-            row_colors=[(COLOR_CARD_DARK, COLOR_METRIC_RED)] * len(data_loss)
+            row_colors=[(COLOR_CARD_MUTED, COLOR_BRAND_RED)] * len(data_loss)
         )
 
         # Right Table: Top Positive Margin Spreads
@@ -995,7 +1002,7 @@ class PresentationBuilder:
             slide, 6.8, 1.8, 5.733, 4.6, headers_prof, data_prof,
             col_widths=[1.9, 0.8, 1.0, 1.0, 1.0],
             alignments=[PP_ALIGN.LEFT, PP_ALIGN.RIGHT, PP_ALIGN.RIGHT, PP_ALIGN.RIGHT, PP_ALIGN.RIGHT],
-            row_colors=[(COLOR_CARD_DARK, COLOR_METRIC_GREEN)] * len(data_prof)
+            row_colors=[(COLOR_CARD_MUTED, COLOR_BRAND_GREEN)] * len(data_prof)
         )
 
     def build_slide_8_customer_concentration(self) -> None:
@@ -1013,12 +1020,12 @@ class PresentationBuilder:
         largest_gp = largest_acc.get("total_gross_profit", -475202.0)
 
         # 3 Top KPI Cards
-        self._add_kpi_box(slide, 0.8, 1.8, 3.7, 1.5, "Top 10 Revenue Share", fmt_pct(top_share, multiply=True), f"{fmt_curr_m(top_rev, self.currency)} across top 10 accounts", COLOR_METRIC_CYAN)
-        self._add_kpi_box(slide, 4.8, 1.8, 3.7, 1.5, f"Largest Account: {largest_name[:16]}", fmt_curr_m(largest_rev, self.currency), f"Gross Profit: {fmt_curr(largest_gp, self.currency)}", COLOR_METRIC_WHITE)
+        self._add_kpi_box(slide, 0.8, 1.8, 3.7, 1.5, "Top 10 Revenue Share", fmt_pct(top_share, multiply=True), f"{fmt_curr_m(top_rev, self.currency)} across top 10 accounts", COLOR_METRIC_DARK)
+        self._add_kpi_box(slide, 4.8, 1.8, 3.7, 1.5, f"Largest Account: {largest_name[:16]}", fmt_curr_m(largest_rev, self.currency), f"Gross Profit: {fmt_curr(largest_gp, self.currency)}", COLOR_BRAND_RED if largest_gp < 0 else COLOR_BRAND_GREEN)
         self._add_kpi_box(slide, 8.8, 1.8, 3.733, 1.5, "Loss-Making Accounts", "10 Accounts", "Cumulative negative gross margin", COLOR_METRIC_RED)
 
         # Commentary Card
-        self._add_card(slide, 0.8, 3.6, 11.733, 3.0, bg_color=COLOR_CARD_DARK, border_color=COLOR_CARD_BORDER)
+        self._add_card(slide, 0.8, 3.6, 11.733, 3.0, bg_color=COLOR_CARD_MUTED, border_color=COLOR_CARD_BORDER)
 
         tb = slide.shapes.add_textbox(Inches(1.1), Inches(3.8), Inches(11.133), Inches(2.6))
         tf = tb.text_frame
@@ -1029,20 +1036,20 @@ class PresentationBuilder:
         p0.font.name = FONT_HEADING
         p0.font.size = Pt(11)
         p0.font.bold = True
-        p0.font.color.rgb = COLOR_TEXT_CYAN
+        p0.font.color.rgb = COLOR_BRAND_GREEN_DARK
 
         bullets = [
-            f"<b>Heavy Volume Dependence:</b> 85.3% of sales revenue ({fmt_curr_m(top_rev, self.currency)}) is concentrated in only 10 distributor/retailer accounts.",
-            f"<b>Volume Does Not Guarantee Profit:</b> The single largest buyer ({largest_name}, {fmt_curr_m(largest_rev, self.currency)}) yielded a net gross loss of {fmt_curr(largest_gp, self.currency)}.",
-            "<b>Credit Return Distortion:</b> High-volume accounts also generate high empties credit returns, further compressing cash margins.",
-            "<b>Action Required:</b> Implement minimum volume pricing tiers and strictly enforce price policy compliance for all top 10 accounts."
+            f"• Heavy Volume Dependence: 85.3% of sales revenue ({fmt_curr_m(top_rev, self.currency)}) is concentrated in only 10 distributor/retailer accounts.",
+            f"• Volume Does Not Guarantee Profit: The single largest buyer ({largest_name}, {fmt_curr_m(largest_rev, self.currency)}) yielded a net gross loss of {fmt_curr(largest_gp, self.currency)}.",
+            "• Credit Return Distortion: High-volume accounts also generate high empties credit returns, further compressing cash margins.",
+            "• Action Required: Implement minimum volume pricing tiers and strictly enforce price policy compliance for all top 10 accounts."
         ]
         for b in bullets:
             p = tf.add_paragraph()
-            p.text = b.replace("<b>", "").replace("</b>", "")
+            p.text = b
             p.font.name = FONT_BODY
             p.font.size = Pt(9.5)
-            p.font.color.rgb = COLOR_TEXT_MUTED
+            p.font.color.rgb = COLOR_TEXT_BODY
             p.space_before = Pt(5)
 
     def build_slide_9_loss_customers(self) -> None:
@@ -1071,7 +1078,7 @@ class PresentationBuilder:
             slide, 0.8, 1.8, 11.733, 4.6, headers, data,
             col_widths=[2.8, 0.9, 1.1, 1.9, 1.9, 1.8, 1.333],
             alignments=[PP_ALIGN.LEFT, PP_ALIGN.CENTER, PP_ALIGN.RIGHT, PP_ALIGN.RIGHT, PP_ALIGN.RIGHT, PP_ALIGN.RIGHT, PP_ALIGN.RIGHT],
-            row_colors=[(COLOR_CARD_DARK, COLOR_METRIC_RED)] * len(data)
+            row_colors=[(COLOR_CARD_MUTED, COLOR_BRAND_RED)] * len(data)
         )
 
     def build_slide_10_marketers(self) -> None:
@@ -1086,7 +1093,7 @@ class PresentationBuilder:
         h = 4.6
 
         # Marketer 1: Eniola
-        self._add_card(slide, 0.8, 1.8, w, h, bg_color=COLOR_CARD_DARK, border_color=COLOR_CARD_BORDER)
+        self._add_card(slide, 0.8, 1.8, w, h, bg_color=COLOR_CARD_MUTED, border_color=COLOR_CARD_BORDER)
         tb1 = slide.shapes.add_textbox(Inches(1.1), Inches(2.0), Inches(w - 0.6), Inches(h - 0.4))
         tf1 = tb1.text_frame
         tf1.word_wrap = True
@@ -1096,26 +1103,26 @@ class PresentationBuilder:
         p1_h.font.name = FONT_HEADING
         p1_h.font.size = Pt(12)
         p1_h.font.bold = True
-        p1_h.font.color.rgb = COLOR_TEXT_CYAN
+        p1_h.font.color.rgb = COLOR_BRAND_GREEN_DARK
 
         p1_stats = [
-            f"<b>Revenue (excl. empties):</b> {fmt_curr(eniola.get('total_revenue', 23535615.0), self.currency)}",
-            f"<b>Total Cases Sold:</b> {fmt_num(eniola.get('total_cases_sold', 3977))} cases (31 invoices)",
-            f"<b>True Cost (tmp3F5D):</b> {fmt_curr(eniola.get('total_cost', 24010817.0), self.currency)}",
-            f"<b>Gross Profit / Loss:</b> {fmt_curr(eniola.get('total_gross_profit', -475202.0), self.currency)} ({fmt_pct(eniola.get('gross_profit_pct', -0.0202), multiply=True)})",
-            "<b>Key Driver:</b> High volume of Maltina Pet 33cl and Goldberg sold below standard tier pricing.",
-            "<b>Required Action:</b> Enforce sub-distributor pricing tiers; minimum order quantity requirements."
+            f"• Revenue (excl. empties): {fmt_curr(eniola.get('total_revenue', 23535615.0), self.currency)}",
+            f"• Total Cases Sold: {fmt_num(eniola.get('total_cases_sold', 3977))} cases (31 invoices)",
+            f"• True Cost (tmp3F5D): {fmt_curr(eniola.get('total_cost', 24010817.0), self.currency)}",
+            f"• Gross Profit / Loss: {fmt_curr(eniola.get('total_gross_profit', -475202.0), self.currency)} ({fmt_pct(eniola.get('gross_profit_pct', -0.0202), multiply=True)})",
+            "• Key Driver: High volume of Maltina Pet 33cl and Goldberg sold below standard tier pricing.",
+            "• Required Action: Enforce sub-distributor pricing tiers; minimum order quantity requirements."
         ]
         for b in p1_stats:
             p = tf1.add_paragraph()
-            p.text = b.replace("<b>", "").replace("</b>", "")
+            p.text = b
             p.font.name = FONT_BODY
             p.font.size = Pt(9.5)
-            p.font.color.rgb = COLOR_TEXT_WHITE if "Revenue" in b or "Cases" in b else COLOR_METRIC_RED if "Gross" in b else COLOR_TEXT_MUTED
+            p.font.color.rgb = COLOR_BRAND_RED if "Gross Profit" in b else COLOR_TEXT_BODY
             p.space_before = Pt(6)
 
         # Marketer 2: AZ Marketer
-        self._add_card(slide, 6.833, 1.8, w, h, bg_color=COLOR_CARD_DARK, border_color=COLOR_CARD_BORDER)
+        self._add_card(slide, 6.833, 1.8, w, h, bg_color=COLOR_CARD_MUTED, border_color=COLOR_CARD_BORDER)
         tb2 = slide.shapes.add_textbox(Inches(7.133), Inches(2.0), Inches(w - 0.6), Inches(h - 0.4))
         tf2 = tb2.text_frame
         tf2.word_wrap = True
@@ -1125,22 +1132,22 @@ class PresentationBuilder:
         p2_h.font.name = FONT_HEADING
         p2_h.font.size = Pt(12)
         p2_h.font.bold = True
-        p2_h.font.color.rgb = COLOR_TEXT_CYAN
+        p2_h.font.color.rgb = COLOR_BRAND_GREEN_DARK
 
         p2_stats = [
-            f"<b>Revenue (excl. empties):</b> {fmt_curr(az.get('total_revenue', 3642500.0), self.currency)}",
-            f"<b>Total Cases Sold:</b> {fmt_num(az.get('total_cases_sold', 660))} cases (3 invoices)",
-            f"<b>True Cost (tmp3F5D):</b> {fmt_curr(az.get('total_cost', 3755050.0), self.currency)}",
-            f"<b>Gross Profit / Loss:</b> {fmt_curr(az.get('total_gross_profit', -112550.0), self.currency)} ({fmt_pct(az.get('gross_profit_pct', -0.0309), multiply=True)})",
-            "<b>Key Driver:</b> Discounted pallet deals on malt beverages with insufficient markup over cost.",
-            "<b>Required Action:</b> Immediate moratorium on below-floor rates; revise contract margins."
+            f"• Revenue (excl. empties): {fmt_curr(az.get('total_revenue', 3642500.0), self.currency)}",
+            f"• Total Cases Sold: {fmt_num(az.get('total_cases_sold', 660))} cases (3 invoices)",
+            f"• True Cost (tmp3F5D): {fmt_curr(az.get('total_cost', 3755050.0), self.currency)}",
+            f"• Gross Profit / Loss: {fmt_curr(az.get('total_gross_profit', -112550.0), self.currency)} ({fmt_pct(az.get('gross_profit_pct', -0.0309), multiply=True)})",
+            "• Key Driver: Discounted pallet deals on malt beverages with insufficient markup over cost.",
+            "• Required Action: Immediate moratorium on below-floor rates; revise contract margins."
         ]
         for b in p2_stats:
             p = tf2.add_paragraph()
-            p.text = b.replace("<b>", "").replace("</b>", "")
+            p.text = b
             p.font.name = FONT_BODY
             p.font.size = Pt(9.5)
-            p.font.color.rgb = COLOR_TEXT_WHITE if "Revenue" in b or "Cases" in b else COLOR_METRIC_RED if "Gross" in b else COLOR_TEXT_MUTED
+            p.font.color.rgb = COLOR_BRAND_RED if "Gross Profit" in b else COLOR_TEXT_BODY
             p.space_before = Pt(6)
 
     def build_slide_11_pricing(self) -> None:
@@ -1155,11 +1162,11 @@ class PresentationBuilder:
 
         # 3 Top KPI Boxes
         self._add_kpi_box(slide, 0.8, 1.8, 3.7, 1.5, "Below-Floor Leakage", fmt_curr(leakage, self.currency), f"{bfp_items} SKUs sold below floor price", COLOR_METRIC_RED)
-        self._add_kpi_box(slide, 4.8, 1.8, 3.7, 1.5, "Underpriced Lines", f"{fmt_num(underpriced)} / {fmt_num(total_vol)}", "89.2% lines charged below tier", COLOR_METRIC_GOLD)
+        self._add_kpi_box(slide, 4.8, 1.8, 3.7, 1.5, "Underpriced Lines", f"{fmt_num(underpriced)} / {fmt_num(total_vol)}", "89.2% lines charged below tier", COLOR_METRIC_RED)
         self._add_kpi_box(slide, 8.8, 1.8, 3.733, 1.5, "Reconciliation Accuracy", "300 / 300", "Zero invoice arithmetic discrepancies", COLOR_METRIC_GREEN)
 
         # Golden Pricing Rule Card
-        self._add_card(slide, 0.8, 3.6, 11.733, 3.0, bg_color=COLOR_CARD_DARK, border_color=COLOR_CARD_BORDER)
+        self._add_card(slide, 0.8, 3.6, 11.733, 3.0, bg_color=COLOR_CARD_MUTED, border_color=COLOR_CARD_BORDER)
 
         tb = slide.shapes.add_textbox(Inches(1.2), Inches(3.9), Inches(10.933), Inches(2.4))
         tf = tb.text_frame
@@ -1170,21 +1177,21 @@ class PresentationBuilder:
         p0.font.name = FONT_HEADING
         p0.font.size = Pt(13)
         p0.font.bold = True
-        p0.font.color.rgb = COLOR_TEXT_CYAN
+        p0.font.color.rgb = COLOR_BRAND_GREEN_DARK
 
         p1 = tf.add_paragraph()
         p1.text = "No volume deal should be approved solely because it grows revenue. Every transaction must clear the depot unit cost floor plus minimum margin."
         p1.font.name = FONT_HEADING
-        p1.font.size = Pt(16)
+        p1.font.size = Pt(15)
         p1.font.bold = True
-        p1.font.color.rgb = COLOR_TEXT_WHITE
+        p1.font.color.rgb = COLOR_TEXT_PRIMARY
         p1.space_before = Pt(8)
 
         p2 = tf.add_paragraph()
         p2.text = "Selling at high volume below cost accelerates cash loss. Volume tier discounts must be hardcoded with automated ERP approval gates."
         p2.font.name = FONT_BODY
         p2.font.size = Pt(10.5)
-        p2.font.color.rgb = COLOR_TEXT_MUTED
+        p2.font.color.rgb = COLOR_TEXT_BODY
         p2.space_before = Pt(8)
 
     def build_slide_12_key_insights(self) -> None:
@@ -1198,32 +1205,32 @@ class PresentationBuilder:
             (
                 "1. Anchor SKU Margin Collapse (≥10% Spread)",
                 "• What Changed: Maltina Pet 33cl generated ₦2.14M gross loss (-4.5% margin) across 47.7% of depot volume.\n• Why It Happened: Selling price (₦4,990.50) lagged distributor cost (₦5,200.00) following supplier DPP price increases.\n• Suggestion: Reprice to ₦5,250.00/case (+₦260 spread) to turn ₦2.14M loss into positive cash flow.",
-                COLOR_METRIC_RED
+                COLOR_BRAND_RED
             ),
             (
                 "2. Pricing Tier Leakage (+12% Impact)",
                 "• What Changed: ₦11.10M in below-floor pricing leakage detected across 24% of invoiced lines.\n• Why It Happened: Discretionary bulk discounting granted to wholesale accounts without volume threshold verification.\n• Suggestion: Lock minimum floor rates in ERP and restrict manual billing overrides.",
-                COLOR_METRIC_RED
+                COLOR_BRAND_RED
             ),
             (
                 "3. Returns Cash Drain (7.44% of Gross Sales)",
                 "• What Changed: ₦13.96M credited in returns and container deposits, eroding 7.44% of gross revenue.\n• Why It Happened: Unverified customer credit notes (tmpCEF3) and delayed physical crate reconciliation.\n• Suggestion: Implement physical count sign-off before credit note issuance to prevent phantom credit bleed.",
-                COLOR_METRIC_GOLD
+                COLOR_BRAND_RED
             ),
             (
                 "4. High-Margin SKUs Undersold (≥15% Margin)",
                 "• What Changed: Heineken Bottle (18.2% margin) and Chamdor (22.5% margin) account for <6% of total depot volume.\n• Why It Happened: Sales rep commissions were tied to raw case volume rather than retained gross profit.\n• Suggestion: Weight marketer commission bonuses toward high-margin premium lagers and wines.",
-                COLOR_METRIC_GREEN
+                COLOR_BRAND_GREEN
             ),
             (
                 "5. Loss-Making Key Accounts (Top 10 Concentration)",
                 "• What Changed: Top 10 customers drive 85.3% of revenue, but several large accounts generated net trading losses.\n• Why It Happened: Bulk buyers selectively bought loss-leader SKUs at floor rates without basket balance.\n• Suggestion: Enforce mandatory product basket mix (minimum 20% high-margin SKUs) on wholesale orders.",
-                COLOR_METRIC_CYAN
+                COLOR_BRAND_RED
             ),
             (
                 "6. Operating Expense Overhead Surge",
                 "• What Changed: ₦2.10M in monthly payment vouchers turned ₦554.6k trading profit into ₦1.54M net loss.\n• Why It Happened: Vehicle repairs and warehouse overhead vouchers operated without a fixed budget cap.\n• Suggestion: Set ₦1.5M/mo budget ceiling with pre-approval required for vehicle maintenance.",
-                COLOR_METRIC_GOLD
+                COLOR_BRAND_RED
             ),
         ]
 
@@ -1238,7 +1245,7 @@ class PresentationBuilder:
             x = 0.8 + col * (w + gap_x)
             y = 1.65 + row * (h + gap_y)
 
-            self._add_card(slide, x, y, w, h, bg_color=COLOR_CARD_DARK, border_color=COLOR_CARD_BORDER)
+            self._add_card(slide, x, y, w, h, bg_color=COLOR_CARD_MUTED, border_color=COLOR_CARD_BORDER)
 
             tb = slide.shapes.add_textbox(Inches(x + 0.2), Inches(y + 0.1), Inches(w - 0.4), Inches(h - 0.2))
             tf = tb.text_frame
@@ -1255,7 +1262,7 @@ class PresentationBuilder:
             p1.text = desc
             p1.font.name = FONT_BODY
             p1.font.size = Pt(8.5)
-            p1.font.color.rgb = COLOR_TEXT_MUTED
+            p1.font.color.rgb = COLOR_TEXT_BODY
             p1.space_before = Pt(2)
 
     def build_slide_13_commercial_recs(self) -> None:
@@ -1269,22 +1276,22 @@ class PresentationBuilder:
             (
                 "1. Enforce Hard Floor Pricing (+₦11.1M / +300 bps)",
                 "• Problem: Discretionary discounts below supplier floor price cause massive revenue leakage.\n• Fix: Restrict ERP sales invoices from being saved below DPP cost. Require Managing Director override.\n• Impact: Immediately recovers up to ₦11.10M in lost trading margin.",
-                COLOR_METRIC_CYAN
+                COLOR_BRAND_GREEN
             ),
             (
                 "2. Reprice Anchor Loss-Makers (+₦2.14M / +120 bps)",
                 "• Problem: Maltina Pet 33cl selling price (₦4,990.50) is below cost (₦5,200.00), losing ₦2.14M monthly.\n• Fix: Raise price to ₦5,250.00/case across all customer accounts (+₦260 spread).\n• Impact: Converts depot's largest volume driver from a cash drain into a profit contributor.",
-                COLOR_METRIC_RED
+                COLOR_BRAND_RED
             ),
             (
                 "3. Rebalance Sales Mix Toward High-Margin Brands (+₦1.8M / +100 bps)",
                 "• Problem: Premium high-margin brands (Heineken, Chamdor, Goldberg) account for under 6% of sales.\n• Fix: Rebalance marketer commission structure to reward gross margin percentage rather than raw case count.\n• Impact: Increases average gross margin from 0.32% to over 2.50% without requiring higher total volume.",
-                COLOR_METRIC_GREEN
+                COLOR_BRAND_GREEN
             ),
             (
                 "4. Restructure Loss-Making Customer Accounts (+₦1.4M / +80 bps)",
                 "• Problem: Select wholesale buyers purchasing only discounted low-margin SKUs yield negative net returns.\n• Fix: Require minimum basket diversity (e.g. 20% high-margin products) to qualify for tier rates.\n• Impact: Eliminates commercial losses on key accounts while retaining strategic customer relationships.",
-                COLOR_METRIC_GOLD
+                COLOR_BRAND_RED
             ),
         ]
 
@@ -1299,7 +1306,7 @@ class PresentationBuilder:
             x = 0.8 + col * (w + gap_x)
             y = 1.8 + row * (h + gap_y)
 
-            self._add_card(slide, x, y, w, h, bg_color=COLOR_CARD_DARK, border_color=COLOR_CARD_BORDER)
+            self._add_card(slide, x, y, w, h, bg_color=COLOR_CARD_MUTED, border_color=COLOR_CARD_BORDER)
 
             tb = slide.shapes.add_textbox(Inches(x + 0.25), Inches(y + 0.2), Inches(w - 0.5), Inches(h - 0.4))
             tf = tb.text_frame
@@ -1316,19 +1323,18 @@ class PresentationBuilder:
             p1.text = desc
             p1.font.name = FONT_BODY
             p1.font.size = Pt(9)
-            p1.font.color.rgb = COLOR_TEXT_MUTED
+            p1.font.color.rgb = COLOR_TEXT_BODY
             p1.space_before = Pt(4)
-
 
     def build_slide_14_operational_recs(self) -> None:
         """Slide 14: 14 • OPERATIONAL & COST PROTECTION"""
         slide = self._add_slide("14", "Operational Recommendations", "Tighten return workflows & expense control")
 
         recs = [
-            ("1. Daily Credit Note Verification", "Require dual sign-off (Warehouse Supervisor + Depot Accountant) on all credit return notes (tmpCEF3) before posting credits to customer accounts.", COLOR_METRIC_CYAN),
-            ("2. Physical Empties Cycle Counts", "Conduct bi-weekly physical counts of empties crates (NB Empties, Loose Crates, IB Empties) to eliminate phantom empties credit bleed (₦12.50M credited in July).", COLOR_METRIC_GREEN),
-            ("3. Automated ERP Margin Blocker", "Deploy an automated rule in ERP that blocks any invoice yielding negative gross margin unless explicitly overridden by the Managing Director.", COLOR_METRIC_RED),
-            ("4. Discretionary Expense Budgeting", "Cap discretionary depot payment vouchers at ₦1.5M/month (down from ₦2.10M in July), requiring pre-approval for non-essential transport & repairs.", COLOR_METRIC_GOLD),
+            ("1. Daily Credit Note Verification", "Require dual sign-off (Warehouse Supervisor + Depot Accountant) on all credit return notes (tmpCEF3) before posting credits to customer accounts.", COLOR_BRAND_GREEN),
+            ("2. Physical Empties Cycle Counts", "Conduct bi-weekly physical counts of empties crates (NB Empties, Loose Crates, IB Empties) to eliminate phantom empties credit bleed (₦12.50M credited in July).", COLOR_BRAND_GREEN),
+            ("3. Automated ERP Margin Blocker", "Deploy an automated rule in ERP that blocks any invoice yielding negative gross margin unless explicitly overridden by the Managing Director.", COLOR_BRAND_RED),
+            ("4. Discretionary Expense Budgeting", "Cap discretionary depot payment vouchers at ₦1.5M/month (down from ₦2.10M in July), requiring pre-approval for non-essential transport & repairs.", COLOR_BRAND_RED),
         ]
 
         w = 5.7
@@ -1342,7 +1348,7 @@ class PresentationBuilder:
             x = 0.8 + col * (w + gap_x)
             y = 1.8 + row * (h + gap_y)
 
-            self._add_card(slide, x, y, w, h, bg_color=COLOR_CARD_DARK, border_color=COLOR_CARD_BORDER)
+            self._add_card(slide, x, y, w, h, bg_color=COLOR_CARD_MUTED, border_color=COLOR_CARD_BORDER)
 
             tb = slide.shapes.add_textbox(Inches(x + 0.25), Inches(y + 0.2), Inches(w - 0.5), Inches(h - 0.4))
             tf = tb.text_frame
@@ -1359,7 +1365,7 @@ class PresentationBuilder:
             p1.text = desc
             p1.font.name = FONT_BODY
             p1.font.size = Pt(9.5)
-            p1.font.color.rgb = COLOR_TEXT_MUTED
+            p1.font.color.rgb = COLOR_TEXT_BODY
             p1.space_before = Pt(6)
 
     def build_slide_15_action_plan(self) -> None:
@@ -1394,12 +1400,12 @@ class PresentationBuilder:
         net_loss = bridge.get("net_operating_profit_loss", net_gp - expenses)
 
         # 3 Key Metric Blocks
-        self._add_kpi_box(slide, 0.8, 1.8, 3.7, 1.6, "Net Sales Revenue", fmt_curr_m(net_sales, self.currency), "Healthy volume turnover", COLOR_METRIC_CYAN)
+        self._add_kpi_box(slide, 0.8, 1.8, 3.7, 1.6, "Net Sales Revenue", fmt_curr_m(net_sales, self.currency), "Healthy volume turnover", COLOR_METRIC_DARK)
         self._add_kpi_box(slide, 4.8, 1.8, 3.7, 1.6, "Current Gross Profit", f"+{fmt_curr_m(net_gp, self.currency)}" if net_gp >= 0 else fmt_curr_m(net_gp, self.currency), "Post-returns product profit", COLOR_METRIC_GREEN if net_gp >= 0 else COLOR_METRIC_RED)
         self._add_kpi_box(slide, 8.8, 1.8, 3.733, 1.6, "Operating Result", fmt_curr_m(net_loss, self.currency), f"Includes {fmt_curr_m(expenses, self.currency)} expenses" if expenses > 0 else "Net Operating Profit/(Loss)", COLOR_METRIC_RED if net_loss < 0 else COLOR_METRIC_GREEN)
 
         # Bottom Conclusion Box
-        self._add_card(slide, 0.8, 3.7, 11.733, 2.9, bg_color=COLOR_CARD_DARK, border_color=COLOR_CARD_BORDER)
+        self._add_card(slide, 0.8, 3.7, 11.733, 2.9, bg_color=COLOR_CARD_MUTED, border_color=COLOR_CARD_BORDER)
 
         tb = slide.shapes.add_textbox(Inches(1.1), Inches(3.9), Inches(11.133), Inches(2.5))
         tf = tb.text_frame
@@ -1410,7 +1416,7 @@ class PresentationBuilder:
         p0.font.name = FONT_HEADING
         p0.font.size = Pt(11.5)
         p0.font.bold = True
-        p0.font.color.rgb = COLOR_TEXT_CYAN
+        p0.font.color.rgb = COLOR_BRAND_GREEN_DARK
 
         bullets = [
             f"1. Volume Turnover: Generating {fmt_curr_m(gross_sales, self.currency)} in monthly sales demonstrates strong depot distribution reach.",
@@ -1422,13 +1428,13 @@ class PresentationBuilder:
             p.text = b
             p.font.name = FONT_BODY
             p.font.size = Pt(10)
-            p.font.color.rgb = COLOR_TEXT_MUTED
+            p.font.color.rgb = COLOR_TEXT_BODY
             p.space_before = Pt(6)
 
     def generate(self, module: Optional[str] = None) -> bytes:
         """
         Executes the PowerPoint generation pipeline and returns raw pptx bytes.
-        Supports module-specific curated slide decks (Customers, Products, Marketers)
+        Supports module-specific curated slide decks (Customers, Products, Marketers, Returns, Overview)
         as well as the full 16-slide board deck per spec §14 & §16.
         """
         target_module = (module or self.payload.get("_ppt_module") or self.payload.get("module") or "full").lower().strip()
@@ -1448,6 +1454,12 @@ class PresentationBuilder:
             # Per spec §14 note: Marketer PPT must not exceed 2-3 slides
             self.build_slide_1_title()
             self.build_slide_10_marketers()
+            self.build_slide_15_action_plan()
+        elif target_module in ("returns", "return", "sales_returns"):
+            self.build_slide_1_title()
+            self.build_slide_4_returns_burden()
+            self.build_slide_5_returns_timing()
+            self.build_slide_14_operational_recs()
             self.build_slide_15_action_plan()
         elif target_module in ("overview",):
             self.build_slide_1_title()
@@ -1476,7 +1488,6 @@ class PresentationBuilder:
             self.build_slide_14_operational_recs()
             self.build_slide_15_action_plan()
             self.build_slide_16_takeaway()
-
 
         buf = BytesIO()
         self.prs.save(buf)

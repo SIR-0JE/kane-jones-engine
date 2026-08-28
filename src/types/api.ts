@@ -171,6 +171,18 @@ export interface CustomerInvoiceRecord {
   products?: string;
 }
 
+export interface ProductMixItem {
+  product_raw: string;
+  cases_sold: number;
+  revenue: number;
+  pct_of_total_cases: number;
+  avg_selling_price?: number;
+  tmp3f5d_cost?: number;
+  total_cost?: number;
+  gross_profit?: number;
+  gross_profit_pct?: number;
+}
+
 export interface TrueCostMarketerItem {
   customer: string;
   total_revenue: number;
@@ -185,6 +197,7 @@ export interface TrueCostMarketerItem {
   attributable_expenses?: number;
   net_marketer_profit?: number;
   invoices_list?: CustomerInvoiceRecord[];
+  product_mix?: ProductMixItem[];
 }
 
 

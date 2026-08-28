@@ -130,3 +130,25 @@ class TestTrueCostEngine:
         weekly = analysis["weekly_trend"]
         assert len(weekly) == 5
         assert [w["week"] for w in weekly] == ["W1", "W2", "W3", "W4", "Tail"]
+
+    def test_customer_product_mix_breakdown(self, parsed_data, profile):
+        li_df = parsed_data["li_df"]
+        inv_df_cost = parsed_data["inv_df_cost"]
+
+        cust_summary_df, cust_details, overall = compute_marketer_profitability(
+            line_items_df=li_df,
+            df_inventory=inv_df_cost,
+            profile=profile,
+        )
+
+        assert "product_mix" in cust_summary_df.columns
+        for _, row in cust_summary_df.iterrows():
+            pm = row["product_mix"]
+            assert isinstance(pm, list)
+            if pm:
+                # Sum of pct_of_total_cases should be ~100%
+                total_pct = sum(item["pct_of_total_cases"] for item in pm)
+                assert abs(total_pct - 100.0) < 0.1
+                # Total cases in product mix equals total_cases_sold
+                total_pm_cases = sum(item["cases_sold"] for item in pm)
+                assert total_pm_cases == row["total_cases_sold"]

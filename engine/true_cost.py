@@ -358,6 +358,7 @@ def compute_marketer_profitability(
 
     # 4. Detailed Per-Customer Product & Invoice Breakdowns
     customer_product_details = {}
+    customer_product_mix_list = {}
     customer_invoice_details = {}
 
     for cust in cust_summary["customer"]:
@@ -378,7 +379,15 @@ def compute_marketer_profitability(
             cp_grouped["gross_profit"] / cp_grouped["revenue"],
             0.0
         )
-        customer_product_details[cust] = cp_grouped.sort_values(by="revenue", ascending=False).reset_index(drop=True)
+        tot_c = float(cp_grouped["cases_sold"].sum())
+        cp_grouped["pct_of_total_cases"] = np.where(
+            tot_c > 0,
+            (cp_grouped["cases_sold"] / tot_c) * 100.0,
+            0.0
+        )
+        cp_sorted = cp_grouped.sort_values(by="cases_sold", ascending=False).reset_index(drop=True)
+        customer_product_details[cust] = cp_sorted
+        customer_product_mix_list[cust] = cp_sorted.to_dict(orient="records")
 
         # Invoice-level breakdown for audit tracing
         if "invoice_no" in c_items.columns:
@@ -400,6 +409,7 @@ def compute_marketer_profitability(
         else:
             customer_invoice_details[cust] = []
 
+    cust_summary["product_mix"] = cust_summary["customer"].map(customer_product_mix_list)
     cust_summary["invoices_list"] = cust_summary["customer"].map(customer_invoice_details)
 
     overall_summary = {

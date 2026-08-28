@@ -212,6 +212,59 @@ def parse_expenses_sheet(
 
 
 
+def calculate_financial_statements(
+    gross_sales: float,
+    sales_returns: float = 0.0,
+    purchases: float = 0.0,
+    purchase_returns: float = 0.0,
+    carriage_inwards: float = 0.0,
+    opening_inventory: float = 0.0,
+    closing_inventory: float = 0.0,
+    operating_expenses: Optional[List[float]] = None,
+    other_income: float = 0.0,
+    finance_costs: float = 0.0,
+) -> Dict[str, float]:
+    """
+    Standard accounting P&L calculation structure:
+      net_sales = gross_sales - sales_returns
+      net_purchases = purchases - purchase_returns + carriage_inwards
+      cogs = opening_inventory + net_purchases - closing_inventory
+      gross_profit = net_sales - cogs
+      gross_margin_pct = (gross_profit / net_sales) * 100 if net_sales > 0 else 0.0
+      total_expenses = sum(operating_expenses)
+      net_profit = (gross_profit + other_income) - total_expenses - finance_costs
+      net_margin_pct = (net_profit / net_sales) * 100 if net_sales > 0 else 0.0
+    """
+    net_sales = float(gross_sales) - float(sales_returns)
+    net_purchases = float(purchases) - float(purchase_returns) + float(carriage_inwards)
+    cogs = float(opening_inventory) + net_purchases - float(closing_inventory)
+    gross_profit = net_sales - cogs
+    gross_margin_pct = (gross_profit / net_sales * 100.0) if net_sales > 0 else 0.0
+    total_expenses = sum(operating_expenses) if operating_expenses else 0.0
+    net_profit = (gross_profit + float(other_income)) - float(total_expenses) - float(finance_costs)
+    net_margin_pct = (net_profit / net_sales * 100.0) if net_sales > 0 else 0.0
+
+    return {
+        "gross_sales": float(gross_sales),
+        "sales_returns": float(sales_returns),
+        "net_sales": net_sales,
+        "purchases": float(purchases),
+        "purchase_returns": float(purchase_returns),
+        "carriage_inwards": float(carriage_inwards),
+        "net_purchases": net_purchases,
+        "opening_inventory": float(opening_inventory),
+        "closing_inventory": float(closing_inventory),
+        "cogs": cogs,
+        "gross_profit": gross_profit,
+        "gross_margin_pct": gross_margin_pct,
+        "total_expenses": float(total_expenses),
+        "other_income": float(other_income),
+        "finance_costs": float(finance_costs),
+        "net_profit": net_profit,
+        "net_margin_pct": net_margin_pct,
+    }
+
+
 def compute_net_profit_bridge(
     invoices_df: pd.DataFrame,
     line_items_df: pd.DataFrame,
@@ -219,26 +272,35 @@ def compute_net_profit_bridge(
     expenses_total: float = 0.0,
     df_inv: Optional[pd.DataFrame] = None,
     cost_of_returns: Optional[float] = None,
+    purchases: Optional[float] = None,
     purchase_returns: float = 0.0,
+    carriage_inwards: float = 0.0,
+    carriage_outwards: float = 0.0,
+    opening_inventory: float = 0.0,
+    closing_inventory: float = 0.0,
+    other_income: float = 0.0,
+    finance_costs: float = 0.0,
+    operating_expenses: Optional[List[float]] = None,
     profile: ClientProfile = None
 ) -> Dict[str, Any]:
-
     """
     Computes the complete Net Profit / Loss bridge from raw transaction data.
 
-    Per spec §2.3 (locked by Oga):
-      Gross Sales Revenue
-    - Total Sales Returns (credit notes)
-    = Net Sales Revenue
-    - Net Cost  [= Total Cost - Purchase Returns ONLY]
-    = Gross Profit
-    - Total Operating Expenses
-    = Net Profit / (Loss)
+    Accounting Formula:
+      net_sales = gross_sales - sales_returns
+      net_purchases = purchases - purchase_returns + carriage_inwards
+      cogs = opening_inventory + net_purchases - closing_inventory
+      gross_profit = net_sales - cogs
+      gross_margin_pct = (gross_profit / net_sales) * 100 if net_sales > 0 else 0.0
+      total_expenses = sum(operating_expenses)
+      net_profit = (gross_profit + other_income) - total_expenses - finance_costs
+      net_margin_pct = (net_profit / net_sales) * 100 if net_sales > 0 else 0.0
 
-    purchase_returns: goods returned to supplier (deducted from cost side only).
-    cost_of_returns:  sales-return cost credited back (audit trail; NOT deducted from cost).
+    Data Integrity Rules:
+      - sales_returns NEVER deducted from cost; only reduces net_sales.
+      - purchase_returns only reduces net_purchases (COGS).
+      - cost_of_returns is maintained for audit transparency but NOT deducted from COGS.
     """
-
     if profile is None:
         from engine.config import kane_jones_profile
         profile = kane_jones_profile()
@@ -250,7 +312,7 @@ def compute_net_profit_bridge(
     else:
         gross_sales_revenue = 0.0
 
-    # Full Invoice-Embedded COGS (all lines including empties, matching invoice header total cost)
+    # Full Invoice-Embedded Cost (all lines including empties, matching invoice header total cost)
     if not line_items_df.empty and "cost" in line_items_df.columns:
         gross_embedded_cost = float(line_items_df["cost"].sum())
     elif invoices_df is not None and not invoices_df.empty and "invoice_cost" in invoices_df.columns:
@@ -274,7 +336,7 @@ def compute_net_profit_bridge(
         empties_returns_val = float(emp_ret["return_value"].sum()) if not emp_ret.empty else 0.0
         empties_returns_qty = float(emp_ret["quantity"].sum()) if not emp_ret.empty else 0.0
 
-    # Calculate Cost of Returns Credited Back (Product + Empties on invoice-embedded basis)
+    # Calculate Cost of Returns Credited Back (audit trail only)
     missing_cost_anomalies = []
     if cost_of_returns is None:
         cost_of_returns = 0.0
@@ -295,17 +357,29 @@ def compute_net_profit_bridge(
                     anom["return_value"] = float(r.get("return_value", 0.0) or 0.0)
                     missing_cost_anomalies.append(anom)
 
-    # Management Bridge:
-    # Net Invoiced COGS = Gross Invoiced Embedded Cost - Cost of Sales Returns Credited Back - Purchase Returns
-    net_cogs = gross_embedded_cost - float(cost_of_returns or 0.0) - float(purchase_returns or 0.0)
-    net_cost = net_cogs
-
+    # 1. Net Sales
     net_sales_revenue = gross_sales_revenue - total_sales_returns
-    gross_profit = net_sales_revenue - net_cost
+
+    # 2. Net Purchases & COGS
+    purchases_val = float(purchases if purchases is not None else gross_embedded_cost)
+    net_purchases = purchases_val - float(purchase_returns or 0.0) + float(carriage_inwards or 0.0)
+    cogs = float(opening_inventory or 0.0) + net_purchases - float(closing_inventory or 0.0)
+    net_cost = cogs
+
+    # 3. Gross Profit
+    gross_profit = net_sales_revenue - cogs
     net_gross_margin_pct = (gross_profit / net_sales_revenue) if net_sales_revenue > 0 else 0.0
     return_rate = (total_sales_returns / gross_sales_revenue) if gross_sales_revenue > 0 else 0.0
 
-    net_profit = gross_profit - float(expenses_total or 0.0)
+    # 4. Operating Expenses & Net Operating Profit
+    if operating_expenses is not None:
+        tot_expenses = float(sum(operating_expenses))
+    else:
+        tot_expenses = float(expenses_total or 0.0)
+    if carriage_outwards:
+        tot_expenses += float(carriage_outwards)
+
+    net_profit = (gross_profit + float(other_income or 0.0)) - tot_expenses - float(finance_costs or 0.0)
     net_operating_margin_pct = (net_profit / net_sales_revenue) if net_sales_revenue > 0 else 0.0
 
     return {
@@ -314,18 +388,29 @@ def compute_net_profit_bridge(
         "net_sales_revenue": net_sales_revenue,
         "gross_product_cost": gross_embedded_cost,
         "gross_embedded_cost": gross_embedded_cost,
-        "total_cost": gross_embedded_cost,          # Full Gross Invoice Embedded Cost
+        "purchases": purchases_val,
         "purchase_returns": float(purchase_returns or 0.0),
-        "cost_of_returns": float(cost_of_returns or 0.0), # Cost basis of goods returned by customers
-        "net_cost": net_cost,                        # Net Invoiced COGS (post-returns basis)
-        "total_cost_embedded": net_cost,             # alias for backwards compat
+        "carriage_inwards": float(carriage_inwards or 0.0),
+        "carriage_outwards": float(carriage_outwards or 0.0),
+        "opening_inventory": float(opening_inventory or 0.0),
+        "closing_inventory": float(closing_inventory or 0.0),
+        "net_purchases": net_purchases,
+        "cogs": cogs,
+        "total_cost": cogs,
+        "net_cost": net_cost,
+        "total_cost_embedded": net_cost,
+        "cost_of_returns": float(cost_of_returns or 0.0),
         "gross_profit": gross_profit,
-        "net_gross_profit_loss": gross_profit,       # alias for backwards compat
+        "net_gross_profit_loss": gross_profit,
+        "gross_margin_pct": net_gross_margin_pct * 100.0,
         "net_gross_margin_pct": net_gross_margin_pct,
-        "total_operating_expenses": float(expenses_total or 0.0),
+        "total_operating_expenses": tot_expenses,
+        "other_income": float(other_income or 0.0),
+        "finance_costs": float(finance_costs or 0.0),
         "net_profit": net_profit,
-        "net_operating_profit_loss": net_profit,     # alias for backwards compat
+        "net_operating_profit_loss": net_profit,
         "net_operating_margin_pct": net_operating_margin_pct,
+        "net_margin_pct": net_operating_margin_pct * 100.0,
         "product_returns_value": product_returns_val,
         "product_returns_qty": product_returns_qty,
         "empties_returns_value": empties_returns_val,

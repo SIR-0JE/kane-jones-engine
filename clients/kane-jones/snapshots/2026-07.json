@@ -20378,10 +20378,216 @@
       "invoices": 31,
       "gross_profit_pct": -0.0201907619579943,
       "is_marketer": 1,
-      "cases_target": 6000.0,
+      "cases_target": 6000,
       "pct_of_target_met": 0.6628333333333334,
-      "attributable_expenses": 448844.0,
-      "net_marketer_profit": -924046.0,
+      "attributable_expenses": 0.0,
+      "net_marketer_profit": -475202.0,
+      "product_mix": [
+        {
+          "product_raw": "Maltina Pet 33cl",
+          "cases_sold": 3356.0,
+          "revenue": 16770000.0,
+          "tmp3f5d_cost": 5200.0,
+          "avg_selling_price": 4997.0202622169245,
+          "total_cost": 17451200.0,
+          "price_diff": -202.9797377830755,
+          "gross_profit": -681200.0,
+          "gross_profit_pct": -0.04062015503875969,
+          "pct_of_total_cases": 84.38521498617048
+        },
+        {
+          "product_raw": "Trophy",
+          "cases_sold": 140.0,
+          "revenue": 1155000.0,
+          "tmp3f5d_cost": 8118.0,
+          "avg_selling_price": 8250.0,
+          "total_cost": 1136520.0,
+          "price_diff": 132.0,
+          "gross_profit": 18480.0,
+          "gross_profit_pct": 0.016,
+          "pct_of_total_cases": 3.52024138798089
+        },
+        {
+          "product_raw": "Goldberg 60cl",
+          "cases_sold": 110.0,
+          "revenue": 1012000.0,
+          "tmp3f5d_cost": 8657.0,
+          "avg_selling_price": 9200.0,
+          "total_cost": 952270.0,
+          "price_diff": 543.0,
+          "gross_profit": 59730.0,
+          "gross_profit_pct": 0.059021739130434785,
+          "pct_of_total_cases": 2.765903947699271
+        },
+        {
+          "product_raw": "Maltina Can",
+          "cases_sold": 90.0,
+          "revenue": 1183500.0,
+          "tmp3f5d_cost": 13501.0,
+          "avg_selling_price": 13150.0,
+          "total_cost": 1215090.0,
+          "price_diff": -351.0,
+          "gross_profit": -31590.0,
+          "gross_profit_pct": -0.026692015209125477,
+          "pct_of_total_cases": 2.263012320844858
+        },
+        {
+          "product_raw": "Maltina Pet 50cl",
+          "cases_sold": 78.0,
+          "revenue": 625560.0,
+          "tmp3f5d_cost": 7685.0,
+          "avg_selling_price": 8020.0,
+          "total_cost": 599430.0,
+          "price_diff": 335.0,
+          "gross_profit": 26130.0,
+          "gross_profit_pct": 0.04177057356608479,
+          "pct_of_total_cases": 1.9612773447322103
+        },
+        {
+          "product_raw": "Heineken Bottle 60cl",
+          "cases_sold": 77.0,
+          "revenue": 1026795.0,
+          "tmp3f5d_cost": 12746.0,
+          "avg_selling_price": 13335.0,
+          "total_cost": 981442.0,
+          "price_diff": 589.0,
+          "gross_profit": 45353.0,
+          "gross_profit_pct": 0.04416947881514811,
+          "pct_of_total_cases": 1.9361327633894896
+        },
+        {
+          "product_raw": "33 Export 60cl",
+          "cases_sold": 35.0,
+          "revenue": 322000.0,
+          "tmp3f5d_cost": 8990.0,
+          "avg_selling_price": 9200.0,
+          "total_cost": 314650.0,
+          "price_diff": 210.0,
+          "gross_profit": 7350.0,
+          "gross_profit_pct": 0.02282608695652174,
+          "pct_of_total_cases": 0.8800603469952225
+        },
+        {
+          "product_raw": "Turbo King Bottle 60cl",
+          "cases_sold": 22.0,
+          "revenue": 202400.0,
+          "tmp3f5d_cost": 8525.0,
+          "avg_selling_price": 9200.0,
+          "total_cost": 187550.0,
+          "price_diff": 675.0,
+          "gross_profit": 14850.0,
+          "gross_profit_pct": 0.07336956521739131,
+          "pct_of_total_cases": 0.5531807895398542
+        },
+        {
+          "product_raw": "Heineken Sleek Can",
+          "cases_sold": 15.0,
+          "revenue": 267675.0,
+          "tmp3f5d_cost": 17100.0,
+          "avg_selling_price": 17845.0,
+          "total_cost": 256500.0,
+          "price_diff": 745.0,
+          "gross_profit": 11175.0,
+          "gross_profit_pct": 0.04174838890445503,
+          "pct_of_total_cases": 0.37716872014080965
+        },
+        {
+          "product_raw": "Goldberg Can 50cl",
+          "cases_sold": 15.0,
+          "revenue": 242175.0,
+          "tmp3f5d_cost": 15247.0,
+          "avg_selling_price": 16145.0,
+          "total_cost": 228705.0,
+          "price_diff": 898.0,
+          "gross_profit": 13470.0,
+          "gross_profit_pct": 0.05562093527407866,
+          "pct_of_total_cases": 0.37716872014080965
+        },
+        {
+          "product_raw": "Medium Stout",
+          "cases_sold": 10.0,
+          "revenue": 177000.0,
+          "tmp3f5d_cost": 17150.0,
+          "avg_selling_price": 17700.0,
+          "total_cost": 171500.0,
+          "price_diff": 550.0,
+          "gross_profit": 5500.0,
+          "gross_profit_pct": 0.031073446327683617,
+          "pct_of_total_cases": 0.2514458134272064
+        },
+        {
+          "product_raw": "Fayrouz Can",
+          "cases_sold": 10.0,
+          "revenue": 134600.0,
+          "tmp3f5d_cost": 12855.0,
+          "avg_selling_price": 13460.0,
+          "total_cost": 128550.0,
+          "price_diff": 605.0,
+          "gross_profit": 6050.0,
+          "gross_profit_pct": 0.044947994056463596,
+          "pct_of_total_cases": 0.2514458134272064
+        },
+        {
+          "product_raw": "Desperados Can",
+          "cases_sold": 5.0,
+          "revenue": 113700.0,
+          "tmp3f5d_cost": 21595.0,
+          "avg_selling_price": 22740.0,
+          "total_cost": 107975.0,
+          "price_diff": 1145.0,
+          "gross_profit": 5725.0,
+          "gross_profit_pct": 0.05035180299032542,
+          "pct_of_total_cases": 0.1257229067136032
+        },
+        {
+          "product_raw": "TROPHY CAN",
+          "cases_sold": 5.0,
+          "revenue": 77450.0,
+          "tmp3f5d_cost": 14000.0,
+          "avg_selling_price": 15490.0,
+          "total_cost": 70000.0,
+          "price_diff": 1490.0,
+          "gross_profit": 7450.0,
+          "gross_profit_pct": 0.0961910910264687,
+          "pct_of_total_cases": 0.1257229067136032
+        },
+        {
+          "product_raw": "Chamdor 75cl",
+          "cases_sold": 4.0,
+          "revenue": 113780.0,
+          "tmp3f5d_cost": 25930.0,
+          "avg_selling_price": 28445.0,
+          "total_cost": 103720.0,
+          "price_diff": 2515.0,
+          "gross_profit": 10060.0,
+          "gross_profit_pct": 0.08841624187027597,
+          "pct_of_total_cases": 0.10057832537088257
+        },
+        {
+          "product_raw": "Legend Can 44cl",
+          "cases_sold": 3.0,
+          "revenue": 63510.0,
+          "tmp3f5d_cost": 20405.0,
+          "avg_selling_price": 21170.0,
+          "total_cost": 61215.0,
+          "price_diff": 765.0,
+          "gross_profit": 2295.0,
+          "gross_profit_pct": 0.03613604156825697,
+          "pct_of_total_cases": 0.07543374402816193
+        },
+        {
+          "product_raw": "4th Street wine",
+          "cases_sold": 2.0,
+          "revenue": 48470.0,
+          "tmp3f5d_cost": 22250.0,
+          "avg_selling_price": 24235.0,
+          "total_cost": 44500.0,
+          "price_diff": 1985.0,
+          "gross_profit": 3970.0,
+          "gross_profit_pct": 0.08190633381473077,
+          "pct_of_total_cases": 0.050289162685441285
+        }
+      ],
       "invoices_list": [
         {
           "invoice_no": "ann-INV144",
@@ -20739,6 +20945,296 @@
       "pct_of_target_met": null,
       "attributable_expenses": 0.0,
       "net_marketer_profit": -221535.0,
+      "product_mix": [
+        {
+          "product_raw": "Maltina Pet 33cl",
+          "cases_sold": 1738.0,
+          "revenue": 8690000.0,
+          "tmp3f5d_cost": 5200.0,
+          "avg_selling_price": 5000.0,
+          "total_cost": 9037600.0,
+          "price_diff": -200.0,
+          "gross_profit": -347600.0,
+          "gross_profit_pct": -0.04,
+          "pct_of_total_cases": 68.61429135412554
+        },
+        {
+          "product_raw": "Heineken Sleek Can",
+          "cases_sold": 185.0,
+          "revenue": 3204000.0,
+          "tmp3f5d_cost": 17100.0,
+          "avg_selling_price": 17318.91891891892,
+          "total_cost": 3163500.0,
+          "price_diff": 218.9189189189201,
+          "gross_profit": 40500.0,
+          "gross_profit_pct": 0.012640449438202247,
+          "pct_of_total_cases": 7.303592577970786
+        },
+        {
+          "product_raw": "Maltina Can",
+          "cases_sold": 140.0,
+          "revenue": 1806000.0,
+          "tmp3f5d_cost": 13501.0,
+          "avg_selling_price": 12900.0,
+          "total_cost": 1890140.0,
+          "price_diff": -601.0,
+          "gross_profit": -84140.0,
+          "gross_profit_pct": -0.0465891472868217,
+          "pct_of_total_cases": 5.527043031977892
+        },
+        {
+          "product_raw": "33 Export Can",
+          "cases_sold": 110.0,
+          "revenue": 1722050.0,
+          "tmp3f5d_cost": 15555.0,
+          "avg_selling_price": 15655.0,
+          "total_cost": 1711050.0,
+          "price_diff": 100.0,
+          "gross_profit": 11000.0,
+          "gross_profit_pct": 0.0063877355477483235,
+          "pct_of_total_cases": 4.342676667982629
+        },
+        {
+          "product_raw": "Goldberg Can 50cl",
+          "cases_sold": 75.0,
+          "revenue": 1174125.0,
+          "tmp3f5d_cost": 15247.0,
+          "avg_selling_price": 15655.0,
+          "total_cost": 1143525.0,
+          "price_diff": 408.0,
+          "gross_profit": 30600.0,
+          "gross_profit_pct": 0.026061961034813157,
+          "pct_of_total_cases": 2.9609159099881563
+        },
+        {
+          "product_raw": "Fayrouz Can",
+          "cases_sold": 53.0,
+          "revenue": 695050.0,
+          "tmp3f5d_cost": 12855.0,
+          "avg_selling_price": 13114.150943396226,
+          "total_cost": 681315.0,
+          "price_diff": 259.15094339622556,
+          "gross_profit": 13735.0,
+          "gross_profit_pct": 0.019761168261276166,
+          "pct_of_total_cases": 2.0923805763916303
+        },
+        {
+          "product_raw": "Heineken Bottle 60cl",
+          "cases_sold": 40.0,
+          "revenue": 533400.0,
+          "tmp3f5d_cost": 12746.0,
+          "avg_selling_price": 13335.0,
+          "total_cost": 509840.0,
+          "price_diff": 589.0,
+          "gross_profit": 23560.0,
+          "gross_profit_pct": 0.04416947881514811,
+          "pct_of_total_cases": 1.5791551519936835
+        },
+        {
+          "product_raw": "Maltina Pet 50cl",
+          "cases_sold": 30.0,
+          "revenue": 240600.0,
+          "tmp3f5d_cost": 7685.0,
+          "avg_selling_price": 8020.0,
+          "total_cost": 230550.0,
+          "price_diff": 335.0,
+          "gross_profit": 10050.0,
+          "gross_profit_pct": 0.04177057356608479,
+          "pct_of_total_cases": 1.1843663639952624
+        },
+        {
+          "product_raw": "33 Export 60cl",
+          "cases_sold": 22.0,
+          "revenue": 202400.0,
+          "tmp3f5d_cost": 8990.0,
+          "avg_selling_price": 9200.0,
+          "total_cost": 197780.0,
+          "price_diff": 210.0,
+          "gross_profit": 4620.0,
+          "gross_profit_pct": 0.02282608695652174,
+          "pct_of_total_cases": 0.8685353335965259
+        },
+        {
+          "product_raw": "Heineken Can 50cl",
+          "cases_sold": 20.0,
+          "revenue": 475400.0,
+          "tmp3f5d_cost": 22775.0,
+          "avg_selling_price": 23770.0,
+          "total_cost": 455500.0,
+          "price_diff": 995.0,
+          "gross_profit": 19900.0,
+          "gross_profit_pct": 0.04185948674800168,
+          "pct_of_total_cases": 0.7895775759968418
+        },
+        {
+          "product_raw": "Goldberg 60cl",
+          "cases_sold": 20.0,
+          "revenue": 176000.0,
+          "tmp3f5d_cost": 8657.0,
+          "avg_selling_price": 8800.0,
+          "total_cost": 173140.0,
+          "price_diff": 143.0,
+          "gross_profit": 2860.0,
+          "gross_profit_pct": 0.01625,
+          "pct_of_total_cases": 0.7895775759968418
+        },
+        {
+          "product_raw": "Gulder Bottle",
+          "cases_sold": 19.0,
+          "revenue": 226290.0,
+          "tmp3f5d_cost": 11315.0,
+          "avg_selling_price": 11910.0,
+          "total_cost": 214985.0,
+          "price_diff": 595.0,
+          "gross_profit": 11305.0,
+          "gross_profit_pct": 0.049958018471872374,
+          "pct_of_total_cases": 0.7500986971969996
+        },
+        {
+          "product_raw": "Desperados Bottle",
+          "cases_sold": 15.0,
+          "revenue": 321000.0,
+          "tmp3f5d_cost": 20440.0,
+          "avg_selling_price": 21400.0,
+          "total_cost": 306600.0,
+          "price_diff": 960.0,
+          "gross_profit": 14400.0,
+          "gross_profit_pct": 0.044859813084112146,
+          "pct_of_total_cases": 0.5921831819976312
+        },
+        {
+          "product_raw": "Star Bottle 60cl",
+          "cases_sold": 15.0,
+          "revenue": 172150.0,
+          "tmp3f5d_cost": 11130.0,
+          "avg_selling_price": 11476.666666666666,
+          "total_cost": 166950.0,
+          "price_diff": 346.66666666666606,
+          "gross_profit": 5200.0,
+          "gross_profit_pct": 0.03020621550972989,
+          "pct_of_total_cases": 0.5921831819976312
+        },
+        {
+          "product_raw": "Star Radler 45cl",
+          "cases_sold": 10.0,
+          "revenue": 144750.0,
+          "tmp3f5d_cost": 14475.0,
+          "avg_selling_price": 14475.0,
+          "total_cost": 144750.0,
+          "price_diff": 0.0,
+          "gross_profit": 0.0,
+          "gross_profit_pct": 0.0,
+          "pct_of_total_cases": 0.3947887879984209
+        },
+        {
+          "product_raw": "Desperados Can",
+          "cases_sold": 10.0,
+          "revenue": 216925.0,
+          "tmp3f5d_cost": 21595.0,
+          "avg_selling_price": 21692.5,
+          "total_cost": 215950.0,
+          "price_diff": 97.5,
+          "gross_profit": 975.0,
+          "gross_profit_pct": 0.004494641004955629,
+          "pct_of_total_cases": 0.3947887879984209
+        },
+        {
+          "product_raw": "Maltina Bottle",
+          "cases_sold": 5.0,
+          "revenue": 67750.0,
+          "tmp3f5d_cost": 12920.0,
+          "avg_selling_price": 13550.0,
+          "total_cost": 64600.0,
+          "price_diff": 630.0,
+          "gross_profit": 3150.0,
+          "gross_profit_pct": 0.04649446494464945,
+          "pct_of_total_cases": 0.19739439399921044
+        },
+        {
+          "product_raw": "Turbo King Bottle 60cl",
+          "cases_sold": 5.0,
+          "revenue": 46000.0,
+          "tmp3f5d_cost": 8525.0,
+          "avg_selling_price": 9200.0,
+          "total_cost": 42625.0,
+          "price_diff": 675.0,
+          "gross_profit": 3375.0,
+          "gross_profit_pct": 0.07336956521739131,
+          "pct_of_total_cases": 0.19739439399921044
+        },
+        {
+          "product_raw": "Legend Can 44cl",
+          "cases_sold": 5.0,
+          "revenue": 105850.0,
+          "tmp3f5d_cost": 20405.0,
+          "avg_selling_price": 21170.0,
+          "total_cost": 102025.0,
+          "price_diff": 765.0,
+          "gross_profit": 3825.0,
+          "gross_profit_pct": 0.03613604156825697,
+          "pct_of_total_cases": 0.19739439399921044
+        },
+        {
+          "product_raw": "Amstel Bottle",
+          "cases_sold": 4.0,
+          "revenue": 57800.0,
+          "tmp3f5d_cost": 13780.0,
+          "avg_selling_price": 14450.0,
+          "total_cost": 55120.0,
+          "price_diff": 670.0,
+          "gross_profit": 2680.0,
+          "gross_profit_pct": 0.04636678200692042,
+          "pct_of_total_cases": 0.15791551519936833
+        },
+        {
+          "product_raw": "Tiger Bottle",
+          "cases_sold": 4.0,
+          "revenue": 62100.0,
+          "tmp3f5d_cost": 14900.0,
+          "avg_selling_price": 15525.0,
+          "total_cost": 59600.0,
+          "price_diff": 625.0,
+          "gross_profit": 2500.0,
+          "gross_profit_pct": 0.040257648953301126,
+          "pct_of_total_cases": 0.15791551519936833
+        },
+        {
+          "product_raw": "ACE BITTERS",
+          "cases_sold": 3.0,
+          "revenue": 61965.0,
+          "tmp3f5d_cost": 19305.0,
+          "avg_selling_price": 20655.0,
+          "total_cost": 57915.0,
+          "price_diff": 1350.0,
+          "gross_profit": 4050.0,
+          "gross_profit_pct": 0.06535947712418301,
+          "pct_of_total_cases": 0.11843663639952626
+        },
+        {
+          "product_raw": "Fayrouz Bottle",
+          "cases_sold": 3.0,
+          "revenue": 30945.0,
+          "tmp3f5d_cost": 9925.0,
+          "avg_selling_price": 10315.0,
+          "total_cost": 29775.0,
+          "price_diff": 390.0,
+          "gross_profit": 1170.0,
+          "gross_profit_pct": 0.03780901599612215,
+          "pct_of_total_cases": 0.11843663639952626
+        },
+        {
+          "product_raw": "Williams Bottle 60cl",
+          "cases_sold": 2.0,
+          "revenue": 18690.0,
+          "tmp3f5d_cost": 8970.0,
+          "avg_selling_price": 9345.0,
+          "total_cost": 17940.0,
+          "price_diff": 375.0,
+          "gross_profit": 750.0,
+          "gross_profit_pct": 0.04012841091492777,
+          "pct_of_total_cases": 0.07895775759968417
+        }
+      ],
       "invoices_list": [
         {
           "invoice_no": "ann-INV350",
@@ -21030,6 +21526,80 @@
       "pct_of_target_met": null,
       "attributable_expenses": 0.0,
       "net_marketer_profit": 105630.0,
+      "product_mix": [
+        {
+          "product_raw": "33 Export 60cl",
+          "cases_sold": 560.0,
+          "revenue": 5034400.0,
+          "tmp3f5d_cost": 8990.0,
+          "avg_selling_price": 8990.0,
+          "total_cost": 5034400.0,
+          "price_diff": 0.0,
+          "gross_profit": 0.0,
+          "gross_profit_pct": 0.0,
+          "pct_of_total_cases": 36.50586701434159
+        },
+        {
+          "product_raw": "Heineken Bottle 60cl",
+          "cases_sold": 420.0,
+          "revenue": 5402600.0,
+          "tmp3f5d_cost": 12746.0,
+          "avg_selling_price": 12863.333333333334,
+          "total_cost": 5353320.0,
+          "price_diff": 117.33333333333394,
+          "gross_profit": 49280.0,
+          "gross_profit_pct": 0.009121534076185541,
+          "pct_of_total_cases": 27.379400260756192
+        },
+        {
+          "product_raw": "Goldberg 60cl",
+          "cases_sold": 350.0,
+          "revenue": 3077900.0,
+          "tmp3f5d_cost": 8657.0,
+          "avg_selling_price": 8794.0,
+          "total_cost": 3029950.0,
+          "price_diff": 137.0,
+          "gross_profit": 47950.0,
+          "gross_profit_pct": 0.015578803729815783,
+          "pct_of_total_cases": 22.816166883963493
+        },
+        {
+          "product_raw": "Gulder Bottle",
+          "cases_sold": 84.0,
+          "revenue": 958860.0,
+          "tmp3f5d_cost": 11315.0,
+          "avg_selling_price": 11415.0,
+          "total_cost": 950460.0,
+          "price_diff": 100.0,
+          "gross_profit": 8400.0,
+          "gross_profit_pct": 0.008760402978537012,
+          "pct_of_total_cases": 5.475880052151238
+        },
+        {
+          "product_raw": "Star Radler 45cl",
+          "cases_sold": 60.0,
+          "revenue": 868500.0,
+          "tmp3f5d_cost": 14475.0,
+          "avg_selling_price": 14475.0,
+          "total_cost": 868500.0,
+          "price_diff": 0.0,
+          "gross_profit": 0.0,
+          "gross_profit_pct": 0.0,
+          "pct_of_total_cases": 3.911342894393742
+        },
+        {
+          "product_raw": "Tiger Bottle",
+          "cases_sold": 60.0,
+          "revenue": 894000.0,
+          "tmp3f5d_cost": 14900.0,
+          "avg_selling_price": 14900.0,
+          "total_cost": 894000.0,
+          "price_diff": 0.0,
+          "gross_profit": 0.0,
+          "gross_profit_pct": 0.0,
+          "pct_of_total_cases": 3.911342894393742
+        }
+      ],
       "invoices_list": [
         {
           "invoice_no": "ann-INV161",
@@ -21079,6 +21649,116 @@
       "pct_of_target_met": null,
       "attributable_expenses": 0.0,
       "net_marketer_profit": 84878.0,
+      "product_mix": [
+        {
+          "product_raw": "Goldberg 60cl",
+          "cases_sold": 490.0,
+          "revenue": 4336500.0,
+          "tmp3f5d_cost": 8657.0,
+          "avg_selling_price": 8850.0,
+          "total_cost": 4241930.0,
+          "price_diff": 193.0,
+          "gross_profit": 94570.0,
+          "gross_profit_pct": 0.021807909604519775,
+          "pct_of_total_cases": 37.77949113338474
+        },
+        {
+          "product_raw": "Heineken Sleek Can",
+          "cases_sold": 150.0,
+          "revenue": 2565000.0,
+          "tmp3f5d_cost": 17100.0,
+          "avg_selling_price": 17100.0,
+          "total_cost": 2565000.0,
+          "price_diff": 0.0,
+          "gross_profit": 0.0,
+          "gross_profit_pct": 0.0,
+          "pct_of_total_cases": 11.56515034695451
+        },
+        {
+          "product_raw": "Trophy",
+          "cases_sold": 140.0,
+          "revenue": 1134000.0,
+          "tmp3f5d_cost": 8118.0,
+          "avg_selling_price": 8100.0,
+          "total_cost": 1136520.0,
+          "price_diff": -18.0,
+          "gross_profit": -2520.0,
+          "gross_profit_pct": -0.0022222222222222222,
+          "pct_of_total_cases": 10.79414032382421
+        },
+        {
+          "product_raw": "Heineken Bottle 60cl",
+          "cases_sold": 140.0,
+          "revenue": 1796200.0,
+          "tmp3f5d_cost": 12746.0,
+          "avg_selling_price": 12830.0,
+          "total_cost": 1784440.0,
+          "price_diff": 84.0,
+          "gross_profit": 11760.0,
+          "gross_profit_pct": 0.0065471551052221355,
+          "pct_of_total_cases": 10.79414032382421
+        },
+        {
+          "product_raw": "TROPHY CAN",
+          "cases_sold": 97.0,
+          "revenue": 1309500.0,
+          "tmp3f5d_cost": 14000.0,
+          "avg_selling_price": 13500.0,
+          "total_cost": 1358000.0,
+          "price_diff": -500.0,
+          "gross_profit": -48500.0,
+          "gross_profit_pct": -0.037037037037037035,
+          "pct_of_total_cases": 7.478797224363917
+        },
+        {
+          "product_raw": "Goldberg Can 50cl",
+          "cases_sold": 96.0,
+          "revenue": 1493280.0,
+          "tmp3f5d_cost": 15247.0,
+          "avg_selling_price": 15555.0,
+          "total_cost": 1463712.0,
+          "price_diff": 308.0,
+          "gross_profit": 29568.0,
+          "gross_profit_pct": 0.019800707168113146,
+          "pct_of_total_cases": 7.401696222050886
+        },
+        {
+          "product_raw": "Gulder Bottle",
+          "cases_sold": 84.0,
+          "revenue": 950460.0,
+          "tmp3f5d_cost": 11315.0,
+          "avg_selling_price": 11315.0,
+          "total_cost": 950460.0,
+          "price_diff": 0.0,
+          "gross_profit": 0.0,
+          "gross_profit_pct": 0.0,
+          "pct_of_total_cases": 6.4764841942945255
+        },
+        {
+          "product_raw": "33 Export 60cl",
+          "cases_sold": 70.0,
+          "revenue": 629300.0,
+          "tmp3f5d_cost": 8990.0,
+          "avg_selling_price": 8990.0,
+          "total_cost": 629300.0,
+          "price_diff": 0.0,
+          "gross_profit": 0.0,
+          "gross_profit_pct": 0.0,
+          "pct_of_total_cases": 5.397070161912105
+        },
+        {
+          "product_raw": "Star Radler 45cl",
+          "cases_sold": 30.0,
+          "revenue": 434250.0,
+          "tmp3f5d_cost": 14475.0,
+          "avg_selling_price": 14475.0,
+          "total_cost": 434250.0,
+          "price_diff": 0.0,
+          "gross_profit": 0.0,
+          "gross_profit_pct": 0.0,
+          "pct_of_total_cases": 2.313030069390902
+        }
+      ],
       "invoices_list": [
         {
           "invoice_no": "ann-INV417",
@@ -21139,6 +21819,368 @@
       "pct_of_target_met": null,
       "attributable_expenses": 0.0,
       "net_marketer_profit": 252481.0,
+      "product_mix": [
+        {
+          "product_raw": "Maltina Pet 33cl",
+          "cases_sold": 342.0,
+          "revenue": 1703000.0,
+          "tmp3f5d_cost": 5200.0,
+          "avg_selling_price": 4979.5321637426905,
+          "total_cost": 1778400.0,
+          "price_diff": -220.4678362573095,
+          "gross_profit": -75400.0,
+          "gross_profit_pct": -0.044274809160305344,
+          "pct_of_total_cases": 25.128581925055105
+        },
+        {
+          "product_raw": "Goldberg 60cl",
+          "cases_sold": 230.0,
+          "revenue": 2027400.0,
+          "tmp3f5d_cost": 8657.0,
+          "avg_selling_price": 8814.782608695652,
+          "total_cost": 1991110.0,
+          "price_diff": 157.78260869565202,
+          "gross_profit": 36290.0,
+          "gross_profit_pct": 0.01789977310841472,
+          "pct_of_total_cases": 16.899338721528288
+        },
+        {
+          "product_raw": "33 Export 60cl",
+          "cases_sold": 224.0,
+          "revenue": 2060800.0,
+          "tmp3f5d_cost": 8990.0,
+          "avg_selling_price": 9200.0,
+          "total_cost": 2013760.0,
+          "price_diff": 210.0,
+          "gross_profit": 47040.0,
+          "gross_profit_pct": 0.02282608695652174,
+          "pct_of_total_cases": 16.458486407053638
+        },
+        {
+          "product_raw": "Heineken Bottle 60cl",
+          "cases_sold": 110.0,
+          "revenue": 1466850.0,
+          "tmp3f5d_cost": 12746.0,
+          "avg_selling_price": 13335.0,
+          "total_cost": 1402060.0,
+          "price_diff": 589.0,
+          "gross_profit": 64790.0,
+          "gross_profit_pct": 0.04416947881514811,
+          "pct_of_total_cases": 8.082292432035269
+        },
+        {
+          "product_raw": "Heineken Sleek Can",
+          "cases_sold": 83.0,
+          "revenue": 1430475.0,
+          "tmp3f5d_cost": 17100.0,
+          "avg_selling_price": 17234.63855421687,
+          "total_cost": 1419300.0,
+          "price_diff": 134.63855421686822,
+          "gross_profit": 11175.0,
+          "gross_profit_pct": 0.007812090389555917,
+          "pct_of_total_cases": 6.098457016899339
+        },
+        {
+          "product_raw": "Turbo King Bottle 60cl",
+          "cases_sold": 80.0,
+          "revenue": 710400.0,
+          "tmp3f5d_cost": 8525.0,
+          "avg_selling_price": 8880.0,
+          "total_cost": 682000.0,
+          "price_diff": 355.0,
+          "gross_profit": 28400.0,
+          "gross_profit_pct": 0.03997747747747748,
+          "pct_of_total_cases": 5.878030859662013
+        },
+        {
+          "product_raw": "Gulder Bottle",
+          "cases_sold": 56.0,
+          "revenue": 666960.0,
+          "tmp3f5d_cost": 11315.0,
+          "avg_selling_price": 11910.0,
+          "total_cost": 633640.0,
+          "price_diff": 595.0,
+          "gross_profit": 33320.0,
+          "gross_profit_pct": 0.049958018471872374,
+          "pct_of_total_cases": 4.114621601763409
+        },
+        {
+          "product_raw": "Goldberg Can 50cl",
+          "cases_sold": 36.0,
+          "revenue": 580240.0,
+          "tmp3f5d_cost": 15247.0,
+          "avg_selling_price": 16117.777777777777,
+          "total_cost": 548892.0,
+          "price_diff": 870.7777777777774,
+          "gross_profit": 31348.0,
+          "gross_profit_pct": 0.054025920308837724,
+          "pct_of_total_cases": 2.645113886847906
+        },
+        {
+          "product_raw": "33 Export Can",
+          "cases_sold": 26.0,
+          "revenue": 408990.0,
+          "tmp3f5d_cost": 15555.0,
+          "avg_selling_price": 15730.384615384615,
+          "total_cost": 404430.0,
+          "price_diff": 175.38461538461524,
+          "gross_profit": 4560.0,
+          "gross_profit_pct": 0.011149416856157852,
+          "pct_of_total_cases": 1.9103600293901544
+        },
+        {
+          "product_raw": "Tiger Bottle",
+          "cases_sold": 21.0,
+          "revenue": 326025.0,
+          "tmp3f5d_cost": 14900.0,
+          "avg_selling_price": 15525.0,
+          "total_cost": 312900.0,
+          "price_diff": 625.0,
+          "gross_profit": 13125.0,
+          "gross_profit_pct": 0.040257648953301126,
+          "pct_of_total_cases": 1.5429831006612784
+        },
+        {
+          "product_raw": "Maltina Can",
+          "cases_sold": 21.0,
+          "revenue": 277200.0,
+          "tmp3f5d_cost": 13501.0,
+          "avg_selling_price": 13200.0,
+          "total_cost": 283521.0,
+          "price_diff": -301.0,
+          "gross_profit": -6321.0,
+          "gross_profit_pct": -0.022803030303030304,
+          "pct_of_total_cases": 1.5429831006612784
+        },
+        {
+          "product_raw": "Desperados Bottle",
+          "cases_sold": 19.0,
+          "revenue": 406600.0,
+          "tmp3f5d_cost": 20440.0,
+          "avg_selling_price": 21400.0,
+          "total_cost": 388360.0,
+          "price_diff": 960.0,
+          "gross_profit": 18240.0,
+          "gross_profit_pct": 0.044859813084112146,
+          "pct_of_total_cases": 1.396032329169728
+        },
+        {
+          "product_raw": "Maltina Pet 50cl",
+          "cases_sold": 17.0,
+          "revenue": 136340.0,
+          "tmp3f5d_cost": 7685.0,
+          "avg_selling_price": 8020.0,
+          "total_cost": 130645.0,
+          "price_diff": 335.0,
+          "gross_profit": 5695.0,
+          "gross_profit_pct": 0.04177057356608479,
+          "pct_of_total_cases": 1.2490815576781777
+        },
+        {
+          "product_raw": "Desperados Can",
+          "cases_sold": 15.0,
+          "revenue": 328560.0,
+          "tmp3f5d_cost": 21595.0,
+          "avg_selling_price": 21904.0,
+          "total_cost": 323925.0,
+          "price_diff": 309.0,
+          "gross_profit": 4635.0,
+          "gross_profit_pct": 0.014107012417823228,
+          "pct_of_total_cases": 1.1021307861866276
+        },
+        {
+          "product_raw": "Legend Bottle 60cl",
+          "cases_sold": 15.0,
+          "revenue": 172200.0,
+          "tmp3f5d_cost": 10915.0,
+          "avg_selling_price": 11480.0,
+          "total_cost": 163725.0,
+          "price_diff": 565.0,
+          "gross_profit": 8475.0,
+          "gross_profit_pct": 0.04921602787456446,
+          "pct_of_total_cases": 1.1021307861866276
+        },
+        {
+          "product_raw": "Star Radler 45cl",
+          "cases_sold": 12.0,
+          "revenue": 174900.0,
+          "tmp3f5d_cost": 14475.0,
+          "avg_selling_price": 14575.0,
+          "total_cost": 173700.0,
+          "price_diff": 100.0,
+          "gross_profit": 1200.0,
+          "gross_profit_pct": 0.00686106346483705,
+          "pct_of_total_cases": 0.881704628949302
+        },
+        {
+          "product_raw": "Fayrouz Bottle",
+          "cases_sold": 11.0,
+          "revenue": 113465.0,
+          "tmp3f5d_cost": 9925.0,
+          "avg_selling_price": 10315.0,
+          "total_cost": 109175.0,
+          "price_diff": 390.0,
+          "gross_profit": 4290.0,
+          "gross_profit_pct": 0.03780901599612215,
+          "pct_of_total_cases": 0.8082292432035268
+        },
+        {
+          "product_raw": "Star Bottle 60cl",
+          "cases_sold": 9.0,
+          "revenue": 102735.0,
+          "tmp3f5d_cost": 11130.0,
+          "avg_selling_price": 11415.0,
+          "total_cost": 100170.0,
+          "price_diff": 285.0,
+          "gross_profit": 2565.0,
+          "gross_profit_pct": 0.024967148488830485,
+          "pct_of_total_cases": 0.6612784717119765
+        },
+        {
+          "product_raw": "Fayrouz Can",
+          "cases_sold": 9.0,
+          "revenue": 121140.0,
+          "tmp3f5d_cost": 12855.0,
+          "avg_selling_price": 13460.0,
+          "total_cost": 115695.0,
+          "price_diff": 605.0,
+          "gross_profit": 5445.0,
+          "gross_profit_pct": 0.044947994056463596,
+          "pct_of_total_cases": 0.6612784717119765
+        },
+        {
+          "product_raw": "Maltina Bottle",
+          "cases_sold": 5.0,
+          "revenue": 65100.0,
+          "tmp3f5d_cost": 12920.0,
+          "avg_selling_price": 13020.0,
+          "total_cost": 64600.0,
+          "price_diff": 100.0,
+          "gross_profit": 500.0,
+          "gross_profit_pct": 0.007680491551459293,
+          "pct_of_total_cases": 0.36737692872887584
+        },
+        {
+          "product_raw": "Amstel Bottle",
+          "cases_sold": 3.0,
+          "revenue": 43350.0,
+          "tmp3f5d_cost": 13780.0,
+          "avg_selling_price": 14450.0,
+          "total_cost": 41340.0,
+          "price_diff": 670.0,
+          "gross_profit": 2010.0,
+          "gross_profit_pct": 0.04636678200692042,
+          "pct_of_total_cases": 0.2204261572373255
+        },
+        {
+          "product_raw": "Amstel Can",
+          "cases_sold": 3.0,
+          "revenue": 43290.0,
+          "tmp3f5d_cost": 13911.0,
+          "avg_selling_price": 14430.0,
+          "total_cost": 41733.0,
+          "price_diff": 519.0,
+          "gross_profit": 1557.0,
+          "gross_profit_pct": 0.03596673596673597,
+          "pct_of_total_cases": 0.2204261572373255
+        },
+        {
+          "product_raw": "Heineken Bottle 45cl",
+          "cases_sold": 3.0,
+          "revenue": 53520.0,
+          "tmp3f5d_cost": 17265.0,
+          "avg_selling_price": 17840.0,
+          "total_cost": 51795.0,
+          "price_diff": 575.0,
+          "gross_profit": 1725.0,
+          "gross_profit_pct": 0.03223094170403588,
+          "pct_of_total_cases": 0.2204261572373255
+        },
+        {
+          "product_raw": "ACE BITTERS",
+          "cases_sold": 2.0,
+          "revenue": 41310.0,
+          "tmp3f5d_cost": 19305.0,
+          "avg_selling_price": 20655.0,
+          "total_cost": 38610.0,
+          "price_diff": 1350.0,
+          "gross_profit": 2700.0,
+          "gross_profit_pct": 0.06535947712418301,
+          "pct_of_total_cases": 0.1469507714915503
+        },
+        {
+          "product_raw": "Legend Can 44cl",
+          "cases_sold": 2.0,
+          "revenue": 42340.0,
+          "tmp3f5d_cost": 20405.0,
+          "avg_selling_price": 21170.0,
+          "total_cost": 40810.0,
+          "price_diff": 765.0,
+          "gross_profit": 1530.0,
+          "gross_profit_pct": 0.03613604156825697,
+          "pct_of_total_cases": 0.1469507714915503
+        },
+        {
+          "product_raw": "Legend 45cl",
+          "cases_sold": 2.0,
+          "revenue": 31890.0,
+          "tmp3f5d_cost": 15375.0,
+          "avg_selling_price": 15945.0,
+          "total_cost": 30750.0,
+          "price_diff": 570.0,
+          "gross_profit": 1140.0,
+          "gross_profit_pct": 0.03574788334901223,
+          "pct_of_total_cases": 0.1469507714915503
+        },
+        {
+          "product_raw": "Williams Bottle 60cl",
+          "cases_sold": 2.0,
+          "revenue": 18690.0,
+          "tmp3f5d_cost": 8970.0,
+          "avg_selling_price": 9345.0,
+          "total_cost": 17940.0,
+          "price_diff": 375.0,
+          "gross_profit": 750.0,
+          "gross_profit_pct": 0.04012841091492777,
+          "pct_of_total_cases": 0.1469507714915503
+        },
+        {
+          "product_raw": "CLIMAX CAN",
+          "cases_sold": 1.0,
+          "revenue": 12885.0,
+          "tmp3f5d_cost": 12120.0,
+          "avg_selling_price": 12885.0,
+          "total_cost": 12120.0,
+          "price_diff": 765.0,
+          "gross_profit": 765.0,
+          "gross_profit_pct": 0.059371362048894066,
+          "pct_of_total_cases": 0.07347538574577515
+        },
+        {
+          "product_raw": "Medium Stout",
+          "cases_sold": 1.0,
+          "revenue": 17700.0,
+          "tmp3f5d_cost": 17150.0,
+          "avg_selling_price": 17700.0,
+          "total_cost": 17150.0,
+          "price_diff": 550.0,
+          "gross_profit": 550.0,
+          "gross_profit_pct": 0.031073446327683617,
+          "pct_of_total_cases": 0.07347538574577515
+        },
+        {
+          "product_raw": "Trophy",
+          "cases_sold": 1.0,
+          "revenue": 8500.0,
+          "tmp3f5d_cost": 8118.0,
+          "avg_selling_price": 8500.0,
+          "total_cost": 8118.0,
+          "price_diff": 382.0,
+          "gross_profit": 382.0,
+          "gross_profit_pct": 0.044941176470588234,
+          "pct_of_total_cases": 0.07347538574577515
+        }
+      ],
       "invoices_list": [
         {
           "invoice_no": "ann-INV324",
@@ -21617,6 +22659,20 @@
       "pct_of_target_met": null,
       "attributable_expenses": 0.0,
       "net_marketer_profit": -620000.0,
+      "product_mix": [
+        {
+          "product_raw": "Maltina Pet 33cl",
+          "cases_sold": 2480.0,
+          "revenue": 12276000.0,
+          "tmp3f5d_cost": 5200.0,
+          "avg_selling_price": 4950.0,
+          "total_cost": 12896000.0,
+          "price_diff": -250.0,
+          "gross_profit": -620000.0,
+          "gross_profit_pct": -0.050505050505050504,
+          "pct_of_total_cases": 100.0
+        }
+      ],
       "invoices_list": [
         {
           "invoice_no": "ann-INV260",
@@ -21651,10 +22707,192 @@
       "invoices": 6,
       "gross_profit_pct": -0.0077449222734905,
       "is_marketer": 1,
-      "cases_target": 6000.0,
+      "cases_target": 6000,
       "pct_of_target_met": 0.23183333333333334,
       "attributable_expenses": 0.0,
       "net_marketer_profit": -83095.0,
+      "product_mix": [
+        {
+          "product_raw": "Maltina Pet 33cl",
+          "cases_sold": 535.0,
+          "revenue": 2653500.0,
+          "tmp3f5d_cost": 5200.0,
+          "avg_selling_price": 4959.813084112149,
+          "total_cost": 2782000.0,
+          "price_diff": -240.18691588785077,
+          "gross_profit": -128500.0,
+          "gross_profit_pct": -0.048426606368946676,
+          "pct_of_total_cases": 38.46153846153847
+        },
+        {
+          "product_raw": "Goldberg 60cl",
+          "cases_sold": 435.0,
+          "revenue": 3734000.0,
+          "tmp3f5d_cost": 8657.0,
+          "avg_selling_price": 8583.908045977012,
+          "total_cost": 3765795.0,
+          "price_diff": -73.09195402298792,
+          "gross_profit": -31795.0,
+          "gross_profit_pct": -0.008514997321906803,
+          "pct_of_total_cases": 31.272465851905107
+        },
+        {
+          "product_raw": "Maltina Pet 50cl",
+          "cases_sold": 145.0,
+          "revenue": 1134300.0,
+          "tmp3f5d_cost": 7685.0,
+          "avg_selling_price": 7822.758620689655,
+          "total_cost": 1114325.0,
+          "price_diff": 137.7586206896549,
+          "gross_profit": 19975.0,
+          "gross_profit_pct": 0.01760997972317729,
+          "pct_of_total_cases": 10.424155283968368
+        },
+        {
+          "product_raw": "Turbo King Bottle 60cl",
+          "cases_sold": 70.0,
+          "revenue": 616000.0,
+          "tmp3f5d_cost": 8525.0,
+          "avg_selling_price": 8800.0,
+          "total_cost": 596750.0,
+          "price_diff": 275.0,
+          "gross_profit": 19250.0,
+          "gross_profit_pct": 0.03125,
+          "pct_of_total_cases": 5.03235082674335
+        },
+        {
+          "product_raw": "Heineken Bottle 60cl",
+          "cases_sold": 56.0,
+          "revenue": 724080.0,
+          "tmp3f5d_cost": 12746.0,
+          "avg_selling_price": 12930.0,
+          "total_cost": 713776.0,
+          "price_diff": 184.0,
+          "gross_profit": 10304.0,
+          "gross_profit_pct": 0.01423047177107502,
+          "pct_of_total_cases": 4.02588066139468
+        },
+        {
+          "product_raw": "Gulder Bottle",
+          "cases_sold": 31.0,
+          "revenue": 353865.0,
+          "tmp3f5d_cost": 11315.0,
+          "avg_selling_price": 11415.0,
+          "total_cost": 350765.0,
+          "price_diff": 100.0,
+          "gross_profit": 3100.0,
+          "gross_profit_pct": 0.008760402978537012,
+          "pct_of_total_cases": 2.2286125089863407
+        },
+        {
+          "product_raw": "Maltina Bottle",
+          "cases_sold": 30.0,
+          "revenue": 390600.0,
+          "tmp3f5d_cost": 12920.0,
+          "avg_selling_price": 13020.0,
+          "total_cost": 387600.0,
+          "price_diff": 100.0,
+          "gross_profit": 3000.0,
+          "gross_profit_pct": 0.007680491551459293,
+          "pct_of_total_cases": 2.156721782890007
+        },
+        {
+          "product_raw": "Desperados Bottle",
+          "cases_sold": 17.0,
+          "revenue": 349180.0,
+          "tmp3f5d_cost": 20440.0,
+          "avg_selling_price": 20540.0,
+          "total_cost": 347480.0,
+          "price_diff": 100.0,
+          "gross_profit": 1700.0,
+          "gross_profit_pct": 0.004868549172346641,
+          "pct_of_total_cases": 1.2221423436376708
+        },
+        {
+          "product_raw": "Legend Bottle 60cl",
+          "cases_sold": 16.0,
+          "revenue": 183680.0,
+          "tmp3f5d_cost": 10915.0,
+          "avg_selling_price": 11480.0,
+          "total_cost": 174640.0,
+          "price_diff": 565.0,
+          "gross_profit": 9040.0,
+          "gross_profit_pct": 0.04921602787456446,
+          "pct_of_total_cases": 1.1502516175413373
+        },
+        {
+          "product_raw": "33 Export 60cl",
+          "cases_sold": 15.0,
+          "revenue": 136350.0,
+          "tmp3f5d_cost": 8990.0,
+          "avg_selling_price": 9090.0,
+          "total_cost": 134850.0,
+          "price_diff": 100.0,
+          "gross_profit": 1500.0,
+          "gross_profit_pct": 0.011001100110011002,
+          "pct_of_total_cases": 1.0783608914450036
+        },
+        {
+          "product_raw": "Star Bottle 60cl",
+          "cases_sold": 15.0,
+          "revenue": 169950.0,
+          "tmp3f5d_cost": 11130.0,
+          "avg_selling_price": 11330.0,
+          "total_cost": 166950.0,
+          "price_diff": 200.0,
+          "gross_profit": 3000.0,
+          "gross_profit_pct": 0.0176522506619594,
+          "pct_of_total_cases": 1.0783608914450036
+        },
+        {
+          "product_raw": "Fayrouz Bottle",
+          "cases_sold": 10.0,
+          "revenue": 101250.0,
+          "tmp3f5d_cost": 9925.0,
+          "avg_selling_price": 10125.0,
+          "total_cost": 99250.0,
+          "price_diff": 200.0,
+          "gross_profit": 2000.0,
+          "gross_profit_pct": 0.019753086419753086,
+          "pct_of_total_cases": 0.7189072609633357
+        },
+        {
+          "product_raw": "Trophy",
+          "cases_sold": 8.0,
+          "revenue": 66400.0,
+          "tmp3f5d_cost": 8118.0,
+          "avg_selling_price": 8300.0,
+          "total_cost": 64944.0,
+          "price_diff": 182.0,
+          "gross_profit": 1456.0,
+          "gross_profit_pct": 0.021927710843373496,
+          "pct_of_total_cases": 0.5751258087706687
+        },
+        {
+          "product_raw": "Star Radler 45cl",
+          "cases_sold": 5.0,
+          "revenue": 73375.0,
+          "tmp3f5d_cost": 14475.0,
+          "avg_selling_price": 14675.0,
+          "total_cost": 72375.0,
+          "price_diff": 200.0,
+          "gross_profit": 1000.0,
+          "gross_profit_pct": 0.013628620102214651,
+          "pct_of_total_cases": 0.35945363048166784
+        },
+        {
+          "product_raw": "Goldberg Black 45cl",
+          "cases_sold": 3.0,
+          "revenue": 42435.0,
+          "tmp3f5d_cost": 13520.0,
+          "avg_selling_price": 14145.0,
+          "total_cost": 40560.0,
+          "price_diff": 625.0,
+          "gross_profit": 1875.0,
+          "gross_profit_pct": 0.04418522446094026,
+          "pct_of_total_cases": 0.2156721782890007
+        }
+      ],
       "invoices_list": [
         {
           "invoice_no": "ann-INV328",
@@ -21737,6 +22975,260 @@
       "pct_of_target_met": null,
       "attributable_expenses": 0.0,
       "net_marketer_profit": 379278.0,
+      "product_mix": [
+        {
+          "product_raw": "Goldberg 60cl",
+          "cases_sold": 242.0,
+          "revenue": 2245585.0,
+          "tmp3f5d_cost": 8657.0,
+          "avg_selling_price": 9279.276859504133,
+          "total_cost": 2094994.0,
+          "price_diff": 622.2768595041325,
+          "gross_profit": 150591.0,
+          "gross_profit_pct": 0.06706092176426187,
+          "pct_of_total_cases": 39.93399339933993
+        },
+        {
+          "product_raw": "Maltina Pet 33cl",
+          "cases_sold": 98.0,
+          "revenue": 553010.0,
+          "tmp3f5d_cost": 5200.0,
+          "avg_selling_price": 5642.959183673469,
+          "total_cost": 509600.0,
+          "price_diff": 442.95918367346894,
+          "gross_profit": 43410.0,
+          "gross_profit_pct": 0.07849767635304968,
+          "pct_of_total_cases": 16.17161716171617
+        },
+        {
+          "product_raw": "Fayrouz Can",
+          "cases_sold": 50.0,
+          "revenue": 673000.0,
+          "tmp3f5d_cost": 12855.0,
+          "avg_selling_price": 13460.0,
+          "total_cost": 642750.0,
+          "price_diff": 605.0,
+          "gross_profit": 30250.0,
+          "gross_profit_pct": 0.044947994056463596,
+          "pct_of_total_cases": 8.25082508250825
+        },
+        {
+          "product_raw": "Heineken Bottle 45cl",
+          "cases_sold": 44.0,
+          "revenue": 784960.0,
+          "tmp3f5d_cost": 17265.0,
+          "avg_selling_price": 17840.0,
+          "total_cost": 759660.0,
+          "price_diff": 575.0,
+          "gross_profit": 25300.0,
+          "gross_profit_pct": 0.03223094170403588,
+          "pct_of_total_cases": 7.2607260726072615
+        },
+        {
+          "product_raw": "Maltina Can",
+          "cases_sold": 32.0,
+          "revenue": 460830.0,
+          "tmp3f5d_cost": 13501.0,
+          "avg_selling_price": 14400.9375,
+          "total_cost": 432032.0,
+          "price_diff": 899.9375,
+          "gross_profit": 28798.0,
+          "gross_profit_pct": 0.062491591259249614,
+          "pct_of_total_cases": 5.2805280528052805
+        },
+        {
+          "product_raw": "Maltina Pet 50cl",
+          "cases_sold": 20.0,
+          "revenue": 160400.0,
+          "tmp3f5d_cost": 7685.0,
+          "avg_selling_price": 8020.0,
+          "total_cost": 153700.0,
+          "price_diff": 335.0,
+          "gross_profit": 6700.0,
+          "gross_profit_pct": 0.04177057356608479,
+          "pct_of_total_cases": 3.3003300330033
+        },
+        {
+          "product_raw": "Heineken Bottle 60cl",
+          "cases_sold": 15.0,
+          "revenue": 199980.0,
+          "tmp3f5d_cost": 12746.0,
+          "avg_selling_price": 13332.0,
+          "total_cost": 191190.0,
+          "price_diff": 586.0,
+          "gross_profit": 8790.0,
+          "gross_profit_pct": 0.04395439543954396,
+          "pct_of_total_cases": 2.4752475247524752
+        },
+        {
+          "product_raw": "Amstel Can",
+          "cases_sold": 11.0,
+          "revenue": 158730.0,
+          "tmp3f5d_cost": 13911.0,
+          "avg_selling_price": 14430.0,
+          "total_cost": 153021.0,
+          "price_diff": 519.0,
+          "gross_profit": 5709.0,
+          "gross_profit_pct": 0.03596673596673597,
+          "pct_of_total_cases": 1.8151815181518154
+        },
+        {
+          "product_raw": "Desperados Bottle",
+          "cases_sold": 10.0,
+          "revenue": 214850.0,
+          "tmp3f5d_cost": 20440.0,
+          "avg_selling_price": 21485.0,
+          "total_cost": 204400.0,
+          "price_diff": 1045.0,
+          "gross_profit": 10450.0,
+          "gross_profit_pct": 0.04863858505934373,
+          "pct_of_total_cases": 1.65016501650165
+        },
+        {
+          "product_raw": "Heineken Sleek Can",
+          "cases_sold": 10.0,
+          "revenue": 178450.0,
+          "tmp3f5d_cost": 17100.0,
+          "avg_selling_price": 17845.0,
+          "total_cost": 171000.0,
+          "price_diff": 745.0,
+          "gross_profit": 7450.0,
+          "gross_profit_pct": 0.04174838890445503,
+          "pct_of_total_cases": 1.65016501650165
+        },
+        {
+          "product_raw": "Heineken Can 50cl",
+          "cases_sold": 10.0,
+          "revenue": 237700.0,
+          "tmp3f5d_cost": 22775.0,
+          "avg_selling_price": 23770.0,
+          "total_cost": 227750.0,
+          "price_diff": 995.0,
+          "gross_profit": 9950.0,
+          "gross_profit_pct": 0.04185948674800168,
+          "pct_of_total_cases": 1.65016501650165
+        },
+        {
+          "product_raw": "Goldberg Black 45cl",
+          "cases_sold": 10.0,
+          "revenue": 141450.0,
+          "tmp3f5d_cost": 13520.0,
+          "avg_selling_price": 14145.0,
+          "total_cost": 135200.0,
+          "price_diff": 625.0,
+          "gross_profit": 6250.0,
+          "gross_profit_pct": 0.04418522446094026,
+          "pct_of_total_cases": 1.65016501650165
+        },
+        {
+          "product_raw": "Goldberg Can 50cl",
+          "cases_sold": 10.0,
+          "revenue": 161450.0,
+          "tmp3f5d_cost": 15247.0,
+          "avg_selling_price": 16145.0,
+          "total_cost": 152470.0,
+          "price_diff": 898.0,
+          "gross_profit": 8980.0,
+          "gross_profit_pct": 0.05562093527407866,
+          "pct_of_total_cases": 1.65016501650165
+        },
+        {
+          "product_raw": "Legend 45cl",
+          "cases_sold": 10.0,
+          "revenue": 159450.0,
+          "tmp3f5d_cost": 15375.0,
+          "avg_selling_price": 15945.0,
+          "total_cost": 153750.0,
+          "price_diff": 570.0,
+          "gross_profit": 5700.0,
+          "gross_profit_pct": 0.03574788334901223,
+          "pct_of_total_cases": 1.65016501650165
+        },
+        {
+          "product_raw": "Legend Can 44cl",
+          "cases_sold": 10.0,
+          "revenue": 211700.0,
+          "tmp3f5d_cost": 20405.0,
+          "avg_selling_price": 21170.0,
+          "total_cost": 204050.0,
+          "price_diff": 765.0,
+          "gross_profit": 7650.0,
+          "gross_profit_pct": 0.03613604156825697,
+          "pct_of_total_cases": 1.65016501650165
+        },
+        {
+          "product_raw": "Desperados Can",
+          "cases_sold": 5.0,
+          "revenue": 113700.0,
+          "tmp3f5d_cost": 21595.0,
+          "avg_selling_price": 22740.0,
+          "total_cost": 107975.0,
+          "price_diff": 1145.0,
+          "gross_profit": 5725.0,
+          "gross_profit_pct": 0.05035180299032542,
+          "pct_of_total_cases": 0.825082508250825
+        },
+        {
+          "product_raw": "Star Bottle 60cl",
+          "cases_sold": 5.0,
+          "revenue": 58000.0,
+          "tmp3f5d_cost": 11130.0,
+          "avg_selling_price": 11600.0,
+          "total_cost": 55650.0,
+          "price_diff": 470.0,
+          "gross_profit": 2350.0,
+          "gross_profit_pct": 0.04051724137931034,
+          "pct_of_total_cases": 0.825082508250825
+        },
+        {
+          "product_raw": "Star Radler 45cl",
+          "cases_sold": 5.0,
+          "revenue": 75575.0,
+          "tmp3f5d_cost": 14475.0,
+          "avg_selling_price": 15115.0,
+          "total_cost": 72375.0,
+          "price_diff": 640.0,
+          "gross_profit": 3200.0,
+          "gross_profit_pct": 0.04234204432682766,
+          "pct_of_total_cases": 0.825082508250825
+        },
+        {
+          "product_raw": "Tiger Bottle",
+          "cases_sold": 5.0,
+          "revenue": 77625.0,
+          "tmp3f5d_cost": 14900.0,
+          "avg_selling_price": 15525.0,
+          "total_cost": 74500.0,
+          "price_diff": 625.0,
+          "gross_profit": 3125.0,
+          "gross_profit_pct": 0.040257648953301126,
+          "pct_of_total_cases": 0.825082508250825
+        },
+        {
+          "product_raw": "Chamdor 75cl",
+          "cases_sold": 2.0,
+          "revenue": 56890.0,
+          "tmp3f5d_cost": 25930.0,
+          "avg_selling_price": 28445.0,
+          "total_cost": 51860.0,
+          "price_diff": 2515.0,
+          "gross_profit": 5030.0,
+          "gross_profit_pct": 0.08841624187027597,
+          "pct_of_total_cases": 0.33003300330033003
+        },
+        {
+          "product_raw": "4th Street wine",
+          "cases_sold": 2.0,
+          "revenue": 48370.0,
+          "tmp3f5d_cost": 22250.0,
+          "avg_selling_price": 24185.0,
+          "total_cost": 44500.0,
+          "price_diff": 1935.0,
+          "gross_profit": 3870.0,
+          "gross_profit_pct": 0.08000826958858796,
+          "pct_of_total_cases": 0.33003300330033003
+        }
+      ],
       "invoices_list": [
         {
           "invoice_no": "Tayo-INV139",
@@ -21896,6 +23388,56 @@
       "pct_of_target_met": null,
       "attributable_expenses": 0.0,
       "net_marketer_profit": 18270.0,
+      "product_mix": [
+        {
+          "product_raw": "Goldberg 60cl",
+          "cases_sold": 500.0,
+          "revenue": 4280000.0,
+          "tmp3f5d_cost": 8657.0,
+          "avg_selling_price": 8560.0,
+          "total_cost": 4328500.0,
+          "price_diff": -97.0,
+          "gross_profit": -48500.0,
+          "gross_profit_pct": -0.01133177570093458,
+          "pct_of_total_cases": 71.42857142857143
+        },
+        {
+          "product_raw": "Turbo King Bottle 60cl",
+          "cases_sold": 150.0,
+          "revenue": 1332000.0,
+          "tmp3f5d_cost": 8525.0,
+          "avg_selling_price": 8880.0,
+          "total_cost": 1278750.0,
+          "price_diff": 355.0,
+          "gross_profit": 53250.0,
+          "gross_profit_pct": 0.03997747747747748,
+          "pct_of_total_cases": 21.428571428571427
+        },
+        {
+          "product_raw": "Heineken Bottle 60cl",
+          "cases_sold": 30.0,
+          "revenue": 384900.0,
+          "tmp3f5d_cost": 12746.0,
+          "avg_selling_price": 12830.0,
+          "total_cost": 382380.0,
+          "price_diff": 84.0,
+          "gross_profit": 2520.0,
+          "gross_profit_pct": 0.0065471551052221355,
+          "pct_of_total_cases": 4.285714285714286
+        },
+        {
+          "product_raw": "Medium Stout",
+          "cases_sold": 20.0,
+          "revenue": 354000.0,
+          "tmp3f5d_cost": 17150.0,
+          "avg_selling_price": 17700.0,
+          "total_cost": 343000.0,
+          "price_diff": 550.0,
+          "gross_profit": 11000.0,
+          "gross_profit_pct": 0.031073446327683617,
+          "pct_of_total_cases": 2.857142857142857
+        }
+      ],
       "invoices_list": [
         {
           "invoice_no": "ann-INV397",
@@ -21934,6 +23476,44 @@
       "pct_of_target_met": null,
       "attributable_expenses": 0.0,
       "net_marketer_profit": -25870.0,
+      "product_mix": [
+        {
+          "product_raw": "Goldberg 60cl",
+          "cases_sold": 350.0,
+          "revenue": 2975000.0,
+          "tmp3f5d_cost": 8657.0,
+          "avg_selling_price": 8500.0,
+          "total_cost": 3029950.0,
+          "price_diff": -157.0,
+          "gross_profit": -54950.0,
+          "gross_profit_pct": -0.018470588235294117,
+          "pct_of_total_cases": 64.81481481481481
+        },
+        {
+          "product_raw": "Heineken Bottle 60cl",
+          "cases_sold": 120.0,
+          "revenue": 1551600.0,
+          "tmp3f5d_cost": 12746.0,
+          "avg_selling_price": 12930.0,
+          "total_cost": 1529520.0,
+          "price_diff": 184.0,
+          "gross_profit": 22080.0,
+          "gross_profit_pct": 0.01423047177107502,
+          "pct_of_total_cases": 22.22222222222222
+        },
+        {
+          "product_raw": "33 Export 60cl",
+          "cases_sold": 70.0,
+          "revenue": 636300.0,
+          "tmp3f5d_cost": 8990.0,
+          "avg_selling_price": 9090.0,
+          "total_cost": 629300.0,
+          "price_diff": 100.0,
+          "gross_profit": 7000.0,
+          "gross_profit_pct": 0.011001100110011002,
+          "pct_of_total_cases": 12.962962962962962
+        }
+      ],
       "invoices_list": [
         {
           "invoice_no": "ann-INV319",
@@ -21994,6 +23574,68 @@
       "pct_of_target_met": null,
       "attributable_expenses": 0.0,
       "net_marketer_profit": 146890.0,
+      "product_mix": [
+        {
+          "product_raw": "Goldberg 60cl",
+          "cases_sold": 140.0,
+          "revenue": 1258600.0,
+          "tmp3f5d_cost": 8657.0,
+          "avg_selling_price": 8990.0,
+          "total_cost": 1211980.0,
+          "price_diff": 333.0,
+          "gross_profit": 46620.0,
+          "gross_profit_pct": 0.03704115684093437,
+          "pct_of_total_cases": 34.146341463414636
+        },
+        {
+          "product_raw": "33 Export 60cl",
+          "cases_sold": 70.0,
+          "revenue": 629300.0,
+          "tmp3f5d_cost": 8990.0,
+          "avg_selling_price": 8990.0,
+          "total_cost": 629300.0,
+          "price_diff": 0.0,
+          "gross_profit": 0.0,
+          "gross_profit_pct": 0.0,
+          "pct_of_total_cases": 17.073170731707318
+        },
+        {
+          "product_raw": "Heineken Bottle 60cl",
+          "cases_sold": 70.0,
+          "revenue": 933240.0,
+          "tmp3f5d_cost": 12746.0,
+          "avg_selling_price": 13332.0,
+          "total_cost": 892220.0,
+          "price_diff": 586.0,
+          "gross_profit": 41020.0,
+          "gross_profit_pct": 0.04395439543954396,
+          "pct_of_total_cases": 17.073170731707318
+        },
+        {
+          "product_raw": "Turbo King Bottle 60cl",
+          "cases_sold": 70.0,
+          "revenue": 623000.0,
+          "tmp3f5d_cost": 8525.0,
+          "avg_selling_price": 8900.0,
+          "total_cost": 596750.0,
+          "price_diff": 375.0,
+          "gross_profit": 26250.0,
+          "gross_profit_pct": 0.042134831460674156,
+          "pct_of_total_cases": 17.073170731707318
+        },
+        {
+          "product_raw": "Smirnoff Ice.",
+          "cases_sold": 60.0,
+          "revenue": 1014000.0,
+          "tmp3f5d_cost": 16350.0,
+          "avg_selling_price": 16900.0,
+          "total_cost": 981000.0,
+          "price_diff": 550.0,
+          "gross_profit": 33000.0,
+          "gross_profit_pct": 0.03254437869822485,
+          "pct_of_total_cases": 14.634146341463413
+        }
+      ],
       "invoices_list": [
         {
           "invoice_no": "Tayo-INV138",
@@ -22021,6 +23663,68 @@
       "pct_of_target_met": null,
       "attributable_expenses": 0.0,
       "net_marketer_profit": 20630.0,
+      "product_mix": [
+        {
+          "product_raw": "Goldberg 60cl",
+          "cases_sold": 140.0,
+          "revenue": 1190000.0,
+          "tmp3f5d_cost": 8657.0,
+          "avg_selling_price": 8500.0,
+          "total_cost": 1211980.0,
+          "price_diff": -157.0,
+          "gross_profit": -21980.0,
+          "gross_profit_pct": -0.018470588235294117,
+          "pct_of_total_cases": 34.146341463414636
+        },
+        {
+          "product_raw": "Heineken Bottle 60cl",
+          "cases_sold": 140.0,
+          "revenue": 1796200.0,
+          "tmp3f5d_cost": 12746.0,
+          "avg_selling_price": 12830.0,
+          "total_cost": 1784440.0,
+          "price_diff": 84.0,
+          "gross_profit": 11760.0,
+          "gross_profit_pct": 0.0065471551052221355,
+          "pct_of_total_cases": 34.146341463414636
+        },
+        {
+          "product_raw": "Turbo King Bottle 60cl",
+          "cases_sold": 70.0,
+          "revenue": 621600.0,
+          "tmp3f5d_cost": 8525.0,
+          "avg_selling_price": 8880.0,
+          "total_cost": 596750.0,
+          "price_diff": 355.0,
+          "gross_profit": 24850.0,
+          "gross_profit_pct": 0.03997747747747748,
+          "pct_of_total_cases": 17.073170731707318
+        },
+        {
+          "product_raw": "Maltina Bottle",
+          "cases_sold": 30.0,
+          "revenue": 390600.0,
+          "tmp3f5d_cost": 12920.0,
+          "avg_selling_price": 13020.0,
+          "total_cost": 387600.0,
+          "price_diff": 100.0,
+          "gross_profit": 3000.0,
+          "gross_profit_pct": 0.007680491551459293,
+          "pct_of_total_cases": 7.317073170731707
+        },
+        {
+          "product_raw": "Star Radler 45cl",
+          "cases_sold": 30.0,
+          "revenue": 437250.0,
+          "tmp3f5d_cost": 14475.0,
+          "avg_selling_price": 14575.0,
+          "total_cost": 434250.0,
+          "price_diff": 100.0,
+          "gross_profit": 3000.0,
+          "gross_profit_pct": 0.00686106346483705,
+          "pct_of_total_cases": 7.317073170731707
+        }
+      ],
       "invoices_list": [
         {
           "invoice_no": "ann-INV316",
@@ -22048,6 +23752,44 @@
       "pct_of_target_met": null,
       "attributable_expenses": 0.0,
       "net_marketer_profit": 25200.0,
+      "product_mix": [
+        {
+          "product_raw": "Heineken Bottle 60cl",
+          "cases_sold": 300.0,
+          "revenue": 3849000.0,
+          "tmp3f5d_cost": 12746.0,
+          "avg_selling_price": 12830.0,
+          "total_cost": 3823800.0,
+          "price_diff": 84.0,
+          "gross_profit": 25200.0,
+          "gross_profit_pct": 0.0065471551052221355,
+          "pct_of_total_cases": 85.71428571428571
+        },
+        {
+          "product_raw": "Legend Bottle 60cl",
+          "cases_sold": 40.0,
+          "revenue": 436600.0,
+          "tmp3f5d_cost": 10915.0,
+          "avg_selling_price": 10915.0,
+          "total_cost": 436600.0,
+          "price_diff": 0.0,
+          "gross_profit": 0.0,
+          "gross_profit_pct": 0.0,
+          "pct_of_total_cases": 11.428571428571429
+        },
+        {
+          "product_raw": "Maltina Bottle",
+          "cases_sold": 10.0,
+          "revenue": 129200.0,
+          "tmp3f5d_cost": 12920.0,
+          "avg_selling_price": 12920.0,
+          "total_cost": 129200.0,
+          "price_diff": 0.0,
+          "gross_profit": 0.0,
+          "gross_profit_pct": 0.0,
+          "pct_of_total_cases": 2.857142857142857
+        }
+      ],
       "invoices_list": [
         {
           "invoice_no": "ann-INV177",
@@ -22075,6 +23817,116 @@
       "pct_of_target_met": null,
       "attributable_expenses": 0.0,
       "net_marketer_profit": -73075.0,
+      "product_mix": [
+        {
+          "product_raw": "Maltina Pet 33cl",
+          "cases_sold": 622.0,
+          "revenue": 3110000.0,
+          "tmp3f5d_cost": 5200.0,
+          "avg_selling_price": 5000.0,
+          "total_cost": 3234400.0,
+          "price_diff": -200.0,
+          "gross_profit": -124400.0,
+          "gross_profit_pct": -0.04,
+          "pct_of_total_cases": 84.97267759562843
+        },
+        {
+          "product_raw": "Goldberg 60cl",
+          "cases_sold": 40.0,
+          "revenue": 360000.0,
+          "tmp3f5d_cost": 8657.0,
+          "avg_selling_price": 9000.0,
+          "total_cost": 346280.0,
+          "price_diff": 343.0,
+          "gross_profit": 13720.0,
+          "gross_profit_pct": 0.03811111111111111,
+          "pct_of_total_cases": 5.46448087431694
+        },
+        {
+          "product_raw": "Maltina Pet 50cl",
+          "cases_sold": 30.0,
+          "revenue": 240600.0,
+          "tmp3f5d_cost": 7685.0,
+          "avg_selling_price": 8020.0,
+          "total_cost": 230550.0,
+          "price_diff": 335.0,
+          "gross_profit": 10050.0,
+          "gross_profit_pct": 0.04177057356608479,
+          "pct_of_total_cases": 4.098360655737705
+        },
+        {
+          "product_raw": "Williams Bottle 60cl",
+          "cases_sold": 10.0,
+          "revenue": 93450.0,
+          "tmp3f5d_cost": 8970.0,
+          "avg_selling_price": 9345.0,
+          "total_cost": 89700.0,
+          "price_diff": 375.0,
+          "gross_profit": 3750.0,
+          "gross_profit_pct": 0.04012841091492777,
+          "pct_of_total_cases": 1.366120218579235
+        },
+        {
+          "product_raw": "Gulder Bottle",
+          "cases_sold": 10.0,
+          "revenue": 119100.0,
+          "tmp3f5d_cost": 11315.0,
+          "avg_selling_price": 11910.0,
+          "total_cost": 113150.0,
+          "price_diff": 595.0,
+          "gross_profit": 5950.0,
+          "gross_profit_pct": 0.049958018471872374,
+          "pct_of_total_cases": 1.366120218579235
+        },
+        {
+          "product_raw": "ACE BITTERS",
+          "cases_sold": 7.0,
+          "revenue": 144585.0,
+          "tmp3f5d_cost": 19305.0,
+          "avg_selling_price": 20655.0,
+          "total_cost": 135135.0,
+          "price_diff": 1350.0,
+          "gross_profit": 9450.0,
+          "gross_profit_pct": 0.06535947712418301,
+          "pct_of_total_cases": 0.9562841530054645
+        },
+        {
+          "product_raw": "Tiger Bottle",
+          "cases_sold": 6.0,
+          "revenue": 93150.0,
+          "tmp3f5d_cost": 14900.0,
+          "avg_selling_price": 15525.0,
+          "total_cost": 89400.0,
+          "price_diff": 625.0,
+          "gross_profit": 3750.0,
+          "gross_profit_pct": 0.040257648953301126,
+          "pct_of_total_cases": 0.819672131147541
+        },
+        {
+          "product_raw": "Goldberg Black 45cl",
+          "cases_sold": 5.0,
+          "revenue": 70725.0,
+          "tmp3f5d_cost": 13520.0,
+          "avg_selling_price": 14145.0,
+          "total_cost": 67600.0,
+          "price_diff": 625.0,
+          "gross_profit": 3125.0,
+          "gross_profit_pct": 0.04418522446094026,
+          "pct_of_total_cases": 0.6830601092896175
+        },
+        {
+          "product_raw": "CLIMAX CAN",
+          "cases_sold": 2.0,
+          "revenue": 25770.0,
+          "tmp3f5d_cost": 12120.0,
+          "avg_selling_price": 12885.0,
+          "total_cost": 24240.0,
+          "price_diff": 765.0,
+          "gross_profit": 1530.0,
+          "gross_profit_pct": 0.059371362048894066,
+          "pct_of_total_cases": 0.273224043715847
+        }
+      ],
       "invoices_list": [
         {
           "invoice_no": "ann-INV374",
@@ -22168,6 +24020,32 @@
       "pct_of_target_met": null,
       "attributable_expenses": 0.0,
       "net_marketer_profit": 52640.0,
+      "product_mix": [
+        {
+          "product_raw": "Heineken Bottle 60cl",
+          "cases_sold": 210.0,
+          "revenue": 2715300.0,
+          "tmp3f5d_cost": 12746.0,
+          "avg_selling_price": 12930.0,
+          "total_cost": 2676660.0,
+          "price_diff": 184.0,
+          "gross_profit": 38640.0,
+          "gross_profit_pct": 0.01423047177107502,
+          "pct_of_total_cases": 60.0
+        },
+        {
+          "product_raw": "33 Export 60cl",
+          "cases_sold": 140.0,
+          "revenue": 1272600.0,
+          "tmp3f5d_cost": 8990.0,
+          "avg_selling_price": 9090.0,
+          "total_cost": 1258600.0,
+          "price_diff": 100.0,
+          "gross_profit": 14000.0,
+          "gross_profit_pct": 0.011001100110011002,
+          "pct_of_total_cases": 40.0
+        }
+      ],
       "invoices_list": [
         {
           "invoice_no": "ann-INV201",
@@ -22195,6 +24073,20 @@
       "pct_of_target_met": null,
       "attributable_expenses": 0.0,
       "net_marketer_profit": 24960.0,
+      "product_mix": [
+        {
+          "product_raw": "Maltina Pet 50cl",
+          "cases_sold": 384.0,
+          "revenue": 2976000.0,
+          "tmp3f5d_cost": 7685.0,
+          "avg_selling_price": 7750.0,
+          "total_cost": 2951040.0,
+          "price_diff": 65.0,
+          "gross_profit": 24960.0,
+          "gross_profit_pct": 0.008387096774193548,
+          "pct_of_total_cases": 100.0
+        }
+      ],
       "invoices_list": [
         {
           "invoice_no": "ann-INV299",
@@ -22222,6 +24114,32 @@
       "pct_of_target_met": null,
       "attributable_expenses": 0.0,
       "net_marketer_profit": -50020.0,
+      "product_mix": [
+        {
+          "product_raw": "Maltina Pet 33cl",
+          "cases_sold": 250.0,
+          "revenue": 1237500.0,
+          "tmp3f5d_cost": 5200.0,
+          "avg_selling_price": 4950.0,
+          "total_cost": 1300000.0,
+          "price_diff": -250.0,
+          "gross_profit": -62500.0,
+          "gross_profit_pct": -0.050505050505050504,
+          "pct_of_total_cases": 56.56108597285068
+        },
+        {
+          "product_raw": "Maltina Pet 50cl",
+          "cases_sold": 192.0,
+          "revenue": 1488000.0,
+          "tmp3f5d_cost": 7685.0,
+          "avg_selling_price": 7750.0,
+          "total_cost": 1475520.0,
+          "price_diff": 65.0,
+          "gross_profit": 12480.0,
+          "gross_profit_pct": 0.008387096774193548,
+          "pct_of_total_cases": 43.43891402714932
+        }
+      ],
       "invoices_list": [
         {
           "invoice_no": "ann-INV266",
@@ -22260,6 +24178,164 @@
       "pct_of_target_met": null,
       "attributable_expenses": 0.0,
       "net_marketer_profit": 80198.0,
+      "product_mix": [
+        {
+          "product_raw": "Heineken Bottle 60cl",
+          "cases_sold": 94.0,
+          "revenue": 1217040.0,
+          "tmp3f5d_cost": 12746.0,
+          "avg_selling_price": 12947.234042553191,
+          "total_cost": 1198124.0,
+          "price_diff": 201.2340425531911,
+          "gross_profit": 18916.0,
+          "gross_profit_pct": 0.015542628015513048,
+          "pct_of_total_cases": 41.228070175438596
+        },
+        {
+          "product_raw": "Goldberg 60cl",
+          "cases_sold": 64.0,
+          "revenue": 588800.0,
+          "tmp3f5d_cost": 8657.0,
+          "avg_selling_price": 9200.0,
+          "total_cost": 554048.0,
+          "price_diff": 543.0,
+          "gross_profit": 34752.0,
+          "gross_profit_pct": 0.059021739130434785,
+          "pct_of_total_cases": 28.07017543859649
+        },
+        {
+          "product_raw": "Williams Bottle 60cl",
+          "cases_sold": 20.0,
+          "revenue": 186900.0,
+          "tmp3f5d_cost": 8970.0,
+          "avg_selling_price": 9345.0,
+          "total_cost": 179400.0,
+          "price_diff": 375.0,
+          "gross_profit": 7500.0,
+          "gross_profit_pct": 0.04012841091492777,
+          "pct_of_total_cases": 8.771929824561402
+        },
+        {
+          "product_raw": "33 Export 60cl",
+          "cases_sold": 20.0,
+          "revenue": 182000.0,
+          "tmp3f5d_cost": 8990.0,
+          "avg_selling_price": 9100.0,
+          "total_cost": 179800.0,
+          "price_diff": 110.0,
+          "gross_profit": 2200.0,
+          "gross_profit_pct": 0.012087912087912088,
+          "pct_of_total_cases": 8.771929824561402
+        },
+        {
+          "product_raw": "Turbo King Bottle 60cl",
+          "cases_sold": 11.0,
+          "revenue": 96880.0,
+          "tmp3f5d_cost": 8525.0,
+          "avg_selling_price": 8807.272727272728,
+          "total_cost": 93775.0,
+          "price_diff": 282.27272727272793,
+          "gross_profit": 3105.0,
+          "gross_profit_pct": 0.03204995871180842,
+          "pct_of_total_cases": 4.824561403508771
+        },
+        {
+          "product_raw": "Maltina Bottle",
+          "cases_sold": 5.0,
+          "revenue": 67750.0,
+          "tmp3f5d_cost": 12920.0,
+          "avg_selling_price": 13550.0,
+          "total_cost": 64600.0,
+          "price_diff": 630.0,
+          "gross_profit": 3150.0,
+          "gross_profit_pct": 0.04649446494464945,
+          "pct_of_total_cases": 2.1929824561403506
+        },
+        {
+          "product_raw": "Amstel Bottle",
+          "cases_sold": 3.0,
+          "revenue": 43350.0,
+          "tmp3f5d_cost": 13780.0,
+          "avg_selling_price": 14450.0,
+          "total_cost": 41340.0,
+          "price_diff": 670.0,
+          "gross_profit": 2010.0,
+          "gross_profit_pct": 0.04636678200692042,
+          "pct_of_total_cases": 1.3157894736842104
+        },
+        {
+          "product_raw": "Desperados Can",
+          "cases_sold": 3.0,
+          "revenue": 68220.0,
+          "tmp3f5d_cost": 21595.0,
+          "avg_selling_price": 22740.0,
+          "total_cost": 64785.0,
+          "price_diff": 1145.0,
+          "gross_profit": 3435.0,
+          "gross_profit_pct": 0.05035180299032542,
+          "pct_of_total_cases": 1.3157894736842104
+        },
+        {
+          "product_raw": "CLIMAX CAN",
+          "cases_sold": 2.0,
+          "revenue": 25770.0,
+          "tmp3f5d_cost": 12120.0,
+          "avg_selling_price": 12885.0,
+          "total_cost": 24240.0,
+          "price_diff": 765.0,
+          "gross_profit": 1530.0,
+          "gross_profit_pct": 0.059371362048894066,
+          "pct_of_total_cases": 0.8771929824561403
+        },
+        {
+          "product_raw": "Heineken Sleek Can",
+          "cases_sold": 2.0,
+          "revenue": 34800.0,
+          "tmp3f5d_cost": 17100.0,
+          "avg_selling_price": 17400.0,
+          "total_cost": 34200.0,
+          "price_diff": 300.0,
+          "gross_profit": 600.0,
+          "gross_profit_pct": 0.017241379310344827,
+          "pct_of_total_cases": 0.8771929824561403
+        },
+        {
+          "product_raw": "Gulder Bottle",
+          "cases_sold": 2.0,
+          "revenue": 23820.0,
+          "tmp3f5d_cost": 11315.0,
+          "avg_selling_price": 11910.0,
+          "total_cost": 22630.0,
+          "price_diff": 595.0,
+          "gross_profit": 1190.0,
+          "gross_profit_pct": 0.049958018471872374,
+          "pct_of_total_cases": 0.8771929824561403
+        },
+        {
+          "product_raw": "Desperados Bottle",
+          "cases_sold": 1.0,
+          "revenue": 21485.0,
+          "tmp3f5d_cost": 20440.0,
+          "avg_selling_price": 21485.0,
+          "total_cost": 20440.0,
+          "price_diff": 1045.0,
+          "gross_profit": 1045.0,
+          "gross_profit_pct": 0.04863858505934373,
+          "pct_of_total_cases": 0.43859649122807015
+        },
+        {
+          "product_raw": "Legend Can 44cl",
+          "cases_sold": 1.0,
+          "revenue": 21170.0,
+          "tmp3f5d_cost": 20405.0,
+          "avg_selling_price": 21170.0,
+          "total_cost": 20405.0,
+          "price_diff": 765.0,
+          "gross_profit": 765.0,
+          "gross_profit_pct": 0.03613604156825697,
+          "pct_of_total_cases": 0.43859649122807015
+        }
+      ],
       "invoices_list": [
         {
           "invoice_no": "ann-INV220",
@@ -22342,6 +24418,152 @@
       "pct_of_target_met": null,
       "attributable_expenses": 0.0,
       "net_marketer_profit": -49714.0,
+      "product_mix": [
+        {
+          "product_raw": "Maltina Pet 33cl",
+          "cases_sold": 343.0,
+          "revenue": 1702600.0,
+          "tmp3f5d_cost": 5200.0,
+          "avg_selling_price": 4963.8483965014575,
+          "total_cost": 1783600.0,
+          "price_diff": -236.1516034985425,
+          "gross_profit": -81000.0,
+          "gross_profit_pct": -0.047574298132268295,
+          "pct_of_total_cases": 82.05741626794259
+        },
+        {
+          "product_raw": "Maltina Pet 50cl",
+          "cases_sold": 35.0,
+          "revenue": 280700.0,
+          "tmp3f5d_cost": 7685.0,
+          "avg_selling_price": 8020.0,
+          "total_cost": 268975.0,
+          "price_diff": 335.0,
+          "gross_profit": 11725.0,
+          "gross_profit_pct": 0.04177057356608479,
+          "pct_of_total_cases": 8.373205741626794
+        },
+        {
+          "product_raw": "Goldberg 60cl",
+          "cases_sold": 11.0,
+          "revenue": 101200.0,
+          "tmp3f5d_cost": 8657.0,
+          "avg_selling_price": 9200.0,
+          "total_cost": 95227.0,
+          "price_diff": 543.0,
+          "gross_profit": 5973.0,
+          "gross_profit_pct": 0.059021739130434785,
+          "pct_of_total_cases": 2.631578947368421
+        },
+        {
+          "product_raw": "33 Export 60cl",
+          "cases_sold": 9.0,
+          "revenue": 82800.0,
+          "tmp3f5d_cost": 8990.0,
+          "avg_selling_price": 9200.0,
+          "total_cost": 80910.0,
+          "price_diff": 210.0,
+          "gross_profit": 1890.0,
+          "gross_profit_pct": 0.02282608695652174,
+          "pct_of_total_cases": 2.15311004784689
+        },
+        {
+          "product_raw": "Heineken Bottle 60cl",
+          "cases_sold": 7.0,
+          "revenue": 93345.0,
+          "tmp3f5d_cost": 12746.0,
+          "avg_selling_price": 13335.0,
+          "total_cost": 89222.0,
+          "price_diff": 589.0,
+          "gross_profit": 4123.0,
+          "gross_profit_pct": 0.04416947881514811,
+          "pct_of_total_cases": 1.674641148325359
+        },
+        {
+          "product_raw": "Fayrouz Can",
+          "cases_sold": 3.0,
+          "revenue": 40380.0,
+          "tmp3f5d_cost": 12855.0,
+          "avg_selling_price": 13460.0,
+          "total_cost": 38565.0,
+          "price_diff": 605.0,
+          "gross_profit": 1815.0,
+          "gross_profit_pct": 0.044947994056463596,
+          "pct_of_total_cases": 0.7177033492822966
+        },
+        {
+          "product_raw": "Gulder Bottle",
+          "cases_sold": 3.0,
+          "revenue": 35730.0,
+          "tmp3f5d_cost": 11315.0,
+          "avg_selling_price": 11910.0,
+          "total_cost": 33945.0,
+          "price_diff": 595.0,
+          "gross_profit": 1785.0,
+          "gross_profit_pct": 0.049958018471872374,
+          "pct_of_total_cases": 0.7177033492822966
+        },
+        {
+          "product_raw": "Williams Bottle 60cl",
+          "cases_sold": 2.0,
+          "revenue": 18690.0,
+          "tmp3f5d_cost": 8970.0,
+          "avg_selling_price": 9345.0,
+          "total_cost": 17940.0,
+          "price_diff": 375.0,
+          "gross_profit": 750.0,
+          "gross_profit_pct": 0.04012841091492777,
+          "pct_of_total_cases": 0.4784688995215311
+        },
+        {
+          "product_raw": "Tiger Bottle",
+          "cases_sold": 2.0,
+          "revenue": 31050.0,
+          "tmp3f5d_cost": 14900.0,
+          "avg_selling_price": 15525.0,
+          "total_cost": 29800.0,
+          "price_diff": 625.0,
+          "gross_profit": 1250.0,
+          "gross_profit_pct": 0.040257648953301126,
+          "pct_of_total_cases": 0.4784688995215311
+        },
+        {
+          "product_raw": "Amstel Bottle",
+          "cases_sold": 1.0,
+          "revenue": 14450.0,
+          "tmp3f5d_cost": 13780.0,
+          "avg_selling_price": 14450.0,
+          "total_cost": 13780.0,
+          "price_diff": 670.0,
+          "gross_profit": 670.0,
+          "gross_profit_pct": 0.04636678200692042,
+          "pct_of_total_cases": 0.23923444976076555
+        },
+        {
+          "product_raw": "Maltina Bottle",
+          "cases_sold": 1.0,
+          "revenue": 13550.0,
+          "tmp3f5d_cost": 12920.0,
+          "avg_selling_price": 13550.0,
+          "total_cost": 12920.0,
+          "price_diff": 630.0,
+          "gross_profit": 630.0,
+          "gross_profit_pct": 0.04649446494464945,
+          "pct_of_total_cases": 0.23923444976076555
+        },
+        {
+          "product_raw": "Turbo King Bottle 60cl",
+          "cases_sold": 1.0,
+          "revenue": 9200.0,
+          "tmp3f5d_cost": 8525.0,
+          "avg_selling_price": 9200.0,
+          "total_cost": 8525.0,
+          "price_diff": 675.0,
+          "gross_profit": 675.0,
+          "gross_profit_pct": 0.07336956521739131,
+          "pct_of_total_cases": 0.23923444976076555
+        }
+      ],
       "invoices_list": [
         {
           "invoice_no": "ann-INV410",
@@ -22479,6 +24701,104 @@
       "pct_of_target_met": null,
       "attributable_expenses": 0.0,
       "net_marketer_profit": 175683.0,
+      "product_mix": [
+        {
+          "product_raw": "Heineken Bottle 60cl",
+          "cases_sold": 35.0,
+          "revenue": 488250.0,
+          "tmp3f5d_cost": 12746.0,
+          "avg_selling_price": 13950.0,
+          "total_cost": 446110.0,
+          "price_diff": 1204.0,
+          "gross_profit": 42140.0,
+          "gross_profit_pct": 0.08630824372759857,
+          "pct_of_total_cases": 42.68292682926829
+        },
+        {
+          "product_raw": "Desperados Bottle",
+          "cases_sold": 15.0,
+          "revenue": 338475.0,
+          "tmp3f5d_cost": 20440.0,
+          "avg_selling_price": 22565.0,
+          "total_cost": 306600.0,
+          "price_diff": 2125.0,
+          "gross_profit": 31875.0,
+          "gross_profit_pct": 0.09417239087081763,
+          "pct_of_total_cases": 18.29268292682927
+        },
+        {
+          "product_raw": "Goldberg 60cl",
+          "cases_sold": 11.0,
+          "revenue": 102300.0,
+          "tmp3f5d_cost": 8657.0,
+          "avg_selling_price": 9300.0,
+          "total_cost": 95227.0,
+          "price_diff": 643.0,
+          "gross_profit": 7073.0,
+          "gross_profit_pct": 0.06913978494623656,
+          "pct_of_total_cases": 13.414634146341465
+        },
+        {
+          "product_raw": "Chamdor 75cl",
+          "cases_sold": 6.0,
+          "revenue": 234000.0,
+          "tmp3f5d_cost": 25930.0,
+          "avg_selling_price": 39000.0,
+          "total_cost": 155580.0,
+          "price_diff": 13070.0,
+          "gross_profit": 78420.0,
+          "gross_profit_pct": 0.3351282051282051,
+          "pct_of_total_cases": 7.317073170731707
+        },
+        {
+          "product_raw": "Maltina Bottle",
+          "cases_sold": 6.0,
+          "revenue": 86730.0,
+          "tmp3f5d_cost": 12920.0,
+          "avg_selling_price": 14455.0,
+          "total_cost": 77520.0,
+          "price_diff": 1535.0,
+          "gross_profit": 9210.0,
+          "gross_profit_pct": 0.10619162919405051,
+          "pct_of_total_cases": 7.317073170731707
+        },
+        {
+          "product_raw": "Fayrouz Bottle",
+          "cases_sold": 5.0,
+          "revenue": 51575.0,
+          "tmp3f5d_cost": 9925.0,
+          "avg_selling_price": 10315.0,
+          "total_cost": 49625.0,
+          "price_diff": 390.0,
+          "gross_profit": 1950.0,
+          "gross_profit_pct": 0.03780901599612215,
+          "pct_of_total_cases": 6.097560975609756
+        },
+        {
+          "product_raw": "Star Radler 45cl",
+          "cases_sold": 3.0,
+          "revenue": 47295.0,
+          "tmp3f5d_cost": 14475.0,
+          "avg_selling_price": 15765.0,
+          "total_cost": 43425.0,
+          "price_diff": 1290.0,
+          "gross_profit": 3870.0,
+          "gross_profit_pct": 0.0818268315889629,
+          "pct_of_total_cases": 3.6585365853658534
+        },
+        {
+          "product_raw": "Desperados Can",
+          "cases_sold": 1.0,
+          "revenue": 22740.0,
+          "tmp3f5d_cost": 21595.0,
+          "avg_selling_price": 22740.0,
+          "total_cost": 21595.0,
+          "price_diff": 1145.0,
+          "gross_profit": 1145.0,
+          "gross_profit_pct": 0.05035180299032542,
+          "pct_of_total_cases": 1.2195121951219512
+        }
+      ],
       "invoices_list": [
         {
           "invoice_no": "ann-INV265",
@@ -22550,6 +24870,140 @@
       "pct_of_target_met": null,
       "attributable_expenses": 0.0,
       "net_marketer_profit": 13081.0,
+      "product_mix": [
+        {
+          "product_raw": "Maltina Pet 33cl",
+          "cases_sold": 100.0,
+          "revenue": 500000.0,
+          "tmp3f5d_cost": 5200.0,
+          "avg_selling_price": 5000.0,
+          "total_cost": 520000.0,
+          "price_diff": -200.0,
+          "gross_profit": -20000.0,
+          "gross_profit_pct": -0.04,
+          "pct_of_total_cases": 57.14285714285714
+        },
+        {
+          "product_raw": "Maltina Pet 50cl",
+          "cases_sold": 20.0,
+          "revenue": 160400.0,
+          "tmp3f5d_cost": 7685.0,
+          "avg_selling_price": 8020.0,
+          "total_cost": 153700.0,
+          "price_diff": 335.0,
+          "gross_profit": 6700.0,
+          "gross_profit_pct": 0.04177057356608479,
+          "pct_of_total_cases": 11.428571428571429
+        },
+        {
+          "product_raw": "Goldberg 60cl",
+          "cases_sold": 20.0,
+          "revenue": 184000.0,
+          "tmp3f5d_cost": 8657.0,
+          "avg_selling_price": 9200.0,
+          "total_cost": 173140.0,
+          "price_diff": 543.0,
+          "gross_profit": 10860.0,
+          "gross_profit_pct": 0.059021739130434785,
+          "pct_of_total_cases": 11.428571428571429
+        },
+        {
+          "product_raw": "Turbo King Bottle 60cl",
+          "cases_sold": 8.0,
+          "revenue": 71040.0,
+          "tmp3f5d_cost": 8525.0,
+          "avg_selling_price": 8880.0,
+          "total_cost": 68200.0,
+          "price_diff": 355.0,
+          "gross_profit": 2840.0,
+          "gross_profit_pct": 0.03997747747747748,
+          "pct_of_total_cases": 4.571428571428571
+        },
+        {
+          "product_raw": "33 Export 60cl",
+          "cases_sold": 6.0,
+          "revenue": 55200.0,
+          "tmp3f5d_cost": 8990.0,
+          "avg_selling_price": 9200.0,
+          "total_cost": 53940.0,
+          "price_diff": 210.0,
+          "gross_profit": 1260.0,
+          "gross_profit_pct": 0.02282608695652174,
+          "pct_of_total_cases": 3.428571428571429
+        },
+        {
+          "product_raw": "Fayrouz Can",
+          "cases_sold": 5.0,
+          "revenue": 67300.0,
+          "tmp3f5d_cost": 12855.0,
+          "avg_selling_price": 13460.0,
+          "total_cost": 64275.0,
+          "price_diff": 605.0,
+          "gross_profit": 3025.0,
+          "gross_profit_pct": 0.044947994056463596,
+          "pct_of_total_cases": 2.857142857142857
+        },
+        {
+          "product_raw": "Williams Bottle 60cl",
+          "cases_sold": 5.0,
+          "revenue": 46725.0,
+          "tmp3f5d_cost": 8970.0,
+          "avg_selling_price": 9345.0,
+          "total_cost": 44850.0,
+          "price_diff": 375.0,
+          "gross_profit": 1875.0,
+          "gross_profit_pct": 0.04012841091492777,
+          "pct_of_total_cases": 2.857142857142857
+        },
+        {
+          "product_raw": "Heineken Bottle 60cl",
+          "cases_sold": 4.0,
+          "revenue": 53340.0,
+          "tmp3f5d_cost": 12746.0,
+          "avg_selling_price": 13335.0,
+          "total_cost": 50984.0,
+          "price_diff": 589.0,
+          "gross_profit": 2356.0,
+          "gross_profit_pct": 0.04416947881514811,
+          "pct_of_total_cases": 2.2857142857142856
+        },
+        {
+          "product_raw": "Gulder Bottle",
+          "cases_sold": 3.0,
+          "revenue": 35730.0,
+          "tmp3f5d_cost": 11315.0,
+          "avg_selling_price": 11910.0,
+          "total_cost": 33945.0,
+          "price_diff": 595.0,
+          "gross_profit": 1785.0,
+          "gross_profit_pct": 0.049958018471872374,
+          "pct_of_total_cases": 1.7142857142857144
+        },
+        {
+          "product_raw": "Legend Bottle 60cl",
+          "cases_sold": 2.0,
+          "revenue": 22960.0,
+          "tmp3f5d_cost": 10915.0,
+          "avg_selling_price": 11480.0,
+          "total_cost": 21830.0,
+          "price_diff": 565.0,
+          "gross_profit": 1130.0,
+          "gross_profit_pct": 0.04921602787456446,
+          "pct_of_total_cases": 1.1428571428571428
+        },
+        {
+          "product_raw": "Tiger Bottle",
+          "cases_sold": 2.0,
+          "revenue": 31050.0,
+          "tmp3f5d_cost": 14900.0,
+          "avg_selling_price": 15525.0,
+          "total_cost": 29800.0,
+          "price_diff": 625.0,
+          "gross_profit": 1250.0,
+          "gross_profit_pct": 0.040257648953301126,
+          "pct_of_total_cases": 1.1428571428571428
+        }
+      ],
       "invoices_list": [
         {
           "invoice_no": "ann-INV276",
@@ -22621,6 +25075,164 @@
       "pct_of_target_met": null,
       "attributable_expenses": 0.0,
       "net_marketer_profit": 55483.0,
+      "product_mix": [
+        {
+          "product_raw": "Maltina Pet 33cl",
+          "cases_sold": 47.0,
+          "revenue": 242800.0,
+          "tmp3f5d_cost": 5200.0,
+          "avg_selling_price": 5165.95744680851,
+          "total_cost": 244400.0,
+          "price_diff": -34.04255319148979,
+          "gross_profit": -1600.0,
+          "gross_profit_pct": -0.006589785831960461,
+          "pct_of_total_cases": 43.11926605504588
+        },
+        {
+          "product_raw": "Goldberg 60cl",
+          "cases_sold": 20.0,
+          "revenue": 184000.0,
+          "tmp3f5d_cost": 8657.0,
+          "avg_selling_price": 9200.0,
+          "total_cost": 173140.0,
+          "price_diff": 543.0,
+          "gross_profit": 10860.0,
+          "gross_profit_pct": 0.059021739130434785,
+          "pct_of_total_cases": 18.34862385321101
+        },
+        {
+          "product_raw": "Chamdor 75cl",
+          "cases_sold": 10.0,
+          "revenue": 284450.0,
+          "tmp3f5d_cost": 25930.0,
+          "avg_selling_price": 28445.0,
+          "total_cost": 259300.0,
+          "price_diff": 2515.0,
+          "gross_profit": 25150.0,
+          "gross_profit_pct": 0.08841624187027597,
+          "pct_of_total_cases": 9.174311926605505
+        },
+        {
+          "product_raw": "Goldberg Can 50cl",
+          "cases_sold": 6.0,
+          "revenue": 96870.0,
+          "tmp3f5d_cost": 15247.0,
+          "avg_selling_price": 16145.0,
+          "total_cost": 91482.0,
+          "price_diff": 898.0,
+          "gross_profit": 5388.0,
+          "gross_profit_pct": 0.05562093527407866,
+          "pct_of_total_cases": 5.5045871559633035
+        },
+        {
+          "product_raw": "33 Export 60cl",
+          "cases_sold": 5.0,
+          "revenue": 46000.0,
+          "tmp3f5d_cost": 8990.0,
+          "avg_selling_price": 9200.0,
+          "total_cost": 44950.0,
+          "price_diff": 210.0,
+          "gross_profit": 1050.0,
+          "gross_profit_pct": 0.02282608695652174,
+          "pct_of_total_cases": 4.587155963302752
+        },
+        {
+          "product_raw": "Legend Bottle 60cl",
+          "cases_sold": 5.0,
+          "revenue": 57400.0,
+          "tmp3f5d_cost": 10915.0,
+          "avg_selling_price": 11480.0,
+          "total_cost": 54575.0,
+          "price_diff": 565.0,
+          "gross_profit": 2825.0,
+          "gross_profit_pct": 0.04921602787456446,
+          "pct_of_total_cases": 4.587155963302752
+        },
+        {
+          "product_raw": "Heineken Bottle 60cl",
+          "cases_sold": 5.0,
+          "revenue": 66675.0,
+          "tmp3f5d_cost": 12746.0,
+          "avg_selling_price": 13335.0,
+          "total_cost": 63730.0,
+          "price_diff": 589.0,
+          "gross_profit": 2945.0,
+          "gross_profit_pct": 0.04416947881514811,
+          "pct_of_total_cases": 4.587155963302752
+        },
+        {
+          "product_raw": "STK 33cl",
+          "cases_sold": 3.0,
+          "revenue": 39375.0,
+          "tmp3f5d_cost": 12390.0,
+          "avg_selling_price": 13125.0,
+          "total_cost": 37170.0,
+          "price_diff": 735.0,
+          "gross_profit": 2205.0,
+          "gross_profit_pct": 0.056,
+          "pct_of_total_cases": 2.7522935779816518
+        },
+        {
+          "product_raw": "Goldberg Black 45cl",
+          "cases_sold": 3.0,
+          "revenue": 42435.0,
+          "tmp3f5d_cost": 13520.0,
+          "avg_selling_price": 14145.0,
+          "total_cost": 40560.0,
+          "price_diff": 625.0,
+          "gross_profit": 1875.0,
+          "gross_profit_pct": 0.04418522446094026,
+          "pct_of_total_cases": 2.7522935779816518
+        },
+        {
+          "product_raw": "Desperados Bottle",
+          "cases_sold": 2.0,
+          "revenue": 42970.0,
+          "tmp3f5d_cost": 20440.0,
+          "avg_selling_price": 21485.0,
+          "total_cost": 40880.0,
+          "price_diff": 1045.0,
+          "gross_profit": 2090.0,
+          "gross_profit_pct": 0.04863858505934373,
+          "pct_of_total_cases": 1.834862385321101
+        },
+        {
+          "product_raw": "ACE BITTERS",
+          "cases_sold": 1.0,
+          "revenue": 20655.0,
+          "tmp3f5d_cost": 19305.0,
+          "avg_selling_price": 20655.0,
+          "total_cost": 19305.0,
+          "price_diff": 1350.0,
+          "gross_profit": 1350.0,
+          "gross_profit_pct": 0.06535947712418301,
+          "pct_of_total_cases": 0.9174311926605505
+        },
+        {
+          "product_raw": "Fayrouz Can",
+          "cases_sold": 1.0,
+          "revenue": 13460.0,
+          "tmp3f5d_cost": 12855.0,
+          "avg_selling_price": 13460.0,
+          "total_cost": 12855.0,
+          "price_diff": 605.0,
+          "gross_profit": 605.0,
+          "gross_profit_pct": 0.044947994056463596,
+          "pct_of_total_cases": 0.9174311926605505
+        },
+        {
+          "product_raw": "Heineken Sleek Can",
+          "cases_sold": 1.0,
+          "revenue": 17840.0,
+          "tmp3f5d_cost": 17100.0,
+          "avg_selling_price": 17840.0,
+          "total_cost": 17100.0,
+          "price_diff": 740.0,
+          "gross_profit": 740.0,
+          "gross_profit_pct": 0.04147982062780269,
+          "pct_of_total_cases": 0.9174311926605505
+        }
+      ],
       "invoices_list": [
         {
           "invoice_no": "ann-INV364",
@@ -22791,6 +25403,188 @@
       "pct_of_target_met": null,
       "attributable_expenses": 0.0,
       "net_marketer_profit": 49569.0,
+      "product_mix": [
+        {
+          "product_raw": "Maltina Pet 33cl",
+          "cases_sold": 47.0,
+          "revenue": 240000.0,
+          "tmp3f5d_cost": 5200.0,
+          "avg_selling_price": 5106.382978723404,
+          "total_cost": 244400.0,
+          "price_diff": -93.61702127659555,
+          "gross_profit": -4400.0,
+          "gross_profit_pct": -0.018333333333333333,
+          "pct_of_total_cases": 37.301587301587304
+        },
+        {
+          "product_raw": "Goldberg 60cl",
+          "cases_sold": 19.0,
+          "revenue": 177500.0,
+          "tmp3f5d_cost": 8657.0,
+          "avg_selling_price": 9342.105263157895,
+          "total_cost": 164483.0,
+          "price_diff": 685.105263157895,
+          "gross_profit": 13017.0,
+          "gross_profit_pct": 0.07333521126760563,
+          "pct_of_total_cases": 15.079365079365079
+        },
+        {
+          "product_raw": "33 Export 60cl",
+          "cases_sold": 13.0,
+          "revenue": 121400.0,
+          "tmp3f5d_cost": 8990.0,
+          "avg_selling_price": 9338.461538461539,
+          "total_cost": 116870.0,
+          "price_diff": 348.461538461539,
+          "gross_profit": 4530.0,
+          "gross_profit_pct": 0.037314662273476115,
+          "pct_of_total_cases": 10.317460317460316
+        },
+        {
+          "product_raw": "Trophy",
+          "cases_sold": 11.0,
+          "revenue": 99000.0,
+          "tmp3f5d_cost": 8118.0,
+          "avg_selling_price": 9000.0,
+          "total_cost": 89298.0,
+          "price_diff": 882.0,
+          "gross_profit": 9702.0,
+          "gross_profit_pct": 0.098,
+          "pct_of_total_cases": 8.73015873015873
+        },
+        {
+          "product_raw": "Heineken Bottle 60cl",
+          "cases_sold": 10.0,
+          "revenue": 135900.0,
+          "tmp3f5d_cost": 12746.0,
+          "avg_selling_price": 13590.0,
+          "total_cost": 127460.0,
+          "price_diff": 844.0,
+          "gross_profit": 8440.0,
+          "gross_profit_pct": 0.06210448859455482,
+          "pct_of_total_cases": 7.936507936507936
+        },
+        {
+          "product_raw": "Castle Lite",
+          "cases_sold": 8.0,
+          "revenue": 77600.0,
+          "tmp3f5d_cost": 9280.0,
+          "avg_selling_price": 9700.0,
+          "total_cost": 74240.0,
+          "price_diff": 420.0,
+          "gross_profit": 3360.0,
+          "gross_profit_pct": 0.04329896907216495,
+          "pct_of_total_cases": 6.349206349206349
+        },
+        {
+          "product_raw": "Turbo King Bottle 60cl",
+          "cases_sold": 7.0,
+          "revenue": 65300.0,
+          "tmp3f5d_cost": 8525.0,
+          "avg_selling_price": 9328.57142857143,
+          "total_cost": 59675.0,
+          "price_diff": 803.5714285714294,
+          "gross_profit": 5625.0,
+          "gross_profit_pct": 0.08614088820826953,
+          "pct_of_total_cases": 5.555555555555555
+        },
+        {
+          "product_raw": "Tiger Bottle",
+          "cases_sold": 4.0,
+          "revenue": 62640.0,
+          "tmp3f5d_cost": 14900.0,
+          "avg_selling_price": 15660.0,
+          "total_cost": 59600.0,
+          "price_diff": 760.0,
+          "gross_profit": 3040.0,
+          "gross_profit_pct": 0.04853128991060025,
+          "pct_of_total_cases": 3.1746031746031744
+        },
+        {
+          "product_raw": "Gulder Bottle",
+          "cases_sold": 1.0,
+          "revenue": 12525.0,
+          "tmp3f5d_cost": 11315.0,
+          "avg_selling_price": 12525.0,
+          "total_cost": 11315.0,
+          "price_diff": 1210.0,
+          "gross_profit": 1210.0,
+          "gross_profit_pct": 0.09660678642714571,
+          "pct_of_total_cases": 0.7936507936507936
+        },
+        {
+          "product_raw": "Budweiser",
+          "cases_sold": 1.0,
+          "revenue": 11320.0,
+          "tmp3f5d_cost": 10410.0,
+          "avg_selling_price": 11320.0,
+          "total_cost": 10410.0,
+          "price_diff": 910.0,
+          "gross_profit": 910.0,
+          "gross_profit_pct": 0.0803886925795053,
+          "pct_of_total_cases": 0.7936507936507936
+        },
+        {
+          "product_raw": "Fayrouz Can",
+          "cases_sold": 1.0,
+          "revenue": 13460.0,
+          "tmp3f5d_cost": 12855.0,
+          "avg_selling_price": 13460.0,
+          "total_cost": 12855.0,
+          "price_diff": 605.0,
+          "gross_profit": 605.0,
+          "gross_profit_pct": 0.044947994056463596,
+          "pct_of_total_cases": 0.7936507936507936
+        },
+        {
+          "product_raw": "Smirnoff Ice.",
+          "cases_sold": 1.0,
+          "revenue": 16950.0,
+          "tmp3f5d_cost": 16350.0,
+          "avg_selling_price": 16950.0,
+          "total_cost": 16350.0,
+          "price_diff": 600.0,
+          "gross_profit": 600.0,
+          "gross_profit_pct": 0.035398230088495575,
+          "pct_of_total_cases": 0.7936507936507936
+        },
+        {
+          "product_raw": "STK 33cl",
+          "cases_sold": 1.0,
+          "revenue": 13900.0,
+          "tmp3f5d_cost": 12390.0,
+          "avg_selling_price": 13900.0,
+          "total_cost": 12390.0,
+          "price_diff": 1510.0,
+          "gross_profit": 1510.0,
+          "gross_profit_pct": 0.10863309352517986,
+          "pct_of_total_cases": 0.7936507936507936
+        },
+        {
+          "product_raw": "Medium Stout",
+          "cases_sold": 1.0,
+          "revenue": 18100.0,
+          "tmp3f5d_cost": 17150.0,
+          "avg_selling_price": 18100.0,
+          "total_cost": 17150.0,
+          "price_diff": 950.0,
+          "gross_profit": 950.0,
+          "gross_profit_pct": 0.052486187845303865,
+          "pct_of_total_cases": 0.7936507936507936
+        },
+        {
+          "product_raw": "Star Bottle 60cl",
+          "cases_sold": 1.0,
+          "revenue": 11600.0,
+          "tmp3f5d_cost": 11130.0,
+          "avg_selling_price": 11600.0,
+          "total_cost": 11130.0,
+          "price_diff": 470.0,
+          "gross_profit": 470.0,
+          "gross_profit_pct": 0.04051724137931034,
+          "pct_of_total_cases": 0.7936507936507936
+        }
+      ],
       "invoices_list": [
         {
           "invoice_no": "ann-INV275",
@@ -23181,6 +25975,44 @@
       "pct_of_target_met": null,
       "attributable_expenses": 0.0,
       "net_marketer_profit": 12740.0,
+      "product_mix": [
+        {
+          "product_raw": "Trophy",
+          "cases_sold": 70.0,
+          "revenue": 567000.0,
+          "tmp3f5d_cost": 8118.0,
+          "avg_selling_price": 8100.0,
+          "total_cost": 568260.0,
+          "price_diff": -18.0,
+          "gross_profit": -1260.0,
+          "gross_profit_pct": -0.0022222222222222222,
+          "pct_of_total_cases": 70.0
+        },
+        {
+          "product_raw": "Medium Stout",
+          "cases_sold": 20.0,
+          "revenue": 356000.0,
+          "tmp3f5d_cost": 17150.0,
+          "avg_selling_price": 17800.0,
+          "total_cost": 343000.0,
+          "price_diff": 650.0,
+          "gross_profit": 13000.0,
+          "gross_profit_pct": 0.03651685393258427,
+          "pct_of_total_cases": 20.0
+        },
+        {
+          "product_raw": "33 Export 60cl",
+          "cases_sold": 10.0,
+          "revenue": 90900.0,
+          "tmp3f5d_cost": 8990.0,
+          "avg_selling_price": 9090.0,
+          "total_cost": 89900.0,
+          "price_diff": 100.0,
+          "gross_profit": 1000.0,
+          "gross_profit_pct": 0.011001100110011002,
+          "pct_of_total_cases": 10.0
+        }
+      ],
       "invoices_list": [
         {
           "invoice_no": "ann-INV307",
@@ -23219,6 +26051,44 @@
       "pct_of_target_met": null,
       "attributable_expenses": 0.0,
       "net_marketer_profit": -14090.0,
+      "product_mix": [
+        {
+          "product_raw": "Maltina Pet 33cl",
+          "cases_sold": 130.0,
+          "revenue": 650000.0,
+          "tmp3f5d_cost": 5200.0,
+          "avg_selling_price": 5000.0,
+          "total_cost": 676000.0,
+          "price_diff": -200.0,
+          "gross_profit": -26000.0,
+          "gross_profit_pct": -0.04,
+          "pct_of_total_cases": 83.87096774193549
+        },
+        {
+          "product_raw": "Goldberg 60cl",
+          "cases_sold": 20.0,
+          "revenue": 184000.0,
+          "tmp3f5d_cost": 8657.0,
+          "avg_selling_price": 9200.0,
+          "total_cost": 173140.0,
+          "price_diff": 543.0,
+          "gross_profit": 10860.0,
+          "gross_profit_pct": 0.059021739130434785,
+          "pct_of_total_cases": 12.903225806451612
+        },
+        {
+          "product_raw": "33 Export 60cl",
+          "cases_sold": 5.0,
+          "revenue": 46000.0,
+          "tmp3f5d_cost": 8990.0,
+          "avg_selling_price": 9200.0,
+          "total_cost": 44950.0,
+          "price_diff": 210.0,
+          "gross_profit": 1050.0,
+          "gross_profit_pct": 0.02282608695652174,
+          "pct_of_total_cases": 3.225806451612903
+        }
+      ],
       "invoices_list": [
         {
           "invoice_no": "ann-INV341",
@@ -23268,6 +26138,20 @@
       "pct_of_target_met": null,
       "attributable_expenses": 0.0,
       "net_marketer_profit": 11040.0,
+      "product_mix": [
+        {
+          "product_raw": "Heineken Bottle 60cl",
+          "cases_sold": 60.0,
+          "revenue": 775800.0,
+          "tmp3f5d_cost": 12746.0,
+          "avg_selling_price": 12930.0,
+          "total_cost": 764760.0,
+          "price_diff": 184.0,
+          "gross_profit": 11040.0,
+          "gross_profit_pct": 0.01423047177107502,
+          "pct_of_total_cases": 100.0
+        }
+      ],
       "invoices_list": [
         {
           "invoice_no": "ann-INV224",
@@ -23295,6 +26179,152 @@
       "pct_of_target_met": null,
       "attributable_expenses": 0.0,
       "net_marketer_profit": 20222.0,
+      "product_mix": [
+        {
+          "product_raw": "Maltina Pet 33cl",
+          "cases_sold": 21.0,
+          "revenue": 105000.0,
+          "tmp3f5d_cost": 5200.0,
+          "avg_selling_price": 5000.0,
+          "total_cost": 109200.0,
+          "price_diff": -200.0,
+          "gross_profit": -4200.0,
+          "gross_profit_pct": -0.04,
+          "pct_of_total_cases": 29.166666666666668
+        },
+        {
+          "product_raw": "Goldberg 60cl",
+          "cases_sold": 11.0,
+          "revenue": 101200.0,
+          "tmp3f5d_cost": 8657.0,
+          "avg_selling_price": 9200.0,
+          "total_cost": 95227.0,
+          "price_diff": 543.0,
+          "gross_profit": 5973.0,
+          "gross_profit_pct": 0.059021739130434785,
+          "pct_of_total_cases": 15.277777777777779
+        },
+        {
+          "product_raw": "Maltina Pet 50cl",
+          "cases_sold": 10.0,
+          "revenue": 80200.0,
+          "tmp3f5d_cost": 7685.0,
+          "avg_selling_price": 8020.0,
+          "total_cost": 76850.0,
+          "price_diff": 335.0,
+          "gross_profit": 3350.0,
+          "gross_profit_pct": 0.04177057356608479,
+          "pct_of_total_cases": 13.88888888888889
+        },
+        {
+          "product_raw": "Heineken Bottle 60cl",
+          "cases_sold": 6.0,
+          "revenue": 80010.0,
+          "tmp3f5d_cost": 12746.0,
+          "avg_selling_price": 13335.0,
+          "total_cost": 76476.0,
+          "price_diff": 589.0,
+          "gross_profit": 3534.0,
+          "gross_profit_pct": 0.04416947881514811,
+          "pct_of_total_cases": 8.333333333333332
+        },
+        {
+          "product_raw": "Gulder Bottle",
+          "cases_sold": 6.0,
+          "revenue": 71460.0,
+          "tmp3f5d_cost": 11315.0,
+          "avg_selling_price": 11910.0,
+          "total_cost": 67890.0,
+          "price_diff": 595.0,
+          "gross_profit": 3570.0,
+          "gross_profit_pct": 0.049958018471872374,
+          "pct_of_total_cases": 8.333333333333332
+        },
+        {
+          "product_raw": "33 Export 60cl",
+          "cases_sold": 5.0,
+          "revenue": 46000.0,
+          "tmp3f5d_cost": 8990.0,
+          "avg_selling_price": 9200.0,
+          "total_cost": 44950.0,
+          "price_diff": 210.0,
+          "gross_profit": 1050.0,
+          "gross_profit_pct": 0.02282608695652174,
+          "pct_of_total_cases": 6.944444444444445
+        },
+        {
+          "product_raw": "Turbo King Bottle 60cl",
+          "cases_sold": 4.0,
+          "revenue": 36800.0,
+          "tmp3f5d_cost": 8525.0,
+          "avg_selling_price": 9200.0,
+          "total_cost": 34100.0,
+          "price_diff": 675.0,
+          "gross_profit": 2700.0,
+          "gross_profit_pct": 0.07336956521739131,
+          "pct_of_total_cases": 5.555555555555555
+        },
+        {
+          "product_raw": "Desperados Bottle",
+          "cases_sold": 2.0,
+          "revenue": 42970.0,
+          "tmp3f5d_cost": 20440.0,
+          "avg_selling_price": 21485.0,
+          "total_cost": 40880.0,
+          "price_diff": 1045.0,
+          "gross_profit": 2090.0,
+          "gross_profit_pct": 0.04863858505934373,
+          "pct_of_total_cases": 2.7777777777777777
+        },
+        {
+          "product_raw": "Fayrouz Bottle",
+          "cases_sold": 2.0,
+          "revenue": 20630.0,
+          "tmp3f5d_cost": 9925.0,
+          "avg_selling_price": 10315.0,
+          "total_cost": 19850.0,
+          "price_diff": 390.0,
+          "gross_profit": 780.0,
+          "gross_profit_pct": 0.03780901599612215,
+          "pct_of_total_cases": 2.7777777777777777
+        },
+        {
+          "product_raw": "Star Radler 45cl",
+          "cases_sold": 2.0,
+          "revenue": 28950.0,
+          "tmp3f5d_cost": 14475.0,
+          "avg_selling_price": 14475.0,
+          "total_cost": 28950.0,
+          "price_diff": 0.0,
+          "gross_profit": 0.0,
+          "gross_profit_pct": 0.0,
+          "pct_of_total_cases": 2.7777777777777777
+        },
+        {
+          "product_raw": "Williams Bottle 60cl",
+          "cases_sold": 2.0,
+          "revenue": 18690.0,
+          "tmp3f5d_cost": 8970.0,
+          "avg_selling_price": 9345.0,
+          "total_cost": 17940.0,
+          "price_diff": 375.0,
+          "gross_profit": 750.0,
+          "gross_profit_pct": 0.04012841091492777,
+          "pct_of_total_cases": 2.7777777777777777
+        },
+        {
+          "product_raw": "Tiger Bottle",
+          "cases_sold": 1.0,
+          "revenue": 15525.0,
+          "tmp3f5d_cost": 14900.0,
+          "avg_selling_price": 15525.0,
+          "total_cost": 14900.0,
+          "price_diff": 625.0,
+          "gross_profit": 625.0,
+          "gross_profit_pct": 0.040257648953301126,
+          "pct_of_total_cases": 1.3888888888888888
+        }
+      ],
       "invoices_list": [
         {
           "invoice_no": "ann-INV214",
@@ -23388,6 +26418,20 @@
       "pct_of_target_met": null,
       "attributable_expenses": 0.0,
       "net_marketer_profit": -12000.0,
+      "product_mix": [
+        {
+          "product_raw": "Maltina Pet 33cl",
+          "cases_sold": 120.0,
+          "revenue": 612000.0,
+          "tmp3f5d_cost": 5200.0,
+          "avg_selling_price": 5100.0,
+          "total_cost": 624000.0,
+          "price_diff": -100.0,
+          "gross_profit": -12000.0,
+          "gross_profit_pct": -0.0196078431372549,
+          "pct_of_total_cases": 100.0
+        }
+      ],
       "invoices_list": [
         {
           "invoice_no": "ann-INV196",
@@ -23415,6 +26459,140 @@
       "pct_of_target_met": null,
       "attributable_expenses": 0.0,
       "net_marketer_profit": 31126.0,
+      "product_mix": [
+        {
+          "product_raw": "Goldberg 60cl",
+          "cases_sold": 13.0,
+          "revenue": 120500.0,
+          "tmp3f5d_cost": 8657.0,
+          "avg_selling_price": 9269.23076923077,
+          "total_cost": 112541.0,
+          "price_diff": 612.2307692307695,
+          "gross_profit": 7959.0,
+          "gross_profit_pct": 0.06604979253112034,
+          "pct_of_total_cases": 27.659574468085108
+        },
+        {
+          "product_raw": "Trophy",
+          "cases_sold": 8.0,
+          "revenue": 72000.0,
+          "tmp3f5d_cost": 8118.0,
+          "avg_selling_price": 9000.0,
+          "total_cost": 64944.0,
+          "price_diff": 882.0,
+          "gross_profit": 7056.0,
+          "gross_profit_pct": 0.098,
+          "pct_of_total_cases": 17.02127659574468
+        },
+        {
+          "product_raw": "33 Export 60cl",
+          "cases_sold": 4.0,
+          "revenue": 36800.0,
+          "tmp3f5d_cost": 8990.0,
+          "avg_selling_price": 9200.0,
+          "total_cost": 35960.0,
+          "price_diff": 210.0,
+          "gross_profit": 840.0,
+          "gross_profit_pct": 0.02282608695652174,
+          "pct_of_total_cases": 8.51063829787234
+        },
+        {
+          "product_raw": "Maltina Pet 33cl",
+          "cases_sold": 4.0,
+          "revenue": 21200.0,
+          "tmp3f5d_cost": 5200.0,
+          "avg_selling_price": 5300.0,
+          "total_cost": 20800.0,
+          "price_diff": 100.0,
+          "gross_profit": 400.0,
+          "gross_profit_pct": 0.018867924528301886,
+          "pct_of_total_cases": 8.51063829787234
+        },
+        {
+          "product_raw": "Heineken Bottle 60cl",
+          "cases_sold": 4.0,
+          "revenue": 55800.0,
+          "tmp3f5d_cost": 12746.0,
+          "avg_selling_price": 13950.0,
+          "total_cost": 50984.0,
+          "price_diff": 1204.0,
+          "gross_profit": 4816.0,
+          "gross_profit_pct": 0.08630824372759857,
+          "pct_of_total_cases": 8.51063829787234
+        },
+        {
+          "product_raw": "Turbo King Bottle 60cl",
+          "cases_sold": 3.0,
+          "revenue": 27600.0,
+          "tmp3f5d_cost": 8525.0,
+          "avg_selling_price": 9200.0,
+          "total_cost": 25575.0,
+          "price_diff": 675.0,
+          "gross_profit": 2025.0,
+          "gross_profit_pct": 0.07336956521739131,
+          "pct_of_total_cases": 6.382978723404255
+        },
+        {
+          "product_raw": "Star Bottle 60cl",
+          "cases_sold": 3.0,
+          "revenue": 34800.0,
+          "tmp3f5d_cost": 11130.0,
+          "avg_selling_price": 11600.0,
+          "total_cost": 33390.0,
+          "price_diff": 470.0,
+          "gross_profit": 1410.0,
+          "gross_profit_pct": 0.04051724137931034,
+          "pct_of_total_cases": 6.382978723404255
+        },
+        {
+          "product_raw": "Fayrouz Can",
+          "cases_sold": 2.0,
+          "revenue": 26920.0,
+          "tmp3f5d_cost": 12855.0,
+          "avg_selling_price": 13460.0,
+          "total_cost": 25710.0,
+          "price_diff": 605.0,
+          "gross_profit": 1210.0,
+          "gross_profit_pct": 0.044947994056463596,
+          "pct_of_total_cases": 4.25531914893617
+        },
+        {
+          "product_raw": "Desperados Bottle",
+          "cases_sold": 2.0,
+          "revenue": 42800.0,
+          "tmp3f5d_cost": 20440.0,
+          "avg_selling_price": 21400.0,
+          "total_cost": 40880.0,
+          "price_diff": 960.0,
+          "gross_profit": 1920.0,
+          "gross_profit_pct": 0.044859813084112146,
+          "pct_of_total_cases": 4.25531914893617
+        },
+        {
+          "product_raw": "Gulder Bottle",
+          "cases_sold": 2.0,
+          "revenue": 23820.0,
+          "tmp3f5d_cost": 11315.0,
+          "avg_selling_price": 11910.0,
+          "total_cost": 22630.0,
+          "price_diff": 595.0,
+          "gross_profit": 1190.0,
+          "gross_profit_pct": 0.049958018471872374,
+          "pct_of_total_cases": 4.25531914893617
+        },
+        {
+          "product_raw": "Medium Stout",
+          "cases_sold": 2.0,
+          "revenue": 36600.0,
+          "tmp3f5d_cost": 17150.0,
+          "avg_selling_price": 18300.0,
+          "total_cost": 34300.0,
+          "price_diff": 1150.0,
+          "gross_profit": 2300.0,
+          "gross_profit_pct": 0.06284153005464481,
+          "pct_of_total_cases": 4.25531914893617
+        }
+      ],
       "invoices_list": [
         {
           "invoice_no": "ann-INV258",
@@ -23530,6 +26708,20 @@
       "pct_of_target_met": null,
       "attributable_expenses": 0.0,
       "net_marketer_profit": -3249.0,
+      "product_mix": [
+        {
+          "product_raw": "Goldberg 60cl",
+          "cases_sold": 57.0,
+          "revenue": 490200.0,
+          "tmp3f5d_cost": 8657.0,
+          "avg_selling_price": 8600.0,
+          "total_cost": 493449.0,
+          "price_diff": -57.0,
+          "gross_profit": -3249.0,
+          "gross_profit_pct": -0.006627906976744186,
+          "pct_of_total_cases": 100.0
+        }
+      ],
       "invoices_list": [
         {
           "invoice_no": "ann-INV163",
@@ -23601,6 +26793,104 @@
       "pct_of_target_met": null,
       "attributable_expenses": 0.0,
       "net_marketer_profit": 26493.0,
+      "product_mix": [
+        {
+          "product_raw": "Goldberg 60cl",
+          "cases_sold": 17.0,
+          "revenue": 156400.0,
+          "tmp3f5d_cost": 8657.0,
+          "avg_selling_price": 9200.0,
+          "total_cost": 147169.0,
+          "price_diff": 543.0,
+          "gross_profit": 9231.0,
+          "gross_profit_pct": 0.059021739130434785,
+          "pct_of_total_cases": 45.94594594594595
+        },
+        {
+          "product_raw": "Trophy",
+          "cases_sold": 8.0,
+          "revenue": 72000.0,
+          "tmp3f5d_cost": 8118.0,
+          "avg_selling_price": 9000.0,
+          "total_cost": 64944.0,
+          "price_diff": 882.0,
+          "gross_profit": 7056.0,
+          "gross_profit_pct": 0.098,
+          "pct_of_total_cases": 21.62162162162162
+        },
+        {
+          "product_raw": "Heineken Bottle 60cl",
+          "cases_sold": 4.0,
+          "revenue": 55800.0,
+          "tmp3f5d_cost": 12746.0,
+          "avg_selling_price": 13950.0,
+          "total_cost": 50984.0,
+          "price_diff": 1204.0,
+          "gross_profit": 4816.0,
+          "gross_profit_pct": 0.08630824372759857,
+          "pct_of_total_cases": 10.81081081081081
+        },
+        {
+          "product_raw": "Gulder Bottle",
+          "cases_sold": 2.0,
+          "revenue": 23820.0,
+          "tmp3f5d_cost": 11315.0,
+          "avg_selling_price": 11910.0,
+          "total_cost": 22630.0,
+          "price_diff": 595.0,
+          "gross_profit": 1190.0,
+          "gross_profit_pct": 0.049958018471872374,
+          "pct_of_total_cases": 5.405405405405405
+        },
+        {
+          "product_raw": "Maltina Bottle",
+          "cases_sold": 2.0,
+          "revenue": 27100.0,
+          "tmp3f5d_cost": 12920.0,
+          "avg_selling_price": 13550.0,
+          "total_cost": 25840.0,
+          "price_diff": 630.0,
+          "gross_profit": 1260.0,
+          "gross_profit_pct": 0.04649446494464945,
+          "pct_of_total_cases": 5.405405405405405
+        },
+        {
+          "product_raw": "Medium Stout",
+          "cases_sold": 2.0,
+          "revenue": 36600.0,
+          "tmp3f5d_cost": 17150.0,
+          "avg_selling_price": 18300.0,
+          "total_cost": 34300.0,
+          "price_diff": 1150.0,
+          "gross_profit": 2300.0,
+          "gross_profit_pct": 0.06284153005464481,
+          "pct_of_total_cases": 5.405405405405405
+        },
+        {
+          "product_raw": "33 Export 60cl",
+          "cases_sold": 1.0,
+          "revenue": 9200.0,
+          "tmp3f5d_cost": 8990.0,
+          "avg_selling_price": 9200.0,
+          "total_cost": 8990.0,
+          "price_diff": 210.0,
+          "gross_profit": 210.0,
+          "gross_profit_pct": 0.02282608695652174,
+          "pct_of_total_cases": 2.7027027027027026
+        },
+        {
+          "product_raw": "Castle Lite",
+          "cases_sold": 1.0,
+          "revenue": 9710.0,
+          "tmp3f5d_cost": 9280.0,
+          "avg_selling_price": 9710.0,
+          "total_cost": 9280.0,
+          "price_diff": 430.0,
+          "gross_profit": 430.0,
+          "gross_profit_pct": 0.044284243048403706,
+          "pct_of_total_cases": 2.7027027027027026
+        }
+      ],
       "invoices_list": [
         {
           "invoice_no": "ann-INV366",
@@ -23694,6 +26984,56 @@
       "pct_of_target_met": null,
       "attributable_expenses": 0.0,
       "net_marketer_profit": 17240.0,
+      "product_mix": [
+        {
+          "product_raw": "Heineken Bottle 60cl",
+          "cases_sold": 10.0,
+          "revenue": 133350.0,
+          "tmp3f5d_cost": 12746.0,
+          "avg_selling_price": 13335.0,
+          "total_cost": 127460.0,
+          "price_diff": 589.0,
+          "gross_profit": 5890.0,
+          "gross_profit_pct": 0.04416947881514811,
+          "pct_of_total_cases": 40.0
+        },
+        {
+          "product_raw": "Desperados Bottle",
+          "cases_sold": 5.0,
+          "revenue": 107425.0,
+          "tmp3f5d_cost": 20440.0,
+          "avg_selling_price": 21485.0,
+          "total_cost": 102200.0,
+          "price_diff": 1045.0,
+          "gross_profit": 5225.0,
+          "gross_profit_pct": 0.04863858505934373,
+          "pct_of_total_cases": 20.0
+        },
+        {
+          "product_raw": "Gulder Bottle",
+          "cases_sold": 5.0,
+          "revenue": 59550.0,
+          "tmp3f5d_cost": 11315.0,
+          "avg_selling_price": 11910.0,
+          "total_cost": 56575.0,
+          "price_diff": 595.0,
+          "gross_profit": 2975.0,
+          "gross_profit_pct": 0.049958018471872374,
+          "pct_of_total_cases": 20.0
+        },
+        {
+          "product_raw": "Maltina Bottle",
+          "cases_sold": 5.0,
+          "revenue": 67750.0,
+          "tmp3f5d_cost": 12920.0,
+          "avg_selling_price": 13550.0,
+          "total_cost": 64600.0,
+          "price_diff": 630.0,
+          "gross_profit": 3150.0,
+          "gross_profit_pct": 0.04649446494464945,
+          "pct_of_total_cases": 20.0
+        }
+      ],
       "invoices_list": [
         {
           "invoice_no": "ann-INV210",
@@ -23732,6 +27072,44 @@
       "pct_of_target_met": null,
       "attributable_expenses": 0.0,
       "net_marketer_profit": 17570.0,
+      "product_mix": [
+        {
+          "product_raw": "Desperados Can",
+          "cases_sold": 10.0,
+          "revenue": 227400.0,
+          "tmp3f5d_cost": 21595.0,
+          "avg_selling_price": 22740.0,
+          "total_cost": 215950.0,
+          "price_diff": 1145.0,
+          "gross_profit": 11450.0,
+          "gross_profit_pct": 0.05035180299032542,
+          "pct_of_total_cases": 55.55555555555556
+        },
+        {
+          "product_raw": "CLIMAX CAN",
+          "cases_sold": 5.0,
+          "revenue": 64425.0,
+          "tmp3f5d_cost": 12120.0,
+          "avg_selling_price": 12885.0,
+          "total_cost": 60600.0,
+          "price_diff": 765.0,
+          "gross_profit": 3825.0,
+          "gross_profit_pct": 0.059371362048894066,
+          "pct_of_total_cases": 27.77777777777778
+        },
+        {
+          "product_raw": "Legend Can 44cl",
+          "cases_sold": 3.0,
+          "revenue": 63510.0,
+          "tmp3f5d_cost": 20405.0,
+          "avg_selling_price": 21170.0,
+          "total_cost": 61215.0,
+          "price_diff": 765.0,
+          "gross_profit": 2295.0,
+          "gross_profit_pct": 0.03613604156825697,
+          "pct_of_total_cases": 16.666666666666664
+        }
+      ],
       "invoices_list": [
         {
           "invoice_no": "ann-INV283",
@@ -23770,6 +27148,116 @@
       "pct_of_target_met": null,
       "attributable_expenses": 0.0,
       "net_marketer_profit": 12164.0,
+      "product_mix": [
+        {
+          "product_raw": "Star Bottle 60cl",
+          "cases_sold": 7.0,
+          "revenue": 81200.0,
+          "tmp3f5d_cost": 11130.0,
+          "avg_selling_price": 11600.0,
+          "total_cost": 77910.0,
+          "price_diff": 470.0,
+          "gross_profit": 3290.0,
+          "gross_profit_pct": 0.04051724137931034,
+          "pct_of_total_cases": 28.000000000000004
+        },
+        {
+          "product_raw": "Goldberg Black 45cl",
+          "cases_sold": 5.0,
+          "revenue": 70725.0,
+          "tmp3f5d_cost": 13520.0,
+          "avg_selling_price": 14145.0,
+          "total_cost": 67600.0,
+          "price_diff": 625.0,
+          "gross_profit": 3125.0,
+          "gross_profit_pct": 0.04418522446094026,
+          "pct_of_total_cases": 20.0
+        },
+        {
+          "product_raw": "Goldberg 60cl",
+          "cases_sold": 5.0,
+          "revenue": 46000.0,
+          "tmp3f5d_cost": 8657.0,
+          "avg_selling_price": 9200.0,
+          "total_cost": 43285.0,
+          "price_diff": 543.0,
+          "gross_profit": 2715.0,
+          "gross_profit_pct": 0.059021739130434785,
+          "pct_of_total_cases": 20.0
+        },
+        {
+          "product_raw": "Williams Bottle 60cl",
+          "cases_sold": 2.0,
+          "revenue": 18690.0,
+          "tmp3f5d_cost": 8970.0,
+          "avg_selling_price": 9345.0,
+          "total_cost": 17940.0,
+          "price_diff": 375.0,
+          "gross_profit": 750.0,
+          "gross_profit_pct": 0.04012841091492777,
+          "pct_of_total_cases": 8.0
+        },
+        {
+          "product_raw": "Fayrouz Bottle",
+          "cases_sold": 2.0,
+          "revenue": 20630.0,
+          "tmp3f5d_cost": 9925.0,
+          "avg_selling_price": 10315.0,
+          "total_cost": 19850.0,
+          "price_diff": 390.0,
+          "gross_profit": 780.0,
+          "gross_profit_pct": 0.03780901599612215,
+          "pct_of_total_cases": 8.0
+        },
+        {
+          "product_raw": "Amstel Bottle",
+          "cases_sold": 1.0,
+          "revenue": 14450.0,
+          "tmp3f5d_cost": 13780.0,
+          "avg_selling_price": 14450.0,
+          "total_cost": 13780.0,
+          "price_diff": 670.0,
+          "gross_profit": 670.0,
+          "gross_profit_pct": 0.04636678200692042,
+          "pct_of_total_cases": 4.0
+        },
+        {
+          "product_raw": "Legend 45cl",
+          "cases_sold": 1.0,
+          "revenue": 15945.0,
+          "tmp3f5d_cost": 15375.0,
+          "avg_selling_price": 15945.0,
+          "total_cost": 15375.0,
+          "price_diff": 570.0,
+          "gross_profit": 570.0,
+          "gross_profit_pct": 0.03574788334901223,
+          "pct_of_total_cases": 4.0
+        },
+        {
+          "product_raw": "Maltina Can",
+          "cases_sold": 1.0,
+          "revenue": 13200.0,
+          "tmp3f5d_cost": 13501.0,
+          "avg_selling_price": 13200.0,
+          "total_cost": 13501.0,
+          "price_diff": -301.0,
+          "gross_profit": -301.0,
+          "gross_profit_pct": -0.022803030303030304,
+          "pct_of_total_cases": 4.0
+        },
+        {
+          "product_raw": "Legend Bottle 60cl",
+          "cases_sold": 1.0,
+          "revenue": 11480.0,
+          "tmp3f5d_cost": 10915.0,
+          "avg_selling_price": 11480.0,
+          "total_cost": 10915.0,
+          "price_diff": 565.0,
+          "gross_profit": 565.0,
+          "gross_profit_pct": 0.04921602787456446,
+          "pct_of_total_cases": 4.0
+        }
+      ],
       "invoices_list": [
         {
           "invoice_no": "ann-INV221",
@@ -23830,6 +27318,92 @@
       "pct_of_target_met": null,
       "attributable_expenses": 0.0,
       "net_marketer_profit": 12352.0,
+      "product_mix": [
+        {
+          "product_raw": "Goldberg 60cl",
+          "cases_sold": 7.0,
+          "revenue": 64400.0,
+          "tmp3f5d_cost": 8657.0,
+          "avg_selling_price": 9200.0,
+          "total_cost": 60599.0,
+          "price_diff": 543.0,
+          "gross_profit": 3801.0,
+          "gross_profit_pct": 0.059021739130434785,
+          "pct_of_total_cases": 33.33333333333333
+        },
+        {
+          "product_raw": "Trophy",
+          "cases_sold": 5.0,
+          "revenue": 43500.0,
+          "tmp3f5d_cost": 8118.0,
+          "avg_selling_price": 8700.0,
+          "total_cost": 40590.0,
+          "price_diff": 582.0,
+          "gross_profit": 2910.0,
+          "gross_profit_pct": 0.06689655172413793,
+          "pct_of_total_cases": 23.809523809523807
+        },
+        {
+          "product_raw": "Heineken Bottle 60cl",
+          "cases_sold": 4.0,
+          "revenue": 53340.0,
+          "tmp3f5d_cost": 12746.0,
+          "avg_selling_price": 13335.0,
+          "total_cost": 50984.0,
+          "price_diff": 589.0,
+          "gross_profit": 2356.0,
+          "gross_profit_pct": 0.04416947881514811,
+          "pct_of_total_cases": 19.047619047619047
+        },
+        {
+          "product_raw": "Medium Stout",
+          "cases_sold": 2.0,
+          "revenue": 36600.0,
+          "tmp3f5d_cost": 17150.0,
+          "avg_selling_price": 18300.0,
+          "total_cost": 34300.0,
+          "price_diff": 1150.0,
+          "gross_profit": 2300.0,
+          "gross_profit_pct": 0.06284153005464481,
+          "pct_of_total_cases": 9.523809523809524
+        },
+        {
+          "product_raw": "33 Export 60cl",
+          "cases_sold": 1.0,
+          "revenue": 9200.0,
+          "tmp3f5d_cost": 8990.0,
+          "avg_selling_price": 9200.0,
+          "total_cost": 8990.0,
+          "price_diff": 210.0,
+          "gross_profit": 210.0,
+          "gross_profit_pct": 0.02282608695652174,
+          "pct_of_total_cases": 4.761904761904762
+        },
+        {
+          "product_raw": "Maltina Pet 33cl",
+          "cases_sold": 1.0,
+          "revenue": 5300.0,
+          "tmp3f5d_cost": 5200.0,
+          "avg_selling_price": 5300.0,
+          "total_cost": 5200.0,
+          "price_diff": 100.0,
+          "gross_profit": 100.0,
+          "gross_profit_pct": 0.018867924528301886,
+          "pct_of_total_cases": 4.761904761904762
+        },
+        {
+          "product_raw": "Turbo King Bottle 60cl",
+          "cases_sold": 1.0,
+          "revenue": 9200.0,
+          "tmp3f5d_cost": 8525.0,
+          "avg_selling_price": 9200.0,
+          "total_cost": 8525.0,
+          "price_diff": 675.0,
+          "gross_profit": 675.0,
+          "gross_profit_pct": 0.07336956521739131,
+          "pct_of_total_cases": 4.761904761904762
+        }
+      ],
       "invoices_list": [
         {
           "invoice_no": "ann-INV405",
@@ -23890,6 +27464,116 @@
       "pct_of_target_met": null,
       "attributable_expenses": 0.0,
       "net_marketer_profit": 11464.0,
+      "product_mix": [
+        {
+          "product_raw": "Goldberg 60cl",
+          "cases_sold": 4.0,
+          "revenue": 36800.0,
+          "tmp3f5d_cost": 8657.0,
+          "avg_selling_price": 9200.0,
+          "total_cost": 34628.0,
+          "price_diff": 543.0,
+          "gross_profit": 2172.0,
+          "gross_profit_pct": 0.059021739130434785,
+          "pct_of_total_cases": 21.052631578947366
+        },
+        {
+          "product_raw": "Trophy",
+          "cases_sold": 4.0,
+          "revenue": 34000.0,
+          "tmp3f5d_cost": 8118.0,
+          "avg_selling_price": 8500.0,
+          "total_cost": 32472.0,
+          "price_diff": 382.0,
+          "gross_profit": 1528.0,
+          "gross_profit_pct": 0.044941176470588234,
+          "pct_of_total_cases": 21.052631578947366
+        },
+        {
+          "product_raw": "Medium Stout",
+          "cases_sold": 4.0,
+          "revenue": 73200.0,
+          "tmp3f5d_cost": 17150.0,
+          "avg_selling_price": 18300.0,
+          "total_cost": 68600.0,
+          "price_diff": 1150.0,
+          "gross_profit": 4600.0,
+          "gross_profit_pct": 0.06284153005464481,
+          "pct_of_total_cases": 21.052631578947366
+        },
+        {
+          "product_raw": "Maltina Pet 33cl",
+          "cases_sold": 2.0,
+          "revenue": 10800.0,
+          "tmp3f5d_cost": 5200.0,
+          "avg_selling_price": 5400.0,
+          "total_cost": 10400.0,
+          "price_diff": 200.0,
+          "gross_profit": 400.0,
+          "gross_profit_pct": 0.037037037037037035,
+          "pct_of_total_cases": 10.526315789473683
+        },
+        {
+          "product_raw": "33 Export 60cl",
+          "cases_sold": 1.0,
+          "revenue": 9200.0,
+          "tmp3f5d_cost": 8990.0,
+          "avg_selling_price": 9200.0,
+          "total_cost": 8990.0,
+          "price_diff": 210.0,
+          "gross_profit": 210.0,
+          "gross_profit_pct": 0.02282608695652174,
+          "pct_of_total_cases": 5.263157894736842
+        },
+        {
+          "product_raw": "Heineken Bottle 60cl",
+          "cases_sold": 1.0,
+          "revenue": 13335.0,
+          "tmp3f5d_cost": 12746.0,
+          "avg_selling_price": 13335.0,
+          "total_cost": 12746.0,
+          "price_diff": 589.0,
+          "gross_profit": 589.0,
+          "gross_profit_pct": 0.04416947881514811,
+          "pct_of_total_cases": 5.263157894736842
+        },
+        {
+          "product_raw": "Smirnoff Ice.",
+          "cases_sold": 1.0,
+          "revenue": 17000.0,
+          "tmp3f5d_cost": 16350.0,
+          "avg_selling_price": 17000.0,
+          "total_cost": 16350.0,
+          "price_diff": 650.0,
+          "gross_profit": 650.0,
+          "gross_profit_pct": 0.03823529411764706,
+          "pct_of_total_cases": 5.263157894736842
+        },
+        {
+          "product_raw": "Star Radler 45cl",
+          "cases_sold": 1.0,
+          "revenue": 15115.0,
+          "tmp3f5d_cost": 14475.0,
+          "avg_selling_price": 15115.0,
+          "total_cost": 14475.0,
+          "price_diff": 640.0,
+          "gross_profit": 640.0,
+          "gross_profit_pct": 0.04234204432682766,
+          "pct_of_total_cases": 5.263157894736842
+        },
+        {
+          "product_raw": "Turbo King Bottle 60cl",
+          "cases_sold": 1.0,
+          "revenue": 9200.0,
+          "tmp3f5d_cost": 8525.0,
+          "avg_selling_price": 9200.0,
+          "total_cost": 8525.0,
+          "price_diff": 675.0,
+          "gross_profit": 675.0,
+          "gross_profit_pct": 0.07336956521739131,
+          "pct_of_total_cases": 5.263157894736842
+        }
+      ],
       "invoices_list": [
         {
           "invoice_no": "ann-INV233",
@@ -23939,6 +27623,68 @@
       "pct_of_target_met": null,
       "attributable_expenses": 0.0,
       "net_marketer_profit": 13886.0,
+      "product_mix": [
+        {
+          "product_raw": "Goldberg 60cl",
+          "cases_sold": 8.0,
+          "revenue": 76000.0,
+          "tmp3f5d_cost": 8657.0,
+          "avg_selling_price": 9500.0,
+          "total_cost": 69256.0,
+          "price_diff": 843.0,
+          "gross_profit": 6744.0,
+          "gross_profit_pct": 0.08873684210526316,
+          "pct_of_total_cases": 50.0
+        },
+        {
+          "product_raw": "33 Export 60cl",
+          "cases_sold": 2.0,
+          "revenue": 19000.0,
+          "tmp3f5d_cost": 8990.0,
+          "avg_selling_price": 9500.0,
+          "total_cost": 17980.0,
+          "price_diff": 510.0,
+          "gross_profit": 1020.0,
+          "gross_profit_pct": 0.05368421052631579,
+          "pct_of_total_cases": 12.5
+        },
+        {
+          "product_raw": "Heineken Bottle 60cl",
+          "cases_sold": 2.0,
+          "revenue": 27900.0,
+          "tmp3f5d_cost": 12746.0,
+          "avg_selling_price": 13950.0,
+          "total_cost": 25492.0,
+          "price_diff": 1204.0,
+          "gross_profit": 2408.0,
+          "gross_profit_pct": 0.08630824372759857,
+          "pct_of_total_cases": 12.5
+        },
+        {
+          "product_raw": "Trophy",
+          "cases_sold": 2.0,
+          "revenue": 18000.0,
+          "tmp3f5d_cost": 8118.0,
+          "avg_selling_price": 9000.0,
+          "total_cost": 16236.0,
+          "price_diff": 882.0,
+          "gross_profit": 1764.0,
+          "gross_profit_pct": 0.098,
+          "pct_of_total_cases": 12.5
+        },
+        {
+          "product_raw": "Turbo King Bottle 60cl",
+          "cases_sold": 2.0,
+          "revenue": 19000.0,
+          "tmp3f5d_cost": 8525.0,
+          "avg_selling_price": 9500.0,
+          "total_cost": 17050.0,
+          "price_diff": 975.0,
+          "gross_profit": 1950.0,
+          "gross_profit_pct": 0.10263157894736842,
+          "pct_of_total_cases": 12.5
+        }
+      ],
       "invoices_list": [
         {
           "invoice_no": "ann-INV248",
@@ -24076,6 +27822,20 @@
       "pct_of_target_met": null,
       "attributable_expenses": 0.0,
       "net_marketer_profit": 8136.0,
+      "product_mix": [
+        {
+          "product_raw": "Goldberg 60cl",
+          "cases_sold": 12.0,
+          "revenue": 112020.0,
+          "tmp3f5d_cost": 8657.0,
+          "avg_selling_price": 9335.0,
+          "total_cost": 103884.0,
+          "price_diff": 678.0,
+          "gross_profit": 8136.0,
+          "gross_profit_pct": 0.0726298875200857,
+          "pct_of_total_cases": 100.0
+        }
+      ],
       "invoices_list": [
         {
           "invoice_no": "ann-INV317",
@@ -24114,6 +27874,56 @@
       "pct_of_target_met": null,
       "attributable_expenses": 0.0,
       "net_marketer_profit": 4023.0,
+      "product_mix": [
+        {
+          "product_raw": "33 Export 60cl",
+          "cases_sold": 2.0,
+          "revenue": 18400.0,
+          "tmp3f5d_cost": 8990.0,
+          "avg_selling_price": 9200.0,
+          "total_cost": 17980.0,
+          "price_diff": 210.0,
+          "gross_profit": 420.0,
+          "gross_profit_pct": 0.02282608695652174,
+          "pct_of_total_cases": 28.57142857142857
+        },
+        {
+          "product_raw": "Heineken Bottle 60cl",
+          "cases_sold": 2.0,
+          "revenue": 26670.0,
+          "tmp3f5d_cost": 12746.0,
+          "avg_selling_price": 13335.0,
+          "total_cost": 25492.0,
+          "price_diff": 589.0,
+          "gross_profit": 1178.0,
+          "gross_profit_pct": 0.04416947881514811,
+          "pct_of_total_cases": 28.57142857142857
+        },
+        {
+          "product_raw": "Star Radler 45cl",
+          "cases_sold": 2.0,
+          "revenue": 30230.0,
+          "tmp3f5d_cost": 14475.0,
+          "avg_selling_price": 15115.0,
+          "total_cost": 28950.0,
+          "price_diff": 640.0,
+          "gross_profit": 1280.0,
+          "gross_profit_pct": 0.04234204432682766,
+          "pct_of_total_cases": 28.57142857142857
+        },
+        {
+          "product_raw": "Desperados Can",
+          "cases_sold": 1.0,
+          "revenue": 22740.0,
+          "tmp3f5d_cost": 21595.0,
+          "avg_selling_price": 22740.0,
+          "total_cost": 21595.0,
+          "price_diff": 1145.0,
+          "gross_profit": 1145.0,
+          "gross_profit_pct": 0.05035180299032542,
+          "pct_of_total_cases": 14.285714285714285
+        }
+      ],
       "invoices_list": [
         {
           "invoice_no": "ann-INV278",
@@ -24141,6 +27951,80 @@
       "pct_of_target_met": null,
       "attributable_expenses": 0.0,
       "net_marketer_profit": 3449.0,
+      "product_mix": [
+        {
+          "product_raw": "33 Export Can",
+          "cases_sold": 1.0,
+          "revenue": 16145.0,
+          "tmp3f5d_cost": 15555.0,
+          "avg_selling_price": 16145.0,
+          "total_cost": 15555.0,
+          "price_diff": 590.0,
+          "gross_profit": 590.0,
+          "gross_profit_pct": 0.03654382161659957,
+          "pct_of_total_cases": 16.666666666666664
+        },
+        {
+          "product_raw": "Desperados Can",
+          "cases_sold": 1.0,
+          "revenue": 22740.0,
+          "tmp3f5d_cost": 21595.0,
+          "avg_selling_price": 22740.0,
+          "total_cost": 21595.0,
+          "price_diff": 1145.0,
+          "gross_profit": 1145.0,
+          "gross_profit_pct": 0.05035180299032542,
+          "pct_of_total_cases": 16.666666666666664
+        },
+        {
+          "product_raw": "Goldberg 60cl",
+          "cases_sold": 1.0,
+          "revenue": 9200.0,
+          "tmp3f5d_cost": 8657.0,
+          "avg_selling_price": 9200.0,
+          "total_cost": 8657.0,
+          "price_diff": 543.0,
+          "gross_profit": 543.0,
+          "gross_profit_pct": 0.059021739130434785,
+          "pct_of_total_cases": 16.666666666666664
+        },
+        {
+          "product_raw": "Heineken Bottle 60cl",
+          "cases_sold": 1.0,
+          "revenue": 13335.0,
+          "tmp3f5d_cost": 12746.0,
+          "avg_selling_price": 13335.0,
+          "total_cost": 12746.0,
+          "price_diff": 589.0,
+          "gross_profit": 589.0,
+          "gross_profit_pct": 0.04416947881514811,
+          "pct_of_total_cases": 16.666666666666664
+        },
+        {
+          "product_raw": "Maltina Pet 25cl",
+          "cases_sold": 1.0,
+          "revenue": 4200.0,
+          "tmp3f5d_cost": 4000.0,
+          "avg_selling_price": 4200.0,
+          "total_cost": 4000.0,
+          "price_diff": 200.0,
+          "gross_profit": 200.0,
+          "gross_profit_pct": 0.047619047619047616,
+          "pct_of_total_cases": 16.666666666666664
+        },
+        {
+          "product_raw": "Trophy",
+          "cases_sold": 1.0,
+          "revenue": 8500.0,
+          "tmp3f5d_cost": 8118.0,
+          "avg_selling_price": 8500.0,
+          "total_cost": 8118.0,
+          "price_diff": 382.0,
+          "gross_profit": 382.0,
+          "gross_profit_pct": 0.044941176470588234,
+          "pct_of_total_cases": 16.666666666666664
+        }
+      ],
       "invoices_list": [
         {
           "invoice_no": "Tayo-INV142",
@@ -24168,6 +28052,56 @@
       "pct_of_target_met": null,
       "attributable_expenses": 0.0,
       "net_marketer_profit": 4407.0,
+      "product_mix": [
+        {
+          "product_raw": "Goldberg 60cl",
+          "cases_sold": 1.0,
+          "revenue": 9500.0,
+          "tmp3f5d_cost": 8657.0,
+          "avg_selling_price": 9500.0,
+          "total_cost": 8657.0,
+          "price_diff": 843.0,
+          "gross_profit": 843.0,
+          "gross_profit_pct": 0.08873684210526316,
+          "pct_of_total_cases": 25.0
+        },
+        {
+          "product_raw": "Gulder Bottle",
+          "cases_sold": 1.0,
+          "revenue": 12525.0,
+          "tmp3f5d_cost": 11315.0,
+          "avg_selling_price": 12525.0,
+          "total_cost": 11315.0,
+          "price_diff": 1210.0,
+          "gross_profit": 1210.0,
+          "gross_profit_pct": 0.09660678642714571,
+          "pct_of_total_cases": 25.0
+        },
+        {
+          "product_raw": "Heineken Bottle 60cl",
+          "cases_sold": 1.0,
+          "revenue": 13950.0,
+          "tmp3f5d_cost": 12746.0,
+          "avg_selling_price": 13950.0,
+          "total_cost": 12746.0,
+          "price_diff": 1204.0,
+          "gross_profit": 1204.0,
+          "gross_profit_pct": 0.08630824372759857,
+          "pct_of_total_cases": 25.0
+        },
+        {
+          "product_raw": "Medium Stout",
+          "cases_sold": 1.0,
+          "revenue": 18300.0,
+          "tmp3f5d_cost": 17150.0,
+          "avg_selling_price": 18300.0,
+          "total_cost": 17150.0,
+          "price_diff": 1150.0,
+          "gross_profit": 1150.0,
+          "gross_profit_pct": 0.06284153005464481,
+          "pct_of_total_cases": 25.0
+        }
+      ],
       "invoices_list": [
         {
           "invoice_no": "ann-INV185",
@@ -24228,6 +28162,32 @@
       "pct_of_target_met": null,
       "attributable_expenses": 0.0,
       "net_marketer_profit": 918.0,
+      "product_mix": [
+        {
+          "product_raw": "Goldberg 60cl",
+          "cases_sold": 1.0,
+          "revenue": 9200.0,
+          "tmp3f5d_cost": 8657.0,
+          "avg_selling_price": 9200.0,
+          "total_cost": 8657.0,
+          "price_diff": 543.0,
+          "gross_profit": 543.0,
+          "gross_profit_pct": 0.059021739130434785,
+          "pct_of_total_cases": 50.0
+        },
+        {
+          "product_raw": "Williams Bottle 60cl",
+          "cases_sold": 1.0,
+          "revenue": 9345.0,
+          "tmp3f5d_cost": 8970.0,
+          "avg_selling_price": 9345.0,
+          "total_cost": 8970.0,
+          "price_diff": 375.0,
+          "gross_profit": 375.0,
+          "gross_profit_pct": 0.04012841091492777,
+          "pct_of_total_cases": 50.0
+        }
+      ],
       "invoices_list": [
         {
           "invoice_no": "ann-INV426",

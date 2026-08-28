@@ -584,9 +584,71 @@ export function CustomersScreen({ data }: CustomersScreenProps) {
               </span>
             </div>
 
+            {/* Product-Mix Breakdown */}
+            {drillCustomer.product_mix && drillCustomer.product_mix.length > 0 && (
+              <div className="px-5 pb-4 space-y-2">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-[11px] font-bold text-slate-700 font-sora uppercase tracking-wide">
+                    Product-Mix Breakdown ({drillCustomer.product_mix.length} {drillCustomer.product_mix.length === 1 ? "Product" : "Products"})
+                  </h3>
+                  <span className="text-[10px] text-slate-500 font-inter">
+                    Total Volume: <strong>{formatNumber(drillCustomer.total_cases_sold)} cs</strong>
+                  </span>
+                </div>
+                <div className="bg-slate-50 rounded-xl border border-slate-200 overflow-hidden">
+                  <div className="overflow-x-auto max-h-56 overflow-y-auto">
+                    <table className="w-full text-left text-xs">
+                      <thead className="bg-slate-100/80 sticky top-0 border-b border-slate-200 text-slate-600 font-bold font-sora">
+                        <tr>
+                          <th className="py-2.5 px-3">Product / Brand</th>
+                          <th className="py-2.5 px-3 text-right">Cases</th>
+                          <th className="py-2.5 px-3 text-right">% of Total Cases</th>
+                          <th className="py-2.5 px-3 text-right">Revenue</th>
+                          <th className="py-2.5 px-3 text-right">Gross Profit</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-slate-200/60 font-inter">
+                        {drillCustomer.product_mix.map((pm, idx) => {
+                          const isLoss = (pm.gross_profit || 0) < 0;
+                          return (
+                            <tr key={idx} className="hover:bg-slate-100/50 transition-colors">
+                              <td className="py-2.5 px-3 font-semibold text-slate-900">
+                                {pm.product_raw}
+                              </td>
+                              <td className="py-2.5 px-3 text-right font-medium text-slate-700">
+                                {formatNumber(pm.cases_sold)} cs
+                              </td>
+                              <td className="py-2.5 px-3 text-right">
+                                <div className="inline-flex items-center justify-end gap-2 min-w-[90px]">
+                                  <div className="w-16 h-2 bg-slate-200 rounded-full overflow-hidden hidden sm:block">
+                                    <div
+                                      className="h-full bg-emerald-600 rounded-full"
+                                      style={{ width: `${Math.min(100, Math.max(0, pm.pct_of_total_cases || 0))}%` }}
+                                    />
+                                  </div>
+                                  <span className="font-extrabold text-slate-900 text-xs">
+                                    {(pm.pct_of_total_cases || 0).toFixed(1)}%
+                                  </span>
+                                </div>
+                              </td>
+                              <td className="py-2.5 px-3 text-right font-medium text-slate-900">
+                                {formatCurrency(pm.revenue, currency, true)}
+                              </td>
+                              <td className={`py-2.5 px-3 text-right font-bold ${isLoss ? "text-rose-700" : "text-emerald-700"}`}>
+                                {formatCurrency(pm.gross_profit, currency, true)}
+                              </td>
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            )}
+
             {/* Exact Invoice-Level Records & Audit Trail */}
             <div className="px-5 pb-5 space-y-2">
-
               <h3 className="text-[11px] font-bold text-slate-700 font-sora uppercase tracking-wide">
                 Invoice Breakdown ({drillCustomer.invoices_list?.length || drillCustomer.invoices || 0} Invoices)
               </h3>

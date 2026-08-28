@@ -3,11 +3,11 @@ Unit and regression tests for Official Management Net Profit Bridge and Operatin
 """
 
 import pytest
-from engine.net_profit import compute_net_profit_bridge, parse_expenses_sheet
+from engine.net_profit import calculate_financial_statements, compute_net_profit_bridge, parse_expenses_sheet
 
 
 class TestNetProfitBridge:
-    """Validates the Management Net Profit Waterfall against official July 2026 benchmarks."""
+    """Validates the Management Net Profit Waterfall against official accounting standards."""
 
     def test_net_profit_bridge_benchmarks(self, parsed_data):
         inv_df = parsed_data["inv_df"]
@@ -33,25 +33,47 @@ class TestNetProfitBridge:
         # 3. Net Sales Revenue
         assert bridge["net_sales_revenue"] == 173718940.0
 
-        # 4. Gross Invoiced Embedded Cost (incl. empties) & Cost of Returns Credited Back
+        # 4. Gross Invoiced Embedded Cost (incl. empties) & COGS (cost of returns NOT deducted)
         assert bridge["gross_embedded_cost"] == 183957167.0
-        assert round(bridge["cost_of_returns"], 2) == 10792837.31
+        assert round(bridge["cost_of_returns"], 2) == 10792837.31  # Audit trail maintained
         assert bridge["total_cost"] == 183957167.0
-        assert round(bridge["net_cost"], 2) == 173164329.69  # Net Invoiced COGS
+        assert bridge["net_cost"] == 183957167.0  # COGS without deducting cost of sales returns
 
-        # 5. Gross Profit (Net Sales Revenue - Net Invoiced COGS)
-        assert round(bridge["gross_profit"], 2) == 554610.31
+        # 5. Gross Profit (Net Sales Revenue - COGS)
+        assert bridge["gross_profit"] == -10238227.0
 
         # 6. Operating Expenses
         assert bridge["total_operating_expenses"] == 2095229.0
 
         # 7. Net Operating Profit / (Loss)
-        assert round(bridge["net_operating_profit_loss"], 2) == -1540618.69
+        assert bridge["net_operating_profit_loss"] == -12333456.0
 
         # 8. Return Rate
         assert round(bridge["return_rate"], 4) == 0.0744
 
+    def test_calculate_financial_statements_structure(self):
+        """Validates the standard accounting financial statements calculation structure."""
+        pnl = calculate_financial_statements(
+            gross_sales=200000000.0,
+            sales_returns=10000000.0,
+            purchases=150000000.0,
+            purchase_returns=5000000.0,
+            carriage_inwards=2000000.0,
+            opening_inventory=20000000.0,
+            closing_inventory=25000000.0,
+            operating_expenses=[3000000.0, 2000000.0],
+            other_income=1000000.0,
+            finance_costs=500000.0,
+        )
 
+        assert pnl["net_sales"] == 190000000.0
+        assert pnl["net_purchases"] == 147000000.0  # 150M - 5M + 2M
+        assert pnl["cogs"] == 142000000.0           # 20M + 147M - 25M
+        assert pnl["gross_profit"] == 48000000.0     # 190M - 142M
+        assert round(pnl["gross_margin_pct"], 2) == 25.26
+        assert pnl["total_expenses"] == 5000000.0
+        assert pnl["net_profit"] == 43500000.0       # (48M + 1M) - 5M - 0.5M
+        assert round(pnl["net_margin_pct"], 2) == 22.89
 
     def test_expenses_parsing_sheet(self):
         """Validates expenses parsing from threshold sheet matching 2,095,229 Grand Total."""

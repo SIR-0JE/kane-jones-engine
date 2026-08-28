@@ -44,3 +44,21 @@ class TestPresentationGenerator:
             slide_text = "\n".join([shape.text_frame.text for shape in slide.shapes if shape.has_text_frame])
             assert "KANE-JONES" in slide_text
             assert "MANAGEMENT INTELLIGENCE" in slide_text
+
+    def test_white_background_and_brand_colors(self, stored_snapshot):
+        builder = PresentationBuilder(stored_snapshot)
+        pptx_bytes = builder.generate()
+        prs = Presentation(BytesIO(pptx_bytes))
+        
+        # Verify first shape on each slide is the white background
+        for slide in prs.slides:
+            first_shape = slide.shapes[0]
+            assert first_shape.fill.fore_color.rgb == (255, 255, 255)
+
+    def test_all_modules_generation(self, stored_snapshot):
+        for mod in ["overview", "products", "customers", "marketers", "returns"]:
+            pptx_bytes = generate_presentation_pptx(stored_snapshot, module=mod)
+            assert isinstance(pptx_bytes, bytes)
+            assert len(pptx_bytes) > 20000
+            prs = Presentation(BytesIO(pptx_bytes))
+            assert len(prs.slides) >= 3
