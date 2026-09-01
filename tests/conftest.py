@@ -34,9 +34,15 @@ def profile():
 
 @pytest.fixture(scope="session")
 def sample_v6_file():
-    if not os.path.exists(SAMPLE_V6_PATH):
-        pytest.skip(f"Benchmark file not found at {SAMPLE_V6_PATH}")
-    return SAMPLE_V6_PATH
+    candidates = [
+        os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "sample_data", "July_sales_report_v6.xlsx"),
+        os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "sample_data", "July_sales_report_v7 - Copy.xlsx"),
+    ]
+    for c in candidates:
+        if os.path.exists(c):
+            return c
+    pytest.skip("Benchmark July file not found in sample_data/")
+
 
 
 @pytest.fixture(scope="session")

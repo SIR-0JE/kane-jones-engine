@@ -21,7 +21,14 @@ import pandas as pd
 
 from engine.sheet_classifier import classify_workbook_sheets
 from engine.config import ClientProfile, kane_jones_profile
-from engine.parser import parse_inventory_sheet, parse_sales_returns_sheet, parse_workbook
+from engine.parser import (
+    parse_inventory_sheet,
+    parse_sales_returns_sheet,
+    parse_stock_balances_sheet,
+    parse_purchases_sheet,
+    parse_purchase_returns_sheet,
+    parse_workbook,
+)
 from engine.price_match import load_price_list, match_products
 from engine.audit import (
     below_floor_pricing,
@@ -254,7 +261,18 @@ def run_manual_upload(
     if not df_returns.empty:
         returns_analysis = compute_returns_analysis(df_returns, total_revenue, li_df, profile)
 
-    # 8. Net Profit Bridge
+    # 8. Automated extraction of stock balances, purchases, and purchase returns from workbook sheets
+    sheet_open_stock, sheet_close_stock = parse_stock_balances_sheet(file_path, profile, classification_report=clf_report)
+    sheet_purchases, df_purchases, pur_anomalies = parse_purchases_sheet(file_path, profile, classification_report=clf_report)
+    sheet_pr, df_pr, pr_anomalies = parse_purchase_returns_sheet(file_path, profile, classification_report=clf_report)
+
+    # Merge priorities: CLI arg takes precedence if explicitly passed; otherwise use auto-extracted sheet value
+    effective_purchases = purchases if purchases is not None else (sheet_purchases if sheet_purchases > 0 else None)
+    effective_purchase_returns = purchase_returns if purchase_returns is not None else (sheet_pr if sheet_pr > 0 else (0.0 if (sheet_purchases > 0 or purchases is not None) else None))
+    effective_open_inv = opening_inventory if opening_inventory is not None else sheet_open_stock
+    effective_close_inv = closing_inventory if closing_inventory is not None else sheet_close_stock
+
+    # 9. Net Profit Bridge
     print("7. Computing Net Profit Bridge...")
     net_profit_bridge = compute_net_profit_bridge(
         inv_df,
@@ -263,14 +281,12 @@ def run_manual_upload(
         expenses_total=expenses_total,
         df_inv=df_inv if not df_inv.empty else None,
         profile=profile,
-        # Fix A: Pass the 7 ledger inputs from CLI args.
-        # None means "not supplied by caller" → tracked in missing_accounting_fields.
-        purchases=purchases,
-        purchase_returns=purchase_returns,
+        purchases=effective_purchases,
+        purchase_returns=effective_purchase_returns,
         carriage_inwards=carriage_inwards,
         carriage_outwards=carriage_outwards,
-        opening_inventory=opening_inventory,
-        closing_inventory=closing_inventory,
+        opening_inventory=effective_open_inv,
+        closing_inventory=effective_close_inv,
         other_income=other_income,
         finance_costs=finance_costs,
     )

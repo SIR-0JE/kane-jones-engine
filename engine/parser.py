@@ -625,3 +625,203 @@ def parse_sales_returns_sheet(xlsx_or_wb, profile: ClientProfile = None, classif
 
     returns_df = pd.DataFrame(returns)
     return returns_df, anomalies
+
+
+def parse_stock_balances_sheet(
+    xlsx_or_wb: Any,
+    profile: Optional[ClientProfile] = None,
+    classification_report: Optional[Any] = None,
+) -> Tuple[Optional[float], Optional[float]]:
+    """
+    Parses opening and closing stock balances from the Stock summary sheet
+    (e.g. 'Stock', 'tnp7rq1', 'AUGUST INVENTORY').
+    Returns: (opening_inventory, closing_inventory)
+    """
+    if profile is None:
+        from engine.config import kane_jones_profile
+        profile = kane_jones_profile()
+
+    if isinstance(xlsx_or_wb, str):
+        try:
+            wb = openpyxl.load_workbook(xlsx_or_wb, data_only=True)
+        except Exception:
+            return None, None
+    elif hasattr(xlsx_or_wb, "sheetnames"):
+        wb = xlsx_or_wb
+    else:
+        return None, None
+
+    sheet_name = None
+    if classification_report is not None and getattr(classification_report, "stock_balances_sheet", None):
+        if classification_report.stock_balances_sheet in wb.sheetnames:
+            sheet_name = classification_report.stock_balances_sheet
+
+    if not sheet_name:
+        from engine.sheet_classifier import classify_workbook_sheets
+        rep = classify_workbook_sheets(wb, profile)
+        if rep.stock_balances_sheet and rep.stock_balances_sheet in wb.sheetnames:
+            sheet_name = rep.stock_balances_sheet
+
+    if not sheet_name:
+        return None, None
+
+    ws = wb[sheet_name]
+    opening_stock = None
+    closing_stock = None
+
+    for r in range(1, min((ws.max_row or 0) + 1, 20)):
+        c1 = str(ws.cell(r, 1).value or "").strip().upper()
+        c2 = ws.cell(r, 2).value
+        if "OPENING" in c1 and ("STOCK" in c1 or "INV" in c1):
+            val = _parse_float(c2)
+            if val is not None and val > 0:
+                opening_stock = val
+        if "CLOSING" in c1 and ("STOCK" in c1 or "INV" in c1):
+            val = _parse_float(c2)
+            if val is not None and val > 0:
+                closing_stock = val
+
+    return opening_stock, closing_stock
+
+
+def parse_purchases_sheet(
+    xlsx_or_wb: Any,
+    profile: Optional[ClientProfile] = None,
+    classification_report: Optional[Any] = None,
+) -> Tuple[float, pd.DataFrame, List[Dict[str, Any]]]:
+    """
+    Parses supplier purchases from the Purchases Day-Book sheet
+    (e.g. 'tmp7203', 'tmpE7B5', 'tmp6434', 'tmp744D').
+    Returns: (total_purchases, purchases_df, anomalies)
+    """
+    if profile is None:
+        from engine.config import kane_jones_profile
+        profile = kane_jones_profile()
+
+    if isinstance(xlsx_or_wb, str):
+        try:
+            wb = openpyxl.load_workbook(xlsx_or_wb, data_only=True)
+        except Exception:
+            return 0.0, pd.DataFrame(), []
+    elif hasattr(xlsx_or_wb, "sheetnames"):
+        wb = xlsx_or_wb
+    else:
+        return 0.0, pd.DataFrame(), []
+
+    sheet_name = None
+    if classification_report is not None and getattr(classification_report, "purchases_sheet", None):
+        if classification_report.purchases_sheet in wb.sheetnames:
+            sheet_name = classification_report.purchases_sheet
+
+    if not sheet_name:
+        from engine.sheet_classifier import classify_workbook_sheets
+        rep = classify_workbook_sheets(wb, profile)
+        if rep.purchases_sheet and rep.purchases_sheet in wb.sheetnames:
+            sheet_name = rep.purchases_sheet
+
+    if not sheet_name:
+        return 0.0, pd.DataFrame(), []
+
+    ws = wb[sheet_name]
+    entries = []
+    total_purchases = 0.0
+    anomalies = []
+
+    for r in range(5, (ws.max_row or 0) + 1):
+        dt = ws.cell(r, 1).value
+        deb = ws.cell(r, 2).value
+        crd = ws.cell(r, 3).value
+        vch_t = ws.cell(r, 4).value
+        vch_no = ws.cell(r, 5).value
+        d_amt = _parse_float(ws.cell(r, 6).value)
+        c_amt = _parse_float(ws.cell(r, 7).value)
+
+        amt = c_amt if (c_amt and c_amt > 0) else (d_amt or 0.0)
+        if amt > 0 and (dt or vch_no or deb or crd):
+            record = {
+                "date": str(dt)[:10] if dt else "",
+                "debit": str(deb or "").strip(),
+                "credit": str(crd or "").strip(),
+                "voucher_type": str(vch_t or "").strip(),
+                "voucher_no": str(vch_no or "").strip(),
+                "amount": amt,
+                "source_row": r,
+                "source_tab": sheet_name,
+            }
+            entries.append(record)
+            total_purchases += amt
+
+    df_purchases = pd.DataFrame(entries)
+    return total_purchases, df_purchases, anomalies
+
+
+def parse_purchase_returns_sheet(
+    xlsx_or_wb: Any,
+    profile: Optional[ClientProfile] = None,
+    classification_report: Optional[Any] = None,
+) -> Tuple[float, pd.DataFrame, List[Dict[str, Any]]]:
+    """
+    Parses supplier purchase returns / debit notes from the Purchase Returns Day-Book sheet
+    (e.g. 'tmp5F71', 'purchase return', 'tmpBAA5', 'tmp5EDC').
+    Returns: (total_purchase_returns, purchase_returns_df, anomalies)
+    """
+    if profile is None:
+        from engine.config import kane_jones_profile
+        profile = kane_jones_profile()
+
+    if isinstance(xlsx_or_wb, str):
+        try:
+            wb = openpyxl.load_workbook(xlsx_or_wb, data_only=True)
+        except Exception:
+            return 0.0, pd.DataFrame(), []
+    elif hasattr(xlsx_or_wb, "sheetnames"):
+        wb = xlsx_or_wb
+    else:
+        return 0.0, pd.DataFrame(), []
+
+    sheet_name = None
+    if classification_report is not None and getattr(classification_report, "purchase_returns_sheet", None):
+        if classification_report.purchase_returns_sheet in wb.sheetnames:
+            sheet_name = classification_report.purchase_returns_sheet
+
+    if not sheet_name:
+        from engine.sheet_classifier import classify_workbook_sheets
+        rep = classify_workbook_sheets(wb, profile)
+        if rep.purchase_returns_sheet and rep.purchase_returns_sheet in wb.sheetnames:
+            sheet_name = rep.purchase_returns_sheet
+
+    if not sheet_name:
+        return 0.0, pd.DataFrame(), []
+
+    ws = wb[sheet_name]
+    entries = []
+    total_purchase_returns = 0.0
+    anomalies = []
+
+    for r in range(5, (ws.max_row or 0) + 1):
+        dt = ws.cell(r, 1).value
+        deb = ws.cell(r, 2).value
+        crd = ws.cell(r, 3).value
+        vch_t = ws.cell(r, 4).value
+        vch_no = ws.cell(r, 5).value
+        d_amt = _parse_float(ws.cell(r, 6).value)
+        c_amt = _parse_float(ws.cell(r, 7).value)
+
+        amt = d_amt if (d_amt and d_amt > 0) else (c_amt or 0.0)
+        if amt > 0 and (dt or vch_no or deb or crd):
+            record = {
+                "date": str(dt)[:10] if dt else "",
+                "debit": str(deb or "").strip(),
+                "credit": str(crd or "").strip(),
+                "voucher_type": str(vch_t or "").strip(),
+                "voucher_no": str(vch_no or "").strip(),
+                "amount": amt,
+                "source_row": r,
+                "source_tab": sheet_name,
+            }
+            entries.append(record)
+            total_purchase_returns += amt
+
+    df_pr = pd.DataFrame(entries)
+    return total_purchase_returns, df_pr, anomalies
+

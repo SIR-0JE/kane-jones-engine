@@ -30,7 +30,14 @@ from engine.audit import (
 )
 from engine.compare import compare_periods
 from engine.config import ClientProfile, kane_jones_profile
-from engine.parser import parse_inventory_sheet, parse_sales_returns_sheet, parse_workbook
+from engine.parser import (
+    parse_inventory_sheet,
+    parse_sales_returns_sheet,
+    parse_stock_balances_sheet,
+    parse_purchases_sheet,
+    parse_purchase_returns_sheet,
+    parse_workbook,
+)
 from engine.price_match import load_price_list, match_products
 from engine.report import generate_report_pdf
 from engine.presentation import generate_presentation_pptx
@@ -355,6 +362,17 @@ async def analyze_sales_report(
         if not df_returns.empty:
             returns_analysis = compute_returns_analysis(df_returns, total_revenue, li_df, profile)
 
+        # Automated extraction of stock balances, purchases, and purchase returns from workbook sheets
+        sheet_open_stock, sheet_close_stock = parse_stock_balances_sheet(tmp_path, profile, classification_report=classification_report)
+        sheet_purchases, df_purchases, pur_anomalies = parse_purchases_sheet(tmp_path, profile, classification_report=classification_report)
+        sheet_pr, df_pr, pr_anomalies = parse_purchase_returns_sheet(tmp_path, profile, classification_report=classification_report)
+
+        # Merge priorities: Form value takes precedence if explicitly passed; otherwise use auto-extracted sheet value
+        effective_purchases = purchases if purchases is not None else (sheet_purchases if sheet_purchases > 0 else None)
+        effective_purchase_returns = purchase_returns if purchase_returns is not None else (sheet_pr if sheet_pr > 0 else (0.0 if (sheet_purchases > 0 or purchases is not None) else None))
+        effective_open_inv = opening_inventory if opening_inventory is not None else sheet_open_stock
+        effective_close_inv = closing_inventory if closing_inventory is not None else sheet_close_stock
+
         # Compute net profit bridge unconditionally for all periods
         net_profit_bridge = compute_net_profit_bridge(
             inv_df,
@@ -363,17 +381,16 @@ async def analyze_sales_report(
             expenses_total=expenses_total,
             df_inv=df_inv if not df_inv.empty else None,
             profile=profile,
-            # Fix A: Pass the 7 ledger inputs from form fields.
-            # None means "not supplied by caller" → tracked in missing_accounting_fields.
-            purchases=purchases,
-            purchase_returns=purchase_returns,
+            purchases=effective_purchases,
+            purchase_returns=effective_purchase_returns,
             carriage_inwards=carriage_inwards,
             carriage_outwards=carriage_outwards,
-            opening_inventory=opening_inventory,
-            closing_inventory=closing_inventory,
+            opening_inventory=effective_open_inv,
+            closing_inventory=effective_close_inv,
             other_income=other_income,
             finance_costs=finance_costs,
         )
+
 
         # Merge all anomalies
         all_anomalies_list = df_to_records(anomalies_df)

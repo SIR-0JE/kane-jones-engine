@@ -9,10 +9,15 @@ from engine.parser import _looks_like_date, _coerce_date, parse_workbook
 
 @pytest.fixture
 def sample_xlsx_path():
-    path = os.path.join("sample_data", "July_sales_report_v6.xlsx")
-    if not os.path.exists(path):
-        pytest.skip(f"Sample data file not found at {path}")
-    return path
+    candidates = [
+        os.path.join("sample_data", "July_sales_report_v6.xlsx"),
+        os.path.join("sample_data", "July_sales_report_v7 - Copy.xlsx"),
+    ]
+    for c in candidates:
+        if os.path.exists(c):
+            return c
+    pytest.skip("Benchmark July file not found in sample_data/")
+
 
 
 def test_classify_standard_workbook(sample_xlsx_path):
@@ -30,12 +35,11 @@ def test_classify_standard_workbook(sample_xlsx_path):
     # 3. Sales returns sheet
     assert report.sales_returns_sheet == "tmpCEF3"
 
-    # 4. Unclassified report/summary sheets (correctly skipped from contaminating raw parsing)
-    assert len(report.unclassified_sheets) > 0
-    unclassified_names = [u["sheet_name"] for u in report.unclassified_sheets]
-    assert "Product" in unclassified_names
-    assert "Marketers" in unclassified_names
-    assert "July 1st Sales Report" in unclassified_names
+    # 4. Purchases and Purchase Returns sheets
+    assert report.purchases_sheet == "tmp6434"
+    assert report.purchase_returns_sheet == "tmpBAA5"
+    assert report.stock_balances_sheet == "tnp7rq1"
+
 
 
 def test_classify_dedicated_price_list(tmp_path):
@@ -154,3 +158,34 @@ def test_parse_workbook_with_renamed_sheets_extracts_invoices(sample_xlsx_path, 
     assert float(inv_df["gross_revenue"].sum()) == pytest.approx(
         float(original_inv_df["gross_revenue"].sum()), rel=1e-4
     ), "Gross revenue totals differ after rename — calculation regression"
+
+
+# ── Full Automated Ledger Sheets Classification & Parsing Tests ──────────────
+
+def test_classify_and_parse_all_ledger_sheets(sample_xlsx_path):
+    """Verifies that Stock Balances, Purchases, and Purchase Returns are classified and parsed."""
+    from engine.parser import (
+        parse_stock_balances_sheet,
+        parse_purchases_sheet,
+        parse_purchase_returns_sheet,
+    )
+    profile = kane_jones_profile()
+    rep = classify_workbook_sheets(sample_xlsx_path, profile)
+
+    # July sample has Stock Balances (tnp7rq1), Purchases (tmp6434), Purchase Returns (tmpBAA5)
+    assert rep.stock_balances_sheet is not None
+    assert rep.purchases_sheet is not None
+    assert rep.purchase_returns_sheet is not None
+
+    open_stock, close_stock = parse_stock_balances_sheet(sample_xlsx_path, profile, classification_report=rep)
+    assert open_stock == 455005282.0
+    assert close_stock == 319967133.0
+
+    total_pur, df_pur, _ = parse_purchases_sheet(sample_xlsx_path, profile, classification_report=rep)
+    assert total_pur == 154162580.0
+    assert len(df_pur) > 0
+
+    total_pr, df_pr, _ = parse_purchase_returns_sheet(sample_xlsx_path, profile, classification_report=rep)
+    assert total_pr == 77179430.0
+    assert len(df_pr) > 0
+

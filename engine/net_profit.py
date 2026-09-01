@@ -63,16 +63,21 @@ def parse_expenses_sheet(
     anomalies = []
     candidate_sheets = []
     
-    # 0. Check classification report if provided
+    # 0. Check classification report or auto-generate one
+    if classification_report is None:
+        try:
+            from engine.sheet_classifier import classify_workbook_sheets
+            classification_report = classify_workbook_sheets(wb, profile)
+        except Exception:
+            classification_report = None
+
     if classification_report is not None:
         exp_sheet = getattr(classification_report, "expenses_sheet", None)
         if exp_sheet and exp_sheet in wb.sheetnames:
             candidate_sheets.append(exp_sheet)
-        # If classifier found no expenses sheet, still try the profile-named sheet
-        # before falling through to heuristic name scanning below.
-        # DO NOT bail out early here — expenses sheet may be present but misclassified.
         elif getattr(profile, "expenses_sheet", None) and profile.expenses_sheet in wb.sheetnames:
             candidate_sheets.append(profile.expenses_sheet)
+
 
     # 1. Identify Candidate Sheets (Prioritizing clean expense summary sheets over ledgers)
     summary_candidates = []

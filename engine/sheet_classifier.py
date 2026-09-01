@@ -34,7 +34,7 @@ from engine.parser import (
 @dataclass
 class SheetClassification:
     sheet_name: str
-    role: str  # "sales_invoice", "inventory_cost", "sales_returns", "expenses", "price_list", "unclassified"
+    role: str  # "sales_invoice", "inventory_cost", "sales_returns", "purchases", "purchase_returns", "stock_balances", "expenses", "price_list", "unclassified"
     confidence: float  # 0.0 to 1.0
     detection_method: str  # "profile_cached", "structural_signature", "content_heuristics", "none"
     reason: str
@@ -46,6 +46,9 @@ class ClassificationReport:
     sales_sheets: List[str] = field(default_factory=list)
     inventory_sheet: Optional[str] = None
     sales_returns_sheet: Optional[str] = None
+    purchases_sheet: Optional[str] = None
+    purchase_returns_sheet: Optional[str] = None
+    stock_balances_sheet: Optional[str] = None
     expenses_sheet: Optional[str] = None
     price_list_sheet: Optional[str] = None
     unclassified_sheets: List[Dict[str, Any]] = field(default_factory=list)
@@ -56,6 +59,9 @@ class ClassificationReport:
             "sales_sheets": self.sales_sheets,
             "inventory_sheet": self.inventory_sheet,
             "sales_returns_sheet": self.sales_returns_sheet,
+            "purchases_sheet": self.purchases_sheet,
+            "purchase_returns_sheet": self.purchase_returns_sheet,
+            "stock_balances_sheet": self.stock_balances_sheet,
             "expenses_sheet": self.expenses_sheet,
             "price_list_sheet": self.price_list_sheet,
             "unclassified_sheets": self.unclassified_sheets,
@@ -71,6 +77,7 @@ class ClassificationReport:
                 for name, c in self.classifications.items()
             },
         }
+
 
 
 def _check_sales_invoice_signature(
@@ -151,6 +158,114 @@ def _check_inventory_cost_signature(
             }
 
     return False, 0.0, "No inventory cost valuation headers found", {}
+
+
+def _check_stock_balances_signature(
+    rows: List[List[Any]]
+) -> Tuple[bool, float, str, Dict[str, Any]]:
+    """
+    Checks if rows match the Opening & Closing Stock balance summary table:
+    Usually a compact table (<= 15 rows, <= 4 columns) containing 'OPENING STOCK'
+    and 'CLOSING STOCK' (or 'OPENING INVENTORY' / 'CLOSING INVENTORY').
+    """
+    has_open = False
+    has_close = False
+    open_val = None
+    close_val = None
+    open_row = None
+    close_row = None
+
+    for r_idx, row in enumerate(rows[:15]):
+        if not row:
+            continue
+        c1 = str(row[0] or "").strip().upper()
+        c2 = row[1] if len(row) > 1 else None
+        if "OPENING" in c1 and ("STOCK" in c1 or "INV" in c1):
+            has_open = True
+            open_val = c2
+            open_row = r_idx + 1
+        if "CLOSING" in c1 and ("STOCK" in c1 or "INV" in c1):
+            has_close = True
+            close_val = c2
+            close_row = r_idx + 1
+
+    if has_open and has_close:
+        return True, 0.99, f"Matched Stock balances summary table (Opening Stock row {open_row}, Closing Stock row {close_row})", {
+            "opening_stock": open_val,
+            "closing_stock": close_val,
+            "opening_row": open_row,
+            "closing_row": close_row,
+        }
+
+    return False, 0.0, "No opening/closing stock balance summary found", {}
+
+
+def _check_purchase_returns_signature(
+    rows: List[List[Any]]
+) -> Tuple[bool, float, str, Dict[str, Any]]:
+    """
+    Checks if rows match supplier purchase returns / debit notes structure:
+    Day Book format with 'Purchases Return' or 'Debit Note' voucher indicators.
+    """
+    is_daybook = False
+    for row in rows[:6]:
+        row_str = " ".join([str(c or "").strip().upper() for c in row])
+        if "DAY BOOK" in row_str or ("DEBIT" in row_str and "CREDIT" in row_str and "VCH TYPE" in row_str):
+            is_daybook = True
+            break
+
+    has_debit_note = False
+    has_purchase_return = False
+
+    for r_idx, row in enumerate(rows[:40]):
+        row_str = " ".join([str(c or "").strip().upper() for c in row])
+        if "DEBIT NOTE" in row_str:
+            has_debit_note = True
+        if "PURCHASE RETURN" in row_str or "PURCHASES RETURN" in row_str:
+            has_purchase_return = True
+
+        if is_daybook and (has_debit_note or has_purchase_return):
+            return True, 0.97, f"Matched purchase returns / debit notes Day-Book at row {r_idx + 1}", {
+                "sample_row": r_idx + 1
+            }
+
+    return False, 0.0, "No purchase returns or debit note indicators found", {}
+
+
+def _check_purchases_signature(
+    rows: List[List[Any]]
+) -> Tuple[bool, float, str, Dict[str, Any]]:
+    """
+    Checks if rows match supplier purchases daybook structure:
+    Day Book format with 'Purchase' voucher type or supplier ledger entries (excluding returns/payments).
+    """
+    is_daybook = False
+    for row in rows[:6]:
+        row_str = " ".join([str(c or "").strip().upper() for c in row])
+        if "DAY BOOK" in row_str or ("DEBIT" in row_str and "CREDIT" in row_str and "VCH TYPE" in row_str):
+            is_daybook = True
+            break
+
+    if not is_daybook:
+        return False, 0.0, "Not a Day-Book ledger", {}
+
+    purchase_vouchers = 0
+    for r_idx, row in enumerate(rows[:50]):
+        row_str = " ".join([str(c or "").strip().upper() for c in row])
+        # Must be a regular purchase, not a return or payment
+        if "PURCHASE" in row_str and not ("RETURN" in row_str or "CREDIT NOTE" in row_str or "DEBIT NOTE" in row_str):
+            # Check column 4 (VCH TYPE) or Debit column
+            c4 = str(row[3] or "").strip().upper() if len(row) > 3 else ""
+            c2 = str(row[1] or "").strip().upper() if len(row) > 1 else ""
+            if "PURCHASE" in c4 or "PURCHASE" in c2:
+                purchase_vouchers += 1
+
+    if purchase_vouchers >= 2:
+        return True, 0.97, f"Matched supplier purchases Day-Book ({purchase_vouchers} purchase vouchers)", {
+            "purchase_vouchers_count": purchase_vouchers
+        }
+
+    return False, 0.0, "No supplier purchase vouchers found in Day-Book", {}
 
 
 def _check_sales_returns_signature(
@@ -309,7 +424,24 @@ def classify_workbook_sheets(
                 details=details,
             )
 
-    # 2. Pass B: Inventory Cost Sheet Detection
+    # 2. Pass B: Stock Balances Sheet Detection (Opening & Closing Stock Summary)
+    for name in sheet_names:
+        if name in report.classifications:
+            continue
+        rows = sheet_sample_rows[name]
+        is_stk, conf, reason, details = _check_stock_balances_signature(rows)
+        if is_stk and not report.stock_balances_sheet:
+            report.stock_balances_sheet = name
+            report.classifications[name] = SheetClassification(
+                sheet_name=name,
+                role="stock_balances",
+                confidence=conf,
+                detection_method="structural_signature",
+                reason=reason,
+                details=details,
+            )
+
+    # 3. Pass C: Inventory Cost Sheet Detection (Item-level unit costs / DPP)
     for name in sheet_names:
         if name in report.classifications:
             continue
@@ -317,10 +449,9 @@ def classify_workbook_sheets(
         rows = sheet_sample_rows[name]
         is_inv, conf, reason, details = _check_inventory_cost_signature(rows)
 
-        if "3f5d" in clean_name or "inventory" in clean_name or "stock" in clean_name or clean_name == getattr(profile, "inventory_sheet", "").lower():
-            if is_inv:
-                conf = min(conf + 0.05, 1.0)
-            else:
+        if ("3f5d" in clean_name or "inventory" in clean_name or "stock" in clean_name or clean_name == getattr(profile, "inventory_sheet", "").lower()) and not is_inv:
+            # Only treat as inventory cost if it looks like item table, not stock balances
+            if not _check_stock_balances_signature(rows)[0]:
                 is_inv = True
                 conf = 0.85
                 reason = "Inventory valuation sheet identified by profile/name match"
@@ -336,7 +467,7 @@ def classify_workbook_sheets(
                 details=details,
             )
 
-    # 3. Pass C: Sales Returns Sheet Detection
+    # 4. Pass D: Sales Returns Sheet Detection (Credit Notes)
     for name in sheet_names:
         if name in report.classifications:
             continue
@@ -344,10 +475,9 @@ def classify_workbook_sheets(
         rows = sheet_sample_rows[name]
         is_ret, conf, reason, details = _check_sales_returns_signature(rows)
 
-        if "cef3" in clean_name or "return" in clean_name or "credit" in clean_name or clean_name == getattr(profile, "sales_returns_sheet", "").lower():
-            if is_ret:
-                conf = min(conf + 0.05, 1.0)
-            else:
+        if ("cef3" in clean_name or "return" in clean_name or "credit" in clean_name or clean_name == getattr(profile, "sales_returns_sheet", "").lower()) and not is_ret:
+            # Ensure it's not a purchase return
+            if not _check_purchase_returns_signature(rows)[0]:
                 is_ret = True
                 conf = 0.85
                 reason = "Sales returns sheet identified by profile/name match"
@@ -363,7 +493,55 @@ def classify_workbook_sheets(
                 details=details,
             )
 
-    # 4. Pass D: Operating Expenses Sheet Detection (Prioritize clean category summaries)
+    # 5. Pass E: Purchase Returns Sheet Detection (Debit Notes)
+    for name in sheet_names:
+        if name in report.classifications:
+            continue
+        clean_name = name.strip().lower()
+        rows = sheet_sample_rows[name]
+        is_pr, conf, reason, details = _check_purchase_returns_signature(rows)
+
+        if ("purchase return" in clean_name or "purchases return" in clean_name or "prr" in clean_name) and not is_pr:
+            is_pr = True
+            conf = 0.85
+            reason = "Purchase returns sheet identified by name match"
+
+        if is_pr and not report.purchase_returns_sheet:
+            report.purchase_returns_sheet = name
+            report.classifications[name] = SheetClassification(
+                sheet_name=name,
+                role="purchase_returns",
+                confidence=conf,
+                detection_method="structural_signature",
+                reason=reason,
+                details=details,
+            )
+
+    # 6. Pass F: Purchases Daybook Sheet Detection
+    for name in sheet_names:
+        if name in report.classifications:
+            continue
+        clean_name = name.strip().lower()
+        rows = sheet_sample_rows[name]
+        is_pur, conf, reason, details = _check_purchases_signature(rows)
+
+        if ("purchase" in clean_name and "return" not in clean_name) and not is_pur:
+            is_pur = True
+            conf = 0.85
+            reason = "Purchases Day-Book sheet identified by name match"
+
+        if is_pur and not report.purchases_sheet:
+            report.purchases_sheet = name
+            report.classifications[name] = SheetClassification(
+                sheet_name=name,
+                role="purchases",
+                confidence=conf,
+                detection_method="structural_signature",
+                reason=reason,
+                details=details,
+            )
+
+    # 7. Pass G: Operating Expenses Sheet Detection (Prioritize clean category summaries)
     expense_candidates = []
     for name in sheet_names:
         if name in report.classifications:
@@ -397,7 +575,7 @@ def classify_workbook_sheets(
             details=best_details,
         )
 
-    # 5. Pass E: Sales / Invoice Sheets Detection (Can be multiple sheets, e.g. tmpA1A6, tmp32C7)
+    # 8. Pass H: Sales / Invoice Sheets Detection (Can be multiple sheets, e.g. tmpA1A6, tmp32C7)
     for name in sheet_names:
         if name in report.classifications:
             continue
@@ -429,7 +607,7 @@ def classify_workbook_sheets(
                 details=details,
             )
 
-    # 6. Pass F: Unclassified Sheets
+    # 9. Pass I: Unclassified Sheets
     for name in sheet_names:
         if name not in report.classifications:
             classification = SheetClassification(
@@ -437,7 +615,7 @@ def classify_workbook_sheets(
                 role="unclassified",
                 confidence=0.0,
                 detection_method="none",
-                reason="Sheet did not match any known structural signature (hierarchical sales register, tiered price list, inventory cost valuation, returns credit notes, or operating expenses)",
+                reason="Sheet did not match any known structural signature (hierarchical sales register, tiered price list, inventory cost valuation, stock balances, returns credit notes, supplier purchases/debit notes, or operating expenses)",
             )
             report.classifications[name] = classification
             report.unclassified_sheets.append({
@@ -446,3 +624,4 @@ def classify_workbook_sheets(
             })
 
     return report
+
