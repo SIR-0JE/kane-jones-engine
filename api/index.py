@@ -141,6 +141,17 @@ async def analyze_sales_report(
     client_id: str = Form("kane-jones", description="Client identifier"),
     period_label: Optional[str] = Form(None, description="Optional period label (e.g. '2026-07'). Derived automatically if omitted."),
     audit_title: Optional[str] = Form(None, description="Optional human-readable title (e.g. 'July 2026 Full Audit')"),
+    # The 7 ledger inputs below cannot be derived from the sales register alone.
+    # If not supplied, they default to 0.0 and will appear in the response
+    # net_profit_bridge.missing_accounting_fields list so the UI can warn the user.
+    purchases: Optional[float] = Form(None, description="Total purchases from supplier ledger (₦)"),
+    purchase_returns: Optional[float] = Form(None, description="Purchase returns / credit notes from supplier (₦)"),
+    carriage_inwards: Optional[float] = Form(None, description="Inbound freight / carriage on purchases, included in COGS (₦)"),
+    carriage_outwards: Optional[float] = Form(None, description="Outbound delivery costs, classified as OPEX (₦)"),
+    opening_inventory: Optional[float] = Form(None, description="Opening stock value at start of period (₦)"),
+    closing_inventory: Optional[float] = Form(None, description="Closing stock value at end of period (₦)"),
+    other_income: Optional[float] = Form(None, description="Non-operating income (e.g. rebates, interest received) (₦)"),
+    finance_costs: Optional[float] = Form(None, description="Interest expense / bank charges on borrowings (₦)"),
 ):
     """Parses a depot's sales spreadsheet, fuzzy-matches line items against the price list,
     runs all pricing, volume tier, trend, true-cost, and net profit bridge audits, and persists a period snapshot.
@@ -352,6 +363,16 @@ async def analyze_sales_report(
             expenses_total=expenses_total,
             df_inv=df_inv if not df_inv.empty else None,
             profile=profile,
+            # Fix A: Pass the 7 ledger inputs from form fields.
+            # None means "not supplied by caller" → tracked in missing_accounting_fields.
+            purchases=purchases,
+            purchase_returns=purchase_returns,
+            carriage_inwards=carriage_inwards,
+            carriage_outwards=carriage_outwards,
+            opening_inventory=opening_inventory,
+            closing_inventory=closing_inventory,
+            other_income=other_income,
+            finance_costs=finance_costs,
         )
 
         # Merge all anomalies

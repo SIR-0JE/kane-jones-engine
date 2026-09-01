@@ -54,11 +54,15 @@ class ClientProfile:
     client_id: str
     display_name: str
     currency_symbol: str = "\u20a6"  # Naira
-    raw_data_sheets: list = field(default_factory=lambda: [])  # e.g. ["tmpA1A6", "tmp32C7"]
+    # INFORMATIONAL ONLY — these sheet names are NOT used to gate parsing.
+    # ERP exports regenerate random tmpXXXX names on every extract; the structural
+    # classifier in engine/sheet_classifier.py is the sole sheet resolver.
+    # These fields are retained as an audit trail of last-known sheet names.
+    raw_data_sheets: list = field(default_factory=lambda: [])  # e.g. ["tmpA1A6", "tmp32C7"] — last known
     price_list_sheet: str = "Price list"
-    inventory_sheet: str = "tmp3F5D"
-    sales_returns_sheet: str = "tmpCEF3"
-    expenses_sheet: str = "tmp6F17"
+    inventory_sheet: str = "tmp3F5D"          # last known — informational only
+    sales_returns_sheet: str = "tmpCEF3"      # last known — informational only
+    expenses_sheet: str = "tmp6F17"           # last known — informational only
     daily_sheet_pattern: Optional[str] = None  # e.g. "*Sales Report*" (informational; not required by engine)
     column_aliases: dict = field(default_factory=lambda: DEFAULT_COLUMN_ALIASES.copy())
     volume_tiers: list = field(default_factory=lambda: [t for t in DEFAULT_VOLUME_TIERS])

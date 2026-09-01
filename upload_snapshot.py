@@ -90,6 +90,16 @@ def run_manual_upload(
     period_label: str = None,
     audit_title: str = None,
     expenses_path: str = None,
+    # Fix A: The 7 ledger inputs that cannot be derived from the sales register alone.
+    # None = not supplied; will appear in missing_accounting_fields warning list.
+    purchases: float = None,
+    purchase_returns: float = None,
+    carriage_inwards: float = None,
+    carriage_outwards: float = None,
+    opening_inventory: float = None,
+    closing_inventory: float = None,
+    other_income: float = None,
+    finance_costs: float = None,
 ):
     print(f"\n=== Running Sales Intelligence Audit for '{file_path}' (Depot: {client_id}) ===")
     
@@ -253,7 +263,26 @@ def run_manual_upload(
         expenses_total=expenses_total,
         df_inv=df_inv if not df_inv.empty else None,
         profile=profile,
+        # Fix A: Pass the 7 ledger inputs from CLI args.
+        # None means "not supplied by caller" → tracked in missing_accounting_fields.
+        purchases=purchases,
+        purchase_returns=purchase_returns,
+        carriage_inwards=carriage_inwards,
+        carriage_outwards=carriage_outwards,
+        opening_inventory=opening_inventory,
+        closing_inventory=closing_inventory,
+        other_income=other_income,
+        finance_costs=finance_costs,
     )
+
+    # Fix A: Warn explicitly if any of the 7 ledger inputs were missing.
+    missing_fields = net_profit_bridge.get("missing_accounting_fields", [])
+    if missing_fields:
+        print("\n⚠  WARNING — Missing accounting fields (defaulted to 0.0):")
+        for f in missing_fields:
+            print(f"     • {f}")
+        print("   These figures are INCOMPLETE. Supply the missing values via CLI flags.")
+        print("   Affected outputs: purchases, net_purchases, cogs, gross_profit, net_profit.")
 
     all_anomalies_list = df_to_records(anomalies_df)
     if inv_anomalies:
@@ -373,6 +402,16 @@ if __name__ == "__main__":
     parser.add_argument("--period", default=None, help="Period label (e.g. 2026-07)")
     parser.add_argument("--title", default=None, help="Human readable audit title")
     parser.add_argument("--expenses", default=None, help="Optional separate expenses workbook (.xlsx)")
+    # Fix A: The 7 accounting ledger inputs that cannot be derived from the sales register.
+    # If omitted, figures default to 0.0 and a WARNING is printed.
+    parser.add_argument("--purchases", type=float, default=None, help="Total supplier purchases (₦)")
+    parser.add_argument("--purchase-returns", type=float, default=None, help="Purchase returns from supplier (₦)")
+    parser.add_argument("--carriage-inwards", type=float, default=None, help="Inbound freight on purchases / COGS (₦)")
+    parser.add_argument("--carriage-outwards", type=float, default=None, help="Outbound delivery cost / OPEX (₦)")
+    parser.add_argument("--opening-inventory", type=float, default=None, help="Opening stock value (₦)")
+    parser.add_argument("--closing-inventory", type=float, default=None, help="Closing stock value (₦)")
+    parser.add_argument("--other-income", type=float, default=None, help="Non-operating income e.g. rebates (₦)")
+    parser.add_argument("--finance-costs", type=float, default=None, help="Interest expense / bank charges (₦)")
 
     args = parser.parse_args()
     run_manual_upload(
@@ -381,4 +420,12 @@ if __name__ == "__main__":
         period_label=args.period,
         audit_title=args.title,
         expenses_path=args.expenses,
+        purchases=args.purchases,
+        purchase_returns=args.purchase_returns,
+        carriage_inwards=args.carriage_inwards,
+        carriage_outwards=args.carriage_outwards,
+        opening_inventory=args.opening_inventory,
+        closing_inventory=args.closing_inventory,
+        other_income=args.other_income,
+        finance_costs=args.finance_costs,
     )

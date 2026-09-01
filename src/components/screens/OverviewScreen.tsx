@@ -313,6 +313,31 @@ export function OverviewScreen({ data, onNavigate, onDeleteAudit, onRenameAudit 
               </button>
             </div>
 
+            {/* Fix A: Missing accounting fields warning banner — visible whenever ledger inputs were omitted */}
+            {bridge?.missing_accounting_fields && bridge.missing_accounting_fields.length > 0 && (
+              <div className="rounded-xl border border-amber-300 bg-amber-50 px-4 py-3 flex gap-3 items-start">
+                <span className="text-amber-500 text-base mt-0.5">⚠</span>
+                <div className="flex-1 min-w-0">
+                  <p className="text-xs font-bold text-amber-800 font-sora mb-1">
+                    Incomplete P&L — {bridge.missing_accounting_fields.length} accounting input{bridge.missing_accounting_fields.length > 1 ? "s" : ""} not supplied
+                  </p>
+                  <p className="text-[11px] text-amber-700 font-inter mb-1.5">
+                    The following fields were not provided at upload and defaulted to ₦0. Figures for COGS, gross profit, and net profit are <strong>estimates only</strong> until these are supplied:
+                  </p>
+                  <div className="flex flex-wrap gap-1.5">
+                    {bridge.missing_accounting_fields.map((f: string) => (
+                      <span
+                        key={f}
+                        className="text-[10px] font-semibold px-2 py-0.5 bg-amber-100 text-amber-800 border border-amber-300 rounded-md font-mono"
+                      >
+                        {f}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
+
             {/* 7-Step Financial Bridge Grid */}
             <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-3">
               {/* Step 1: Gross Sales */}

@@ -4,6 +4,7 @@ Unit and regression tests for Official Management Net Profit Bridge and Operatin
 
 import pytest
 from engine.net_profit import calculate_financial_statements, compute_net_profit_bridge, parse_expenses_sheet
+import pandas as pd
 
 
 class TestNetProfitBridge:
@@ -50,6 +51,60 @@ class TestNetProfitBridge:
 
         # 8. Return Rate
         assert round(bridge["return_rate"], 4) == 0.0744
+
+    def test_missing_accounting_fields_all_absent(self, parsed_data):
+        """When none of the 7 ledger inputs are supplied, missing_accounting_fields names all 7."""
+        bridge = compute_net_profit_bridge(
+            invoices_df=parsed_data["inv_df"],
+            line_items_df=parsed_data["li_df"],
+            df_returns=pd.DataFrame(),
+            expenses_total=0.0,
+        )
+        missing = bridge["missing_accounting_fields"]
+        expected = {
+            "purchases", "purchase_returns", "carriage_inwards",
+            "opening_inventory", "closing_inventory", "other_income", "finance_costs",
+        }
+        assert set(missing) == expected, f"Expected all 7 fields, got: {missing}"
+
+    def test_missing_accounting_fields_none_when_all_supplied(self, parsed_data):
+        """When all 7 ledger inputs are explicitly supplied (even as 0.0), missing_accounting_fields is empty."""
+        bridge = compute_net_profit_bridge(
+            invoices_df=parsed_data["inv_df"],
+            line_items_df=parsed_data["li_df"],
+            df_returns=pd.DataFrame(),
+            expenses_total=0.0,
+            purchases=0.0,
+            purchase_returns=0.0,
+            carriage_inwards=0.0,
+            opening_inventory=0.0,
+            closing_inventory=0.0,
+            other_income=0.0,
+            finance_costs=0.0,
+        )
+        assert bridge["missing_accounting_fields"] == [], (
+            f"Expected empty missing list when all 7 supplied, got: {bridge['missing_accounting_fields']}"
+        )
+
+    def test_missing_accounting_fields_partial(self, parsed_data):
+        """When only some of the 7 inputs are supplied, only the absent ones appear in the list."""
+        bridge = compute_net_profit_bridge(
+            invoices_df=parsed_data["inv_df"],
+            line_items_df=parsed_data["li_df"],
+            df_returns=pd.DataFrame(),
+            expenses_total=0.0,
+            purchases=150000000.0,   # supplied
+            other_income=500000.0,   # supplied
+            # remaining 5 not supplied
+        )
+        missing = set(bridge["missing_accounting_fields"])
+        assert "purchases" not in missing
+        assert "other_income" not in missing
+        assert "purchase_returns" in missing
+        assert "carriage_inwards" in missing
+        assert "opening_inventory" in missing
+        assert "closing_inventory" in missing
+        assert "finance_costs" in missing
 
     def test_calculate_financial_statements_structure(self):
         """Validates the standard accounting financial statements calculation structure."""

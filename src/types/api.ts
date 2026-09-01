@@ -254,24 +254,39 @@ export interface NetProfitBridgeData {
   net_sales_revenue: number;
   gross_product_cost?: number;
   gross_embedded_cost?: number;
-  total_cost?: number;
+  purchases?: number;
   purchase_returns?: number;
+  carriage_inwards?: number;
+  carriage_outwards?: number;
+  opening_inventory?: number;
+  closing_inventory?: number;
+  net_purchases?: number;
+  total_cost?: number;
   net_cost?: number;
   cost_of_returns?: number;
   total_cost_embedded?: number;
+  cogs?: number;
   gross_profit?: number;
   net_gross_profit_loss?: number;  // alias
+  gross_margin_pct?: number;
   net_gross_margin_pct?: number;
   total_operating_expenses: number;
+  other_income?: number;
+  finance_costs?: number;
   net_profit?: number;
   net_operating_profit_loss?: number;  // alias
   net_operating_margin_pct?: number;
+  net_margin_pct?: number;
   product_returns_value?: number;
   product_returns_qty?: number;
   empties_returns_value?: number;
   empties_returns_qty?: number;
   return_rate?: number;
   missing_cost_anomalies?: any[];
+  /** Fix A: Names of the 7 ledger inputs that were not supplied by the caller.
+   *  When non-empty, the corresponding figures were computed with 0.0 assumptions
+   *  and MUST be shown as incomplete in the UI rather than as final values. */
+  missing_accounting_fields?: string[];
 }
 
 

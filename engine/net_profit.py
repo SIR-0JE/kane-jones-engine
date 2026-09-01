@@ -272,14 +272,17 @@ def compute_net_profit_bridge(
     expenses_total: float = 0.0,
     df_inv: Optional[pd.DataFrame] = None,
     cost_of_returns: Optional[float] = None,
+    # The seven accounting inputs below use None as a sentinel to distinguish
+    # "caller explicitly passed 0.0" from "caller did not supply this value at all".
+    # When None, the field is tracked in missing_accounting_fields and defaults to 0.0.
     purchases: Optional[float] = None,
-    purchase_returns: float = 0.0,
-    carriage_inwards: float = 0.0,
-    carriage_outwards: float = 0.0,
-    opening_inventory: float = 0.0,
-    closing_inventory: float = 0.0,
-    other_income: float = 0.0,
-    finance_costs: float = 0.0,
+    purchase_returns: Optional[float] = None,
+    carriage_inwards: Optional[float] = None,
+    carriage_outwards: Optional[float] = None,
+    opening_inventory: Optional[float] = None,
+    closing_inventory: Optional[float] = None,
+    other_income: Optional[float] = None,
+    finance_costs: Optional[float] = None,
     operating_expenses: Optional[List[float]] = None,
     profile: ClientProfile = None
 ) -> Dict[str, Any]:
@@ -300,10 +303,37 @@ def compute_net_profit_bridge(
       - sales_returns NEVER deducted from cost; only reduces net_sales.
       - purchase_returns only reduces net_purchases (COGS).
       - cost_of_returns is maintained for audit transparency but NOT deducted from COGS.
+
+    Missing Field Warnings:
+      Any of the seven ledger inputs not supplied by the caller will appear in
+      missing_accounting_fields in the return dict. Callers MUST surface this list
+      to end users so they know which figures were computed with 0.0 assumptions.
     """
     if profile is None:
         from engine.config import kane_jones_profile
         profile = kane_jones_profile()
+
+    # Detect which of the 7 accounting inputs were not supplied by the caller.
+    # None sentinel = "not provided"; 0.0 = "explicitly zeroed by caller".
+    _SEVEN_FIELDS = {
+        "purchases": purchases,
+        "purchase_returns": purchase_returns,
+        "carriage_inwards": carriage_inwards,
+        "opening_inventory": opening_inventory,
+        "closing_inventory": closing_inventory,
+        "other_income": other_income,
+        "finance_costs": finance_costs,
+    }
+    missing_accounting_fields = [k for k, v in _SEVEN_FIELDS.items() if v is None]
+
+    # Resolve None → 0.0 for calculation (purchases falls back to embedded cost later)
+    purchase_returns_val = float(purchase_returns) if purchase_returns is not None else 0.0
+    carriage_inwards_val = float(carriage_inwards) if carriage_inwards is not None else 0.0
+    carriage_outwards_val = float(carriage_outwards) if carriage_outwards is not None else 0.0
+    opening_inventory_val = float(opening_inventory) if opening_inventory is not None else 0.0
+    closing_inventory_val = float(closing_inventory) if closing_inventory is not None else 0.0
+    other_income_val = float(other_income) if other_income is not None else 0.0
+    finance_costs_val = float(finance_costs) if finance_costs is not None else 0.0
 
     if invoices_df is not None and not invoices_df.empty and "gross_revenue" in invoices_df.columns:
         gross_sales_revenue = float(invoices_df["gross_revenue"].sum())
@@ -361,9 +391,9 @@ def compute_net_profit_bridge(
     net_sales_revenue = gross_sales_revenue - total_sales_returns
 
     # 2. Net Purchases & COGS
-    purchases_val = float(purchases if purchases is not None else gross_embedded_cost)
-    net_purchases = purchases_val - float(purchase_returns or 0.0) + float(carriage_inwards or 0.0)
-    cogs = float(opening_inventory or 0.0) + net_purchases - float(closing_inventory or 0.0)
+    purchases_val = float(purchases) if purchases is not None else gross_embedded_cost
+    net_purchases = purchases_val - purchase_returns_val + carriage_inwards_val
+    cogs = opening_inventory_val + net_purchases - closing_inventory_val
     net_cost = cogs
 
     # 3. Gross Profit
@@ -376,10 +406,10 @@ def compute_net_profit_bridge(
         tot_expenses = float(sum(operating_expenses))
     else:
         tot_expenses = float(expenses_total or 0.0)
-    if carriage_outwards:
-        tot_expenses += float(carriage_outwards)
+    if carriage_outwards_val:
+        tot_expenses += carriage_outwards_val
 
-    net_profit = (gross_profit + float(other_income or 0.0)) - tot_expenses - float(finance_costs or 0.0)
+    net_profit = (gross_profit + other_income_val) - tot_expenses - finance_costs_val
     net_operating_margin_pct = (net_profit / net_sales_revenue) if net_sales_revenue > 0 else 0.0
 
     return {
@@ -389,11 +419,11 @@ def compute_net_profit_bridge(
         "gross_product_cost": gross_embedded_cost,
         "gross_embedded_cost": gross_embedded_cost,
         "purchases": purchases_val,
-        "purchase_returns": float(purchase_returns or 0.0),
-        "carriage_inwards": float(carriage_inwards or 0.0),
-        "carriage_outwards": float(carriage_outwards or 0.0),
-        "opening_inventory": float(opening_inventory or 0.0),
-        "closing_inventory": float(closing_inventory or 0.0),
+        "purchase_returns": purchase_returns_val,
+        "carriage_inwards": carriage_inwards_val,
+        "carriage_outwards": carriage_outwards_val,
+        "opening_inventory": opening_inventory_val,
+        "closing_inventory": closing_inventory_val,
         "net_purchases": net_purchases,
         "cogs": cogs,
         "total_cost": cogs,
@@ -405,8 +435,8 @@ def compute_net_profit_bridge(
         "gross_margin_pct": net_gross_margin_pct * 100.0,
         "net_gross_margin_pct": net_gross_margin_pct,
         "total_operating_expenses": tot_expenses,
-        "other_income": float(other_income or 0.0),
-        "finance_costs": float(finance_costs or 0.0),
+        "other_income": other_income_val,
+        "finance_costs": finance_costs_val,
         "net_profit": net_profit,
         "net_operating_profit_loss": net_profit,
         "net_operating_margin_pct": net_operating_margin_pct,
@@ -417,6 +447,10 @@ def compute_net_profit_bridge(
         "empties_returns_qty": empties_returns_qty,
         "return_rate": return_rate,
         "missing_cost_anomalies": missing_cost_anomalies,
+        # Fix A: Explicit list of the 7 ledger inputs that were not supplied by the caller.
+        # When non-empty, these figures were computed with 0.0 assumptions and MUST be
+        # shown as incomplete in the UI / CLI output rather than presented as final.
+        "missing_accounting_fields": missing_accounting_fields,
     }
 
 

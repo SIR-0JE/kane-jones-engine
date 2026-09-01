@@ -27,6 +27,13 @@ import pandas as pd
 import openpyxl
 from engine.config import ClientProfile
 
+# Known date string formats produced by ERP exports.
+# Order matters: more specific/unambiguous formats first.
+_DATE_STRING_FORMATS = [
+    "%d/%m/%Y", "%d-%m-%Y", "%Y-%m-%d", "%m/%d/%Y",
+    "%d/%m/%y", "%d-%m-%y", "%Y/%m/%d",
+]
+
 
 def _parse_quantity(val) -> Tuple[Optional[float], Optional[str]]:
     """Parse quantity value. Returns (parsed_qty, error_reason).
@@ -132,7 +139,40 @@ def _is_blank_row(row):
 
 
 def _looks_like_date(v):
-    return isinstance(v, (datetime.datetime, datetime.date))
+    """Return True if v is a native date/datetime, or a string parseable as a date.
+    ERP systems sometimes store dates as text strings (e.g. '01/08/2026', '2026-08-01')
+    rather than native Excel date serials. Only returning False for true dates caused
+    zero invoices to be matched in those exports (Bug B1).
+    """
+    if isinstance(v, (datetime.datetime, datetime.date)):
+        return True
+    if isinstance(v, str):
+        s = v.strip()
+        if not s:
+            return False
+        for fmt in _DATE_STRING_FORMATS:
+            try:
+                datetime.datetime.strptime(s, fmt)
+                return True
+            except ValueError:
+                continue
+    return False
+
+
+def _coerce_date(v):
+    """Coerce a value known to pass _looks_like_date into a datetime.datetime object."""
+    if isinstance(v, datetime.datetime):
+        return v
+    if isinstance(v, datetime.date):
+        return datetime.datetime(v.year, v.month, v.day)
+    if isinstance(v, str):
+        s = v.strip()
+        for fmt in _DATE_STRING_FORMATS:
+            try:
+                return datetime.datetime.strptime(s, fmt)
+            except ValueError:
+                continue
+    return None
 
 
 def parse_raw_sheet(ws, profile: ClientProfile, source_tab: str):
@@ -175,7 +215,7 @@ def parse_raw_sheet(ws, profile: ClientProfile, source_tab: str):
                 current_invoice = {
                     "source_tab": source_tab,
                     "row": i + 1,
-                    "date": date_val,
+                    "date": _coerce_date(date_val),
                     "customer": get(row, "customer"),
                     "invoice_no": invoice_no,
                     "po_no": get(row, "po_no"),
@@ -269,32 +309,26 @@ def parse_raw_sheet(ws, profile: ClientProfile, source_tab: str):
 
 
 def parse_workbook(xlsx_path: str, profile: ClientProfile, classification_report: Optional[Any] = None):
-    """Parse raw sales data sheets from workbook. Returns (invoices_df, line_items_df, anomalies_df)."""
+    """Parse raw sales data sheets from workbook. Returns (invoices_df, line_items_df, anomalies_df).
+
+    Sheet resolution order (Fix B2 — literal name whitelist removed):
+      1. Use the pre-computed classification_report if one was passed in (preferred — caller ran the
+         structural classifier upstream and we reuse it here for consistency).
+      2. If no report, run the structural classifier now against the raw workbook.
+    Note: profile.raw_data_sheets is treated as INFORMATIONAL ONLY and is no longer used to
+    select sheets. ERP exports regenerate random tmpXXXX names on every extract — any literal
+    name match would break on the next upload.
+    """
     wb = openpyxl.load_workbook(xlsx_path, data_only=True)
 
-    # 1. Determine sheets to parse
+    # 1. Use pre-supplied classification report if available
     sheets_to_parse = []
-    
-    # Check provided classification report
     if classification_report is not None:
         raw_rep_sheets = getattr(classification_report, "sales_sheets", [])
         if isinstance(raw_rep_sheets, list):
             sheets_to_parse = [s for s in raw_rep_sheets if s in wb.sheetnames]
 
-    # Fast path from profile
-    if not sheets_to_parse:
-        for target in profile.raw_data_sheets:
-            if target in wb.sheetnames:
-                sheets_to_parse.append(target)
-            else:
-                clean_target = re.sub(r'(?i)\.xlsx?$', '', target).strip().upper()
-                for name in wb.sheetnames:
-                    clean_name = re.sub(r'(?i)\.xlsx?$', '', name).strip().upper()
-                    if clean_name == clean_target and name not in sheets_to_parse:
-                        sheets_to_parse.append(name)
-                        break
-
-    # Dynamic structural classification fallback
+    # 2. Structural classifier as primary (not fallback) when no report supplied
     if not sheets_to_parse:
         from engine.sheet_classifier import classify_workbook_sheets
         rep = classify_workbook_sheets(wb, profile)
@@ -302,8 +336,11 @@ def parse_workbook(xlsx_path: str, profile: ClientProfile, classification_report
 
     if not sheets_to_parse:
         raise ValueError(
-            f"No sales register sheets found in workbook. Expected sheets like {profile.raw_data_sheets} or containing invoice headers. Available sheets: {wb.sheetnames}"
+            f"No sales register sheets found in workbook. Structural signature detection "
+            f"(invoice header + item sub-header pattern) found no matching sheets. "
+            f"Available sheets: {wb.sheetnames}"
         )
+
 
     all_invoices, all_line_items, all_anomalies = [], [], []
     for sheet_name in sheets_to_parse:
@@ -358,22 +395,22 @@ def parse_inventory_sheet(xlsx_or_wb, profile: ClientProfile = None, classificat
         wb = xlsx_or_wb
 
     sheet_name = None
+    # 1. Use pre-supplied classification report if available (structural detection already ran)
     if classification_report is not None and getattr(classification_report, "inventory_sheet", None):
         if classification_report.inventory_sheet in wb.sheetnames:
             sheet_name = classification_report.inventory_sheet
 
+    # 2. Structural classifier as primary when no report supplied
+    #    (profile.inventory_sheet is informational only — ERP renames sheets on every export)
     if not sheet_name:
-        target_name = getattr(profile, "inventory_sheet", "tmp3F5D")
-        if target_name in wb.sheetnames:
-            sheet_name = target_name
-        else:
-            from engine.sheet_classifier import classify_workbook_sheets
-            rep = classify_workbook_sheets(wb, profile)
-            if rep.inventory_sheet and rep.inventory_sheet in wb.sheetnames:
-                sheet_name = rep.inventory_sheet
+        from engine.sheet_classifier import classify_workbook_sheets
+        rep = classify_workbook_sheets(wb, profile)
+        if rep.inventory_sheet and rep.inventory_sheet in wb.sheetnames:
+            sheet_name = rep.inventory_sheet
 
     if not sheet_name:
         return pd.DataFrame(), []
+
 
     ws = wb[sheet_name]
     rows = []
@@ -475,19 +512,18 @@ def parse_sales_returns_sheet(xlsx_or_wb, profile: ClientProfile = None, classif
         wb = xlsx_or_wb
 
     sheet_name = None
+    # 1. Use pre-supplied classification report if available (structural detection already ran)
     if classification_report is not None and getattr(classification_report, "sales_returns_sheet", None):
         if classification_report.sales_returns_sheet in wb.sheetnames:
             sheet_name = classification_report.sales_returns_sheet
 
+    # 2. Structural classifier as primary when no report supplied
+    #    (profile.sales_returns_sheet is informational only — ERP renames sheets on every export)
     if not sheet_name:
-        target_name = getattr(profile, "sales_returns_sheet", "tmpCEF3")
-        if target_name in wb.sheetnames:
-            sheet_name = target_name
-        else:
-            from engine.sheet_classifier import classify_workbook_sheets
-            rep = classify_workbook_sheets(wb, profile)
-            if rep.sales_returns_sheet and rep.sales_returns_sheet in wb.sheetnames:
-                sheet_name = rep.sales_returns_sheet
+        from engine.sheet_classifier import classify_workbook_sheets
+        rep = classify_workbook_sheets(wb, profile)
+        if rep.sales_returns_sheet and rep.sales_returns_sheet in wb.sheetnames:
+            sheet_name = rep.sales_returns_sheet
 
     if not sheet_name:
         return pd.DataFrame(), []
