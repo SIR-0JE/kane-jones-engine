@@ -510,7 +510,34 @@ export function ProductsScreen({ data }: ProductsScreenProps) {
                     </tr>
                   )}
                 </tbody>
+                {filteredTrueCost.length > 0 && (() => {
+                  const fCases = filteredTrueCost.reduce((acc, p) => acc + (p.cases_sold || 0), 0);
+                  const fRev = filteredTrueCost.reduce((acc, p) => acc + (p.revenue || 0), 0);
+                  const fCost = filteredTrueCost.reduce((acc, p) => acc + (p.total_cost || 0), 0);
+                  const fGp = filteredTrueCost.reduce((acc, p) => acc + (p.gross_profit || 0), 0);
+                  const fMargin = fRev > 0 ? fGp / fRev : 0;
+                  return (
+                    <tfoot className="border-t-2 border-slate-300 bg-slate-100 font-bold font-sora text-slate-900 sticky bottom-0">
+                      <tr>
+                        <td className="py-3 px-4">TOTALS ({filteredTrueCost.length} SKUs)</td>
+                        <td className="py-3 px-3 text-right">{formatNumber(fCases)} cs</td>
+                        <td className="py-3 px-3 text-right text-slate-400">—</td>
+                        <td className="py-3 px-3 text-right text-slate-400">—</td>
+                        <td className="py-3 px-3 text-right text-slate-400">—</td>
+                        <td className="py-3 px-4 text-right">{formatCurrency(fRev, currency)}</td>
+                        <td className="py-3 px-4 text-right text-slate-700">{formatCurrency(fCost, currency)}</td>
+                        <td className={`py-3 px-4 text-right font-extrabold ${fGp >= 0 ? "text-emerald-700" : "text-rose-700"}`}>
+                          {formatCurrency(fGp, currency)}
+                        </td>
+                        <td className={`py-3 px-4 text-right font-extrabold ${fGp >= 0 ? "text-emerald-700" : "text-rose-700"}`}>
+                          {formatPercent(fMargin)}
+                        </td>
+                      </tr>
+                    </tfoot>
+                  );
+                })()}
               </table>
+
             </div>
           </div>
         </div>

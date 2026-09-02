@@ -254,6 +254,8 @@ export interface NetProfitBridgeData {
   net_sales_revenue: number;
   gross_product_cost?: number;
   gross_embedded_cost?: number;
+  invoiced_cogs?: number;
+  periodic_cogs?: number;
   purchases?: number;
   purchase_returns?: number;
   carriage_inwards?: number;
@@ -268,6 +270,8 @@ export interface NetProfitBridgeData {
   cogs?: number;
   gross_profit?: number;
   net_gross_profit_loss?: number;  // alias
+  trading_account?: any;
+
   gross_margin_pct?: number;
   net_gross_margin_pct?: number;
   total_operating_expenses: number;

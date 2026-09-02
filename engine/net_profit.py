@@ -362,14 +362,15 @@ def compute_net_profit_bridge(
     empties_returns_val = 0.0
     empties_returns_qty = 0.0
 
-    if df_returns is not None and not df_returns.empty:
+    if df_returns is not None and not df_returns.empty and "return_value" in df_returns.columns:
         total_sales_returns = float(df_returns["return_value"].sum())
-        prod_ret = df_returns[df_returns["item_type"] == "Product"]
-        emp_ret = df_returns[df_returns["item_type"] == "Empties"]
+        prod_ret = df_returns[df_returns["item_type"] == "Product"] if "item_type" in df_returns.columns else df_returns
+        emp_ret = df_returns[df_returns["item_type"] == "Empties"] if "item_type" in df_returns.columns else pd.DataFrame()
         product_returns_val = float(prod_ret["return_value"].sum()) if not prod_ret.empty else 0.0
-        product_returns_qty = float(prod_ret["quantity"].sum()) if not prod_ret.empty else 0.0
+        product_returns_qty = float(prod_ret["quantity"].sum()) if not prod_ret.empty and "quantity" in prod_ret.columns else 0.0
         empties_returns_val = float(emp_ret["return_value"].sum()) if not emp_ret.empty else 0.0
-        empties_returns_qty = float(emp_ret["quantity"].sum()) if not emp_ret.empty else 0.0
+        empties_returns_qty = float(emp_ret["quantity"].sum()) if not emp_ret.empty and "quantity" in emp_ret.columns else 0.0
+
 
     # Calculate Cost of Returns Credited Back (audit trail only)
     missing_cost_anomalies = []
@@ -395,18 +396,15 @@ def compute_net_profit_bridge(
     # 1. Net Sales
     net_sales_revenue = gross_sales_revenue - total_sales_returns
 
-    # 2. Net Purchases & COGS
-    purchases_val = float(purchases) if purchases is not None else gross_embedded_cost
-    net_purchases = purchases_val - purchase_returns_val + carriage_inwards_val
-    cogs = opening_inventory_val + net_purchases - closing_inventory_val
-    net_cost = cogs
+    # 2. Invoiced Cost of Goods Sold (Actual cost basis of goods invoiced to customers)
+    invoiced_cogs = gross_embedded_cost
 
-    # 3. Gross Profit
-    gross_profit = net_sales_revenue - cogs
-    net_gross_margin_pct = (gross_profit / net_sales_revenue) if net_sales_revenue > 0 else 0.0
+    # 3. Sales Operational Gross Profit (Based on invoiced goods sold)
+    sales_gross_profit = net_sales_revenue - invoiced_cogs
+    sales_gross_margin_pct = (sales_gross_profit / net_sales_revenue * 100.0) if net_sales_revenue > 0 else 0.0
     return_rate = (total_sales_returns / gross_sales_revenue) if gross_sales_revenue > 0 else 0.0
 
-    # 4. Operating Expenses & Net Operating Profit
+    # 4. Operating Expenses & Sales Net Operating Profit
     if operating_expenses is not None:
         tot_expenses = float(sum(operating_expenses))
     else:
@@ -414,15 +412,49 @@ def compute_net_profit_bridge(
     if carriage_outwards_val:
         tot_expenses += carriage_outwards_val
 
-    net_profit = (gross_profit + other_income_val) - tot_expenses - finance_costs_val
-    net_operating_margin_pct = (net_profit / net_sales_revenue) if net_sales_revenue > 0 else 0.0
+    sales_net_profit = (sales_gross_profit + other_income_val) - tot_expenses - finance_costs_val
+    sales_net_margin_pct = (sales_net_profit / net_sales_revenue * 100.0) if net_sales_revenue > 0 else 0.0
+
+    # 5. Periodic Inventory Trading Account (Warehouse balance sheet movement: Open + Purchases - Close)
+    purchases_val = float(purchases) if purchases is not None else gross_embedded_cost
+    net_purchases = purchases_val - purchase_returns_val + carriage_inwards_val
+    periodic_cogs = opening_inventory_val + net_purchases - closing_inventory_val
+    periodic_gross_profit = net_sales_revenue - periodic_cogs
+    periodic_gross_margin_pct = (periodic_gross_profit / net_sales_revenue * 100.0) if net_sales_revenue > 0 else 0.0
+    periodic_net_profit = (periodic_gross_profit + other_income_val) - tot_expenses - finance_costs_val
+    periodic_net_margin_pct = (periodic_net_profit / net_sales_revenue * 100.0) if net_sales_revenue > 0 else 0.0
 
     return {
+        # Core Sales Operational P&L (powers the main Dashboard KPI Cards)
         "gross_sales_revenue": gross_sales_revenue,
         "total_sales_returns": total_sales_returns,
         "net_sales_revenue": net_sales_revenue,
-        "gross_product_cost": gross_embedded_cost,
-        "gross_embedded_cost": gross_embedded_cost,
+        "gross_product_cost": invoiced_cogs,
+        "gross_embedded_cost": invoiced_cogs,
+        "invoiced_cogs": invoiced_cogs,
+        "cogs": invoiced_cogs,
+        "total_cost": invoiced_cogs,
+        "net_cost": invoiced_cogs,
+        "total_cost_embedded": invoiced_cogs,
+        "cost_of_returns": float(cost_of_returns or 0.0),
+        "gross_profit": sales_gross_profit,
+        "net_gross_profit_loss": sales_gross_profit,
+        "gross_margin_pct": sales_gross_margin_pct,
+        "net_gross_margin_pct": sales_gross_margin_pct / 100.0,
+        "total_operating_expenses": tot_expenses,
+        "other_income": other_income_val,
+        "finance_costs": finance_costs_val,
+        "net_profit": sales_net_profit,
+        "net_operating_profit_loss": sales_net_profit,
+        "net_operating_margin_pct": sales_net_margin_pct / 100.0,
+        "net_margin_pct": sales_net_margin_pct,
+        "return_rate": return_rate,
+        "product_returns_value": product_returns_val,
+        "product_returns_qty": product_returns_qty,
+        "empties_returns_value": empties_returns_val,
+        "empties_returns_qty": empties_returns_qty,
+
+        # Periodic Inventory & Ledger Trading Account Breakdown
         "purchases": purchases_val,
         "purchase_returns": purchase_returns_val,
         "carriage_inwards": carriage_inwards_val,
@@ -430,32 +462,34 @@ def compute_net_profit_bridge(
         "opening_inventory": opening_inventory_val,
         "closing_inventory": closing_inventory_val,
         "net_purchases": net_purchases,
-        "cogs": cogs,
-        "total_cost": cogs,
-        "net_cost": net_cost,
-        "total_cost_embedded": net_cost,
-        "cost_of_returns": float(cost_of_returns or 0.0),
-        "gross_profit": gross_profit,
-        "net_gross_profit_loss": gross_profit,
-        "gross_margin_pct": net_gross_margin_pct * 100.0,
-        "net_gross_margin_pct": net_gross_margin_pct,
-        "total_operating_expenses": tot_expenses,
-        "other_income": other_income_val,
-        "finance_costs": finance_costs_val,
-        "net_profit": net_profit,
-        "net_operating_profit_loss": net_profit,
-        "net_operating_margin_pct": net_operating_margin_pct,
-        "net_margin_pct": net_operating_margin_pct * 100.0,
-        "product_returns_value": product_returns_val,
-        "product_returns_qty": product_returns_qty,
-        "empties_returns_value": empties_returns_val,
-        "empties_returns_qty": empties_returns_qty,
-        "return_rate": return_rate,
-        "missing_cost_anomalies": missing_cost_anomalies,
-        # Fix A: Explicit list of the 7 ledger inputs that were not supplied by the caller.
-        # When non-empty, these figures were computed with 0.0 assumptions and MUST be
-        # shown as incomplete in the UI / CLI output rather than presented as final.
+        "periodic_cogs": periodic_cogs,
+        "periodic_gross_profit": periodic_gross_profit,
+        "periodic_gross_margin_pct": periodic_gross_margin_pct,
+        "periodic_net_profit": periodic_net_profit,
+        "periodic_net_margin_pct": periodic_net_margin_pct,
+
+        "trading_account": {
+            "gross_sales": gross_sales_revenue,
+            "sales_returns": total_sales_returns,
+            "net_sales": net_sales_revenue,
+            "opening_inventory": opening_inventory_val,
+            "purchases": purchases_val,
+            "purchase_returns": purchase_returns_val,
+            "carriage_inwards": carriage_inwards_val,
+            "net_purchases": net_purchases,
+            "closing_inventory": closing_inventory_val,
+            "cogs": periodic_cogs,
+            "gross_profit": periodic_gross_profit,
+            "gross_margin_pct": periodic_gross_margin_pct,
+            "total_expenses": tot_expenses,
+            "other_income": other_income_val,
+            "finance_costs": finance_costs_val,
+            "net_profit": periodic_net_profit,
+            "net_margin_pct": periodic_net_margin_pct,
+        },
         "missing_accounting_fields": missing_accounting_fields,
+        "missing_cost_anomalies": missing_cost_anomalies,
     }
+
 
 

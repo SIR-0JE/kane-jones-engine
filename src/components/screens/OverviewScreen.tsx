@@ -19,6 +19,7 @@ import {
   Calculator,
   FileSpreadsheet,
   ExternalLink,
+  BarChart3,
 } from "lucide-react";
 import { TabType } from "@/components/Navigation";
 import { AnalyzeResponse, CompareResponse } from "@/types/api";
@@ -155,13 +156,15 @@ export function OverviewScreen({ data, onNavigate, onDeleteAudit, onRenameAudit 
     const periodLabel = meta?.period_label || "2026-07";
     setPptxLoading(true);
     try {
-      const res = await fetch(
-        `/api/presentation?client_id=${encodeURIComponent(clientId)}&period_label=${encodeURIComponent(periodLabel)}`
-      );
-      if (!res.ok) {
-        const err = await res.json().catch(() => ({ detail: "Presentation generation failed." }));
-        throw new Error(err.detail || "Failed to download presentation");
-      }
+      const res = await fetch(`/api/pptx?module=overview`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...data,
+          _ppt_module: "overview",
+        }),
+      });
+      if (!res.ok) throw new Error("POST presentation generation failed");
       const blob = await res.blob();
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement("a");
@@ -171,12 +174,33 @@ export function OverviewScreen({ data, onNavigate, onDeleteAudit, onRenameAudit 
       a.click();
       window.URL.revokeObjectURL(url);
       document.body.removeChild(a);
-    } catch (err: any) {
-      alert(`Error downloading presentation: ${err.message || "Failed to generate slides"}`);
+    } catch {
+      // Fallback via GET
+      try {
+        const res = await fetch(
+          `/api/presentation?client_id=${encodeURIComponent(clientId)}&period_label=${encodeURIComponent(periodLabel)}`
+        );
+        if (!res.ok) {
+          const err = await res.json().catch(() => ({ detail: "Presentation generation failed." }));
+          throw new Error(err.detail || "Failed to download presentation");
+        }
+        const blob = await res.blob();
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `${clientId}_${periodLabel}_executive_deck.pptx`;
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+        document.body.removeChild(a);
+      } catch (err: any) {
+        alert(`Error downloading presentation: ${err.message || "Failed to generate slides"}`);
+      }
     } finally {
       setPptxLoading(false);
     }
   };
+
 
   const isCompact = numberFormat === "compact";
   const displayMoney = (val: number, isDeduction: boolean = false) => {
@@ -278,9 +302,8 @@ export function OverviewScreen({ data, onNavigate, onDeleteAudit, onRenameAudit 
         const grossSales = bridge?.gross_sales_revenue ?? meta.total_revenue ?? 0;
         const salesReturns = bridge?.total_sales_returns ?? 0;
         const netSales = bridge?.net_sales_revenue ?? (grossSales - salesReturns);
-        const grossCost = bridge?.total_cost ?? bridge?.gross_embedded_cost ?? 0;
-        const purchaseReturns = bridge?.purchase_returns ?? 0;
-        const netCost = bridge?.net_cost ?? (grossCost - purchaseReturns);
+        const grossCost = bridge?.gross_product_cost ?? bridge?.invoiced_cogs ?? bridge?.gross_embedded_cost ?? 0;
+        const netCost = grossCost;
         const grossProfit = bridge?.gross_profit ?? bridge?.net_gross_profit_loss ?? (netSales - netCost);
         const grossMarginPct = bridge?.net_gross_margin_pct ?? (netSales > 0 ? grossProfit / netSales : 0);
         const opExpenses = bridge?.total_operating_expenses ?? 0;
@@ -289,19 +312,19 @@ export function OverviewScreen({ data, onNavigate, onDeleteAudit, onRenameAudit 
         const netMarginPct = bridge?.net_operating_margin_pct ?? (netSales > 0 ? netOpLoss / netSales : 0);
 
         return (
-          <div className="space-y-3">
+          <div className="space-y-4">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
               <div>
                 <div className="flex items-center gap-2">
                   <h2 className="text-xs font-bold text-slate-500 uppercase tracking-wider font-sora">
-                    Official Financial Bridge & Management P&L
+                    Official Financial Bridge &amp; Management P&amp;L
                   </h2>
                   <span className="text-[10px] font-semibold px-2 py-0.5 bg-slate-100 text-slate-600 rounded-md">
                     Click any card for full details
                   </span>
                 </div>
                 <p className="text-xs text-slate-400 font-inter">
-                  Full 7-step P&L reconciliation with sales returns, true product COGS, and operating expenses
+                  Full 7-step P&amp;L reconciliation with sales returns, true product COGS, and operating expenses
                 </p>
               </div>
               <button
@@ -319,7 +342,7 @@ export function OverviewScreen({ data, onNavigate, onDeleteAudit, onRenameAudit 
                 <span className="text-amber-500 text-base mt-0.5">⚠</span>
                 <div className="flex-1 min-w-0">
                   <p className="text-xs font-bold text-amber-800 font-sora mb-1">
-                    Incomplete P&L — {bridge.missing_accounting_fields.length} accounting input{bridge.missing_accounting_fields.length > 1 ? "s" : ""} not supplied
+                    Incomplete P&amp;L — {bridge.missing_accounting_fields.length} accounting input{bridge.missing_accounting_fields.length > 1 ? "s" : ""} not supplied
                   </p>
                   <p className="text-[11px] text-amber-700 font-inter mb-1.5">
                     The following fields were not provided at upload and defaulted to ₦0. Figures for COGS, gross profit, and net profit are <strong>estimates only</strong> until these are supplied:
@@ -351,7 +374,7 @@ export function OverviewScreen({ data, onNavigate, onDeleteAudit, onRenameAudit 
                     formattedCompact: formatCurrency(grossSales, currency, true),
                     description: "Total invoice value across all sales invoices issued during the audit period, including container empties deposits.",
                     formula: "Sum of (Invoice Line Quantity × Unit Selling Price) for all day reports",
-                    sourceSheet: "Day Reports (July 1st – 31st) / tmpC31F",
+                    sourceSheet: "Day Reports / Sales Register",
                     targetTab: "daily",
                     details: [
                       { label: "Total Invoices", value: formatNumber(meta.total_invoices) },
@@ -386,8 +409,8 @@ export function OverviewScreen({ data, onNavigate, onDeleteAudit, onRenameAudit 
                     formattedCompact: `−${formatCurrency(salesReturns, currency, true)}`,
                     isDeduction: true,
                     description: "Total value of credit notes issued to customers for returned products and empty crates/bottles.",
-                    formula: "Sum of (Return Quantity × Unit Return Price) from Sales Returns Sheet (tmpCEF3)",
-                    sourceSheet: "Sales Returns & Credit Notes (tmpCEF3)",
+                    formula: "Sum of (Return Quantity × Unit Return Price) from Sales Returns Sheet",
+                    sourceSheet: "Sales Returns & Credit Notes Day-Book",
                     targetTab: "returns",
                     details: [
                       { label: "Product Returns", value: formatCurrency(bridge?.product_returns_value || 0, currency, false) },
@@ -456,14 +479,15 @@ export function OverviewScreen({ data, onNavigate, onDeleteAudit, onRenameAudit 
                     formattedExact: `−${formatCurrency(netCost, currency, false)}`,
                     formattedCompact: `−${formatCurrency(netCost, currency, true)}`,
                     isDeduction: true,
-                    description: "Net cost of goods sold computed as Gross Invoiced Product Cost minus the Cost Basis of Sales Returns credited back to customers.",
-                    formula: "Gross Product Cost − Cost of Sales Returns",
-                    sourceSheet: "Invoice Product Line Items (tmp3F5D) & Sales Returns (tmpCEF3)",
+                    description: "Total cost basis of products invoiced and sold to customers during the audit month.",
+                    formula: "Sum of (Invoice Line Quantity × Unit Valuation Cost)",
+                    sourceSheet: "Sales Invoice Product Line Items & Inventory Valuation",
                     targetTab: "products",
                     details: [
-                      { label: "Gross Product Cost", value: formatCurrency(grossCost, currency, false) },
-                      { label: "Less Cost of Returns", value: `−${formatCurrency(bridge?.cost_of_returns || (grossCost - netCost), currency, false)}` },
-                      { label: "Net Invoiced COGS", value: formatCurrency(netCost, currency, false) },
+                      { label: "Invoiced Product Cost", value: formatCurrency(netCost, currency, false) },
+                      { label: "Opening Inventory (Ledger)", value: formatCurrency(bridge?.opening_inventory || 0, currency, false) },
+                      { label: "Supplier Purchases (Ledger)", value: formatCurrency(bridge?.purchases || 0, currency, false) },
+                      { label: "Closing Inventory (Ledger)", value: formatCurrency(bridge?.closing_inventory || 0, currency, false) },
                     ],
                   })
                 }
@@ -477,11 +501,10 @@ export function OverviewScreen({ data, onNavigate, onDeleteAudit, onRenameAudit 
                     {displayMoney(netCost, true)}
                   </div>
                   <span className="text-[11px] text-rose-600 font-medium block mt-1">
-                    Net Invoiced COGS
+                    Cost of Goods Sold
                   </span>
                 </div>
               </div>
-
 
               {/* Step 5: Gross Profit (Green if positive, Red if negative) */}
               <div
@@ -493,15 +516,14 @@ export function OverviewScreen({ data, onNavigate, onDeleteAudit, onRenameAudit 
                     formattedExact: `${grossProfit >= 0 ? "+" : ""}${formatCurrency(grossProfit, currency, false)}`,
                     formattedCompact: `${grossProfit >= 0 ? "+" : ""}${formatCurrency(grossProfit, currency, true)}`,
                     description: "Trading gross profit after deducting true product purchase cost and sales returns from gross revenue.",
-                    formula: "Net Sales Revenue − Net Cost",
+                    formula: "Net Sales Revenue − Total Product Cost",
                     sourceSheet: "Trading P&L Calculation",
                     details: [
                       { label: "Net Sales", value: formatCurrency(netSales, currency, false) },
-                      { label: "Net Cost", value: `−${formatCurrency(netCost, currency, false)}` },
+                      { label: "Product Cost", value: `−${formatCurrency(netCost, currency, false)}` },
                       { label: "Gross Margin %", value: formatPercent(grossMarginPct) },
                     ],
                   })
-
                 }
                 className={`cursor-pointer p-3.5 sm:p-4 rounded-xl border shadow-xs flex flex-col justify-between transition-all ${
                   grossProfit >= 0
@@ -534,7 +556,7 @@ export function OverviewScreen({ data, onNavigate, onDeleteAudit, onRenameAudit 
                     isDeduction: true,
                     description: "Total overhead, vehicle maintenance, logistics, salaries, generator fuel, and payment voucher expenses for the month.",
                     formula: "Sum of all categorized depot expense items and payment vouchers",
-                    sourceSheet: "Operating Expenses (July total Expenses / tmp6F17 / july_expn.xlsx)",
+                    sourceSheet: "Operating Expenses Day-Book",
                     targetTab: "expenses",
                     details: [
                       { label: "Total Recorded", value: formatCurrency(opExpenses, currency, false) },
@@ -596,9 +618,161 @@ export function OverviewScreen({ data, onNavigate, onDeleteAudit, onRenameAudit 
                 </div>
               </div>
             </div>
+
+            {/* Dedicated Trading, Profit & Loss Breakdown (P&L) Section */}
+            <div className="bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden">
+              <div className="p-4 bg-slate-50/80 border-b border-slate-100 flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <div className="p-1.5 bg-[#7c6fff]/10 rounded-lg text-[#7c6fff]">
+                    <BarChart3 className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <h3 className="text-xs font-bold text-slate-900 font-sora">
+                      Trading, Profit &amp; Loss Statement (P&amp;L Breakdown)
+                    </h3>
+                    <p className="text-[11px] text-slate-500 font-inter">
+                      Formal accounting schedule reconciling customer sales, warehouse inventory movement &amp; operating overhead
+                    </p>
+                  </div>
+                </div>
+                <span className="text-[10px] font-bold px-2.5 py-1 bg-white border border-slate-200 rounded-lg text-slate-700 font-sora">
+                  {meta.period_label || "Period"}
+                </span>
+              </div>
+
+              <div className="p-4 overflow-x-auto">
+                <table className="w-full text-xs font-inter">
+                  <thead>
+                    <tr className="border-b border-slate-200 text-slate-500 font-bold font-sora text-[11px]">
+                      <th className="py-2 text-left">Accounting Line Item</th>
+                      <th className="py-2 text-right">Sub-Total</th>
+                      <th className="py-2 text-right">Total ({currency})</th>
+                      <th className="py-2 text-right">% of Net Sales</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-100">
+                    {/* TRADING ACCOUNT */}
+                    <tr className="bg-slate-50/60 font-bold font-sora text-slate-800">
+                      <td colSpan={4} className="py-2.5 px-2 uppercase tracking-wide text-[10px]">
+                        1. TRADING ACCOUNT (Sales &amp; Warehouse Movement)
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="py-2 pl-4 text-slate-800 font-medium">Gross Invoiced Sales Revenue</td>
+                      <td className="py-2 text-right text-slate-600">{formatCurrency(grossSales, currency, false)}</td>
+                      <td className="py-2 text-right text-slate-400">—</td>
+                      <td className="py-2 text-right text-slate-500">{formatPercent(netSales > 0 ? grossSales / netSales : 1)}</td>
+                    </tr>
+                    <tr>
+                      <td className="py-2 pl-4 text-rose-700 font-medium">Less: Customer Sales Returns &amp; Credit Notes</td>
+                      <td className="py-2 text-right text-rose-700">−{formatCurrency(salesReturns, currency, false)}</td>
+                      <td className="py-2 text-right text-slate-400">—</td>
+                      <td className="py-2 text-right text-rose-600 font-medium">−{formatPercent(returnRate)}</td>
+                    </tr>
+                    <tr className="bg-slate-50 font-bold font-sora text-slate-900 border-t border-slate-200">
+                      <td className="py-2.5 pl-2">NET SALES REVENUE</td>
+                      <td className="py-2.5 text-right text-slate-400">—</td>
+                      <td className="py-2.5 text-right font-extrabold">{formatCurrency(netSales, currency, false)}</td>
+                      <td className="py-2.5 text-right">100.0%</td>
+                    </tr>
+
+                    {/* Stock Balances & Purchases */}
+                    {(bridge?.opening_inventory || bridge?.purchases || bridge?.closing_inventory) ? (
+                      <>
+                        <tr className="text-slate-700">
+                          <td className="py-2 pl-4">Opening Inventory Balance (Stock Sheet)</td>
+                          <td className="py-2 text-right text-slate-600">{formatCurrency(bridge?.opening_inventory || 0, currency, false)}</td>
+                          <td className="py-2 text-right text-slate-400">—</td>
+                          <td className="py-2 text-right text-slate-400">—</td>
+                        </tr>
+                        <tr className="text-slate-700">
+                          <td className="py-2 pl-4">Add: Purchases from Supplier (Purchases Daybook)</td>
+                          <td className="py-2 text-right text-slate-600">+{formatCurrency(bridge?.purchases || 0, currency, false)}</td>
+                          <td className="py-2 text-right text-slate-400">—</td>
+                          <td className="py-2 text-right text-slate-400">—</td>
+                        </tr>
+                        {bridge?.purchase_returns ? (
+                          <tr className="text-rose-700">
+                            <td className="py-2 pl-4">Less: Purchase Returns / Supplier Debit Notes</td>
+                            <td className="py-2 text-right">−{formatCurrency(bridge.purchase_returns, currency, false)}</td>
+                            <td className="py-2 text-right text-slate-400">—</td>
+                            <td className="py-2 text-right text-slate-400">—</td>
+                          </tr>
+                        ) : null}
+                        <tr className="text-slate-700">
+                          <td className="py-2 pl-4">Less: Closing Inventory Balance (Stock Sheet)</td>
+                          <td className="py-2 text-right text-slate-600">−{formatCurrency(bridge?.closing_inventory || 0, currency, false)}</td>
+                          <td className="py-2 text-right text-slate-400">—</td>
+                          <td className="py-2 text-right text-slate-400">—</td>
+                        </tr>
+                      </>
+                    ) : null}
+
+                    <tr>
+                      <td className="py-2 pl-4 text-rose-700 font-medium">Total Invoiced Product Cost of Goods Sold (COGS)</td>
+                      <td className="py-2 text-right text-rose-700">−{formatCurrency(netCost, currency, false)}</td>
+                      <td className="py-2 text-right text-rose-700 font-bold">−{formatCurrency(netCost, currency, false)}</td>
+                      <td className="py-2 text-right text-rose-600">−{formatPercent(netSales > 0 ? netCost / netSales : 0)}</td>
+                    </tr>
+
+                    <tr className={`font-bold font-sora border-t-2 border-slate-300 ${grossProfit >= 0 ? "bg-emerald-50 text-emerald-900" : "bg-rose-50 text-rose-900"}`}>
+                      <td className="py-2.5 pl-2">GROSS TRADING PROFIT / (LOSS)</td>
+                      <td className="py-2.5 text-right text-slate-400">—</td>
+                      <td className="py-2.5 text-right font-extrabold">{formatCurrency(grossProfit, currency, false)}</td>
+                      <td className="py-2.5 text-right font-extrabold">{formatPercent(grossMarginPct)}</td>
+                    </tr>
+
+                    {/* PROFIT & LOSS ACCOUNT */}
+                    <tr className="bg-slate-50/60 font-bold font-sora text-slate-800">
+                      <td colSpan={4} className="py-2.5 px-2 uppercase tracking-wide text-[10px]">
+                        2. PROFIT &amp; LOSS ACCOUNT (Operating Overhead &amp; Net Result)
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="py-2 pl-4 text-slate-800 font-medium">Gross Trading Profit Brought Down</td>
+                      <td className="py-2 text-right text-slate-400">—</td>
+                      <td className={`py-2 text-right font-bold ${grossProfit >= 0 ? "text-emerald-700" : "text-rose-700"}`}>
+                        {formatCurrency(grossProfit, currency, false)}
+                      </td>
+                      <td className="py-2 text-right text-slate-500">{formatPercent(grossMarginPct)}</td>
+                    </tr>
+                    {bridge?.other_income ? (
+                      <tr>
+                        <td className="py-2 pl-4 text-emerald-700 font-medium">Add: Other Operating Income</td>
+                        <td className="py-2 text-right text-emerald-700">+{formatCurrency(bridge.other_income, currency, false)}</td>
+                        <td className="py-2 text-right text-slate-400">—</td>
+                        <td className="py-2 text-right text-emerald-600">+{formatPercent(netSales > 0 ? bridge.other_income / netSales : 0)}</td>
+                      </tr>
+                    ) : null}
+                    <tr>
+                      <td className="py-2 pl-4 text-rose-700 font-medium">Less: Total Operating Expenses (OpEx Vouchers)</td>
+                      <td className="py-2 text-right text-rose-700">−{formatCurrency(opExpenses, currency, false)}</td>
+                      <td className="py-2 text-right text-rose-700 font-bold">−{formatCurrency(opExpenses, currency, false)}</td>
+                      <td className="py-2 text-right text-rose-600">−{formatPercent(netSales > 0 ? opExpenses / netSales : 0)}</td>
+                    </tr>
+                    {bridge?.finance_costs ? (
+                      <tr>
+                        <td className="py-2 pl-4 text-rose-700 font-medium">Less: Finance &amp; Banking Costs</td>
+                        <td className="py-2 text-right text-rose-700">−{formatCurrency(bridge.finance_costs, currency, false)}</td>
+                        <td className="py-2 text-right text-slate-400">—</td>
+                        <td className="py-2 text-right text-rose-600">−{formatPercent(netSales > 0 ? bridge.finance_costs / netSales : 0)}</td>
+                      </tr>
+                    ) : null}
+
+                    <tr className={`font-bold font-sora border-t-2 border-slate-400 ${netOpLoss >= 0 ? "bg-emerald-100 text-emerald-950" : "bg-rose-100 text-rose-950"}`}>
+                      <td className="py-3 pl-2 text-[13px] font-black">NET OPERATING PROFIT / (LOSS)</td>
+                      <td className="py-3 text-right text-slate-400">—</td>
+                      <td className="py-3 text-right text-[13px] font-black">{formatCurrency(netOpLoss, currency, false)}</td>
+                      <td className="py-3 text-right text-[13px] font-black">{formatPercent(netMarginPct)}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
           </div>
         );
       })()}
+
 
       {/* 2. Interactive Period-Over-Period Comparison Section */}
       <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs space-y-4">

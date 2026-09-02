@@ -419,7 +419,45 @@ export function MarketersScreen({ data }: MarketersScreenProps) {
                 </tr>
               )}
             </tbody>
+            {filteredMarketers.length > 0 && (() => {
+              const fCases = filteredMarketers.reduce((acc, m) => acc + (m.total_cases_sold || 0), 0);
+              const fRev = filteredMarketers.reduce((acc, m) => acc + (m.total_revenue || 0), 0);
+              const fCost = filteredMarketers.reduce((acc, m) => acc + (m.total_cost || 0), 0);
+              const fGp = filteredMarketers.reduce((acc, m) => acc + (m.total_gross_profit || 0), 0);
+              const fMargin = fRev > 0 ? fGp / fRev : 0;
+              const fExp = filteredMarketers.reduce((acc, m) => acc + (m.attributable_expenses || 0), 0);
+              const fNet = filteredMarketers.reduce((acc, m) => acc + (m.net_marketer_profit ?? (m.total_gross_profit - (m.attributable_expenses || 0))), 0);
+              const fInv = filteredMarketers.reduce((acc, m) => acc + (m.invoices || 0), 0);
+
+              return (
+                <tfoot className="border-t-2 border-slate-300 bg-slate-100 font-bold font-sora text-slate-900 sticky bottom-0">
+                  <tr>
+                    <td className="py-3 px-4">TOTALS ({filteredMarketers.length} Reps)</td>
+                    <td className="py-3 px-3 text-center text-slate-700">{formatNumber(fInv)}</td>
+                    <td className="py-3 px-3 text-right text-slate-700">{formatNumber(fCases)} cs</td>
+                    <td className="py-3 px-3 text-right text-slate-400">—</td>
+                    <td className="py-3 px-3 text-right text-slate-400">—</td>
+                    <td className="py-3 px-4 text-right">{formatCurrency(fRev, currency)}</td>
+                    <td className="py-3 px-4 text-right text-slate-700">{formatCurrency(fCost, currency)}</td>
+                    <td className={`py-3 px-4 text-right font-extrabold ${fGp >= 0 ? "text-emerald-700" : "text-rose-700"}`}>
+                      {formatCurrency(fGp, currency)}
+                    </td>
+                    <td className="py-3 px-3 text-right text-rose-700">
+                      {fExp > 0 ? `−${formatCurrency(fExp, currency, true)}` : "₦0"}
+                    </td>
+                    <td className={`py-3 px-4 text-right font-extrabold ${fNet >= 0 ? "text-emerald-700" : "text-rose-700"}`}>
+                      {formatCurrency(fNet, currency)}
+                    </td>
+                    <td className={`py-3 px-4 text-right font-extrabold ${fGp >= 0 ? "text-emerald-700" : "text-rose-700"}`}>
+                      {formatPercent(fMargin)}
+                    </td>
+                    <td className="py-3 px-3 text-center text-slate-400">—</td>
+                  </tr>
+                </tfoot>
+              );
+            })()}
           </table>
+
         </div>
       </div>
 
@@ -497,7 +535,6 @@ export function MarketersScreen({ data }: MarketersScreenProps) {
               ))}
             </div>
 
-
             {/* Badges & Tags */}
             <div className="px-5 pb-3 flex items-center gap-2 flex-wrap">
               {(drillMarketer.pct_of_target_met ?? drillMarketer.total_cases_sold / TARGET_PER_MARKETER) >= 1.0 ? (
@@ -528,13 +565,18 @@ export function MarketersScreen({ data }: MarketersScreenProps) {
             {/* Invoice Breakdown */}
             {drillInvoices.length > 0 && (
               <div className="px-5 pb-5">
-                <h3 className="text-[11px] font-bold text-slate-700 mb-2 font-sora uppercase tracking-wide">
-                  Associated Invoice Accounts
-                </h3>
+                <div className="flex items-center justify-between mb-2">
+                  <h3 className="text-[11px] font-bold text-slate-700 font-sora uppercase tracking-wide">
+                    Associated Invoice Accounts ({drillInvoices.length})
+                  </h3>
+                  <span className="text-[10px] text-slate-400 font-inter">
+                    Click any account row to view customer margin details
+                  </span>
+                </div>
                 <div className="bg-slate-50 rounded-xl border border-slate-200 overflow-hidden">
                   <table className="w-full text-xs">
                     <thead>
-                      <tr className="border-b border-slate-200 text-slate-600 font-bold font-sora">
+                      <tr className="border-b border-slate-200 text-slate-600 font-bold font-sora bg-slate-100/70">
                         <th className="py-2 px-3 text-left">Customer / Account</th>
                         <th className="py-2 px-3 text-right">Invoices</th>
                         <th className="py-2 px-3 text-right">Revenue</th>
@@ -547,15 +589,22 @@ export function MarketersScreen({ data }: MarketersScreenProps) {
                       {drillInvoices.map((inv, i) => {
                         const loss = inv.gross_profit < 0;
                         return (
-                          <tr key={i} className={loss ? "bg-rose-50/40" : ""}>
-                            <td className="py-2 px-3 font-semibold text-slate-900">{inv.customer}</td>
-                            <td className="py-2 px-3 text-right text-slate-500">{inv.invoices}</td>
-                            <td className="py-2 px-3 text-right">{formatCurrency(inv.revenue, currency, true)}</td>
-                            <td className="py-2 px-3 text-right text-slate-500">{formatCurrency(inv.cost, currency, true)}</td>
-                            <td className={`py-2 px-3 text-right font-bold ${loss ? "text-rose-700" : "text-emerald-700"}`}>
+                          <tr
+                            key={i}
+                            className={`cursor-pointer hover:bg-slate-100/80 transition-colors ${loss ? "bg-rose-50/40" : ""}`}
+                            title={`View invoices for ${inv.customer}`}
+                          >
+                            <td className="py-2.5 px-3 font-semibold text-slate-900 flex items-center gap-1.5">
+                              <FileText className="w-3.5 h-3.5 text-amber-500 shrink-0" />
+                              <span>{inv.customer}</span>
+                            </td>
+                            <td className="py-2.5 px-3 text-right font-bold text-slate-700">{inv.invoices}</td>
+                            <td className="py-2.5 px-3 text-right">{formatCurrency(inv.revenue, currency, true)}</td>
+                            <td className="py-2.5 px-3 text-right text-slate-500">{formatCurrency(inv.cost, currency, true)}</td>
+                            <td className={`py-2.5 px-3 text-right font-bold ${loss ? "text-rose-700" : "text-emerald-700"}`}>
                               {formatCurrency(inv.gross_profit, currency, true)}
                             </td>
-                            <td className={`py-2 px-3 text-right font-bold ${loss ? "text-rose-700" : "text-slate-700"}`}>
+                            <td className={`py-2.5 px-3 text-right font-bold ${loss ? "text-rose-700" : "text-slate-700"}`}>
                               {formatPercent(inv.margin_pct)}
                             </td>
                           </tr>
@@ -569,6 +618,7 @@ export function MarketersScreen({ data }: MarketersScreenProps) {
           </div>
         </div>
       )}
+
     </div>
   );
 }

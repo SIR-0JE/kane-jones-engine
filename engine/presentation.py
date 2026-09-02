@@ -106,11 +106,11 @@ class PresentationBuilder:
         self.payload = payload
         self.meta = payload.get("meta", {})
         self.currency = self.meta.get("currency_symbol", "₦")
-        self.period_label = self.meta.get("period_label", "2026-07")
+        self.period_label = self.meta.get("period_label") or self.payload.get("period_label") or "Audit Period"
         self.depot_name = self.meta.get("client_display_name", "Kane-Jones Depot")
         self.audit_title = payload.get("audit_title") or self.meta.get("audit_title", "Management Intelligence Report")
         
-        # Month Year Header string (e.g. "JULY 2026")
+        # Month Year Header string (e.g. "AUGUST 2026")
         self.month_year = self._derive_month_year(self.period_label)
 
         # Initialize Presentation in 16:9 widescreen
@@ -126,21 +126,22 @@ class PresentationBuilder:
             try:
                 from engine.snapshots import load_snapshot, list_snapshots
                 all_snaps = list_snapshots(client_id)
-                other_snaps = [s for s in all_snaps if s != self.period_label]
+                other_snaps = [s for s in all_snaps if str(s).strip() != str(self.period_label).strip()]
 
-                parts = self.period_label.split("-")
+                # Attempt to find the immediate previous chronological month
+                y_m = self._extract_year_month(self.period_label)
                 target_peer = None
-                if len(parts) == 2:
-                    y, m = int(parts[0]), int(parts[1])
+                if y_m:
+                    y, m = y_m
                     prior_lbl = f"{y-1}-12" if m == 1 else f"{y}-{m-1:02d}"
-                    next_lbl = f"{y+1}-01" if m == 12 else f"{y}-{m+1:02d}"
-                    if prior_lbl in other_snaps:
-                        target_peer = prior_lbl
-                    elif next_lbl in other_snaps:
-                        target_peer = next_lbl
-
-                if not target_peer and other_snaps:
-                    target_peer = other_snaps[0]
+                    for s in other_snaps:
+                        s_ym = self._extract_year_month(str(s))
+                        if s_ym and s_ym == (y if m > 1 else y - 1, m - 1 if m > 1 else 12):
+                            target_peer = s
+                            break
+                        if str(s).strip() == prior_lbl:
+                            target_peer = s
+                            break
 
                 if target_peer:
                     self.prior_payload = load_snapshot(client_id, target_peer)
@@ -149,11 +150,13 @@ class PresentationBuilder:
 
         self.variance = None
         if self.prior_payload:
-            p_label = self.prior_payload.get("meta", {}).get("period_label", "2026-06")
+            p_label = self.prior_payload.get("meta", {}).get("period_label") or "Prior Period"
             c_label = self.period_label
 
             # Sort chronologically so Baseline is always the earlier period
-            if p_label <= c_label:
+            p_ym = self._extract_year_month(str(p_label)) or (0, 0)
+            c_ym = self._extract_year_month(str(c_label)) or (0, 0)
+            if p_ym <= c_ym:
                 base_snap = self.prior_payload
                 comp_snap = self.payload
                 base_lbl = p_label
@@ -203,18 +206,37 @@ class PresentationBuilder:
                 "net_profit": calc_var(c_np, b_np),
             }
 
-
+    def _extract_year_month(self, label: str) -> Optional[Tuple[int, int]]:
+        import re
+        if not label:
+            return None
+        # Try YYYY-MM
+        m_iso = re.search(r"(\d{4})[/-](\d{1,2})", str(label))
+        if m_iso:
+            return int(m_iso.group(1)), int(m_iso.group(2))
+        # Try Month Name + Year
+        months = {
+            "jan": 1, "feb": 2, "mar": 3, "apr": 4, "may": 5, "jun": 6,
+            "jul": 7, "aug": 8, "sep": 9, "oct": 10, "nov": 11, "dec": 12
+        }
+        lbl_lower = str(label).lower()
+        for m_name, m_num in months.items():
+            if m_name in lbl_lower:
+                m_yr = re.search(r"20\d{2}", str(label))
+                yr = int(m_yr.group(0)) if m_yr else 2026
+                return yr, m_num
+        return None
 
     def _derive_month_year(self, label: str) -> str:
-        try:
-            parts = label.split("-")
-            if len(parts) == 2:
-                year, month = int(parts[0]), int(parts[1])
-                dt = date(year, month, 1)
+        y_m = self._extract_year_month(label)
+        if y_m:
+            try:
+                dt = date(y_m[0], y_m[1], 1)
                 return dt.strftime("%B %Y").upper()
-        except Exception:
-            pass
-        return "PERIOD INTELLIGENCE"
+            except Exception:
+                pass
+        return str(label or "AUDIT PERIOD").upper()
+
 
     def _add_slide(self, section_num: str = "", section_title: str = "", headline: str = "", subtitle: str = "") -> Any:
         slide = self.prs.slides.add_slide(self.blank_layout)
@@ -495,11 +517,22 @@ class PresentationBuilder:
         # Footer
         footer_tb = slide.shapes.add_textbox(Inches(0.8), Inches(6.8), Inches(11.733), Inches(0.35))
         fp = footer_tb.text_frame.paragraphs[0]
-        fp.text = f"July 1-31, 2026 | 27 active trading days | {fmt_num(self.meta.get('total_invoices', 300))} invoices | 21,438 cases"
+        
+        prod_ranks = self.payload.get("product_ranking", []) or []
+        tot_cases = sum(float(p.get("cases_sold", 0.0) or 0.0) for p in prod_ranks)
+        cases_str = f"{fmt_num(tot_cases)} cases" if tot_cases > 0 else ""
+        date_str = f"{self.meta.get('date_range', {}).get('start', '')} to {self.meta.get('date_range', {}).get('end', '')}".strip()
+        if not date_str or date_str == "to":
+            date_str = self.month_year
+        inv_str = f"{fmt_num(self.meta.get('total_invoices', 0))} invoices"
+        
+        parts = [p for p in [date_str, inv_str, cases_str] if p]
+        fp.text = " | ".join(parts)
         fp.font.name = FONT_BODY
         fp.font.size = Pt(8.5)
         fp.font.bold = True
         fp.font.color.rgb = COLOR_TEXT_MUTED
+
 
     def build_slide_2_exec_summary(self) -> None:
         """Slide 2: 01 • EXECUTIVE SUMMARY"""
@@ -1330,12 +1363,17 @@ class PresentationBuilder:
         """Slide 14: 14 • OPERATIONAL & COST PROTECTION"""
         slide = self._add_slide("14", "Operational Recommendations", "Tighten return workflows & expense control")
 
+        bridge = self.payload.get("net_profit_bridge", {})
+        empties_returns = bridge.get("empties_returns_value") or bridge.get("total_sales_returns", 0.0)
+        expenses_total = bridge.get("total_operating_expenses", 0.0)
+
         recs = [
-            ("1. Daily Credit Note Verification", "Require dual sign-off (Warehouse Supervisor + Depot Accountant) on all credit return notes (tmpCEF3) before posting credits to customer accounts.", COLOR_BRAND_GREEN),
-            ("2. Physical Empties Cycle Counts", "Conduct bi-weekly physical counts of empties crates (NB Empties, Loose Crates, IB Empties) to eliminate phantom empties credit bleed (₦12.50M credited in July).", COLOR_BRAND_GREEN),
+            ("1. Daily Credit Note Verification", "Require dual sign-off (Warehouse Supervisor + Depot Accountant) on all credit return notes before posting credits to customer accounts.", COLOR_BRAND_GREEN),
+            ("2. Physical Empties Cycle Counts", f"Conduct bi-weekly physical counts of empties crates (NB Empties, Loose Crates, IB Empties) to eliminate phantom empties credit bleed ({fmt_curr_m(empties_returns, self.currency)} credited in {self.month_year}).", COLOR_BRAND_GREEN),
             ("3. Automated ERP Margin Blocker", "Deploy an automated rule in ERP that blocks any invoice yielding negative gross margin unless explicitly overridden by the Managing Director.", COLOR_BRAND_RED),
-            ("4. Discretionary Expense Budgeting", "Cap discretionary depot payment vouchers at ₦1.5M/month (down from ₦2.10M in July), requiring pre-approval for non-essential transport & repairs.", COLOR_BRAND_RED),
+            ("4. Discretionary Expense Budgeting", f"Cap discretionary depot payment vouchers at budget targets (total recorded {fmt_curr_m(expenses_total, self.currency)} in {self.month_year}), requiring pre-approval for non-essential transport & repairs.", COLOR_BRAND_RED),
         ]
+
 
         w = 5.7
         h = 2.2

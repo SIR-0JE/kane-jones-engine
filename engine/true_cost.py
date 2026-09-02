@@ -297,8 +297,11 @@ def compute_marketer_profitability(
         total_cost=("total_cost", "sum"),
         total_gross_profit=("gross_profit", "sum"),
         total_cases_sold=("quantity", "sum"),
-        invoices=("invoice_no", "nunique")
     )
+    # Ensure invoice count is 100% consistent with customer_margin_detail (across all customer vouchers)
+    inv_count_map = line_items_df.groupby("customer")["invoice_no"].nunique().to_dict()
+    cust_summary["invoices"] = cust_summary["customer"].map(lambda c: int(inv_count_map.get(c, 0)))
+
     cust_summary["gross_profit_pct"] = np.where(
         cust_summary["total_revenue"] > 0,
         cust_summary["total_gross_profit"] / cust_summary["total_revenue"],
@@ -320,9 +323,10 @@ def compute_marketer_profitability(
     attributable_expenses = []
     exp_mapping = getattr(profile, "marketer_expenses_mapping", {}) if profile else {}
     for idx, r in cust_summary.iterrows():
-        if not r["is_marketer"] or df_expenses is None or df_expenses.empty:
+        if not r["is_marketer"] or df_expenses is None or not isinstance(df_expenses, pd.DataFrame) or df_expenses.empty:
             attributable_expenses.append(0.0)
             continue
+
 
         c_name = str(r["customer"]).strip()
         c_lower = c_name.lower()
