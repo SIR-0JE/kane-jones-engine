@@ -378,7 +378,25 @@ def parse_workbook(xlsx_path: str, profile: ClientProfile, classification_report
         line_items_df["rate"] = pd.to_numeric(line_items_df["rate"], errors="coerce").fillna(0.0)
         line_items_df["cost"] = pd.to_numeric(line_items_df["cost"], errors="coerce").fillna(0.0)
 
+    # Normalize inverted DD/MM/YYYY vs MM/DD/YYYY dates from Excel/openpyxl
+    valid_dates = invoices_df["date"].dropna()
+    if not valid_dates.empty:
+        mode_month = valid_dates.apply(lambda d: d.month).mode()[0]
+        mode_year = valid_dates.apply(lambda d: d.year).mode()[0]
+
+        def _fix_swapped_date(d):
+            if pd.isna(d):
+                return d
+            if d.year == mode_year and d.month != mode_month and d.day == mode_month:
+                return datetime.datetime(mode_year, mode_month, d.month)
+            return d
+
+        invoices_df["date"] = invoices_df["date"].apply(_fix_swapped_date)
+        if not line_items_df.empty and "date" in line_items_df.columns:
+            line_items_df["date"] = line_items_df["date"].apply(_fix_swapped_date)
+
     return invoices_df, line_items_df, anomalies_df
+
 
 
 def parse_inventory_sheet(xlsx_or_wb, profile: ClientProfile = None, classification_report: Optional[Any] = None):

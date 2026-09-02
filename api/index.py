@@ -226,13 +226,18 @@ async def analyze_sales_report(
 
         effective_period = period_label
         if not effective_period:
-            if date_range["start"]:
+            valid_dates = inv_df["date"].dropna() if not inv_df.empty else pd.Series()
+            if not valid_dates.empty:
+                month_counts = valid_dates.apply(lambda d: d.strftime("%Y-%m") if hasattr(d, "strftime") else str(d)[:7]).value_counts()
+                effective_period = str(month_counts.index[0])
+            elif date_range["start"]:
                 effective_period = date_range["start"][:7]
             else:
                 clean_fn = re.sub(r'(?i)\.xlsx?$', '', file.filename).strip()
                 effective_period = clean_fn or "Uploaded Period"
 
         effective_title = audit_title or f"{effective_period} Full Audit"
+
 
         # 2. Load Price List (current workbook -> carry-forward fallback -> graceful empty)
         try:
