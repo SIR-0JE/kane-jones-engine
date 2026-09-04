@@ -211,11 +211,12 @@ def compute_product_profitability(
 
 def compute_marketer_profitability(
     line_items_df: pd.DataFrame,
+
     df_inventory: pd.DataFrame,
     profile: ClientProfile = None,
     df_expenses: pd.DataFrame = None,
+    df_returns: pd.DataFrame = None,
 ) -> Tuple[pd.DataFrame, Dict[str, pd.DataFrame], Dict[str, Any]]:
-
     """
     Computes customer (marketer) level true-cost profitability excluding empties,
     reproducing the 'Marketers' reference sheet.
@@ -223,7 +224,7 @@ def compute_marketer_profitability(
     Returns:
     - customer_summary_df: Summary per customer (revenue, cost, gross profit, cases, invoices)
     Computes true-cost unit profitability aggregated by customer account & marketer.
-    Implements Spec §8 rules:
+    Implements Spec Section 8 rules:
       - Maps aliases (e.g. 'emmycee' -> 'AZ Marketer')
       - Evaluates 6000-case target ONLY for verified marketers
       - Attributes vehicle/operational expenses to marketers (e.g. Eniola Van)
@@ -238,15 +239,16 @@ def compute_marketer_profitability(
     )
     prod_items = line_items_df[~is_empties_col].copy()
 
-    # 2. Normalize customer aliases (e.g. Emmycee -> AZ Marketer per spec §8)
+    # 2. Normalize customer aliases (e.g. Emmycee -> AZ Marketer per spec Section 8)
+    aliases = {}
     if profile is not None and getattr(profile, "customer_aliases", None):
         aliases = {str(k).strip().lower(): str(v).strip() for k, v in profile.customer_aliases.items()}
-        def _normalize_cust(c):
-            if not c or pd.isna(c):
-                return c
-            c_str = str(c).strip()
-            return aliases.get(c_str.lower(), c_str)
-        prod_items["customer"] = prod_items["customer"].apply(_normalize_cust)
+    def _normalize_cust(c):
+        if not c or pd.isna(c):
+            return c
+        c_str = str(c).strip()
+        return aliases.get(c_str.lower(), c_str)
+    prod_items["customer"] = prod_items["customer"].apply(_normalize_cust)
 
     # 3. Map tmp3F5D costs
     cost_map, dpp_map = build_inventory_cost_maps(df_inventory)
@@ -298,9 +300,26 @@ def compute_marketer_profitability(
         total_gross_profit=("gross_profit", "sum"),
         total_cases_sold=("quantity", "sum"),
     )
-    # Ensure invoice count is 100% consistent with customer_margin_detail (across all customer vouchers)
-    inv_count_map = line_items_df.groupby("customer")["invoice_no"].nunique().to_dict()
+    # Ensure invoice count is 100% consistent with customer_margin_detail (across all customer vouchers with alias consolidation)
+    norm_line_items = line_items_df.copy()
+    if aliases:
+        norm_line_items["customer"] = norm_line_items["customer"].apply(_normalize_cust)
+    inv_count_map = norm_line_items.groupby("customer")["invoice_no"].nunique().to_dict()
     cust_summary["invoices"] = cust_summary["customer"].map(lambda c: int(inv_count_map.get(c, 0)))
+
+    # Returns consolidation per customer / marketer (combines AZ Marketer & Emmycee)
+    returns_val_map = {}
+    returns_cnt_map = {}
+    if df_returns is not None and not df_returns.empty:
+        norm_returns = df_returns.copy()
+        if aliases:
+            norm_returns["customer"] = norm_returns["customer"].apply(_normalize_cust)
+        returns_val_map = norm_returns.groupby("customer")["return_value"].sum().to_dict()
+        returns_cnt_map = norm_returns.groupby("customer")["voucher_no"].nunique().to_dict()
+
+    cust_summary["returns_value"] = cust_summary["customer"].map(lambda c: float(returns_val_map.get(c, 0.0)))
+    cust_summary["returns_count"] = cust_summary["customer"].map(lambda c: int(returns_cnt_map.get(c, 0)))
+    cust_summary["net_revenue"] = cust_summary["total_revenue"] - cust_summary["returns_value"]
 
     cust_summary["gross_profit_pct"] = np.where(
         cust_summary["total_revenue"] > 0,
@@ -309,7 +328,7 @@ def compute_marketer_profitability(
     )
     cust_summary["is_marketer"] = cust_summary["customer"].apply(_is_marketer)
 
-    # Spec §8: 6000 cases target is ONLY for marketers
+    # Spec Section 8: 6000 cases target is ONLY for marketers
     target_val = profile.marketer_target_cases if profile and hasattr(profile, "marketer_target_cases") else 6000
     cust_summary["cases_target"] = np.where(cust_summary["is_marketer"], target_val, None)
     cust_summary["pct_of_target_met"] = np.where(
@@ -318,7 +337,7 @@ def compute_marketer_profitability(
         None
     )
 
-    # 5. Marketer Attributable Expenses (§8 & §10)
+    # 5. Marketer Attributable Expenses (Section 8 and Section 10)
     # Attribute van/vehicle running expenses to marketers
     attributable_expenses = []
     exp_mapping = getattr(profile, "marketer_expenses_mapping", {}) if profile else {}
@@ -360,9 +379,10 @@ def compute_marketer_profitability(
 
     cust_summary = cust_summary.sort_values(by="total_revenue", ascending=False).reset_index(drop=True)
 
-    # 4. Detailed Per-Customer Product & Invoice Breakdowns
+    # 6. Detailed Per-Customer Product & Invoice Breakdowns
     customer_product_details = {}
     customer_product_mix_list = {}
+
     customer_invoice_details = {}
 
     for cust in cust_summary["customer"]:
@@ -473,15 +493,30 @@ def compute_returns_analysis(
     items_breakdown = item_grp.to_dict(orient="records")
 
     # 2. Customer Breakdown
+    aliases = {}
+    if profile is not None and getattr(profile, "customer_aliases", None):
+        aliases = {str(k).strip().lower(): str(v).strip() for k, v in profile.customer_aliases.items()}
+    def _norm_c(c):
+        if not c or pd.isna(c):
+            return c
+        c_str = str(c).strip()
+        return aliases.get(c_str.lower(), c_str)
+
+    df_returns_copy = df_returns.copy()
+    if aliases:
+        df_returns_copy["customer"] = df_returns_copy["customer"].apply(_norm_c)
+
     cust_sales_map = {}
     if line_items_df is not None and not line_items_df.empty:
         line_items_df_copy = line_items_df.copy()
+        if aliases:
+            line_items_df_copy["customer"] = line_items_df_copy["customer"].apply(_norm_c)
         line_items_df_copy["line_revenue"] = line_items_df_copy["quantity"] * line_items_df_copy["rate"]
         cust_sales_series = line_items_df_copy.groupby("customer")["line_revenue"].sum()
         cust_sales_map = cust_sales_series.to_dict()
 
     cust_records = []
-    for cust, c_df in df_returns.groupby("customer"):
+    for cust, c_df in df_returns_copy.groupby("customer"):
         c_prod = c_df[c_df["item_type"] == "Product"]
         c_emp = c_df[c_df["item_type"] == "Empties"]
 
@@ -491,6 +526,7 @@ def compute_returns_analysis(
         c_emp_val = float(c_emp["return_value"].sum())
         c_total_val = float(c_df["return_value"].sum())
         vch_count = int(c_df["voucher_no"].nunique())
+
 
         c_sales = float(cust_sales_map.get(cust, 0.0))
         c_return_rate = (c_total_val / c_sales) if c_sales > 0 else (1.0 if c_total_val > 0 else 0.0)

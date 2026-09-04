@@ -37,6 +37,22 @@ export async function GET(request: NextRequest) {
   const url = new URL(request.url);
   const clientId = url.searchParams.get("client_id") || "kane-jones";
 
+  // 1. Try local FastAPI backend first
+  try {
+    const resFastApi = await fetch(
+      `http://127.0.0.1:8000/api/snapshots?client_id=${encodeURIComponent(clientId)}`,
+      { cache: "no-store" }
+    );
+    if (resFastApi.ok) {
+      const data = await resFastApi.json();
+      if (data && data.snapshots && data.snapshots.length > 0) {
+        return NextResponse.json(data);
+      }
+    }
+  } catch (err) {
+    // Fallback to Supabase direct query
+  }
+
   const depotId = await getDepotId(clientId);
   if (!depotId) {
     return NextResponse.json({

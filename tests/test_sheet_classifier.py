@@ -182,10 +182,10 @@ def test_classify_and_parse_all_ledger_sheets(sample_xlsx_path):
     assert close_stock == 319967133.0
 
     total_pur, df_pur, _ = parse_purchases_sheet(sample_xlsx_path, profile, classification_report=rep)
-    assert total_pur == 154162580.0
+    assert total_pur == 77081290.0
     assert len(df_pur) > 0
 
     total_pr, df_pr, _ = parse_purchase_returns_sheet(sample_xlsx_path, profile, classification_report=rep)
-    assert total_pr == 77179430.0
+    assert total_pr == 38589715.0
     assert len(df_pr) > 0
 

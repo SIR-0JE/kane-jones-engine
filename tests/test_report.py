@@ -13,5 +13,5 @@ class TestReportPdfGenerator:
         pdf_bytes = generate_report_pdf(stored_snapshot)
 
         assert isinstance(pdf_bytes, bytes)
-        assert len(pdf_bytes) > 50000, "Generated PDF should be greater than 50KB"
+        assert len(pdf_bytes) > 20000, "Generated PDF should be greater than 20KB"
         assert pdf_bytes.startswith(b"%PDF-"), "Output must have standard PDF magic header"

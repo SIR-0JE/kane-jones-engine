@@ -169,18 +169,26 @@ def dominant_products(ranking_df: pd.DataFrame, profile: ClientProfile = None) -
     return dominant.sort_values("pct_of_total", ascending=False)
 
 
-def customer_margin_detail(invoices_df: pd.DataFrame) -> pd.DataFrame:
-    df = invoices_df.groupby("customer").agg(
+def customer_margin_detail(invoices_df: pd.DataFrame, profile: ClientProfile = None) -> pd.DataFrame:
+    inv = invoices_df.copy()
+    if profile is not None and getattr(profile, "customer_aliases", None):
+        aliases = {str(k).strip().lower(): str(v).strip() for k, v in profile.customer_aliases.items()}
+        inv["customer"] = inv["customer"].apply(
+            lambda c: aliases.get(str(c).strip().lower(), str(c).strip()) if c and pd.notna(c) else c
+        )
+
+    df = inv.groupby("customer").agg(
         invoices=("invoice_no", "count"),
         revenue=("gross_revenue", "sum"),
         cost=("invoice_cost", "sum"),
         gross_profit=("gross_profit", "sum"),
     ).reset_index().sort_values("revenue", ascending=False)
-    df["margin_pct"] = df["gross_profit"] / df["revenue"]
+    df["margin_pct"] = np.where(df["revenue"] > 0, df["gross_profit"] / df["revenue"], 0.0)
     total_revenue = df["revenue"].sum()
     df["pct_of_total_revenue"] = df["revenue"] / total_revenue if total_revenue else 0.0
     df["is_loss_making"] = df["gross_profit"] < 0
     return df
+
 
 
 def loss_making_invoices(invoices_df: pd.DataFrame) -> pd.DataFrame:

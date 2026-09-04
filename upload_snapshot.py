@@ -15,6 +15,11 @@ from pathlib import Path
 
 # Add project root to sys.path
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+if hasattr(sys.stdout, "reconfigure"):
+    try:
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    except Exception:
+        pass
 
 import numpy as np
 import pandas as pd
@@ -186,7 +191,7 @@ def run_manual_upload(
     daily_df = daily_summary(inv_df)
     weekly_df = weekly_summary(daily_df)
     prod_rank_df = product_revenue_ranking(matched_df, profile)
-    cust_margin_df = customer_margin_detail(inv_df)
+    cust_margin_df = customer_margin_detail(inv_df, profile)
     conc_metrics = concentration_metrics(prod_rank_df)
     rec_check_df = reconciliation_check(inv_df, li_df, profile)
     loss_inv_df = loss_making_invoices(inv_df)
@@ -255,8 +260,11 @@ def run_manual_upload(
     if not df_inv.empty:
         prod_true_cost_df, prod_tc_summary, prod_tc_anom = compute_product_profitability(li_df, df_inv, profile)
         true_cost_products = df_to_records(prod_true_cost_df)
-        cust_tc_df, cust_tc_prod_map, cust_tc_summary = compute_marketer_profitability(li_df, df_inv, profile)
+        cust_tc_df, cust_tc_prod_map, cust_tc_summary = compute_marketer_profitability(
+            li_df, df_inv, profile, df_expenses=df_expenses, df_returns=df_returns
+        )
         true_cost_marketers = df_to_records(cust_tc_df)
+
 
     if not df_returns.empty:
         returns_analysis = compute_returns_analysis(df_returns, total_revenue, li_df, profile)
@@ -294,9 +302,9 @@ def run_manual_upload(
     # Fix A: Warn explicitly if any of the 7 ledger inputs were missing.
     missing_fields = net_profit_bridge.get("missing_accounting_fields", [])
     if missing_fields:
-        print("\n⚠  WARNING — Missing accounting fields (defaulted to 0.0):")
+        print("\n[!] WARNING -- Missing accounting fields (defaulted to 0.0):")
         for f in missing_fields:
-            print(f"     • {f}")
+            print(f"     * {f}")
         print("   These figures are INCOMPLETE. Supply the missing values via CLI flags.")
         print("   Affected outputs: purchases, net_purchases, cogs, gross_profit, net_profit.")
 

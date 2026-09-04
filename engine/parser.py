@@ -578,6 +578,9 @@ def parse_sales_returns_sheet(xlsx_or_wb, profile: ClientProfile = None, classif
                 date_str = str(vch_date)
 
             customer = str(c3).strip() if c3 else "Unknown"
+            if profile is not None and getattr(profile, "customer_aliases", None):
+                aliases = {str(k).strip().lower(): str(v).strip() for k, v in profile.customer_aliases.items()}
+                customer = aliases.get(customer.lower(), customer)
             vch_no = str(c5).strip() if c5 else ""
             total_amount = _parse_float(c7)
 
@@ -744,6 +747,7 @@ def parse_purchases_sheet(
     entries = []
     total_purchases = 0.0
     anomalies = []
+    current_voucher = None
 
     for r in range(5, (ws.max_row or 0) + 1):
         dt = ws.cell(r, 1).value
@@ -754,8 +758,30 @@ def parse_purchases_sheet(
         d_amt = _parse_float(ws.cell(r, 6).value)
         c_amt = _parse_float(ws.cell(r, 7).value)
 
+        # 1. Skip footer / summary rows (e.g. 'TOTAL (28 transactions)')
+        vch_str = str(vch_no or "").strip().upper()
+        deb_str = str(deb or "").strip().upper()
+        crd_str = str(crd or "").strip().upper()
+        if "TOTAL" in vch_str or "TOTAL" in deb_str or "TOTAL" in crd_str:
+            continue
+
         amt = c_amt if (c_amt and c_amt > 0) else (d_amt or 0.0)
-        if amt > 0 and (dt or vch_no or deb or crd):
+
+        # 2. Canonical Voucher Header: Must have a valid date and positive header amount
+        if amt > 0 and dt is not None and not vch_str.startswith("TOTAL"):
+            # Check consistency of previous voucher
+            if current_voucher is not None and current_voucher["items"]:
+                items_sum = sum(it["line_val"] for it in current_voucher["items"])
+                if abs(current_voucher["amount"] - items_sum) > 1.0:
+                    anomalies.append({
+                        "voucher_no": current_voucher["voucher_no"],
+                        "header_amount": current_voucher["amount"],
+                        "line_item_sum": items_sum,
+                        "discrepancy": round(items_sum - current_voucher["amount"], 2),
+                        "source_row": current_voucher["source_row"],
+                        "type": "purchases_item_mismatch",
+                    })
+
             record = {
                 "date": str(dt)[:10] if dt else "",
                 "debit": str(deb or "").strip(),
@@ -765,9 +791,40 @@ def parse_purchases_sheet(
                 "amount": amt,
                 "source_row": r,
                 "source_tab": sheet_name,
+                "items": [],
             }
             entries.append(record)
             total_purchases += amt
+            current_voucher = record
+        elif current_voucher is not None:
+            # Parse item sub-table line for detail / validation ONLY (never add to total_purchases)
+            item = ws.cell(r, 2).value
+            qty_raw = ws.cell(r, 3).value
+            rate_raw = ws.cell(r, 4).value
+            if item and str(item).strip().upper() != "ITEM/SERVICE" and (qty_raw is not None or rate_raw is not None):
+                q, _ = _parse_quantity(qty_raw)
+                rate = _parse_float(rate_raw) or 0.0
+                line_val = (q or 0.0) * rate
+                current_voucher["items"].append({
+                    "item": str(item).strip(),
+                    "quantity": q or 0.0,
+                    "rate": rate,
+                    "line_val": line_val,
+                    "row": r,
+                })
+
+    # Check last voucher consistency
+    if current_voucher is not None and current_voucher["items"]:
+        items_sum = sum(it["line_val"] for it in current_voucher["items"])
+        if abs(current_voucher["amount"] - items_sum) > 1.0:
+            anomalies.append({
+                "voucher_no": current_voucher["voucher_no"],
+                "header_amount": current_voucher["amount"],
+                "line_item_sum": items_sum,
+                "discrepancy": round(items_sum - current_voucher["amount"], 2),
+                "source_row": current_voucher["source_row"],
+                "type": "purchases_item_mismatch",
+            })
 
     df_purchases = pd.DataFrame(entries)
     return total_purchases, df_purchases, anomalies
@@ -815,6 +872,7 @@ def parse_purchase_returns_sheet(
     entries = []
     total_purchase_returns = 0.0
     anomalies = []
+    current_voucher = None
 
     for r in range(5, (ws.max_row or 0) + 1):
         dt = ws.cell(r, 1).value
@@ -825,8 +883,30 @@ def parse_purchase_returns_sheet(
         d_amt = _parse_float(ws.cell(r, 6).value)
         c_amt = _parse_float(ws.cell(r, 7).value)
 
+        # 1. Skip footer / summary rows (e.g. 'TOTAL (21 transactions)')
+        vch_str = str(vch_no or "").strip().upper()
+        deb_str = str(deb or "").strip().upper()
+        crd_str = str(crd or "").strip().upper()
+        if "TOTAL" in vch_str or "TOTAL" in deb_str or "TOTAL" in crd_str:
+            continue
+
         amt = d_amt if (d_amt and d_amt > 0) else (c_amt or 0.0)
-        if amt > 0 and (dt or vch_no or deb or crd):
+
+        # 2. Canonical Voucher Header: Must have a valid date and positive header amount
+        if amt > 0 and dt is not None and not vch_str.startswith("TOTAL"):
+            # Check consistency of previous voucher
+            if current_voucher is not None and current_voucher["items"]:
+                items_sum = sum(it["line_val"] for it in current_voucher["items"])
+                if abs(current_voucher["amount"] - items_sum) > 1.0:
+                    anomalies.append({
+                        "voucher_no": current_voucher["voucher_no"],
+                        "header_amount": current_voucher["amount"],
+                        "line_item_sum": items_sum,
+                        "discrepancy": round(items_sum - current_voucher["amount"], 2),
+                        "source_row": current_voucher["source_row"],
+                        "type": "purchase_returns_item_mismatch",
+                    })
+
             record = {
                 "date": str(dt)[:10] if dt else "",
                 "debit": str(deb or "").strip(),
@@ -836,10 +916,42 @@ def parse_purchase_returns_sheet(
                 "amount": amt,
                 "source_row": r,
                 "source_tab": sheet_name,
+                "items": [],
             }
             entries.append(record)
             total_purchase_returns += amt
+            current_voucher = record
+        elif current_voucher is not None:
+            # Parse item sub-table line for detail / validation ONLY (never add to total_purchase_returns)
+            item = ws.cell(r, 2).value
+            qty_raw = ws.cell(r, 3).value
+            rate_raw = ws.cell(r, 4).value
+            if item and str(item).strip().upper() != "ITEM/SERVICE" and (qty_raw is not None or rate_raw is not None):
+                q, _ = _parse_quantity(qty_raw)
+                rate = _parse_float(rate_raw) or 0.0
+                line_val = (q or 0.0) * rate
+                current_voucher["items"].append({
+                    "item": str(item).strip(),
+                    "quantity": q or 0.0,
+                    "rate": rate,
+                    "line_val": line_val,
+                    "row": r,
+                })
+
+    # Check last voucher consistency
+    if current_voucher is not None and current_voucher["items"]:
+        items_sum = sum(it["line_val"] for it in current_voucher["items"])
+        if abs(current_voucher["amount"] - items_sum) > 1.0:
+            anomalies.append({
+                "voucher_no": current_voucher["voucher_no"],
+                "header_amount": current_voucher["amount"],
+                "line_item_sum": items_sum,
+                "discrepancy": round(items_sum - current_voucher["amount"], 2),
+                "source_row": current_voucher["source_row"],
+                "type": "purchase_returns_item_mismatch",
+            })
 
     df_pr = pd.DataFrame(entries)
     return total_purchase_returns, df_pr, anomalies
+
 

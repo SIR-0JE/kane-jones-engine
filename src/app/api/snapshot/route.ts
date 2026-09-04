@@ -41,6 +41,22 @@ export async function GET(request: NextRequest) {
     url.searchParams.get("period") ||
     "";
 
+  // 1. Try local FastAPI backend first
+  try {
+    const resFastApi = await fetch(
+      `http://127.0.0.1:8000/api/snapshot?period_label=${encodeURIComponent(period)}&client_id=${encodeURIComponent(clientId)}`,
+      { cache: "no-store" }
+    );
+    if (resFastApi.ok) {
+      const data = await resFastApi.json();
+      if (data && (data.meta || data.period_label)) {
+        return NextResponse.json(data);
+      }
+    }
+  } catch (err) {
+    // Fallback to Supabase direct query
+  }
+
   const depotId = await getDepotId(clientId);
   if (!depotId || !period) {
     return NextResponse.json(

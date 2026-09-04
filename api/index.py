@@ -281,7 +281,7 @@ async def analyze_sales_report(
             daily_df = daily_summary(inv_df)
             weekly_df = weekly_summary(daily_df)
             prod_rank_df = product_revenue_ranking(matched_df, profile)
-            cust_margin_df = customer_margin_detail(inv_df)
+            cust_margin_df = customer_margin_detail(inv_df, profile)
             conc_metrics = concentration_metrics(prod_rank_df)
             rec_check_df = reconciliation_check(inv_df, li_df, profile)
             loss_inv_df = loss_making_invoices(inv_df)
@@ -359,9 +359,10 @@ async def analyze_sales_report(
             prod_true_cost_df, prod_tc_summary, prod_tc_anom = compute_product_profitability(li_df, df_inv, profile)
             true_cost_products = df_to_records(prod_true_cost_df)
             cust_tc_df, cust_tc_prod_map, cust_tc_summary = compute_marketer_profitability(
-                li_df, df_inv, profile, df_expenses=df_expenses
+                li_df, df_inv, profile, df_expenses=df_expenses, df_returns=df_returns
             )
             true_cost_marketers = df_to_records(cust_tc_df)
+
 
 
         if not df_returns.empty:

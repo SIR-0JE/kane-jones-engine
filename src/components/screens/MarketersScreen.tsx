@@ -86,7 +86,9 @@ export function MarketersScreen({ data }: MarketersScreenProps) {
   // Find invoice lines for drilled marketer
   const drillInvoices = drillMarketer
     ? rawInvoiceCustomers.filter(
-        (c) => c.customer.toLowerCase() === drillMarketer.customer.toLowerCase()
+        (c) =>
+          c.customer.toLowerCase() === drillMarketer.customer.toLowerCase() ||
+          (drillMarketer.customer.toLowerCase().includes("az") && c.customer.toLowerCase().includes("emmycee"))
       )
     : [];
 
@@ -508,13 +510,20 @@ export function MarketersScreen({ data }: MarketersScreenProps) {
                   value: formatCurrency(drillMarketer.total_revenue, currency, true),
                 },
                 {
-                  label: "Gross Profit",
-                  value: formatCurrency(drillMarketer.total_gross_profit, currency, true),
-                  highlight: (drillMarketer.total_gross_profit || 0) < 0 ? "text-rose-700" : "text-emerald-700",
+                  label: (drillMarketer.returns_value || 0) > 0 ? `Sales Returns (${drillMarketer.returns_count || 0})` : "Gross Profit",
+                  value: (drillMarketer.returns_value || 0) > 0 
+                    ? `−${formatCurrency(drillMarketer.returns_value || 0, currency, true)}`
+                    : formatCurrency(drillMarketer.total_gross_profit, currency, true),
+                  highlight: (drillMarketer.returns_value || 0) > 0 ? "text-amber-600" : ((drillMarketer.total_gross_profit || 0) < 0 ? "text-rose-700" : "text-emerald-700"),
                 },
                 {
-                  label: "Van / Op. Expenses",
-                  value: (drillMarketer.attributable_expenses || 0) > 0 ? `−${formatCurrency(drillMarketer.attributable_expenses || 0, currency, true)}` : "₦0",
+                  label: (drillMarketer.returns_value || 0) > 0 ? "Gross Profit" : "Van / Op. Expenses",
+                  value: (drillMarketer.returns_value || 0) > 0
+                    ? formatCurrency(drillMarketer.total_gross_profit, currency, true)
+                    : ((drillMarketer.attributable_expenses || 0) > 0 ? `−${formatCurrency(drillMarketer.attributable_expenses || 0, currency, true)}` : "₦0"),
+                  highlight: (drillMarketer.returns_value || 0) > 0 
+                    ? ((drillMarketer.total_gross_profit || 0) < 0 ? "text-rose-700" : "text-emerald-700")
+                    : undefined,
                 },
                 {
                   label: "Net Profit",
