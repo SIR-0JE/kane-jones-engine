@@ -557,14 +557,17 @@ def compute_returns_analysis(
 
     cust_records.sort(key=lambda x: x["total_val"], reverse=True)
 
-    # 3. Weekly Trend (W1: Jul 1-7, W2: Jul 8-14, W3: Jul 15-21, W4: Jul 22-28, Tail: Jul 29-31)
-    df_returns["dt"] = pd.to_datetime(df_returns["date"], errors="coerce")
+    # 3. Weekly Trend (W1: 1-7, W2: 8-14, W3: 15-21, W4: 22-28, Tail: 29-31)
+    from engine.parser import normalize_date_series
+    df_returns["dt"] = normalize_date_series(df_returns["date"])
+    valid_dts = df_returns["dt"].dropna()
+    month_name = valid_dts.iloc[0].strftime("%b") if not valid_dts.empty else "Days"
     weekly_buckets = [
-        ("W1", "Jul 1-7", 1, 7),
-        ("W2", "Jul 8-14", 8, 14),
-        ("W3", "Jul 15-21", 15, 21),
-        ("W4", "Jul 22-28", 22, 28),
-        ("Tail", "Jul 29-31", 29, 31),
+        ("W1", f"{month_name} 1-7", 1, 7),
+        ("W2", f"{month_name} 8-14", 8, 14),
+        ("W3", f"{month_name} 15-21", 15, 21),
+        ("W4", f"{month_name} 22-28", 22, 28),
+        ("Tail", f"{month_name} 29-31", 29, 31),
     ]
 
     weekly_trend = []

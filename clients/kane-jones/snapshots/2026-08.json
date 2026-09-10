@@ -26348,43 +26348,43 @@
     "weekly_trend": [
       {
         "week": "W1",
-        "date_range": "Jul 1-7",
-        "return_transactions": 0,
-        "product_val": 0.0,
-        "empties_val": 0.0,
-        "total_val": 0.0
+        "date_range": "Aug 1-7",
+        "return_transactions": 16,
+        "product_val": 8990.0,
+        "empties_val": 4853200.0,
+        "total_val": 4862190.0
       },
       {
         "week": "W2",
-        "date_range": "Jul 8-14",
-        "return_transactions": 33,
-        "product_val": 24105.0,
-        "empties_val": 7979200.0,
-        "total_val": 8003305.0
+        "date_range": "Aug 8-14",
+        "return_transactions": 22,
+        "product_val": 15115.0,
+        "empties_val": 5030600.0,
+        "total_val": 5045715.0
       },
       {
         "week": "W3",
-        "date_range": "Jul 15-21",
-        "return_transactions": 0,
-        "product_val": 0.0,
-        "empties_val": 0.0,
-        "total_val": 0.0
+        "date_range": "Aug 15-21",
+        "return_transactions": 31,
+        "product_val": 33690.0,
+        "empties_val": 3656600.0,
+        "total_val": 3690290.0
       },
       {
         "week": "W4",
-        "date_range": "Jul 22-28",
-        "return_transactions": 0,
-        "product_val": 0.0,
-        "empties_val": 0.0,
-        "total_val": 0.0
+        "date_range": "Aug 22-28",
+        "return_transactions": 26,
+        "product_val": 15525.0,
+        "empties_val": 2974300.0,
+        "total_val": 2989825.0
       },
       {
         "week": "Tail",
-        "date_range": "Jul 29-31",
-        "return_transactions": 0,
+        "date_range": "Aug 29-31",
+        "return_transactions": 15,
         "product_val": 0.0,
-        "empties_val": 0.0,
-        "total_val": 0.0
+        "empties_val": 800400.0,
+        "total_val": 800400.0
       }
     ],
     "anomalies": []

@@ -27,11 +27,11 @@ import pandas as pd
 import openpyxl
 from engine.config import ClientProfile
 
-# Known date string formats produced by ERP exports.
-# Order matters: more specific/unambiguous formats first.
 _DATE_STRING_FORMATS = [
     "%d/%m/%Y", "%d-%m-%Y", "%Y-%m-%d", "%m/%d/%Y",
     "%d/%m/%y", "%d-%m-%y", "%Y/%m/%d",
+    "%Y-%m-%d %H:%M:%S", "%d/%m/%Y %H:%M:%S", "%d-%m-%Y %H:%M:%S",
+    "%d.%m.%Y", "%Y.%m.%d",
 ]
 
 
@@ -138,41 +138,67 @@ def _is_blank_row(row):
     return all(c is None or (isinstance(c, str) and c.strip() == "") for c in row)
 
 
-def _looks_like_date(v):
-    """Return True if v is a native date/datetime, or a string parseable as a date.
-    ERP systems sometimes store dates as text strings (e.g. '01/08/2026', '2026-08-01')
-    rather than native Excel date serials. Only returning False for true dates caused
-    zero invoices to be matched in those exports (Bug B1).
+def parse_date_value(v: Any) -> Optional[datetime.datetime]:
     """
-    if isinstance(v, (datetime.datetime, datetime.date)):
-        return True
-    if isinstance(v, str):
-        s = v.strip()
-        if not s:
-            return False
-        for fmt in _DATE_STRING_FORMATS:
-            try:
-                datetime.datetime.strptime(s, fmt)
-                return True
-            except ValueError:
-                continue
-    return False
-
-
-def _coerce_date(v):
-    """Coerce a value known to pass _looks_like_date into a datetime.datetime object."""
-    if isinstance(v, datetime.datetime):
-        return v
+    Unified date parser used across all sheets (sales invoices, sales returns, purchases, purchase returns).
+    Converts native Excel date serials (datetime.datetime, datetime.date, pd.Timestamp)
+    or text-formatted date strings (DD/MM/YYYY, DD-MM-YYYY, YYYY-MM-DD, etc.) into a
+    clean datetime.datetime object. Returns None if v is None, empty, or unparseable.
+    """
+    if v is None:
+        return None
+    if isinstance(v, (datetime.datetime, pd.Timestamp)):
+        return datetime.datetime(v.year, v.month, v.day, v.hour, v.minute, v.second)
     if isinstance(v, datetime.date):
         return datetime.datetime(v.year, v.month, v.day)
     if isinstance(v, str):
         s = v.strip()
+        if not s:
+            return None
         for fmt in _DATE_STRING_FORMATS:
             try:
                 return datetime.datetime.strptime(s, fmt)
             except ValueError:
                 continue
     return None
+
+
+def looks_like_date(v: Any) -> bool:
+    """Return True if v is a native date/datetime, or a string parseable as a date."""
+    return parse_date_value(v) is not None
+
+
+# Backwards compatibility aliases
+_looks_like_date = looks_like_date
+_coerce_date = parse_date_value
+
+
+def normalize_date_series(series: pd.Series) -> pd.Series:
+    """
+    Shared date normalization for pandas Series across all ledger sheets:
+    1. Coerces mixed date formats (datetime objects and text strings like '13/08/2026') using parse_date_value.
+    2. Corrects swapped DD/MM/YYYY vs MM/DD/YYYY dates where Excel's US locale misinterpreted
+       Nigerian DD/MM/YYYY dates for days <= 12 as MM/DD/YYYY (e.g. 01/08/2026 -> 2026-01-08 instead of 2026-08-01).
+    Returns a pandas Series of datetime64 dtype.
+    """
+    coerced = series.apply(parse_date_value)
+    valid = coerced.dropna()
+    if valid.empty:
+        return pd.to_datetime(coerced)
+
+    mode_month = valid.apply(lambda d: d.month).mode()[0]
+    mode_year = valid.apply(lambda d: d.year).mode()[0]
+
+    def _fix_swapped_date(d):
+        if d is None or pd.isna(d):
+            return d
+        if d.year == mode_year and d.month != mode_month and d.day == mode_month:
+            return datetime.datetime(mode_year, mode_month, d.month)
+        return d
+
+    fixed = coerced.apply(_fix_swapped_date)
+    return pd.to_datetime(fixed)
+
 
 
 def parse_raw_sheet(ws, profile: ClientProfile, source_tab: str):
@@ -367,33 +393,16 @@ def parse_workbook(xlsx_path: str, profile: ClientProfile, classification_report
             "Please check that the column headers match the expected sales register format."
         )
 
-    invoices_df["date"] = pd.to_datetime(invoices_df["date"])
+    invoices_df["date"] = normalize_date_series(invoices_df["date"])
     invoices_df["gross_profit"] = pd.to_numeric(invoices_df["gross_profit"], errors="coerce").fillna(0.0)
     invoices_df["gross_revenue"] = pd.to_numeric(invoices_df["gross_revenue"], errors="coerce").fillna(0.0)
     invoices_df["is_loss_making"] = invoices_df["gross_profit"] < 0
 
     if not line_items_df.empty:
-        line_items_df["date"] = pd.to_datetime(line_items_df["date"])
+        line_items_df["date"] = normalize_date_series(line_items_df["date"])
         line_items_df["quantity"] = pd.to_numeric(line_items_df["quantity"], errors="coerce").fillna(0.0)
         line_items_df["rate"] = pd.to_numeric(line_items_df["rate"], errors="coerce").fillna(0.0)
         line_items_df["cost"] = pd.to_numeric(line_items_df["cost"], errors="coerce").fillna(0.0)
-
-    # Normalize inverted DD/MM/YYYY vs MM/DD/YYYY dates from Excel/openpyxl
-    valid_dates = invoices_df["date"].dropna()
-    if not valid_dates.empty:
-        mode_month = valid_dates.apply(lambda d: d.month).mode()[0]
-        mode_year = valid_dates.apply(lambda d: d.year).mode()[0]
-
-        def _fix_swapped_date(d):
-            if pd.isna(d):
-                return d
-            if d.year == mode_year and d.month != mode_month and d.day == mode_month:
-                return datetime.datetime(mode_year, mode_month, d.month)
-            return d
-
-        invoices_df["date"] = invoices_df["date"].apply(_fix_swapped_date)
-        if not line_items_df.empty and "date" in line_items_df.columns:
-            line_items_df["date"] = line_items_df["date"].apply(_fix_swapped_date)
 
     return invoices_df, line_items_df, anomalies_df
 
@@ -567,15 +576,11 @@ def parse_sales_returns_sheet(xlsx_or_wb, profile: ClientProfile = None, classif
             break
 
         # Check for Credit Note header row
+        # Col 1: Date (Excel datetime or text string like '13/08/2026')
         # Col 2: 'Sales Return', Col 3: Customer, Col 4: 'Credit Note', Col 5: Voucher No, Col 7: Amount
         if c2 and str(c2).strip().lower() == "sales return" and c4 and "credit note" in str(c4).strip().lower():
-            vch_date = c1
-            if isinstance(vch_date, datetime.datetime):
-                date_str = vch_date.strftime("%Y-%m-%d")
-            elif isinstance(vch_date, str):
-                date_str = vch_date[:10]
-            else:
-                date_str = str(vch_date)
+            dt_obj = parse_date_value(c1)
+            date_str = dt_obj.strftime("%Y-%m-%d") if dt_obj else (str(c1)[:10] if c1 else "")
 
             customer = str(c3).strip() if c3 else "Unknown"
             if profile is not None and getattr(profile, "customer_aliases", None):
@@ -645,6 +650,8 @@ def parse_sales_returns_sheet(xlsx_or_wb, profile: ClientProfile = None, classif
                     state = "SEEKING_HEADER"
 
     returns_df = pd.DataFrame(returns)
+    if not returns_df.empty and "date" in returns_df.columns:
+        returns_df["date"] = normalize_date_series(returns_df["date"]).dt.strftime("%Y-%m-%d")
     return returns_df, anomalies
 
 
@@ -767,8 +774,8 @@ def parse_purchases_sheet(
 
         amt = c_amt if (c_amt and c_amt > 0) else (d_amt or 0.0)
 
-        # 2. Canonical Voucher Header: Must have a valid date and positive header amount
-        if amt > 0 and dt is not None and not vch_str.startswith("TOTAL"):
+        # 2. Canonical Voucher Header: Must have a valid date (date object or text date) and positive header amount
+        if amt > 0 and looks_like_date(dt) and not vch_str.startswith("TOTAL"):
             # Check consistency of previous voucher
             if current_voucher is not None and current_voucher["items"]:
                 items_sum = sum(it["line_val"] for it in current_voucher["items"])
@@ -782,8 +789,9 @@ def parse_purchases_sheet(
                         "type": "purchases_item_mismatch",
                     })
 
+            dt_obj = parse_date_value(dt)
             record = {
-                "date": str(dt)[:10] if dt else "",
+                "date": dt_obj.strftime("%Y-%m-%d") if dt_obj else str(dt)[:10],
                 "debit": str(deb or "").strip(),
                 "credit": str(crd or "").strip(),
                 "voucher_type": str(vch_t or "").strip(),
@@ -827,6 +835,8 @@ def parse_purchases_sheet(
             })
 
     df_purchases = pd.DataFrame(entries)
+    if not df_purchases.empty and "date" in df_purchases.columns:
+        df_purchases["date"] = normalize_date_series(df_purchases["date"]).dt.strftime("%Y-%m-%d")
     return total_purchases, df_purchases, anomalies
 
 
@@ -892,8 +902,8 @@ def parse_purchase_returns_sheet(
 
         amt = d_amt if (d_amt and d_amt > 0) else (c_amt or 0.0)
 
-        # 2. Canonical Voucher Header: Must have a valid date and positive header amount
-        if amt > 0 and dt is not None and not vch_str.startswith("TOTAL"):
+        # 2. Canonical Voucher Header: Must have a valid date (date object or text date) and positive header amount
+        if amt > 0 and looks_like_date(dt) and not vch_str.startswith("TOTAL"):
             # Check consistency of previous voucher
             if current_voucher is not None and current_voucher["items"]:
                 items_sum = sum(it["line_val"] for it in current_voucher["items"])
@@ -907,8 +917,9 @@ def parse_purchase_returns_sheet(
                         "type": "purchase_returns_item_mismatch",
                     })
 
+            dt_obj = parse_date_value(dt)
             record = {
-                "date": str(dt)[:10] if dt else "",
+                "date": dt_obj.strftime("%Y-%m-%d") if dt_obj else str(dt)[:10],
                 "debit": str(deb or "").strip(),
                 "credit": str(crd or "").strip(),
                 "voucher_type": str(vch_t or "").strip(),
@@ -952,6 +963,8 @@ def parse_purchase_returns_sheet(
             })
 
     df_pr = pd.DataFrame(entries)
+    if not df_pr.empty and "date" in df_pr.columns:
+        df_pr["date"] = normalize_date_series(df_pr["date"]).dt.strftime("%Y-%m-%d")
     return total_purchase_returns, df_pr, anomalies
 
 
