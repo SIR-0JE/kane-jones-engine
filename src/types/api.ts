@@ -309,6 +309,187 @@ export interface ExpensesAnalysis {
   categories: ExpenseItem[];
 }
 
+export interface PeakAdjustedMetrics {
+  multiplier: number;
+  is_active: boolean;
+  peak_daily_velocity: number;
+  peak_safety_stock: number;
+  peak_reorder_point: number;
+  peak_suggested_reorder_qty: number;
+  peak_estimated_reorder_cost: number;
+  peak_stock_cover_weeks: number | null;
+}
+
+export interface ProductStockHealth {
+  product_name: string;
+  product_key: string;
+  current_stock: number;
+  uom: string;
+  unit_cost: number;
+  capital_tied_up: number;
+  units_sold_window: number;
+  transactions_count: number;
+  window_days: number;
+  window_type: string;
+  daily_velocity: number;
+  lead_time_days: number;
+  safety_stock: number;
+  reorder_point: number;
+  suggested_reorder_qty: number;
+  estimated_reorder_cost: number;
+  stock_cover_days: number | null;
+  stock_cover_weeks: number | null;
+  status: "Dead Stock" | "No Stock / No Sales" | "Critical (stock-out risk)" | "Low" | "Healthy" | "High / Monitor" | "Excess (capital tied up)" | string;
+  status_order: number;
+  action_recommendation: string;
+  peak_adjusted: PeakAdjustedMetrics;
+}
+
+export interface StockHealthBandSummary {
+  status: string;
+  color: string;
+  badge: string;
+  sku_count: number;
+  total_capital_tied_up: number;
+  total_units: number;
+}
+
+export interface StockHealthSummary {
+  total_active_skus: number;
+  total_stock_value: number;
+  critical_stock_out_count: number;
+  dead_stock_count: number;
+  dead_stock_capital: number;
+  excess_stock_capital: number;
+  slow_moving_capital: number;
+  suggested_reorder_skus_count: number;
+  suggested_reorder_units: number;
+  suggested_reorder_cost: number;
+}
+
+export interface StockHealthData {
+  as_of_date: string;
+  lead_time_days: number;
+  peak_config: {
+    name: string;
+    multiplier: number;
+    is_active: boolean;
+  };
+  summary: StockHealthSummary;
+  summary_bands: Record<string, StockHealthBandSummary>;
+  top_stock_out_risk: ProductStockHealth[];
+  slow_moving_stock: ProductStockHealth[];
+  dead_stock: ProductStockHealth[];
+  suggested_reorders: ProductStockHealth[];
+  all_products: ProductStockHealth[];
+}
+
+export interface WeeklyPnL {
+  gross_sales_revenue: number;
+  total_sales_returns: number;
+  product_returns_val: number;
+  empties_returns_val: number;
+  net_sales_revenue: number;
+  cogs: number;
+  gross_profit: number;
+  gross_margin_pct: number;
+  total_operating_expenses: number;
+  net_profit: number;
+  net_margin_pct: number;
+  invoices_count: number;
+  cases_sold: number;
+  week_number?: number;
+}
+
+export interface WeeklyWoW {
+  has_previous: boolean;
+  previous_week_number?: number;
+  revenue_diff: number;
+  revenue_diff_pct: number;
+  gross_profit_diff: number;
+  gross_profit_diff_pct: number;
+  net_profit_diff: number;
+  net_profit_diff_pct: number;
+  gross_margin_bps: number;
+  invoices_diff: number;
+  cases_diff: number;
+}
+
+export interface WeeklyDailyRow {
+  date: string;
+  day_name: string;
+  invoices_count: number;
+  gross_revenue: number;
+  cogs: number;
+  gross_profit: number;
+  margin_pct: number;
+}
+
+export interface WeeklyTopProduct {
+  product_raw: string;
+  cases_sold: number;
+  revenue: number;
+  pct_of_week_revenue: number;
+}
+
+export interface WeeklyTopCustomer {
+  customer: string;
+  invoices_count: number;
+  revenue: number;
+  cogs: number;
+  gross_profit: number;
+  margin_pct: number;
+  pct_of_week_revenue: number;
+}
+
+export interface WeeklyReturnItem {
+  voucher_no: string;
+  customer: string;
+  item_name: string;
+  item_type: string;
+  quantity: number;
+  return_value: number;
+}
+
+export interface WeeklyExpenseCategory {
+  category: string;
+  amount: number;
+}
+
+export interface WeeklyReportItem {
+  week_number: number;
+  week_label: string;
+  date_range: {
+    start: string;
+    end: string;
+  };
+  calendar_days: number;
+  pnl: WeeklyPnL;
+  wow: WeeklyWoW;
+  narrative_insight: string;
+  daily_breakdown: WeeklyDailyRow[];
+  top_products: WeeklyTopProduct[];
+  top_customers: WeeklyTopCustomer[];
+  returns: WeeklyReturnItem[];
+  expenses: WeeklyExpenseCategory[];
+}
+
+export interface WeeklyFinancialsData {
+  calendar_weeks: WeeklyReportItem[];
+  trading_weeks: WeeklyReportItem[];
+  active_mode: "calendar" | "trading" | string;
+  period_summary: {
+    total_weeks: number;
+    period_start: string;
+    period_end: string;
+    total_calendar_days: number;
+    total_revenue: number;
+    total_gross_profit: number;
+    total_operating_expenses: number;
+    total_invoices: number;
+  };
+}
+
 export interface AnalyzeResponse {
   client_id?: string;
   period_label?: string;
@@ -333,6 +514,8 @@ export interface AnalyzeResponse {
   returns_analysis?: SalesReturnsAnalysis;
   expenses_analysis?: ExpensesAnalysis;
   net_profit_bridge?: NetProfitBridgeData;
+  stock_health?: StockHealthData;
+  weekly_financials?: WeeklyFinancialsData;
   [key: string]: any;
 }
 

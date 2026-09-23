@@ -10,6 +10,7 @@ import { UploadModal } from "@/components/UploadModal";
 import { OverviewScreen } from "@/components/screens/OverviewScreen";
 import { DailyScreen } from "@/components/screens/DailyScreen";
 import { WeeklyScreen } from "@/components/screens/WeeklyScreen";
+import { StockHealthScreen } from "@/components/screens/StockHealthScreen";
 import { PricingAuditScreen } from "@/components/screens/PricingAuditScreen";
 import { ProductsScreen } from "@/components/screens/ProductsScreen";
 import { CustomersScreen } from "@/components/screens/CustomersScreen";
@@ -316,6 +317,7 @@ export default function AppDashboard() {
             lossCustomerCount={data?.meta?.loss_making_customers_count || data?.loss_making_customers?.length || 0}
             anomalyCount={data?.meta?.total_anomalies || data?.anomalies?.length || 0}
             returnsCount={data?.returns_analysis?.items_breakdown?.length || 0}
+            stockHealthRiskCount={data?.stock_health?.summary?.critical_stock_out_count || 0}
             isMobileOpen={mobileSidebarOpen}
             onCloseMobile={() => setMobileSidebarOpen(false)}
           />
@@ -372,6 +374,7 @@ export default function AppDashboard() {
                   )}
                   {activeTab === "daily" && <DailyScreen data={data} />}
                   {activeTab === "weekly" && <WeeklyScreen data={data} />}
+                  {activeTab === "stock_health" && <StockHealthScreen data={data} />}
                   {activeTab === "pricing" && <PricingAuditScreen data={data} />}
                   {activeTab === "products" && <ProductsScreen data={data} />}
                   {activeTab === "customers" && <CustomersScreen data={data} />}

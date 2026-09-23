@@ -13,12 +13,14 @@ import {
   Receipt,
   TrendingUp,
   Award,
+  Boxes,
 } from "lucide-react";
 
 export type TabType =
   | "overview"
   | "daily"
   | "weekly"
+  | "stock_health"
   | "pricing"
   | "products"
   | "customers"
@@ -40,6 +42,7 @@ interface NavigationProps {
   anomalyCount?: number;
   returnsCount?: number;
   expensesCount?: number;
+  stockHealthRiskCount?: number;
 }
 
 export function Navigation({
@@ -51,6 +54,7 @@ export function Navigation({
   anomalyCount = 0,
   returnsCount = 0,
   expensesCount = 0,
+  stockHealthRiskCount = 0,
 }: NavigationProps) {
   const tabs: {
     id: TabType;
@@ -62,6 +66,13 @@ export function Navigation({
     { id: "overview", label: "Overview", icon: LayoutDashboard },
     { id: "daily", label: "Daily", icon: CalendarDays },
     { id: "weekly", label: "Weekly", icon: CalendarRange },
+    {
+      id: "stock_health",
+      label: "Stock Health",
+      icon: Boxes,
+      badge: stockHealthRiskCount > 0 ? stockHealthRiskCount : undefined,
+      badgeColor: "bg-rose-600 text-white",
+    },
     {
       id: "pricing",
       label: "Pricing",

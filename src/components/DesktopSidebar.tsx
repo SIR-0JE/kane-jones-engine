@@ -18,6 +18,7 @@ import {
   Sparkles,
   TrendingUp,
   Award,
+  Boxes,
 } from "lucide-react";
 
 
@@ -43,6 +44,7 @@ interface DesktopSidebarProps {
   lossCustomerCount: number;
   anomalyCount: number;
   returnsCount?: number;
+  stockHealthRiskCount?: number;
   isMobileOpen?: boolean;
   onCloseMobile?: () => void;
 }
@@ -65,6 +67,7 @@ export function DesktopSidebar({
   lossCustomerCount,
   anomalyCount,
   returnsCount = 0,
+  stockHealthRiskCount = 0,
   isMobileOpen = false,
   onCloseMobile,
 }: DesktopSidebarProps) {
@@ -89,6 +92,13 @@ export function DesktopSidebar({
       icon: CalendarRange,
       badge: null,
       badgeColor: "",
+    },
+    {
+      id: "stock_health" as TabType,
+      label: "Stock Health",
+      icon: Boxes,
+      badge: stockHealthRiskCount > 0 ? stockHealthRiskCount : null,
+      badgeColor: "bg-rose-500 text-white",
     },
     {
       id: "pricing" as TabType,

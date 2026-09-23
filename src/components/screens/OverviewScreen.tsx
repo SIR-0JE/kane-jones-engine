@@ -20,6 +20,7 @@ import {
   FileSpreadsheet,
   ExternalLink,
   BarChart3,
+  CalendarRange,
 } from "lucide-react";
 import { TabType } from "@/components/Navigation";
 import { AnalyzeResponse, CompareResponse } from "@/types/api";
@@ -46,6 +47,10 @@ export function OverviewScreen({ data, onNavigate, onDeleteAudit, onRenameAudit 
 
   // Number formatting display mode: 'compact' (₦174.24M) or 'exact' (₦174,237,808.00)
   const [numberFormat, setNumberFormat] = useState<"compact" | "exact">("compact");
+
+  // Reporting granularity toggle: 'monthly' (default) or 'weekly' (Phase 1 & 2 requirement)
+  const [reportingView, setReportingView] = useState<"monthly" | "weekly">("monthly");
+  const [selectedOverviewWeekIdx, setSelectedOverviewWeekIdx] = useState<number>(0);
 
   // Metric Detail Modal State
   const [selectedMetric, setSelectedMetric] = useState<{
@@ -236,6 +241,32 @@ export function OverviewScreen({ data, onNavigate, onDeleteAudit, onRenameAudit 
 
         {/* Global Action Buttons */}
         <div className="flex flex-wrap items-center gap-2">
+          {/* Monthly / Weekly Granularity Toggle (Phase 1 & 2) */}
+          <div className="inline-flex p-0.5 bg-slate-100 rounded-xl border border-slate-200 text-xs mr-1">
+            <button
+              type="button"
+              onClick={() => setReportingView("monthly")}
+              className={`px-2.5 py-1 rounded-lg font-bold text-[11px] font-sora transition-all ${
+                reportingView === "monthly"
+                  ? "bg-white text-slate-900 shadow-xs"
+                  : "text-slate-500 hover:text-slate-800"
+              }`}
+            >
+              Monthly
+            </button>
+            <button
+              type="button"
+              onClick={() => setReportingView("weekly")}
+              className={`px-2.5 py-1 rounded-lg font-bold text-[11px] font-sora transition-all ${
+                reportingView === "weekly"
+                  ? "bg-[#7c6fff] text-white shadow-xs"
+                  : "text-slate-500 hover:text-slate-800"
+              }`}
+            >
+              Weekly
+            </button>
+          </div>
+
           {/* Exact / Compact Number Format Switcher */}
           <div className="inline-flex p-0.5 bg-slate-100 rounded-xl border border-slate-200 text-xs mr-1">
             <button
@@ -295,6 +326,108 @@ export function OverviewScreen({ data, onNavigate, onDeleteAudit, onRenameAudit 
           )}
         </div>
       </div>
+
+      {/* Phase 1 & 2: Weekly Financial Spotlight Banner (Visible when Weekly reporting view is active) */}
+      {reportingView === "weekly" && data.weekly_financials && (
+        <div className="p-5 bg-linear-to-r from-indigo-50/70 via-purple-50/40 to-white border border-[#7c6fff]/30 rounded-2xl shadow-xs space-y-4 animate-in fade-in duration-150">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-200/60 pb-3">
+            <div className="flex items-center gap-2">
+              <span className="p-2 bg-[#7c6fff] text-white rounded-xl shadow-xs">
+                <CalendarRange className="w-4 h-4" />
+              </span>
+              <div>
+                <h2 className="text-xs font-bold text-slate-900 uppercase tracking-wider font-sora">
+                  Weekly Management Reporting Slice
+                </h2>
+                <p className="text-xs text-slate-500 font-inter">
+                  Active view: {data.weekly_financials.calendar_weeks[selectedOverviewWeekIdx]?.week_label || "Selected Week"}
+                </p>
+              </div>
+            </div>
+
+            <button
+              type="button"
+              onClick={() => onNavigate("weekly")}
+              className="px-3 py-1.5 bg-[#7c6fff] hover:bg-[#6b5dfb] text-white rounded-xl text-xs font-bold font-sora transition-all flex items-center gap-1.5 self-start sm:self-auto shadow-xs"
+            >
+              <span>Open Deep-Dive Weekly Audit</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </button>
+          </div>
+
+          {/* Week Selector Pills */}
+          <div className="flex items-center gap-2 overflow-x-auto pb-1">
+            {data.weekly_financials.calendar_weeks.map((w, idx) => (
+              <button
+                key={w.week_number}
+                type="button"
+                onClick={() => setSelectedOverviewWeekIdx(idx)}
+                className={`px-3 py-1.5 rounded-xl text-xs font-bold shrink-0 transition-all border ${
+                  selectedOverviewWeekIdx === idx
+                    ? "bg-slate-900 text-white border-slate-900 shadow-xs"
+                    : "bg-white text-slate-700 border-slate-200 hover:bg-slate-50"
+                }`}
+              >
+                {w.week_label}
+              </button>
+            ))}
+          </div>
+
+          {/* Weekly P&L Strip */}
+          {(() => {
+            const wItem = data.weekly_financials.calendar_weeks[selectedOverviewWeekIdx] || data.weekly_financials.calendar_weeks[0];
+            if (!wItem) return null;
+            const wPnl = wItem.pnl;
+            const wWow = wItem.wow;
+
+            return (
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-3 pt-1">
+                <div className="bg-white p-3.5 rounded-xl border border-slate-200/80 shadow-2xs space-y-0.5">
+                  <span className="text-[11px] font-semibold text-slate-500 block">Weekly Gross Revenue</span>
+                  <div className="text-base font-extrabold text-slate-900 font-sora">
+                    {displayMoney(wPnl.gross_sales_revenue)}
+                  </div>
+                  {wWow && wWow.has_previous && (
+                    <span className={`text-[10px] font-bold block ${wWow.revenue_diff_pct >= 0 ? "text-emerald-600" : "text-rose-600"}`}>
+                      {wWow.revenue_diff_pct >= 0 ? "+" : ""}{wWow.revenue_diff_pct.toFixed(1)}% WoW
+                    </span>
+                  )}
+                </div>
+
+                <div className="bg-white p-3.5 rounded-xl border border-slate-200/80 shadow-2xs space-y-0.5">
+                  <span className="text-[11px] font-semibold text-slate-500 block">Weekly Net Revenue</span>
+                  <div className="text-base font-extrabold text-slate-900 font-sora">
+                    {displayMoney(wPnl.net_sales_revenue)}
+                  </div>
+                  <span className="text-[10px] text-slate-400 block">
+                    Less {displayMoney(wPnl.total_sales_returns)} Returns
+                  </span>
+                </div>
+
+                <div className="bg-white p-3.5 rounded-xl border border-slate-200/80 shadow-2xs space-y-0.5">
+                  <span className="text-[11px] font-semibold text-slate-500 block">Weekly Gross Profit</span>
+                  <div className={`text-base font-extrabold font-sora ${wPnl.gross_profit >= 0 ? "text-emerald-600" : "text-rose-600"}`}>
+                    {displayMoney(wPnl.gross_profit)}
+                  </div>
+                  <span className="text-[10px] text-slate-500 block">
+                    Margin: {wPnl.gross_margin_pct.toFixed(1)}%
+                  </span>
+                </div>
+
+                <div className="bg-white p-3.5 rounded-xl border border-slate-200/80 shadow-2xs space-y-0.5">
+                  <span className="text-[11px] font-semibold text-slate-500 block">Weekly Net Operating Profit</span>
+                  <div className={`text-base font-extrabold font-sora ${wPnl.net_profit >= 0 ? "text-emerald-700" : "text-rose-700"}`}>
+                    {displayMoney(wPnl.net_profit)}
+                  </div>
+                  <span className="text-[10px] text-slate-500 block">
+                    Net Margin: {wPnl.net_margin_pct.toFixed(1)}%
+                  </span>
+                </div>
+              </div>
+            );
+          })()}
+        </div>
+      )}
 
       {/* 1. Official 7 Financial Bridge Metrics (Primary Overview Cards with Red Negatives & Click-to-Drill) */}
       {(() => {

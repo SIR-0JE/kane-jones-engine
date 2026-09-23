@@ -55,6 +55,8 @@ from engine.true_cost import (
     compute_returns_analysis,
 )
 from engine.net_profit import compute_net_profit_bridge, parse_expenses_sheet
+from engine.stock_health import compute_stock_health
+from engine.weekly_finance import compute_weekly_financials
 
 app = FastAPI(
     title="Depot Sales Intelligence Engine API",
@@ -398,6 +400,24 @@ async def analyze_sales_report(
         )
 
 
+        # Stock / Inventory Health Analysis
+        stock_health = compute_stock_health(
+            df_inv,
+            li_df,
+            profile=profile,
+            as_of_date=inv_df["date"].max() if not inv_df.empty else None,
+        )
+
+        # Weekly Financial Reporting
+        weekly_financials = compute_weekly_financials(
+            inv_df,
+            li_df,
+            df_returns=df_returns if not df_returns.empty else None,
+            df_expenses=df_expenses if not df_expenses.empty else None,
+            profile=profile,
+            expenses_total=expenses_total,
+        )
+
         # Merge all anomalies
         all_anomalies_list = df_to_records(anomalies_df)
         if inv_anomalies:
@@ -468,6 +488,8 @@ async def analyze_sales_report(
                 "categories": df_to_records(df_expenses) if not df_expenses.empty else [],
             },
             "net_profit_bridge": net_profit_bridge,
+            "stock_health": stock_health,
+            "weekly_financials": weekly_financials,
             "sheet_classification": classification_report.to_dict(),
         }
 
@@ -943,5 +965,98 @@ def update_depot_endpoint(
         "display_name": display_name,
         "updated": success,
     }
+
+
+@app.get("/stock-health")
+@app.get("/api/stock-health")
+def get_stock_health(
+    client_id: str = Query("kane-jones"),
+    period_label: str = Query("2026-08"),
+    peak_multiplier: float = Query(1.0, description="Peak season multiplier (e.g. 1.5, 2.0)"),
+    is_peak_active: bool = Query(False, description="Whether peak season is currently active"),
+    lead_time_days: int = Query(10, description="Supplier lead time in days"),
+):
+    """Returns Stock / Inventory Health Analysis for the specified period snapshot."""
+    snapshot = load_snapshot(client_id, period_label)
+    if not snapshot:
+        raise HTTPException(status_code=404, detail=f"Snapshot not found for client '{client_id}', period '{period_label}'.")
+
+    stock_health = snapshot.get("stock_health")
+    if not stock_health:
+        raise HTTPException(status_code=404, detail="Stock health analysis not available for this snapshot.")
+
+    # Dynamic recomputation if custom multiplier or lead time passed
+    if peak_multiplier != 1.0 or is_peak_active or lead_time_days != 10:
+        all_products = stock_health.get("all_products", [])
+        adjusted_products = []
+        for p in all_products:
+            p_copy = dict(p)
+            v = p_copy["daily_velocity"]
+            cur_stock = p_copy["current_stock"]
+            unit_cost = p_copy["unit_cost"]
+
+            # Recalculate base buffer if lead time changed
+            lt = float(lead_time_days)
+            safety = v * lt
+            rop = safety * 2.0
+            sugg_reorder = max(0.0, rop - cur_stock)
+            p_copy["lead_time_days"] = int(lead_time_days)
+            p_copy["safety_stock"] = round(safety, 2)
+            p_copy["reorder_point"] = round(rop, 2)
+            p_copy["suggested_reorder_qty"] = round(sugg_reorder, 2)
+            p_copy["estimated_reorder_cost"] = round(sugg_reorder * unit_cost, 2)
+
+            # Recalculate peak
+            p_mult = float(peak_multiplier)
+            pv = v * p_mult
+            p_safety = pv * lt
+            p_rop = p_safety * 2.0
+            p_sugg = max(0.0, p_rop - cur_stock)
+            p_cover_days = (cur_stock / pv) if pv > 0 else None
+            p_cover_weeks = (p_cover_days / 7.0) if p_cover_days is not None else None
+
+            p_copy["peak_adjusted"] = {
+                "multiplier": p_mult,
+                "is_active": bool(is_peak_active),
+                "peak_daily_velocity": round(pv, 2),
+                "peak_safety_stock": round(p_safety, 2),
+                "peak_reorder_point": round(p_rop, 2),
+                "peak_suggested_reorder_qty": round(p_sugg, 2),
+                "peak_estimated_reorder_cost": round(p_sugg * unit_cost, 2),
+                "peak_stock_cover_weeks": round(p_cover_weeks, 2) if p_cover_weeks is not None else None,
+            }
+            adjusted_products.append(p_copy)
+
+        stock_health = dict(stock_health)
+        stock_health["all_products"] = adjusted_products
+        stock_health["top_stock_out_risk"] = [p for p in adjusted_products if p["status"] == "Critical (stock-out risk)"]
+        stock_health["suggested_reorders"] = [p for p in adjusted_products if p["suggested_reorder_qty"] > 0]
+        stock_health["peak_config"] = {
+            "name": "Custom Peak Season",
+            "multiplier": float(peak_multiplier),
+            "is_active": bool(is_peak_active),
+        }
+
+    return stock_health
+
+
+@app.get("/weekly-financials")
+@app.get("/api/weekly-financials")
+def get_weekly_financials(
+    client_id: str = Query("kane-jones"),
+    period_label: str = Query("2026-08"),
+    mode: str = Query("calendar", description="'calendar' (Mon-Sun) or 'trading' (7-day depot cycles)"),
+):
+    """Returns Weekly Financial Reporting for the specified period snapshot."""
+    snapshot = load_snapshot(client_id, period_label)
+    if not snapshot:
+        raise HTTPException(status_code=404, detail=f"Snapshot not found for client '{client_id}', period '{period_label}'.")
+
+    wf = snapshot.get("weekly_financials")
+    if not wf:
+        raise HTTPException(status_code=404, detail="Weekly financials not available for this snapshot.")
+
+    return wf
+
 
 

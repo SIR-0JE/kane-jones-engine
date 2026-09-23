@@ -54,6 +54,8 @@ from engine.true_cost import (
     compute_returns_analysis,
 )
 from engine.net_profit import compute_net_profit_bridge, parse_expenses_sheet
+from engine.stock_health import compute_stock_health
+from engine.weekly_finance import compute_weekly_financials
 from engine.snapshots import (
     save_snapshot,
     save_client_price_list,
@@ -317,8 +319,23 @@ def run_manual_upload(
         all_anomalies_list.extend(exp_anomalies)
     if returns_analysis.get("anomalies"):
         all_anomalies_list.extend(returns_analysis["anomalies"])
-    if net_profit_bridge.get("missing_cost_anomalies"):
-        all_anomalies_list.extend(net_profit_bridge["missing_cost_anomalies"])
+    # Stock / Inventory Health Analysis
+    stock_health = compute_stock_health(
+        df_inv,
+        li_df,
+        profile=profile,
+        as_of_date=inv_df["date"].max() if not inv_df.empty else None,
+    )
+
+    # Weekly Financial Reporting
+    weekly_financials = compute_weekly_financials(
+        inv_df,
+        li_df,
+        df_returns=df_returns if not df_returns.empty else None,
+        df_expenses=df_expenses if not df_expenses.empty else None,
+        profile=profile,
+        expenses_total=expenses_total,
+    )
 
     response_payload = {
         "meta": {
@@ -371,6 +388,8 @@ def run_manual_upload(
         "true_cost_marketers": true_cost_marketers,
         "returns_analysis": returns_analysis,
         "net_profit_bridge": net_profit_bridge,
+        "stock_health": stock_health,
+        "weekly_financials": weekly_financials,
         "expenses": df_to_records(df_expenses),
         "expenses_total": expenses_total,
     }
