@@ -346,14 +346,29 @@ export function WeeklyScreen({ data }: WeeklyScreenProps) {
             </div>
 
             {/* 4. Less COGS */}
-            <div className="py-2.5 flex items-center justify-between text-slate-700">
-              <div>
-                <span className="font-bold">3. Less: Cost of Goods Sold (COGS)</span>
-                <span className="text-slate-400 block text-[11px]">Invoiced embedded unit cost basis</span>
+            <div className="py-2.5 space-y-1.5">
+              <div className="flex items-start justify-between text-slate-700">
+                <div>
+                  <span className="font-bold text-xs">3. Less: Cost of Goods Sold (COGS)</span>
+                  <span className="text-slate-400 block text-[11px]">
+                    Invoiced embedded unit cost — sum of cost values from sales register lines
+                  </span>
+                </div>
+                <span className="font-extrabold font-sora text-xs shrink-0 ml-2">
+                  −{formatCurrency(pnl.cogs, currency)}
+                </span>
               </div>
-              <span className="font-extrabold font-sora">
-                −{formatCurrency(pnl.cogs, currency)}
-              </span>
+              {/* Standard Accounting Formula Clarification Note */}
+              <div className="ml-0 p-2.5 bg-amber-50 border border-amber-100 rounded-lg text-[10px] text-amber-800 font-inter space-y-0.5">
+                <p className="font-bold text-amber-900 text-[10px]">📐 Standard Accounting Method (for reference)</p>
+                <p>
+                  The formal periodic COGS formula is:
+                  <span className="font-mono font-semibold ml-1">Opening Stock + Net Purchases − Closing Stock</span>
+                </p>
+                <p className="text-amber-700 mt-0.5">
+                  Weekly COGS here reflects actual invoiced cost from the sales register, which is the closest proxy available without weekly physical stock counts. Full batch-level FIFO costing (matching each sale to its purchase lot cost) is scheduled for Phase 3.
+                </p>
+              </div>
             </div>
 
             {/* 5. Gross Profit */}

@@ -377,7 +377,7 @@ export function HomeScreen({
               );
             })}
 
-            {/* "Add / Upload New Month" Action Card */}
+            {/* "Upload Audit Register" Action Card */}
             <div
               onClick={onUploadClick}
               className="group border-2 border-dashed border-slate-200 hover:border-slate-400 bg-slate-50/50 hover:bg-slate-50 rounded-2xl p-6 cursor-pointer transition-all flex flex-col items-center justify-center text-center space-y-3 min-h-[220px]"
@@ -387,16 +387,19 @@ export function HomeScreen({
               </div>
               <div>
                 <h3 className="text-sm font-bold text-slate-900">
-                  Upload Another Month
+                  Upload Audit Register
                 </h3>
                 <p className="text-xs text-slate-500 max-w-[200px] mt-1">
-                  Upload raw sales register `.xlsx` to run audit and save snapshot
+                  Upload a monthly or weekly sales register <span className="font-semibold text-slate-700">.xlsx</span> to run a full audit and save the snapshot
                 </p>
               </div>
-              <span className="inline-flex items-center gap-1 text-xs font-bold text-slate-900 bg-white px-3 py-1.5 rounded-lg border border-slate-200 shadow-xs">
-                <FileSpreadsheet className="w-3.5 h-3.5 text-emerald-600" />
-                <span>Upload Excel File</span>
-              </span>
+              <div className="flex flex-col items-center gap-1.5">
+                <span className="inline-flex items-center gap-1 text-xs font-bold text-slate-900 bg-white px-3 py-1.5 rounded-lg border border-slate-200 shadow-xs">
+                  <FileSpreadsheet className="w-3.5 h-3.5 text-emerald-600" />
+                  <span>Upload Excel File</span>
+                </span>
+                <span className="text-[10px] text-slate-400 font-inter">Monthly or Weekly — both supported</span>
+              </div>
             </div>
           </div>
         )}
