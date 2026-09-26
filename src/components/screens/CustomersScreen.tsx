@@ -202,7 +202,7 @@ export function CustomersScreen({ data }: CustomersScreenProps) {
                   Customer vs. Customer Comparison
                 </h2>
                 <p className="text-[11px] text-slate-500 font-inter">
-                  Benchmark volume, revenue, true cost, and profitability between any two customer accounts
+                  Benchmark volume, revenue, cost, and profitability between any two customer accounts
                 </p>
               </div>
             </div>
@@ -401,7 +401,7 @@ export function CustomersScreen({ data }: CustomersScreenProps) {
                   <th className="py-3 px-3 text-center">Invoices</th>
                   <th className="py-3 px-3 text-right">Cases Sold</th>
                   <th className="py-3 px-4 text-right">Revenue (excl. empties)</th>
-                  <th className="py-3 px-4 text-right">True Cost (tmp3F5D)</th>
+                  <th className="py-3 px-4 text-right">Cost of Goods (COGS)</th>
                   <th className="py-3 px-4 text-right">Gross Profit</th>
                   <th className="py-3 px-4 text-right">Margin %</th>
                   <th className="py-3 px-3 text-center">Details</th>
@@ -575,7 +575,7 @@ export function CustomersScreen({ data }: CustomersScreenProps) {
               {[
                 { label: "Cases Sold", value: formatNumber(drillCustomer.total_cases_sold) },
                 { label: "Revenue", value: formatCurrency(drillCustomer.total_revenue, currency, true) },
-                { label: "True Cost", value: formatCurrency(drillCustomer.total_cost, currency, true) },
+                { label: "Cost of Goods", value: formatCurrency(drillCustomer.total_cost, currency, true) },
                 {
                   label: "Gross Profit",
                   value: formatCurrency(drillCustomer.total_gross_profit, currency, true),
@@ -688,7 +688,7 @@ export function CustomersScreen({ data }: CustomersScreenProps) {
                         <th className="py-2.5 px-3">Date</th>
                         <th className="py-2.5 px-3 text-right">Cases</th>
                         <th className="py-2.5 px-3 text-right">Revenue</th>
-                        <th className="py-2.5 px-3 text-right">True Cost</th>
+                        <th className="py-2.5 px-3 text-right">Total Cost</th>
                         <th className="py-2.5 px-3 text-right">Gross Profit</th>
                         <th className="py-2.5 px-3 text-right">Margin %</th>
                         <th className="py-2.5 px-3">Products</th>

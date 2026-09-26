@@ -116,11 +116,17 @@ def compute_product_profitability(
     profile: ClientProfile = None
 ) -> Tuple[pd.DataFrame, Dict[str, Any], List[Dict[str, Any]]]:
     """
-    Computes product-level true-cost profitability excluding empties,
-    reproducing the 'Product' reference sheet.
+    Computes product-level true-cost profitability excluding empties.
+
+    COGS Source (per spec update Sep 2026):
+    - Uses the 'cost' column from the sales register line items directly.
+    - cost column = total line cost (quantity × unit_cost as recorded by billing clerk).
+    - unit_cost display = cost / quantity for each line group.
+    - Empties are strictly excluded from both revenue and cost.
+    - tmp3F5D inventory rate is used as a fallback ONLY when cost column is zero/missing.
 
     Returns:
-    - products_df: DataFrame of all 40 products sorted by revenue desc
+    - products_df: DataFrame of all products sorted by revenue desc
     - summary: dict with overall product revenue, cost, gross profit, margin
     - anomalies: list of cost resolution warnings
     """
@@ -139,52 +145,60 @@ def compute_product_profitability(
     )
     prod_items = line_items_df[~is_empties_col].copy()
 
-    # 2. Map tmp3F5D costs
+    if prod_items.empty:
+        return pd.DataFrame(), {}, anomalies
+
+    # 2. Ensure numeric columns
+    prod_items["quantity"] = pd.to_numeric(prod_items["quantity"], errors="coerce").fillna(0.0)
+    prod_items["rate"] = pd.to_numeric(prod_items["rate"], errors="coerce").fillna(0.0)
+    prod_items["cost"] = pd.to_numeric(prod_items.get("cost", 0.0), errors="coerce").fillna(0.0)
+    prod_items["line_revenue"] = prod_items["quantity"] * prod_items["rate"]
+
+    # 3. Use sales register cost column as COGS source.
+    #    cost column = total cost for that line. Positive costs only (filter out data entry errors).
+    #    Fallback to tmp3F5D inventory rate when cost is zero/missing for a product.
     cost_map, dpp_map = build_inventory_cost_maps(df_inventory)
 
-    matched_costs = []
-    for idx, r in prod_items.iterrows():
-        p_str = str(r["product_raw"]).strip().upper()
-        cost_val = None
+    def resolve_line_cost(row) -> float:
+        line_cost = float(row.get("cost", 0.0) or 0.0)
+        if line_cost > 0:
+            return line_cost  # Use register cost directly
+        # Fallback: inventory rate × quantity
+        p_str = str(row.get("product_raw", "")).strip().upper()
+        inv_rate = cost_map.get(p_str, 0.0) or dpp_map.get(p_str, 0.0)
+        if inv_rate > 0:
+            return float(row.get("quantity", 0.0) or 0.0) * inv_rate
+        anomalies.append({
+            "type": "unresolved_product_cost",
+            "product": row.get("product_raw", ""),
+            "invoice_no": row.get("invoice_no", ""),
+            "reason": "No cost in register and no inventory rate available. Line excluded from COGS."
+        })
+        return 0.0
 
-        if p_str in cost_map and cost_map[p_str] > 0:
-            cost_val = cost_map[p_str]
-        elif p_str in dpp_map and dpp_map[p_str] > 0:
-            cost_val = dpp_map[p_str]
-        else:
-            # Fallback to invoice-embedded unit cost
-            qty = float(r.get("quantity", 0.0) or 0.0)
-            inv_cost = float(r.get("cost", 0.0) or 0.0)
-            if qty > 0 and inv_cost > 0:
-                cost_val = inv_cost / qty
-            else:
-                cost_val = 0.0
-                anomalies.append({
-                    "type": "unresolved_product_cost",
-                    "product": r["product_raw"],
-                    "invoice_no": r.get("invoice_no"),
-                    "reason": "Could not resolve inventory cost or invoice unit cost."
-                })
+    prod_items["line_cost"] = prod_items.apply(resolve_line_cost, axis=1)
 
-        matched_costs.append(cost_val)
-
-    prod_items["tmp3f5d_cost"] = matched_costs
-    prod_items["line_revenue"] = prod_items["quantity"] * prod_items["rate"]
-    prod_items["line_true_cost"] = prod_items["quantity"] * prod_items["tmp3f5d_cost"]
-
-    # 3. Group by product
+    # 4. Group by product
     grouped = prod_items.groupby("product_raw", as_index=False).agg(
         cases_sold=("quantity", "sum"),
         revenue=("line_revenue", "sum"),
-        tmp3f5d_cost=("tmp3f5d_cost", "first")
+        total_cost=("line_cost", "sum"),
     )
 
-    grouped["avg_selling_price"] = grouped["revenue"] / grouped["cases_sold"]
-    grouped["total_cost"] = grouped["cases_sold"] * grouped["tmp3f5d_cost"]
-    grouped["price_diff"] = grouped["avg_selling_price"] - grouped["tmp3f5d_cost"]
+    grouped["avg_unit_cost"] = np.where(
+        grouped["cases_sold"] > 0,
+        grouped["total_cost"] / grouped["cases_sold"],
+        0.0
+    )
+    grouped["avg_selling_price"] = np.where(
+        grouped["cases_sold"] > 0,
+        grouped["revenue"] / grouped["cases_sold"],
+        0.0
+    )
+    grouped["price_diff"] = grouped["avg_selling_price"] - grouped["avg_unit_cost"]
     grouped["price_diff_pct"] = np.where(
-        grouped["tmp3f5d_cost"] > 0,
-        grouped["price_diff"] / grouped["tmp3f5d_cost"],
+        grouped["avg_unit_cost"] > 0,
+        grouped["price_diff"] / grouped["avg_unit_cost"],
         0.0
     )
     grouped["gross_profit"] = grouped["revenue"] - grouped["total_cost"]
@@ -196,14 +210,21 @@ def compute_product_profitability(
 
     # Sort descending by revenue
     products_df = grouped.sort_values(by="revenue", ascending=False).reset_index(drop=True)
+    # Alias for legacy compatibility
+    products_df["tmp3f5d_cost"] = products_df["avg_unit_cost"]
+
+    total_revenue = float(products_df["revenue"].sum())
+    total_cost = float(products_df["total_cost"].sum())
+    total_gp = float(products_df["gross_profit"].sum())
 
     summary = {
-        "total_revenue": float(products_df["revenue"].sum()),
-        "total_cost": float(products_df["total_cost"].sum()),
-        "total_gross_profit": float(products_df["gross_profit"].sum()),
-        "gross_profit_pct": float(products_df["gross_profit"].sum() / products_df["revenue"].sum()) if products_df["revenue"].sum() > 0 else 0.0,
+        "total_revenue": total_revenue,
+        "total_cost": total_cost,
+        "total_gross_profit": total_gp,
+        "gross_profit_pct": (total_gp / total_revenue) if total_revenue > 0 else 0.0,
         "total_cases_sold": float(products_df["cases_sold"].sum()),
         "product_count": len(products_df),
+        "cogs_source": "sales_register_cost_column",
     }
 
     return products_df, summary, anomalies
@@ -250,26 +271,32 @@ def compute_marketer_profitability(
         return aliases.get(c_str.lower(), c_str)
     prod_items["customer"] = prod_items["customer"].apply(_normalize_cust)
 
-    # 3. Map tmp3F5D costs
+    # 3. COGS from sales register cost column (per spec update Sep 2026)
+    #    Same logic as compute_product_profitability: use the cost column directly.
+    #    cost column = total line cost. Positive only. Fallback to inventory rate.
     cost_map, dpp_map = build_inventory_cost_maps(df_inventory)
 
-    matched_costs = []
-    for idx, r in prod_items.iterrows():
-        p_str = str(r["product_raw"]).strip().upper()
-        if p_str in cost_map and cost_map[p_str] > 0:
-            cost_val = cost_map[p_str]
-        elif p_str in dpp_map and dpp_map[p_str] > 0:
-            cost_val = dpp_map[p_str]
-        else:
-            qty = float(r.get("quantity", 0.0) or 0.0)
-            inv_cost = float(r.get("cost", 0.0) or 0.0)
-            cost_val = (inv_cost / qty) if qty > 0 and inv_cost > 0 else 0.0
-        matched_costs.append(cost_val)
+    prod_items["quantity"] = pd.to_numeric(prod_items["quantity"], errors="coerce").fillna(0.0)
+    prod_items["rate"] = pd.to_numeric(prod_items["rate"], errors="coerce").fillna(0.0)
+    prod_items["cost"] = pd.to_numeric(prod_items.get("cost", 0.0), errors="coerce").fillna(0.0)
 
-    prod_items["tmp3f5d_cost"] = matched_costs
+    def _resolve_line_cost(row) -> float:
+        line_cost = float(row.get("cost", 0.0) or 0.0)
+        if line_cost > 0:
+            return line_cost
+        p_str = str(row.get("product_raw", "")).strip().upper()
+        inv_rate = cost_map.get(p_str, 0.0) or dpp_map.get(p_str, 0.0)
+        return float(row.get("quantity", 0.0) or 0.0) * inv_rate if inv_rate > 0 else 0.0
+
+    prod_items["line_cost"] = prod_items.apply(_resolve_line_cost, axis=1)
     prod_items["revenue"] = prod_items["quantity"] * prod_items["rate"]
-    prod_items["total_cost"] = prod_items["quantity"] * prod_items["tmp3f5d_cost"]
+    prod_items["total_cost"] = prod_items["line_cost"]   # cost col is already total per line
     prod_items["gross_profit"] = prod_items["revenue"] - prod_items["total_cost"]
+    # Alias for legacy compatibility
+    prod_items["tmp3f5d_cost"] = np.where(
+        prod_items["quantity"] > 0, prod_items["line_cost"] / prod_items["quantity"], 0.0
+    )
+
 
     # 4. Customer & Marketer Summary
     def _is_marketer(name: str) -> bool:

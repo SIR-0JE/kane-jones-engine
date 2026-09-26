@@ -39,6 +39,7 @@ export default function AppDashboard() {
   const [data, setData] = useState<AnalyzeResponse | null>(null);
   const [activeTab, setActiveTab] = useState<TabType>("overview");
   const [isUploadOpen, setIsUploadOpen] = useState<boolean>(false);
+  const [isWeeklyUploadOpen, setIsWeeklyUploadOpen] = useState<boolean>(false);
   const [loadingSnapshots, setLoadingSnapshots] = useState<boolean>(true);
   const [loadingWorkspace, setLoadingWorkspace] = useState<boolean>(false);
   const [workspaceError, setWorkspaceError] = useState<string | null>(null);
@@ -289,6 +290,7 @@ export default function AppDashboard() {
             loading={loadingSnapshots}
             onSelectPeriod={handleSelectPeriod}
             onUploadClick={() => setIsUploadOpen(true)}
+            onWeeklyUploadClick={() => setIsWeeklyUploadOpen(true)}
             depotMissing={depotMissing}
             onRecreateDepot={handleRecreateDepot}
             onDeletePeriod={handleDeletePeriod}
@@ -398,12 +400,22 @@ export default function AppDashboard() {
         </div>
       )}
 
-      {/* Shared Upload Modal */}
+      {/* Shared Monthly Upload Modal */}
       <UploadModal
         isOpen={isUploadOpen}
         onClose={() => setIsUploadOpen(false)}
         onSuccess={handleUploadSuccess}
         clientId={session.clientId}
+        uploadType="monthly"
+      />
+
+      {/* Weekly Upload Modal */}
+      <UploadModal
+        isOpen={isWeeklyUploadOpen}
+        onClose={() => setIsWeeklyUploadOpen(false)}
+        onSuccess={handleUploadSuccess}
+        clientId={session.clientId}
+        uploadType="weekly"
       />
 
       {/* Rename Audit Modal */}

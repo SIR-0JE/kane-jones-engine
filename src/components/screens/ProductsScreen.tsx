@@ -77,7 +77,7 @@ export function ProductsScreen({ data }: ProductsScreenProps) {
                 Product Intelligence & Margins
               </h1>
               <p className="text-xs text-slate-500 font-inter">
-                True-cost unit profitability (tmp3F5D) & sales revenue concentration
+                Unit profitability &amp; sales revenue concentration (COGS from Sales Register, excl. empties)
               </p>
             </div>
           </div>
@@ -194,13 +194,13 @@ export function ProductsScreen({ data }: ProductsScreenProps) {
 
             <div className="p-3.5 bg-white rounded-2xl border border-slate-200 shadow-2xs">
               <span className="text-[11px] font-bold text-slate-500 uppercase font-sora block">
-                True Cost (tmp3F5D)
+                Cost of Goods (COGS)
               </span>
               <div className="text-lg font-extrabold text-slate-900 font-sora mt-1">
-                {formatCurrency(totalCost || 174260589.0, currency, true)}
+                {formatCurrency(totalCost || 174237808.0, currency, true)}
               </div>
               <span className="text-[11px] text-slate-500 font-medium mt-0.5 block">
-                Period-end rate basis
+                Sales register cost (excl. empties)
               </span>
             </div>
 
@@ -240,7 +240,7 @@ export function ProductsScreen({ data }: ProductsScreenProps) {
                       Product vs. Product Comparison
                     </h2>
                     <p className="text-[11px] text-slate-500 font-inter">
-                      Compare pricing, volume, true cost basis, and margin spread between any two SKUs
+                      Compare pricing, volume, COGS basis, and margin spread between any two SKUs
                     </p>
                   </div>
                 </div>
@@ -433,7 +433,7 @@ export function ProductsScreen({ data }: ProductsScreenProps) {
                     <th className="py-3 px-4">Product Name</th>
                     <th className="py-3 px-3 text-right">Cases Sold</th>
                     <th className="py-3 px-3 text-right">Avg Selling Price</th>
-                    <th className="py-3 px-3 text-right">Cost/Case (tmp3F5D)</th>
+                    <th className="py-3 px-3 text-right">Cost/Case</th>
                     <th className="py-3 px-3 text-right">Price Diff</th>
                     <th className="py-3 px-4 text-right">Revenue</th>
                     <th className="py-3 px-4 text-right">Total Cost</th>

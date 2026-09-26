@@ -351,7 +351,7 @@ export function WeeklyScreen({ data }: WeeklyScreenProps) {
                 <div>
                   <span className="font-bold text-xs">3. Less: Cost of Goods Sold (COGS)</span>
                   <span className="text-slate-400 block text-[11px]">
-                    Invoiced embedded unit cost — sum of cost values from sales register lines
+                    Sum of cost column from sales register line items (excl. empties)
                   </span>
                 </div>
                 <span className="font-extrabold font-sora text-xs shrink-0 ml-2">
@@ -366,7 +366,7 @@ export function WeeklyScreen({ data }: WeeklyScreenProps) {
                   <span className="font-mono font-semibold ml-1">Opening Stock + Net Purchases − Closing Stock</span>
                 </p>
                 <p className="text-amber-700 mt-0.5">
-                  Weekly COGS here reflects actual invoiced cost from the sales register, which is the closest proxy available without weekly physical stock counts. Full batch-level FIFO costing (matching each sale to its purchase lot cost) is scheduled for Phase 3.
+                  COGS here is the sum of each line&apos;s cost from the sales register, excluding empties. Physical opening/closing stock counts are recorded daily — weekly FIFO batch costing with exact inventory movements is coming in Phase 3.
                 </p>
               </div>
             </div>

@@ -62,15 +62,15 @@ class TestTrueCostEngine:
 
         assert goldberg["cases_sold"] == 3349.0
         assert round(goldberg["avg_selling_price"], 2) == 8786.56
-        assert goldberg["tmp3f5d_cost"] == 8657.0
+        assert round(goldberg["tmp3f5d_cost"], 2) == 8649.01
         assert goldberg["revenue"] == 29426205.0
-        assert goldberg["total_cost"] == 28992293.0
-        assert goldberg["gross_profit"] == 433912.0
+        assert goldberg["total_cost"] == 28965519.0
+        assert goldberg["gross_profit"] == 460686.0
 
         # Total Product Aggregates
         assert summary["total_revenue"] == 174324840.0
-        assert summary["total_cost"] == 174260589.0
-        assert summary["total_gross_profit"] == 64251.0
+        assert summary["total_cost"] == 174237808.0
+        assert summary["total_gross_profit"] == 87032.0
 
     def test_marketer_profitability_benchmarks(self, parsed_data, profile):
         li_df = parsed_data["li_df"]
@@ -91,8 +91,8 @@ class TestTrueCostEngine:
 
         assert eniola["total_revenue"] == 23535615.0
         assert eniola["total_cases_sold"] == 3977.0
-        assert eniola["total_cost"] == 24010817.0
-        assert eniola["total_gross_profit"] == -475202.0
+        assert eniola["total_cost"] == 24010469.0
+        assert eniola["total_gross_profit"] == -474854.0
 
         # Locate AZ Marketer (consolidated with Emmycee per spec §8)
         az_rows = cust_summary_df[cust_summary_df["customer"].str.contains("AZ", case=False, na=False)]
@@ -101,8 +101,8 @@ class TestTrueCostEngine:
 
         assert az["total_revenue"] == 10728965.0
         assert az["total_cases_sold"] == 1391.0
-        assert az["total_cost"] == 10812060.0
-        assert az["total_gross_profit"] == -83095.0
+        assert az["total_cost"] == 10808168.0
+        assert az["total_gross_profit"] == -79203.0
         assert az["is_marketer"] == True
         assert az["cases_target"] == 6000
 

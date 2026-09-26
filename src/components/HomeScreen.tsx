@@ -29,6 +29,7 @@ interface HomeScreenProps {
   loading: boolean;
   onSelectPeriod: (periodLabel: string) => void;
   onUploadClick: () => void;
+  onWeeklyUploadClick: () => void;
   depotMissing?: boolean;
   onRecreateDepot?: (depotName: string) => Promise<void>;
   onDeletePeriod?: (periodLabel: string) => Promise<void>;
@@ -41,6 +42,7 @@ export function HomeScreen({
   loading,
   onSelectPeriod,
   onUploadClick,
+  onWeeklyUploadClick,
   depotMissing,
   onRecreateDepot,
   onDeletePeriod,
@@ -377,7 +379,7 @@ export function HomeScreen({
               );
             })}
 
-            {/* "Upload Audit Register" Action Card */}
+            {/* "Upload Monthly Register" Action Card */}
             <div
               onClick={onUploadClick}
               className="group border-2 border-dashed border-slate-200 hover:border-slate-400 bg-slate-50/50 hover:bg-slate-50 rounded-2xl p-6 cursor-pointer transition-all flex flex-col items-center justify-center text-center space-y-3 min-h-[220px]"
@@ -387,22 +389,48 @@ export function HomeScreen({
               </div>
               <div>
                 <h3 className="text-sm font-bold text-slate-900">
-                  Upload Audit Register
+                  Upload Monthly Register
                 </h3>
                 <p className="text-xs text-slate-500 max-w-[200px] mt-1">
-                  Upload a monthly or weekly sales register <span className="font-semibold text-slate-700">.xlsx</span> to run a full audit and save the snapshot
+                  Upload a full-month sales register <span className="font-semibold text-slate-700">.xlsx</span> to run a comprehensive monthly audit
                 </p>
               </div>
               <div className="flex flex-col items-center gap-1.5">
                 <span className="inline-flex items-center gap-1 text-xs font-bold text-slate-900 bg-white px-3 py-1.5 rounded-lg border border-slate-200 shadow-xs">
                   <FileSpreadsheet className="w-3.5 h-3.5 text-emerald-600" />
-                  <span>Upload Excel File</span>
+                  <span>Upload Monthly Excel</span>
                 </span>
-                <span className="text-[10px] text-slate-400 font-inter">Monthly or Weekly — both supported</span>
+                <span className="text-[10px] text-slate-400 font-inter">Full monthly audit</span>
+              </div>
+            </div>
+
+            {/* "Upload Weekly Register" Action Card */}
+            <div
+              onClick={onWeeklyUploadClick}
+              className="group border-2 border-dashed border-indigo-200 hover:border-indigo-400 bg-indigo-50/30 hover:bg-indigo-50/60 rounded-2xl p-6 cursor-pointer transition-all flex flex-col items-center justify-center text-center space-y-3 min-h-[220px]"
+            >
+              <div className="w-12 h-12 rounded-2xl bg-white border border-indigo-200 shadow-sm flex items-center justify-center text-indigo-600 group-hover:scale-105 group-hover:border-indigo-500 group-hover:text-indigo-700 transition-all">
+                <Calendar className="w-6 h-6" />
+              </div>
+              <div>
+                <h3 className="text-sm font-bold text-slate-900">
+                  Upload Weekly Register
+                </h3>
+                <p className="text-xs text-slate-500 max-w-[200px] mt-1">
+                  Upload a single-week sales register <span className="font-semibold text-slate-700">.xlsx</span> for a standalone weekly audit
+                </p>
+              </div>
+              <div className="flex flex-col items-center gap-1.5">
+                <span className="inline-flex items-center gap-1 text-xs font-bold text-indigo-700 bg-white px-3 py-1.5 rounded-lg border border-indigo-200 shadow-xs">
+                  <Calendar className="w-3.5 h-3.5 text-indigo-500" />
+                  <span>Upload Weekly Excel</span>
+                </span>
+                <span className="text-[10px] text-indigo-400 font-inter">Separate from monthly — standalone snapshot</span>
               </div>
             </div>
           </div>
         )}
+
       </div>
 
       {/* Delete Audit Confirmation Modal */}

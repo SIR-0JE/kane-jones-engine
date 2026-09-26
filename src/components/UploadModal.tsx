@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { X, UploadCloud, FileSpreadsheet, Loader2, AlertCircle } from "lucide-react";
+import { X, UploadCloud, FileSpreadsheet, Loader2, AlertCircle, Calendar } from "lucide-react";
 import { uploadAndAnalyze } from "@/lib/api";
 import { AnalyzeResponse } from "@/types/api";
 
@@ -10,9 +10,16 @@ interface UploadModalProps {
   onClose: () => void;
   onSuccess: (data: AnalyzeResponse) => void;
   clientId?: string;
+  uploadType?: "monthly" | "weekly";
 }
 
-export function UploadModal({ isOpen, onClose, onSuccess, clientId = "kane-jones" }: UploadModalProps) {
+export function UploadModal({
+  isOpen,
+  onClose,
+  onSuccess,
+  clientId = "kane-jones",
+  uploadType = "monthly",
+}: UploadModalProps) {
   const [file, setFile] = useState<File | null>(null);
   const [auditTitle, setAuditTitle] = useState<string>("");
   const [periodLabel, setPeriodLabel] = useState<string>("");
@@ -20,6 +27,8 @@ export function UploadModal({ isOpen, onClose, onSuccess, clientId = "kane-jones
   const [error, setError] = useState<string | null>(null);
 
   if (!isOpen) return null;
+
+  const isWeekly = uploadType === "weekly";
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -70,12 +79,22 @@ export function UploadModal({ isOpen, onClose, onSuccess, clientId = "kane-jones
         {/* Modal Header */}
         <div className="flex items-center justify-between pb-3 border-b border-slate-100">
           <div className="flex items-center gap-2.5">
-            <div className="p-2 bg-slate-100 rounded-xl text-slate-800">
-              <FileSpreadsheet className="w-5 h-5 text-slate-800" />
+            <div className={`p-2 rounded-xl ${isWeekly ? "bg-indigo-50 text-indigo-700" : "bg-slate-100 text-slate-800"}`}>
+              {isWeekly ? (
+                <Calendar className="w-5 h-5" />
+              ) : (
+                <FileSpreadsheet className="w-5 h-5 text-slate-800" />
+              )}
             </div>
             <div>
-              <h2 className="text-sm font-bold text-slate-900">Upload Sales Register</h2>
-              <p className="text-[11px] text-slate-500">Run pricing, volume & margin audit</p>
+              <h2 className="text-sm font-bold text-slate-900">
+                {isWeekly ? "Upload Weekly Register" : "Upload Sales Register"}
+              </h2>
+              <p className="text-[11px] text-slate-500">
+                {isWeekly
+                  ? "Run weekly financial & cost audit for a single week"
+                  : "Run pricing, volume & margin audit"}
+              </p>
             </div>
           </div>
           <button
@@ -86,6 +105,15 @@ export function UploadModal({ isOpen, onClose, onSuccess, clientId = "kane-jones
             <X className="w-5 h-5" />
           </button>
         </div>
+
+        {/* Weekly Notice Banner */}
+        {isWeekly && (
+          <div className="p-3 bg-indigo-50 border border-indigo-100 rounded-xl text-[11px] text-indigo-800 font-inter">
+            <span className="font-bold">Weekly audit:</span> Upload the sales register for a
+            single week. The engine detects the date range from the file and generates a
+            standalone weekly snapshot — completely separate from monthly audits.
+          </div>
+        )}
 
         {/* Modal Form */}
         <form onSubmit={handleUpload} className="space-y-4">
@@ -114,7 +142,7 @@ export function UploadModal({ isOpen, onClose, onSuccess, clientId = "kane-jones
               ) : (
                 <>
                   <span className="text-xs font-semibold text-slate-700">
-                    Click to browse sales spreadsheet
+                    Click to browse {isWeekly ? "weekly" : "sales"} spreadsheet
                   </span>
                   <span className="text-[11px] text-slate-400 mt-0.5">
                     Supports Kane-Jones formatted .xlsx workbooks
@@ -131,7 +159,7 @@ export function UploadModal({ isOpen, onClose, onSuccess, clientId = "kane-jones
             </label>
             <input
               type="text"
-              placeholder="e.g. August 2026 Full Audit"
+              placeholder={isWeekly ? "e.g. Week 3 August 2026 Audit" : "e.g. August 2026 Full Audit"}
               value={auditTitle}
               onChange={(e) => setAuditTitle(e.target.value)}
               disabled={loading}
@@ -142,11 +170,14 @@ export function UploadModal({ isOpen, onClose, onSuccess, clientId = "kane-jones
           {/* Period Label Input */}
           <div>
             <label className="block text-xs font-bold text-slate-700 mb-1">
-              Period Label <span className="text-slate-400 font-normal">(e.g. 2026-08)</span>
+              Period Label{" "}
+              <span className="text-slate-400 font-normal">
+                {isWeekly ? "(e.g. 2026-W35)" : "(e.g. 2026-08)"}
+              </span>
             </label>
             <input
               type="text"
-              placeholder="e.g. 2026-08"
+              placeholder={isWeekly ? "e.g. 2026-W35" : "e.g. 2026-08"}
               value={periodLabel}
               onChange={(e) => setPeriodLabel(e.target.value)}
               disabled={loading}
@@ -174,10 +205,18 @@ export function UploadModal({ isOpen, onClose, onSuccess, clientId = "kane-jones
             <button
               type="submit"
               disabled={!file || loading}
-              className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-bold text-white bg-slate-900 hover:bg-slate-800 rounded-xl disabled:opacity-50 transition-colors shadow-sm"
+              className={`inline-flex items-center gap-1.5 px-4 py-2 text-xs font-bold text-white rounded-xl disabled:opacity-50 transition-colors shadow-sm ${
+                isWeekly
+                  ? "bg-indigo-600 hover:bg-indigo-700"
+                  : "bg-slate-900 hover:bg-slate-800"
+              }`}
             >
               {loading && <Loader2 className="w-3.5 h-3.5 animate-spin" />}
-              {loading ? "Auditing Spreadsheet..." : "Run Analysis"}
+              {loading
+                ? "Auditing Spreadsheet..."
+                : isWeekly
+                ? "Run Weekly Audit"
+                : "Run Analysis"}
             </button>
           </div>
         </form>

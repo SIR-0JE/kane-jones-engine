@@ -263,13 +263,22 @@ def compute_weekly_financials(
             # 3. Net Revenue
             net_revenue = gross_revenue - sales_returns
 
-            # 4. COGS
-            if not w_inv.empty and "invoice_cost" in w_inv.columns and w_inv["invoice_cost"].sum() > 0:
+            # 4. COGS — use sales register cost column from line items (excl. empties)
+            #    Per spec update Sep 2026: cost column = total line cost. Sum directly.
+            #    Fallback: invoice-level invoice_cost if line items unavailable.
+            if not w_li.empty:
+                w_li_no_emp = w_li[~w_li["product_raw"].apply(lambda p: is_empties(p, profile))]
+                if "cost" in w_li_no_emp.columns and w_li_no_emp["cost"].sum() > 0:
+                    cogs = float(pd.to_numeric(w_li_no_emp["cost"], errors="coerce").fillna(0.0).sum())
+                elif "invoice_cost" in w_inv.columns:
+                    cogs = float(w_inv["invoice_cost"].sum())
+                else:
+                    cogs = 0.0
+            elif not w_inv.empty and "invoice_cost" in w_inv.columns:
                 cogs = float(w_inv["invoice_cost"].sum())
-            elif not w_li.empty and "cost" in w_li.columns:
-                cogs = float(w_li["cost"].sum())
             else:
                 cogs = 0.0
+
 
             # 5. Gross Profit
             gross_profit = net_revenue - cogs

@@ -313,7 +313,7 @@ export function MarketersScreen({ data }: MarketersScreenProps) {
                 </th>
                 <th className="py-3 px-3 text-right">% Met</th>
                 <th className="py-3 px-4 text-right">Revenue</th>
-                <th className="py-3 px-4 text-right">True Cost</th>
+                <th className="py-3 px-4 text-right">Cost of Goods (COGS)</th>
                 <th className="py-3 px-4 text-right">Gross Profit</th>
                 <th className="py-3 px-4 text-right">Op. Expenses</th>
                 <th className="py-3 px-4 text-right">Net Profit</th>
